@@ -1,0 +1,18 @@
+.lj-pagination {
+  display: flex; align-items: center; justify-content: center;
+  gap: var(--spacing-1);
+  padding: var(--spacing-3) var(--spacing-4);
+  font-size: var(--font-size-xs); color: #4b5563;
+
+  &--numbered button {
+    background: transparent; border: 0; cursor: pointer;
+    min-width: 28px; height: 28px;
+    border-radius: var(--radius-primary);
+    color: #1f1f1f; font: inherit;
+    display: inline-grid; place-items: center;
+    .material-symbols-outlined { font-size: 18px; }
+    &:hover:not(:disabled) { background: #f3f4f6; }
+    &.is-active { background: var(--html-brand-secondary); color: #fff; }
+    &:disabled { opacity: 0.4; cursor: default; }
+  }
+}

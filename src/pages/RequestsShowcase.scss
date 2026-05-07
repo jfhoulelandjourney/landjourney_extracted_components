@@ -1,0 +1,22 @@
+.rs-toolbar {
+  padding: var(--spacing-5) var(--spacing-6) var(--spacing-3);
+  display: flex; flex-direction: column; gap: var(--spacing-3);
+}
+.rs-filterbar-row { display: flex; justify-content: flex-end; }
+
+.rs-name { font-weight: var(--font-weight-medium); }
+.rs-tasks { display: flex; align-items: center; gap: var(--spacing-2); }
+.rs-tasks__count {
+  display: inline-grid; place-items: center;
+  min-width: 22px; height: 22px;
+  border-radius: var(--radius-rounded);
+  background: #fff7ed; color: #9a3412;
+  font-size: var(--font-size-xxs); font-weight: var(--font-weight-semi-bold);
+  padding: 0 6px;
+}
+.rs-tasks .lj-progress { flex: 1; min-width: 120px; }
+
+.rs-sort { background: #fff; border: 1px solid var(--surface-card-border); }
+.rs-sort .material-symbols-outlined { font-size: 16px; }
+.rs-toggle { display: inline-flex; gap: var(--spacing-1); align-items: center; font-size: var(--font-size-xs); color: #4b5563; cursor: pointer; }
+.lj-tabs { padding: 0 var(--spacing-6); }

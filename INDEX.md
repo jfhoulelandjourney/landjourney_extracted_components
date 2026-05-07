@@ -1,6 +1,6 @@
 # Extraction progress
 
-Last updated: Wave 1
+Last updated: Wave 2
 Source apps: admin.aglender.com:4200 (Angular + Material), clients.aglender.com:4201 (login)
 
 ## ✅ Wave 1 — Foundations (DONE)
@@ -12,22 +12,24 @@ Source apps: admin.aglender.com:4200 (Angular + Material), clients.aglender.com:
 - [x] ui/SectionCard
 - [x] ui/EmptyState
 - [x] ui/NotFoundPage
-- [x] pages/HomeShowcase (assembly demo)
+- [x] pages/HomeShowcase
 - [x] src/main.tsx, src/App.tsx (showcase router stub)
 
-## ⏭️ Wave 2 — Tables & status primitives (NEXT)
-- [ ] ui/DataTable (sticky header, search, skeleton rows, "Page X of Y", empty row)
-- [ ] ui/StatusPill (Initiated / Processing / Approved / Closed colour map)
-- [ ] ui/ProgressBar (segmented orange→red task progress)
-- [ ] ui/Avatar + ui/AvatarStack (initials + generated colour)
-- [ ] ui/Tabs (magenta underline)
-- [ ] ui/SearchInput
-- [ ] ui/FilterBar with FilterChip
-- [ ] ui/Pagination
-- [ ] pages/RequestsShowcase
+## ✅ Wave 2 — Tables & status primitives (DONE)
+- [x] ui/Avatar (initials + generated colour palette)
+- [x] ui/AvatarStack (with overflow +N indicator)
+- [x] ui/StatusPill (info / progress / success / danger / warning / neutral tones, calibrated to real app)
+- [x] ui/ProgressBar (multi-segment, tone or hex colour)
+- [x] ui/Tabs (magenta underline, optional rightSlot for sort/toggle)
+- [x] ui/SearchInput (inline + banner variants)
+- [x] ui/FilterBar (+ chips, +Add filter button)
+- [x] ui/Pagination (simple + numbered variants)
+- [x] ui/DataTable (sticky header, sortable, skeleton rows, empty state, optional pagination footer)
+- [x] mocks/types.ts, mocks/users.ts, mocks/requests.ts
+- [x] pages/RequestsShowcase (rebuilds the live Requests page look)
 
-## ⏭️ Wave 3 — Forms & auth
-- [ ] ui/Button (primary/secondary/danger/icon variants)
+## ⏭️ Wave 3 — Forms & auth (NEXT)
+- [ ] ui/Button (primary/secondary/danger/ghost/icon variants)
 - [ ] ui/TextField, PasswordField (with visibility toggle), NumberField
 - [ ] ui/Checkbox, ui/Toggle, ui/Select, ui/SortDropdown
 - [ ] ui/CopyableField, ui/Tag
@@ -38,7 +40,7 @@ Source apps: admin.aglender.com:4200 (Angular + Material), clients.aglender.com:
 - [ ] domain/RequestStageStepper, RequestOverviewHeader, ProgressSummaryStrip
 - [ ] domain/CustomerTaskTable, DiscussionPanel
 - [ ] domain/CustomerIdentityCard, AddressesTable, BusinessesTable
-- [ ] mocks/factories for request, customer, task
+- [ ] mocks/factories for tasks, sections
 - [ ] pages/RequestOverviewShowcase, pages/CustomerDetailShowcase
 
 ## ⏭️ Wave 5 — Dynamic Form Builder

@@ -1,0 +1,16 @@
+.lj-avatar {
+  display: inline-grid; place-items: center;
+  border-radius: var(--radius-rounded);
+  overflow: hidden;
+  color: #fff;
+  font-weight: var(--font-weight-semi-bold);
+  font-family: var(--font-family-secondary);
+  user-select: none;
+  flex-shrink: 0;
+
+  img { width: 100%; height: 100%; object-fit: cover; }
+
+  &--sm { width: 28px; height: 28px; font-size: 11px; }
+  &--md { width: 36px; height: 36px; font-size: 14px; }
+  &--lg { width: 56px; height: 56px; font-size: 20px; }
+}
