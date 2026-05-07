@@ -1,0 +1,20 @@
+.lj-toggle {
+  display: inline-flex; align-items: center; gap: var(--spacing-2);
+  font-size: var(--font-size-xs); cursor: pointer; user-select: none;
+  &.is-disabled { opacity: 0.5; cursor: not-allowed; }
+  &__switch { position: relative; display: inline-block; }
+  input { position: absolute; opacity: 0; inset: 0; pointer-events: none; }
+  &__track {
+    width: 34px; height: 18px; border-radius: var(--radius-rounded);
+    background: #d1d5db; display: inline-block; position: relative;
+    transition: background var(--animation-duration-fast);
+  }
+  &__thumb {
+    position: absolute; top: 2px; left: 2px; width: 14px; height: 14px;
+    background: #fff; border-radius: 50%; box-shadow: var(--shadow-xs);
+    transition: transform var(--animation-duration-fast);
+  }
+  input:checked ~ &__track { background: var(--html-brand-primary-500); }
+  input:checked ~ &__track > .lj-toggle__thumb { transform: translateX(16px); }
+  input:focus-visible ~ &__track { box-shadow: 0 0 0 3px rgba(28, 80, 126, 0.25); }
+}
