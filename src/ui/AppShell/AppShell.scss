@@ -1,0 +1,18 @@
+.lj-app-shell {
+  display: grid;
+  grid-template-columns: var(--rail-collapsed-width) 1fr;
+  min-height: 100vh;
+  background: var(--surface-app-bg);
+
+  &__rail {
+    background: var(--html-brand-primary-500);
+    color: #fff;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+  }
+
+  &__main { display: flex; flex-direction: column; min-width: 0; }
+  &__header { padding: var(--spacing-4) var(--spacing-6) 0; }
+  &__content { padding: var(--spacing-4) var(--spacing-6) var(--spacing-8); flex: 1; }
+}

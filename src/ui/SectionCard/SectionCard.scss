@@ -1,0 +1,15 @@
+.lj-section-card {
+  background: var(--surface-card-bg);
+  border-radius: var(--radius-strong);
+  box-shadow: var(--shadow-xs);
+  overflow: hidden;
+
+  &__header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: var(--spacing-4) var(--spacing-5);
+    gap: var(--spacing-3);
+  }
+  &__title { font-family: var(--font-family-primary); font-size: var(--font-size-sm); font-weight: var(--font-weight-bold); margin: 0; }
+  &__body { padding: var(--spacing-5); }
+  &__body.is-flush { padding: 0; }
+}

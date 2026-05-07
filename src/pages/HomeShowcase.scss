@@ -1,0 +1,27 @@
+.lj-btn {
+  display: inline-flex; align-items: center; gap: var(--spacing-1);
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-strong);
+  border: 1px solid transparent;
+  font-weight: var(--font-weight-semi-bold);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  transition: background var(--animation-duration-fast), color var(--animation-duration-fast);
+
+  &--primary {
+    background: var(--html-brand-secondary);
+    color: #fff;
+    &:hover { background: var(--html-brand-secondary-700); }
+  }
+}
+
+.lj-input {
+  border: 1px solid var(--surface-card-border);
+  background: #fff;
+  border-radius: var(--radius-primary);
+  padding: var(--spacing-1) var(--spacing-3);
+  font-size: var(--font-size-xs);
+  font-family: inherit;
+  outline: none;
+  &:focus { border-color: var(--html-brand-primary-300); }
+}

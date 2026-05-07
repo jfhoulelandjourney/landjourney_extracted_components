@@ -1,0 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700;900&family=Oswald:wght@400;500;600;700&family=Homemade+Apple&display=swap");
+
+html, body {
+  font-family: var(--font-family-secondary);
+  font-size: 16px;
+  color: #1f1f1f;
+  background: var(--surface-app-bg);
+  margin: 0;
+}
+
+* { box-sizing: border-box; }
+
+h1, h2, h3 { font-family: var(--font-family-primary); font-weight: var(--font-weight-bold); margin: 0; }
+h1 { font-size: var(--font-size-lg); line-height: var(--line-height-md); }
+h2 { font-size: var(--font-size-md); line-height: var(--line-height-sm); }
+h3 { font-size: var(--font-size-sm); line-height: var(--line-height-sm); }
+
+button { font: inherit; }

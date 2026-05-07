@@ -1,0 +1,21 @@
+.lj-404 {
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: var(--spacing-8);
+  color: #fff;
+  background: linear-gradient(135deg, var(--html-brand-primary-400), var(--html-brand-primary-700));
+
+  &__badge {
+    background: #fff; color: #111; border-radius: var(--radius-rounded);
+    padding: 4px var(--spacing-3); font-size: var(--font-size-xs); font-weight: var(--font-weight-semi-bold);
+    margin-top: var(--spacing-4);
+  }
+  &__title { font-family: var(--font-family-primary); font-weight: var(--font-weight-bold); max-width: 640px; margin: var(--spacing-3) 0; }
+  &__message { max-width: 560px; opacity: 0.85; }
+  &__back {
+    margin-top: var(--spacing-5);
+    background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.4);
+    padding: var(--spacing-2) var(--spacing-4); border-radius: var(--radius-rounded);
+    cursor: pointer; display: inline-flex; align-items: center; gap: var(--spacing-1);
+  }
+}
