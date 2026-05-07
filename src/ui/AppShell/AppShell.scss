@@ -4,12 +4,16 @@
   min-height: 100vh;
   background: var(--surface-app-bg);
 
+  /* When the rail is forced expanded (mode='expanded'), grow the column */
+  &:has(.lj-rail--expanded.lj-rail--expanded:not(.lj-rail--auto)) {
+    grid-template-columns: var(--rail-expanded-width) 1fr;
+  }
+
   &__rail {
-    background: var(--html-brand-primary-500);
-    color: #fff;
     position: sticky;
     top: 0;
     height: 100vh;
+    overflow: visible; /* allow auto-expanded overlay */
   }
 
   &__main { display: flex; flex-direction: column; min-width: 0; }
