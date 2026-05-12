@@ -1,0 +1,9 @@
+<div class="slide-toggle">
+  <div class="title">
+    {{ label() }}
+  </div>
+  <div class="toggle" (activate)="handleValueChange()">
+    <div class="boolean-type false" [class.selected]="!value()"></div>
+    <div class="boolean-type" [class.selected]="value()"></div>
+  </div>
+</div>

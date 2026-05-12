@@ -1,0 +1,17 @@
+<div class="documents-tile">
+  <div class="summary">
+    <div class="number">{{ attachments().length }}</div>
+    <div class="status">
+      <mat-icon>description</mat-icon>
+      <div>
+        <p class="title">Documents</p>
+        <p class="body-s subtitle">Available</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="full cta" (activate)="goToDocuments()">
+    <p class="body-s">View all documents</p>
+    <mat-icon>chevron_right</mat-icon>
+  </div>
+</div>

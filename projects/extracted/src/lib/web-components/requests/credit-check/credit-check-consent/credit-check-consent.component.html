@@ -1,0 +1,50 @@
+<div class="container" [class.mobile]="isMobile()">
+  <mat-icon class="identity-icon">credit_score</mat-icon>
+  <p class="title-2xl inter title">
+    Before submitting, we need your consent to check your credit score.
+  </p>
+  <div class="card">
+    <p class="body-s description">
+      <mat-icon class="icon">account_circle</mat-icon>
+      <span>
+        You will check your credit score by providing your personal information.
+      </span>
+    </p>
+
+    <p class="body-s description">
+      <mat-icon class="icon">lock_reset</mat-icon>
+      <span>Your information will only be used for credit check purposes.</span>
+    </p>
+    <p class="body-s description">
+      <mat-icon class="icon">avg_pace</mat-icon>
+      <span>This process will only take a few seconds.</span>
+    </p>
+    <div class="body-s checkbox">
+      <mat-checkbox class="checkbox" [(ngModel)]="consentGiven"></mat-checkbox>
+      <div>
+        By checking this box you agree to our Credit Check
+        <span class="link" (activate)="openTermsAndConditionsModal()">
+          Terms and Conditions
+        </span>
+        .
+      </div>
+    </div>
+    <button
+      class="lj-button next-button"
+      (activate)="onConsentGiven.emit()"
+      [disabled]="!consentGiven"
+      [matTooltip]="
+        !consentGiven
+          ? 'You must accept the terms and conditions to proceed'
+          : undefined
+      ">
+      Check Credit Score
+    </button>
+  </div>
+  <div>
+    <button class="lj-button" (activate)="onBack.emit()">
+      Return
+      <mat-icon class="u-turn">u_turn_right</mat-icon>
+    </button>
+  </div>
+</div>

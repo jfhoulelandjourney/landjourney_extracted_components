@@ -1,0 +1,31 @@
+@if (isEditable()) {
+  <span
+    class="status-tag editable {{ color }}"
+    [class.large]="size === 'large'"
+    [class.small]="size === 'small'"
+    #statusMenuTrigger="matMenuTrigger"
+    [matMenuTriggerFor]="statusMenu">
+    {{ formatEnumValue(text) }} &#9660;
+  </span>
+  <mat-menu #statusMenu="matMenu">
+    <div class="available-status-list">
+      @for (item of availableStatuses; track $index) {
+        <landjourney-status-tag
+          [text]="item.label"
+          [clickable]="true"
+          [color]="item.color"
+          [size]="size"
+          (click)="statusClicked(item.label)"
+          class="available-status"></landjourney-status-tag>
+      }
+    </div>
+  </mat-menu>
+} @else {
+  <span
+    class="status-tag {{ color }}"
+    [class.large]="size === 'large'"
+    [class.small]="size === 'small'"
+    [class.clickable]="clickable">
+    {{ formatEnumValue(text) }}
+  </span>
+}

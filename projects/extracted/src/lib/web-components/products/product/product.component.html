@@ -1,0 +1,244 @@
+<div class="product-card">
+  @if (isCurrentProduct()) {
+    <div class="current-product-badge">
+      Current {{ onlyProgram() ? 'Program' : 'Product' }}
+    </div>
+  }
+
+  @if (showDeleteIcon()) {
+    <button
+      class="delete-icon-button"
+      (activate)="onDeleteIconClick()"
+      type="button"
+      aria-label="Delete comparison">
+      <mat-icon>delete</mat-icon>
+    </button>
+  }
+
+  <div class="product-header">
+    <div class="product-company">{{ productDisplay().programName }}</div>
+    <div class="product-name">
+      @if (!onlyProgram()) {
+        {{ productDisplay().productName }}
+      }
+      @if (
+        showProductRate() &&
+        productDisplay().rateDisplay &&
+        productDisplay().rateDisplay !== ''
+      ) {
+        <span class="product-rate">• {{ productDisplay().rateDisplay }}</span>
+      }
+    </div>
+  </div>
+
+  <div class="criteria-list">
+    <!-- Approval Limits -->
+    @if (shouldShowSection('APPROVAL_LIMITS')) {
+      @let approvalLimits = getSectionByType('APPROVAL_LIMITS');
+      @if (approvalLimits) {
+        <div class="category-section">
+          <div class="criterion-item">
+            <div class="criterion-header">
+              <span class="criterion-name">
+                @if (onlyProgram()) {
+                  Program Approval Limits
+                } @else {
+                  Approval Limits
+                }
+              </span>
+            </div>
+            <div class="criterion-footer">
+              @if (approvalLimits.value) {
+                <span
+                  class="criterion-value"
+                  [style.color]="getQualifyingColor(approvalLimits.qualifying)">
+                  {{ approvalLimits.value }}
+                </span>
+              }
+              <span
+                class="criterion-status"
+                [style.color]="getQualifyingColor(approvalLimits.qualifying)">
+                {{ getSectionStatusText(approvalLimits.qualifying) }}
+              </span>
+              <mat-icon
+                class="status-icon"
+                [style.color]="getQualifyingColor(approvalLimits.qualifying)">
+                {{ getQualifyingIcon(approvalLimits.qualifying) }}
+              </mat-icon>
+            </div>
+          </div>
+        </div>
+      }
+    }
+
+    <!-- Scorecard -->
+    @if (shouldShowSection('SCORECARD')) {
+      @let scorecard = getSectionByType('SCORECARD');
+      @if (scorecard) {
+        <div class="category-section">
+          <div
+            class="criterion-item"
+            (activate)="toggleCategory('scorecard', $event)"
+            [attr.aria-expanded]="isCategoryExpanded('scorecard')">
+            <div class="criterion-header">
+              <span class="criterion-name">
+                @if (onlyProgram()) {
+                  Program Scorecard
+                } @else {
+                  Scorecard
+                }
+              </span>
+            </div>
+            <div class="criterion-footer">
+              <span class="see-all-metrics">See all metrics</span>
+              <mat-icon class="chevron-icon">
+                {{
+                  isCategoryExpanded('scorecard')
+                    ? 'expand_less'
+                    : 'chevron_right'
+                }}
+              </mat-icon>
+              <span
+                class="criterion-status"
+                [style.color]="getQualifyingColor(scorecard.qualifying)">
+                {{ getSectionStatusText(scorecard.qualifying) }}
+              </span>
+              <mat-icon
+                class="status-icon"
+                [style.color]="getQualifyingColor(scorecard.qualifying)">
+                {{ getQualifyingIcon(scorecard.qualifying) }}
+              </mat-icon>
+            </div>
+          </div>
+
+          @if (isCategoryExpanded('scorecard')) {
+            <div class="rules-list">
+              <div class="scorecard-value">
+                @if (scorecard.value) {
+                  <div class="scorecard-value-label">Scorecard Value:</div>
+                  <div class="scorecard-value-number">
+                    {{ scorecard.value }}
+                  </div>
+                } @else {
+                  <div class="scorecard-value-label">
+                    No scorecard value available
+                  </div>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      }
+    }
+
+    <!-- Rule Types (Eligibility, Renewal Eligibility, Pricing) -->
+    @for (ruleType of getRuleTypeValues(); track ruleType) {
+      @if (shouldShowSection(ruleType)) {
+        @let section = getSectionByType(ruleType);
+        @if (section && section.categories && section.categories.length > 0) {
+          @let categoryId = getRuleTypeCategoryId(ruleType);
+          @let displayName = getRuleTypeDisplayName(ruleType);
+          <div class="category-section">
+            <div
+              class="criterion-item"
+              (activate)="toggleCategory(categoryId, $event)"
+              [attr.aria-expanded]="isCategoryExpanded(categoryId)">
+              <div class="criterion-header">
+                <span class="criterion-name">{{ displayName }}</span>
+              </div>
+              <div class="criterion-footer">
+                <span class="see-all-metrics">See all metrics</span>
+                <mat-icon class="chevron-icon">
+                  {{
+                    isCategoryExpanded(categoryId)
+                      ? 'expand_less'
+                      : 'chevron_right'
+                  }}
+                </mat-icon>
+                <span
+                  class="criterion-status"
+                  [style.color]="getQualifyingColor(section.qualifying)">
+                  {{ getSectionStatusText(section.qualifying) }}
+                </span>
+                <mat-icon
+                  class="status-icon"
+                  [style.color]="getQualifyingColor(section.qualifying)">
+                  {{ getQualifyingIcon(section.qualifying) }}
+                </mat-icon>
+              </div>
+            </div>
+
+            @if (isCategoryExpanded(categoryId)) {
+              <div class="rules-list">
+                @for (category of section.categories; track category.id) {
+                  <div class="category-section">
+                    <div
+                      class="criterion-item"
+                      (activate)="toggleCategory(category.id, $event)"
+                      [attr.aria-expanded]="isCategoryExpanded(category.id)">
+                      <div class="criterion-header">
+                        <span class="criterion-name">{{ category.name }}</span>
+                      </div>
+                      <div class="criterion-footer">
+                        <span class="see-all-metrics">See all metrics</span>
+                        <mat-icon class="chevron-icon">
+                          {{
+                            isCategoryExpanded(category.id)
+                              ? 'expand_less'
+                              : 'chevron_right'
+                          }}
+                        </mat-icon>
+                        <span
+                          class="criterion-status"
+                          [style.color]="
+                            getQualifyingColor(category.qualifying)
+                          ">
+                          {{ getSectionStatusText(category.qualifying) }}
+                        </span>
+                        <mat-icon
+                          class="status-icon"
+                          [style.color]="
+                            getQualifyingColor(category.qualifying)
+                          ">
+                          {{ getQualifyingIcon(category.qualifying) }}
+                        </mat-icon>
+                      </div>
+                    </div>
+
+                    @if (isCategoryExpanded(category.id)) {
+                      <div class="rules-list">
+                        @for (rule of category.rules; track rule.id) {
+                          <div class="rule-item">
+                            <div class="rule-header">
+                              <div class="rule-info">
+                                <span
+                                  class="rule-name"
+                                  [style.color]="
+                                    getQualifyingColor(rule.qualifying)
+                                  ">
+                                  {{ rule.name }}
+                                </span>
+
+                                <span
+                                  class="rule-value"
+                                  [style.color]="
+                                    getQualifyingColor(rule.qualifying)
+                                  ">
+                                  - {{ getRuleValueDisplay(rule) }}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+      }
+    }
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<div class="thumbnail-viewer">
+  <div class="page-container" (activate)="this.activate.emit()">
+    <div class="thumbnail page">
+      <img [src]="src()" alt="Document Thumbnail" />
+      @if (pageCount() > 1) {
+        <span class="page-count">{{ pageCount() }} pages</span>
+      } @else {
+        <span class="page-count">1 page</span>
+      }
+    </div>
+    @if (pageCount() > 1) {
+      <div class="page page-1"></div>
+      <div class="page page-2"></div>
+    }
+  </div>
+</div>

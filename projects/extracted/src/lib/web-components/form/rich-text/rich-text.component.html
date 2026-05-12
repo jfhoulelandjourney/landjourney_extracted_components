@@ -1,0 +1,10 @@
+<div class="rich-text-wrapper">
+  <ngx-editor-menu [editor]="editor"></ngx-editor-menu>
+  <ngx-editor
+    [editor]="editor"
+    [ngModel]="value()"
+    [disabled]="false"
+    [placeholder]="placeholder()"
+    [required]="required()"
+    (ngModelChange)="handleChange($event)"></ngx-editor>
+</div>

@@ -1,0 +1,64 @@
+<div class="container" [class.mobile]="isMobile()">
+  @if (!isLoading()) {
+    <div class="discussion-list">
+      @for (comment of userCommentList(); track comment.discussionId) {
+        <div
+          class="discussion-container"
+          (activate)="
+            handleDiscussionSelected(
+              comment.targetEntityId,
+              comment.targetEntityType,
+              comment.discussionId
+            )
+          ">
+          <div
+            class="discussion-summary"
+            [class.selected]="
+              comment.targetEntityId === selectedTargetEntityId()
+            ">
+            <lj-avatar
+              [size]="isMobile() ? 'small' : 'medium'"
+              [name]="comment.name"
+              [avatarUrl]="comment.avatar ?? null" />
+            <div class="preview">
+              <div class="author">{{ comment.name }}</div>
+              <div class="message" [innerHTML]="comment.message"></div>
+            </div>
+            <div class="metadata">
+              <p>{{ getCommentDate(comment) | dateAgo }}</p>
+            </div>
+          </div>
+        </div>
+      } @empty {
+        You don't have any messages yet.
+      }
+    </div>
+    @if (!isMobile()) {
+      <div
+        class="selected-discussion"
+        [class.selected]="selectedTargetEntityId()">
+        @if (
+          selectedTargetEntityId() &&
+          getRequestForDiscussionId(discussionId() ?? '') !== undefined
+        ) {
+          <lj-request-messaging
+            [request]="getRequestForDiscussionId(discussionId() ?? '')"
+            [sections]="
+              getRequestForDiscussionId(discussionId() ?? '')?.sections ?? []
+            "
+            [selectedEntityTargetId]="selectedTargetEntityId()"
+            [selectedEntityTargetType]="selectedTargetEntityType()"
+            [showMessagesOnly]="true"
+            (onCommentChange)="onRefreshCommentsEvents()" />
+        }
+      </div>
+    }
+  } @else {
+    <div class="discussion-list">
+      <ngx-skeleton-loader
+        appearance="line"
+        [count]="5"
+        [theme]="{ height: '70px' }" />
+    </div>
+  }
+</div>

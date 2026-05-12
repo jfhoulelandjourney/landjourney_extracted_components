@@ -1,0 +1,7 @@
+:host {
+  display: block;
+}
+
+:host(.box-row):not(:first-child) {
+  border-top: 1px solid var(--box-border-color);
+}

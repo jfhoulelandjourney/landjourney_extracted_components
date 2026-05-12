@@ -1,0 +1,159 @@
+<div class="content">
+  @if (field()) {
+    @if (mode() === 'locked') {
+      <div class="locked-display">
+        <div [class.locked-error]="getErrorMessage() !== undefined">
+          <div
+            class="body-sm title"
+            [style]="getCustomStyle('.field-title', true)">
+            {{ field().label }}
+          </div>
+          <div class="files">
+            @for (file of field().value?.files ?? []; track file.id) {
+              @if (file.documentId && file.digest) {
+                <div class="file">
+                  <div class="thumbnail">
+                    {{ file.name }}
+                  </div>
+                  <div class="actions">
+                    <button
+                      mat-icon-button
+                      type="button"
+                      matTooltip="View file"
+                      (activate)="viewFile(file)">
+                      <mat-icon>visibility</mat-icon>
+                    </button>
+                    <button
+                      mat-icon-button
+                      type="button"
+                      matTooltip="Download file"
+                      (activate)="downloadFile(file)">
+                      <mat-icon>download</mat-icon>
+                    </button>
+                    @if (showExport()) {
+                      <button
+                        mat-icon-button
+                        type="button"
+                        matTooltip="Create a task from this file"
+                        (activate)="exportFile(file)">
+                        <mat-icon>post_add</mat-icon>
+                      </button>
+                    }
+                  </div>
+                </div>
+              }
+            }
+          </div>
+          @if (getErrorMessage()) {
+            <div class="body-sm">
+              {{ getErrorMessage() }}
+            </div>
+          }
+        </div>
+      </div>
+    } @else {
+      <h5>
+        <span>
+          {{ field().label }}
+          @if (field().required) {
+            <span class="required">*</span>
+          }
+        </span>
+        @if (
+          showExport() &&
+          field().value?.allowMultipleUploads &&
+          attachmentsArePresent()
+        ) {
+          <button
+            mat-icon-button
+            type="button"
+            matTooltip="Create a separate task from all files"
+            (activate)="exportAll()">
+            <mat-icon>post_add</mat-icon>
+          </button>
+        }
+      </h5>
+      <div class="input">
+        @if (field().value?.description) {
+          <div class="small-text">{{ field().value?.description }}</div>
+        }
+
+        <div class="file-list">
+          @for (file of field().value?.files ?? []; track file.id) {
+            <div class="file">
+              <lj-file-uploader
+                [files]="convertToAttachmentArray(file)"
+                [single]="true"
+                [required]="field().required ?? false"
+                class="file-uploader"
+                [class.half-width]="file.documentId && file.digest"
+                [supportedFileTypes]="supportedFileTypes"
+                (fileCreate)="saveDocument(file, $event)" />
+
+              @if (file.documentId && file.digest) {
+                <div class="existing-file half-width">
+                  <div class="file-name">{{ file.name }}</div>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    matTooltip="View file"
+                    (activate)="viewFile(file)">
+                    <mat-icon>visibility</mat-icon>
+                  </button>
+                  <button
+                    mat-icon-button
+                    type="button"
+                    matTooltip="Download file"
+                    (activate)="downloadFile(file)">
+                    <mat-icon>download</mat-icon>
+                  </button>
+
+                  @if (showExport()) {
+                    <button
+                      mat-icon-button
+                      type="button"
+                      matTooltip="Create a task from this file"
+                      (activate)="exportFile(file)">
+                      <mat-icon>post_add</mat-icon>
+                    </button>
+                  }
+                </div>
+              }
+
+              @if (field().value?.allowMultipleUploads) {
+                <button
+                  mat-icon-button
+                  type="button"
+                  matTooltip="Delete file"
+                  (activate)="removeFile(file)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              }
+            </div>
+          }
+        </div>
+
+        @if (touched() && getErrorMessage()) {
+          <div class="error-message">
+            {{ getErrorMessage() }}
+          </div>
+        }
+
+        @if (field().value?.allowMultipleUploads) {
+          <div class="add-new-file">
+            <button
+              lj-button="ghost"
+              [style]="getCustomStyle('.button', false)"
+              [compact]="true"
+              (activate)="addNewFile()">
+              Add new file
+              <mat-icon>attachment</mat-icon>
+            </button>
+          </div>
+        }
+      </div>
+    }
+  } @else {
+    <div class="error">Field initialization error</div>
+  }
+</div>

@@ -1,0 +1,29 @@
+.content-panel {
+  border-radius: var(--radius-primary);
+
+  &.default {
+    border: solid 1px var(--gray-200);
+  }
+}
+
+h3 {
+  margin-top: 0;
+  padding: var(--padding-comfortable);
+
+  &.white {
+    background: var(--color-lighter);
+    border-bottom: solid 1px var(--gray-200);
+  }
+
+  &.gray {
+    background: var(--gray-200);
+  }
+
+  &.left {
+    border-top-left-radius: var(--radius-primary);
+  }
+
+  &.right {
+    border-top-right-radius: var(--radius-primary);
+  }
+}

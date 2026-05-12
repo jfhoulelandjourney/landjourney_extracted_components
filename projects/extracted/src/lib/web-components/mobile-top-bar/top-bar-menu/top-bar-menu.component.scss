@@ -1,0 +1,130 @@
+:host {
+  display: block;
+  position: relative;
+}
+
+.menu-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: var(--base-layer);
+  animation: backdropFadeIn 150ms ease;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.menu-panel {
+  position: absolute;
+  top: -3.9375rem;
+  right: 0.75rem;
+  z-index: var(--float-layer);
+  width: 16.125rem;
+  border-radius: calc(var(--radius-strong) * 3);
+  background: var(--accent-black-200);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: var(--shadow-lg);
+  padding: var(--padding-comfortable) var(--padding-default);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-comfortable);
+  animation: menuSlideDown 150ms ease;
+}
+
+.menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.menu-user-name {
+  flex: 1;
+  min-width: 0;
+  margin-left: var(--gap-comfortable);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semi-bold);
+  color: var(--color-text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.menu-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--color-text-main);
+  -webkit-tap-highlight-color: transparent;
+
+  mat-icon {
+    font-size: 1.5rem;
+  }
+
+  &:active {
+    opacity: 0.7;
+  }
+}
+
+.menu-divider {
+  height: 1px;
+  background: var(--color-border);
+}
+
+// Styles for projected menu rows via ng-content
+// Using ::ng-deep so parent-view-encapsulated elements inherit these styles
+.menu-panel ::ng-deep {
+  .menu-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap-comfortable);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text-main);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    width: 100%;
+    padding: 0;
+    font-family: inherit;
+    -webkit-tap-highlight-color: transparent;
+
+    &:active {
+      opacity: 0.7;
+    }
+  }
+
+  .menu-row-icon,
+  .logout-icon {
+    font-size: 1.25rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    line-height: 1;
+  }
+}
+
+@keyframes menuSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes backdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

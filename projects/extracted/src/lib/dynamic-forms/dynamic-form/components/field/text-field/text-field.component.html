@@ -1,0 +1,51 @@
+@if (field()) {
+  @if (mode() === 'locked') {
+    <div class="locked-display">
+      <div [class.locked-error]="getErrorMessage() !== undefined">
+        <div
+          class="body-sm title"
+          [style]="getCustomStyle('.field-title', true)">
+          {{ field().label }}
+        </div>
+        <lj-copy-to-clipboard-button [value]="field().value?.trim()">
+          <div class="body-sm text" [style]="getCustomStyle('.field-text', true)">
+            {{ field().value?.trim() }}
+          </div>
+        </lj-copy-to-clipboard-button>
+        @if (getErrorMessage()) {
+          <div class="body-sm">
+            {{ getErrorMessage() }}
+          </div>
+        }
+      </div>
+    </div>
+  } @else {
+    <div class="textarea" [class.style-gray]="style() === 'gray'" [class.style-normal]="style() === 'normal'">
+      <div
+        class="title"
+        [style]="getCustomStyle('.field-title', true)"
+        [class.required]="field().required">
+        {{ field().label }}
+      </div>
+      <div class="input">
+        <lj-textarea-field
+          [id]="field().id"
+          [placeholder]="field().parameters.placeholder ?? ''"
+          [name]="field().id"
+          [required]="field().required ?? false"
+          [ngModel]="field().value"
+          (ngModelChange)="handleValueChange($event)"
+          [style]="style()"
+          [customCssTitleStyle]="getCustomStyle('.field-title', true)"
+          [customCssStyle]="getCustomStyle('.input-field', true)"
+          (onInputBlur)="handleOnBlur()"
+          [showError]="!(touched() && isErrorSuppressed())"
+          [customErrorMessage]="
+            touched() ? getErrorMessage() : undefined
+          "></lj-textarea-field>
+      </div>
+    </div>
+  }
+} @else {
+  <div class="error">Field initialization error</div>
+}

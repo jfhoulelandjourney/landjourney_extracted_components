@@ -1,0 +1,140 @@
+<div class="borrower">
+  <h5>
+    @if (position()) {
+      Co-Borrower {{ position() }}
+    } @else {
+      Main Borrower
+    }
+  </h5>
+  <div class="information">
+    <div>
+      <div class="question body-s">
+        Is this person applying on behalf of a business?
+      </div>
+
+      <div class="group">
+        <mat-radio-group [ngModel]="borrower().isBusiness" [disabled]="true">
+          <label lj-label-field class="form-type-option" for="coborrowers">
+            <mat-radio-button
+              class="radio"
+              name="isBusiness"
+              [value]="true"
+              required>
+              Yes
+            </mat-radio-button>
+          </label>
+          <label lj-label-field class="form-type-option" for="coborrowers">
+            <mat-radio-button
+              class="radio"
+              name="isBusiness"
+              [value]="false"
+              required>
+              No
+            </mat-radio-button>
+          </label>
+        </mat-radio-group>
+      </div>
+    </div>
+
+    @if (borrower().isBusiness) {
+      <div class="group">
+        <div class="input">
+          <lj-input-field
+            placeholder="Business name"
+            id="businessName"
+            name="businessName"
+            type="text"
+            label="Business Name"
+            [style]="'gray'"
+            [ngModel]="borrower().businessName ?? ''"
+            [disabled]="true"
+            [showError]="false" />
+        </div>
+        <div class="input">
+          <lj-input-field
+            placeholder="Business Type"
+            type="text"
+            id="businessType"
+            label="Business Type"
+            [style]="'gray'"
+            [disabled]="true"
+            [ngModel]="borrower().businessType"
+            [showError]="false"
+            name="businessType"
+            class="borrower-select">
+            <mat-select
+              [ngModel]="borrower().businessType"
+              lj-select
+              [disabled]="true"
+              borderless="true"
+              id="businessType"
+              placeholder="Business Type"
+              name="businessType">
+              @for (type of entityTypes; track type) {
+                <mat-option [value]="type.value">
+                  {{ type.label }}
+                </mat-option>
+              }
+            </mat-select>
+          </lj-input-field>
+        </div>
+      </div>
+    }
+
+    <div class="group">
+      <div class="input">
+        <lj-input-field
+          placeholder="First name"
+          id="firstName"
+          name="firstName"
+          type="text"
+          label="First Name"
+          [style]="'gray'"
+          [disabled]="true"
+          [ngModel]="borrower().firstName"
+          [showError]="false" />
+      </div>
+      <div class="input">
+        <lj-input-field
+          placeholder="Last name"
+          id="lastName"
+          name="lastName"
+          type="text"
+          label="Last Name"
+          [style]="'gray'"
+          [disabled]="true"
+          [ngModel]="borrower().lastName"
+          [showError]="false" />
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="input">
+        <lj-input-field
+          email
+          placeholder="Email"
+          id="email"
+          name="email"
+          type="email"
+          label="Email"
+          [style]="'gray'"
+          [ngModel]="borrower().email"
+          [disabled]="true"
+          [showError]="false" />
+      </div>
+      <div class="input">
+        <lj-input-field
+          placeholder="Ex.: +1 (555) 555-5555"
+          pattern="\+1 \([0-9]{3}\) [0-9]{3}-[0-9]{4}"
+          id="phone"
+          name="phone"
+          type="text"
+          label="Phone Number"
+          [style]="'gray'"
+          [disabled]="true"
+          [ngModel]="borrower().phone"
+          [showError]="false" />
+      </div>
+    </div>
+  </div>
+</div>

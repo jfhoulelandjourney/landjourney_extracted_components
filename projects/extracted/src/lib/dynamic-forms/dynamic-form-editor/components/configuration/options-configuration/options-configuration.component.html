@@ -1,0 +1,44 @@
+<div class="options">
+  <div class="options-header">
+    <span class="options-title body-s">Options</span>
+    <button type="button" class="add-option-btn" (activate)="addOption()">
+      + Add Option
+    </button>
+  </div>
+
+  @if (
+    field().parameters.options && (field().parameters.options ?? []).length > 0
+  ) {
+    <div class="options-list" cdkDropList (cdkDropListDropped)="drop($event)">
+      @for (option of field().parameters.options; track option.value) {
+        <div class="option-item" cdkDrag>
+          <div class="drag-handle" cdkDragHandle>
+            <mat-icon class="small-icon">drag_indicator</mat-icon>
+          </div>
+          <lj-input-field
+            [id]="'option-label-' + option.value"
+            [name]="'option-label-' + option.value"
+            [style]="'gray'"
+            type="text"
+            [showError]="false"
+            [ngModel]="option.label"
+            (onInputBlur)="updateOptionLabel($event, $index)"
+            [placeholder]="'Option ' + ($index + 1)"
+            class="option-label-input" />
+
+          <div class="option-actions">
+            <div (activate)="removeOption($index)" matTooltip="Remove option">
+              <mat-icon class="small-icon danger">delete</mat-icon>
+            </div>
+          </div>
+
+          <div class="drag-placeholder" *cdkDragPlaceholder></div>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="body-s">
+      <p>No options added yet. Click "Add Option" to get started.</p>
+    </div>
+  }
+</div>

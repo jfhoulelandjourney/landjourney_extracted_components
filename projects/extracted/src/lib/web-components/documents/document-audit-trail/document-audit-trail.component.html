@@ -1,0 +1,52 @@
+<div class="timeline" [class.mobile]="mobile()">
+  @for (history of sortedHistory(); track history.id) {
+    <div class="timeline-item">
+      <div
+        class="timeline-icon"
+        [style]="
+          'border: 2px solid ' + getActionColorSecondary(history.action)
+        ">
+        @switch (history.action) {
+          @case ('CREATED') {
+            <mat-icon>file_upload</mat-icon>
+          }
+          @case ('VIEWED') {
+            <mat-icon>visibility</mat-icon>
+          }
+          @case ('DOWNLOADED') {
+            <mat-icon>download</mat-icon>
+          }
+          @case ('SIGNED') {
+            <mat-icon>edit</mat-icon>
+          }
+          @case ('SIGNATURE_DELETED') {
+            <mat-icon>delete</mat-icon>
+          }
+        }
+      </div>
+      <div class="timeline-content">
+        <div class="header">
+          <lj-chip
+            variant="muted"
+            [style]="
+              'color: ' +
+              getActionColorPrimary(history.action) +
+              '; background: ' +
+              getActionColorSecondary(history.action)
+            "
+            text="{{ history.action }}" />
+          <div class="body-s">
+            {{ formatDate(history.timestamp, 'with-time') }}
+          </div>
+        </div>
+        <div class="details">
+          <div class="body-m">
+            {{ getUserName(history.organizationUserId) }}
+          </div>
+
+          <div class="body-s">{{ history.details }}</div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,39 @@
+:host {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.mobile-content {
+  position: absolute;
+  top: calc(var(--mobile-top-bar-height) + env(safe-area-inset-top, 0px) + 20px);
+  left: 0;
+  right: 0;
+  bottom: var(--mobile-toolbar-height);
+  padding-left: var(--padding-comfortable);
+  padding-right: var(--padding-comfortable);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+
+  :host-context(.collaborators-compact) & {
+    top: calc(
+      var(--mobile-top-bar-height) + 64px + env(safe-area-inset-top, 0px) + 20px
+    );
+  }
+
+  :host-context(.collaborators-open) & {
+    top: calc(
+      var(--mobile-top-bar-height) + 60px +
+        var(--collaborator-panel-entities-count) * 76px +
+        var(--panel-action-buttons-count, 0) * 68px +
+        env(safe-area-inset-top, 0px) + 20px
+    );
+  }
+}

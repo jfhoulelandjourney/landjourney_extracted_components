@@ -1,0 +1,48 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.separator {
+  width: 1px;
+  height: 24px;
+  background-color: var(--gray-300, #d1d5db);
+}
+
+.guide-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+
+    .guide-toggle__icon {
+      opacity: 0.75;
+    }
+  }
+
+  &--disabled {
+    cursor: default;
+    opacity: 0.35;
+
+    &:hover {
+      background-color: transparent;
+
+      .guide-toggle__icon {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__icon {
+    font-size: 24px;
+    font-variation-settings: 'wght' 200;
+    transition: opacity 0.2s ease-in-out;
+  }
+}

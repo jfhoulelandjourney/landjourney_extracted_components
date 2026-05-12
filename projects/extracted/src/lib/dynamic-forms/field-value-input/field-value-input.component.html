@@ -1,0 +1,11 @@
+<div [class.hide-label]="!showLabel()">
+  <lj-df-field
+    [field]="getDynamicFormField()"
+    [formData]="getFormData()"
+    [allowManualComputedValueEdit]="true"
+    [mode]="'display'"
+    [formType]="FormTypes.INLINE"
+    [containerLayout]="SectionLayouts.ONE_COLUMN"
+    [style]="style()"
+    (dataChange)="onFieldDataChange($event)" />
+</div>

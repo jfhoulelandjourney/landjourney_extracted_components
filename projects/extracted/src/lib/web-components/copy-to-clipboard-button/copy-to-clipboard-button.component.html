@@ -1,0 +1,14 @@
+<div
+  class="copy-wrapper"
+  tabindex="0"
+  (activate)="copyToClipboard()"
+  title="Click to copy">
+  <ng-content></ng-content>
+  <button
+    type="button"
+    class="copy-button hide-on-pdf-export"
+    tabindex="-1"
+    title="Copy to clipboard">
+    <mat-icon>content_copy</mat-icon>
+  </button>
+</div>

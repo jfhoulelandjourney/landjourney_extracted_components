@@ -1,0 +1,24 @@
+<div mat-dialog-content>
+  <div class="dialog-content">
+    @if (messageString !== null) {
+      <p>{{ messageString }}</p>
+    }
+    <ng-container #templateContainer></ng-container>
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button
+    data-testid="confirmation-required-cancel-btn"
+    mat-flat-button
+    (activate)="onCancel($event)">
+    {{ data.cancelText }}
+  </button>
+  <button
+    data-testid="confirmation-required-confirm-btn"
+    class="confirm-button"
+    mat-flat-button
+    class="classic-squared-button {{ data.dialogType }}"
+    (activate)="onConfirm($event)">
+    {{ data.confirmText }}
+  </button>
+</div>

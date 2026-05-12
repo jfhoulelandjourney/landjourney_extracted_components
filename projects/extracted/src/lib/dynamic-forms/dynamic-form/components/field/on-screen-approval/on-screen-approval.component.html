@@ -1,0 +1,161 @@
+@if (field()) {
+  @if (mode() === 'locked') {
+    <div class="on-screen-approval-container">
+      @switch (field().value?.endStatus) {
+        @case ('MANUAL_APPROVAL') {
+          <!-- Manual Approval Needed State -->
+          <h2 class="status-title">Application has been processed</h2>
+          <p class="status-description">Underwriting is complete</p>
+          <div class="status-box manual-approval">
+            <p class="label">Next step</p>
+            <p class="status-message">Your loan needs approval.</p>
+            <p class="details">
+              This process usually takes 24 to 48 hours. Once complete, you will
+              receive an email with next steps.
+            </p>
+          </div>
+        }
+        @case ('PENDING') {
+          <!-- Pending Co-Applicant Completion -->
+          <h2 class="status-title">Application has been processed</h2>
+          <p class="status-description">
+            We need your co-applicants to complete their loan application to
+            proceed.
+          </p>
+          <div class="status-box pending">
+            @if (field().value?.loanAmount) {
+              <p class="amount">
+                Your {{ formatMoney(field().value?.loanAmount) }}
+              </p>
+            }
+            <p class="status-message">
+              Application is pending completion by co-applicants.
+            </p>
+          </div>
+        }
+        @case ('APPROVED') {
+          <!-- Approved State -->
+          <h2 class="status-title">Application has been processed</h2>
+          <p class="status-description">Underwriting is complete.</p>
+          <div class="status-box approved">
+            @if (field().value?.loanAmount) {
+              <p class="amount">
+                Your {{ formatMoney(field().value?.loanAmount) }}
+              </p>
+            }
+            <p class="status-message">Application is approved.</p>
+          </div>
+        }
+      }
+    </div>
+  } @else {
+    <div class="on-screen-approval-container">
+      <!-- Icon -->
+      <div class="icon-container">
+        <svg
+          class="document-icon"
+          viewBox="0 0 100 100"
+          xmlns="http://www.w3.org/2000/svg">
+          <!-- Document outline -->
+          <path
+            d="M25 10 L65 10 L75 20 L75 90 L25 90 Z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3" />
+          <!-- Folded corner -->
+          <path
+            d="M65 10 L65 20 L75 20"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="3" />
+
+          @if (field().value?.currentStatus === 'CALCULATING') {
+            <!-- Processing circular arrow -->
+            <g class="processing-icon">
+              <circle
+                cx="50"
+                cy="55"
+                r="15"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-dasharray="80"
+                stroke-dashoffset="20"
+                class="rotating-circle" />
+              <path
+                d="M50 40 L55 35 M50 40 L45 35"
+                stroke="currentColor"
+                stroke-width="3"
+                fill="none" />
+            </g>
+          } @else {
+            <!-- Bar chart -->
+            <rect x="35" y="60" width="8" height="15" fill="currentColor" />
+            <rect x="46" y="50" width="8" height="25" fill="currentColor" />
+            <rect x="57" y="55" width="8" height="20" fill="currentColor" />
+          }
+        </svg>
+      </div>
+
+      <!-- Status content based on currentStatus -->
+      @switch (field().value?.currentStatus) {
+        @case ('CALCULATING') {
+          <!-- Processing State -->
+          <h2 class="status-title">Processing Application</h2>
+          <p class="status-description">
+            Our system is reviewing your application...
+          </p>
+          <div class="progress-bar">
+            <div class="progress-bar-fill"></div>
+          </div>
+        }
+        @case ('MANUAL_APPROVAL') {
+          <!-- Manual Approval Needed State -->
+          <h2 class="status-title">Application has been processed</h2>
+          <p class="status-description">Underwriting is complete</p>
+          <div class="status-box manual-approval">
+            <p class="label">Next step</p>
+            <p class="status-message">Your loan needs approval.</p>
+            <p class="details">
+              This process usually takes 24 to 48 hours. Once complete, you will
+              receive an email with next steps.
+            </p>
+          </div>
+        }
+        @case ('PENDING') {
+          <!-- Pending Co-Applicant Completion -->
+          <h2 class="status-title">Application has been processed</h2>
+          <p class="status-description">
+            We need your co-applicants to complete their loan application to
+            proceed.
+          </p>
+          <div class="status-box pending">
+            @if (field().value?.loanAmount) {
+              <p class="amount">
+                Your {{ formatMoney(field().value?.loanAmount) }}
+              </p>
+            }
+            <p class="status-message">
+              Application is pending completion by co-applicants.
+            </p>
+          </div>
+        }
+        @case ('APPROVED') {
+          <!-- Approved State -->
+          <h2 class="status-title">Application has been processed</h2>
+          <p class="status-description">Underwriting is complete.</p>
+          <div class="status-box approved">
+            @if (field().value?.loanAmount) {
+              <p class="amount">
+                Your {{ formatMoney(field().value?.loanAmount) }}
+              </p>
+            }
+            <p class="status-message">Application is approved.</p>
+          </div>
+        }
+      }
+    </div>
+  }
+} @else {
+  <div class="error">Field initialization error</div>
+}

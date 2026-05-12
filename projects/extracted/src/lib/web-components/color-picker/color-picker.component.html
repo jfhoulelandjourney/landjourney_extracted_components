@@ -1,0 +1,26 @@
+<div class="color-picker-wrapper">
+  <p class="color-picker-label body-m">{{ label() }}</p>
+  <div class="color-picker-row">
+    <input
+      [(colorPicker)]="color"
+      [style.background]="color"
+      (colorPickerClose)="handleColorChange($event)"
+      cpOutputFormat="hex"
+      class="color-input" />
+    <div class="color-preview-box">
+      {{ color !== '' ? color : 'Pick a color' }}
+    </div>
+  </div>
+  <div class="color-shades">
+    @if (color !== '') {
+      @for (shade of colorShades(); track $index) {
+        <div
+          class="color-shade"
+          [style.background]="shade"
+          [title]="'Shade ' + ($index + 1) * 100 + ': ' + shade">
+          <span class="shade-label">{{ ($index + 1) * 100 }}</span>
+        </div>
+      }
+    }
+  </div>
+</div>

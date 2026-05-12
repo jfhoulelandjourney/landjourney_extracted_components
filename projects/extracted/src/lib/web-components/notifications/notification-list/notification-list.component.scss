@@ -1,0 +1,176 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .notification {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-radius: var(--radius-default);
+    background: var(--gray-50);
+    text-decoration: none;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: var(--gray-100);
+      transform: translateX(4px);
+    }
+
+    .info {
+      flex: 1;
+
+      h4 {
+        margin: 0 0 4px 0;
+        font-size: var(--font-size-xs);
+        font-weight: 600;
+        color: var(--color-darker);
+      }
+
+      .meta {
+        margin: 0;
+        font-size: var(--font-size-xxs);
+        color: var(--gray-500);
+      }
+    }
+  }
+
+  .see-more-btn {
+    width: 100%;
+    margin-top: 12px;
+    justify-content: center;
+    font-size: var(--font-size-xs);
+
+    mat-icon {
+      margin-right: 4px;
+    }
+  }
+}
+
+.tabs {
+  display: flex;
+  flex-direction: row;
+  gap: var(--padding-default);
+  border-bottom: 2px solid transparent;
+
+  .tab-header {
+    font-size: var(--font-size-xs);
+    color: var(--gray-300);
+    padding: var(--padding-compact);
+    padding-left: var(--padding-default);
+    padding-right: var(--padding-default);
+    margin-bottom: var(--padding-default);
+
+    cursor: pointer;
+
+    &:hover {
+      color: var(--gray-300);
+      border-bottom: 2px solid var(--gray-300);
+    }
+
+    &.selected {
+      border-bottom: 2px solid var(--color-darker);
+      color: var(--color-darker);
+      font-weight: 500;
+    }
+  }
+}
+
+.tabs-content {
+  .tab {
+    opacity: 0;
+    height: 0px;
+    overflow: hidden;
+    font-size: var(--font-size-xs);
+    z-index: 1;
+
+    &.selected {
+      opacity: 1;
+      height: unset;
+      transition:
+        height 1s,
+        opacity 1s linear;
+      z-index: 2;
+    }
+
+    .notification {
+      display: grid;
+      grid-template-columns: min-content 1fr min-content;
+      grid-template-areas: 'avatar message info';
+      gap: var(--padding-default);
+
+      .actor-avatar {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .message {
+        font-size: var(--font-size-xs);
+
+        .actor-name {
+          font-weight: 600;
+        }
+
+        .body {
+          font-weight: 300;
+          font-size: var(--font-size-xs);
+        }
+      }
+
+      .info {
+        display: grid;
+        grid-template-rows: 1fr min-content;
+        grid-template-areas:
+          'unread-dot'
+          'relative-time';
+
+        .unread-dot {
+          display: flex;
+          flex-direction: row;
+          align-items: flex-start;
+          justify-content: flex-end;
+
+          .dot {
+            background: var(--brand-secondary-400);
+            height: 8px;
+            width: 8px;
+            border-radius: 4px;
+            margin-top: var(--padding-default);
+          }
+        }
+
+        .relative-time {
+          font-size: var(--font-size-xs);
+          white-space: nowrap;
+        }
+
+        &.clickeable {
+          &:hover {
+            cursor: pointer;
+            opacity: 0.8;
+
+            .relative-time {
+              color: var(--green-470);
+            }
+
+            .unread-dot {
+              .dot {
+                background: var(--green-470);
+              }
+            }
+          }
+        }
+      }
+
+      &.clickable {
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+  }
+}

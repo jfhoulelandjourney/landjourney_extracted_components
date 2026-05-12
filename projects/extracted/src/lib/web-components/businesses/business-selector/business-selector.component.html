@@ -1,0 +1,25 @@
+<div class="business-selection" (activate)="$event.stopPropagation()">
+  <div class="search">
+    <input
+      type="text"
+      id="{{ this.id }}"
+      [(ngModel)]="searchExpression"
+      (ngModelChange)="registerModelChange()" />
+    <mat-icon class="small-icon search-icon">search</mat-icon>
+  </div>
+  <div class="results" [class.scroll]="scrollResults()">
+    @for (business of businesses(); track business.id) {
+      <div class="business" (activate)="businessClicked(business)">
+        <div class="avatar">
+          <lj-avatar [name]="formatName(business)" size="small"></lj-avatar>
+        </div>
+        <div class="name">
+          {{ formatName(business) }}
+        </div>
+      </div>
+    }
+    @if (searchExpression.length > 0 && businesses().length === 0) {
+      <div class="no-results">No business found</div>
+    }
+  </div>
+</div>

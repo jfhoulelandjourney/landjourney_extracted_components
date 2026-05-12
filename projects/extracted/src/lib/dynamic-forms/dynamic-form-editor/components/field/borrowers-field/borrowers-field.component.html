@@ -1,0 +1,107 @@
+@if (field()) {
+  <div
+    class="container"
+    (mouseenter)="showShadow.set(true)"
+    (mouseleave)="showShadow.set(false)">
+    <div class="input" [class.shadow]="showShadow()">
+      <div class="row">
+        <mat-icon>groups</mat-icon>
+        <lj-editable-input
+          [value]="
+            field().label === 'New field'
+              ? 'Borrower(s) information'
+              : field().label
+          "
+          label="label"
+          [name]="field().name"
+          (onValueChange)="handleLabelChange($event)" />
+
+        <lj-field-configuration
+          (remove)="handleRemove()"
+          [options]="{
+            required: false,
+            inputType: false,
+            minMaxLength: false,
+            minMaxValue: false,
+            conditionalLogic: true,
+            validator: false,
+            decimalPrecision: false,
+            prefillable: true,
+            visible: false,
+          }"
+          (addConditionalLogic)="showConditionalLogic.set(true)"
+          (handleFieldChange)="handleFieldChange($event)"
+          [field]="field()" />
+      </div>
+
+      <div class="borrowers">
+        <div class="main-borrower">
+          <lj-df-borrower-information
+            [borrower]="mainBorrower()"></lj-df-borrower-information>
+
+          @if (isPhoneNumberValid()) {
+            <lj-sms-compliance [(confirmationCheck)]="confirmationCheck" />
+          }
+        </div>
+        <div class="co-borrowers">
+          <div class="question body-s">
+            Do you have co-borrrowers for this request?
+          </div>
+          <div class="group">
+            <mat-radio-group [ngModel]="true" [disabled]="true">
+              <label lj-label-field class="form-type-option" for="coborrowers">
+                <mat-radio-button
+                  class="radio"
+                  name="coborrowers"
+                  [value]="true">
+                  Yes
+                </mat-radio-button>
+              </label>
+              <label lj-label-field class="form-type-option" for="coborrowers">
+                <mat-radio-button
+                  class="radio"
+                  name="coborrowers"
+                  [value]="false">
+                  No
+                </mat-radio-button>
+              </label>
+            </mat-radio-group>
+          </div>
+        </div>
+
+        <div class="co-borrowers-list">
+          @for (coBorrower of coBorrowers(); track $index) {
+            <lj-df-borrower-information
+              [position]="$index + 1"
+              [borrower]="coBorrower"></lj-df-borrower-information>
+          } @empty {
+            <span class="body-s">No co-borrower has been added yet.</span>
+          }
+        </div>
+        <div class="add-co-borrower">
+          <button lj-button="inverse-cta">
+            Add a co-borrower
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      @if (
+        (field().dependsOn !== undefined && field().dependsOn !== null) ||
+        showConditionalLogic()
+      ) {
+        <lj-conditional-logic
+          [mobile]="containerLayout() !== SectionLayouts.ONE_COLUMN"
+          [dependsOn]="field().dependsOn"
+          [existingFields]="existingFields()"
+          [formDefinition]="formDefinition()"
+          (removeConditionalLogic)="showConditionalLogic.set(false)"
+          (handleConditionalLogicChange)="
+            handleConditionalLogicChange($event)
+          " />
+      }
+    </div>
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

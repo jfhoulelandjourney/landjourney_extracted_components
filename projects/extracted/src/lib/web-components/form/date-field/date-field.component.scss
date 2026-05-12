@@ -1,0 +1,131 @@
+/* TODO: Add icons and hint styles */
+
+:host {
+  --mat-form-field-container-text-font: var(
+    --input-field--text--font-family,
+    var(--font-family-primary)
+  );
+  --mat-form-field-container-text-line-height: var(
+    --input-field--text--line-height,
+    var(--line-height-xs)
+  );
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+
+  font-family: var(--input-field--font-family, inherit);
+
+  .slot-wrapper {
+    &.input {
+      width: 100%;
+    }
+
+    input {
+      width: 100%;
+
+      &.gray {
+        background: var(--gray-100);
+      }
+    }
+  }
+}
+
+.readonly {
+  pointer-events: none;
+}
+
+/* TODO: Review */
+.field-label {
+  color: var(--text-icons-base-main, #252525);
+  font-family: Inter;
+  font-size: var(--font-size-xs);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+:host([required]) .field-label::after {
+  content: '*';
+  color: var(--error-color);
+  opacity: 0.5;
+  margin-inline-start: -0.2em;
+}
+
+.default-content:not(:first-child) {
+  display: none;
+}
+
+.field-wrapper {
+  display: flex;
+  flex-flow: row nowrap;
+  overflow: hidden;
+  width: 100%;
+  /* TODO: Add local variables for overwriting */
+  /* TODO: Use color variable */
+  border: 1px solid var(--input-field--border-color, #eaebf0);
+  /* TODO: Add local variables for overwriting */
+  border-radius: var(--radius-primary);
+  /* TODO: Add local variables for overwriting */
+  color: inherit;
+}
+
+:host([disabled]) .field-wrapper {
+  background-color: var(
+    --input-field--disabled--background-color,
+    var(--gray-300)
+  );
+}
+
+.input-slot {
+  display: flex;
+  flex: 1 1 auto;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+input {
+  /* TODO: Add local variables for overwriting */
+  /* TODO: Review size */
+  font-size: var(--font-size-xs);
+  border: none;
+  padding: 0;
+  margin: 0;
+  flex: 1 1 auto;
+  height: 48px;
+  padding-left: var(--padding-comfortable);
+  border-radius: var(--radius-primary);
+}
+
+input::placeholder {
+  /* TODO: Hoist variable to host */
+  color: var(
+    --input-field--placeholder--color,
+    var(--text--color--placeholder, #68727d)
+  );
+}
+
+.error {
+  border: 1px solid var(--error-color);
+  border-radius: var(--radius-primary);
+}
+
+.hint:empty {
+  display: none;
+}
+
+.errors {
+  font-size: var(--font-size-xxs);
+  color: var(--error-color);
+  overflow: hidden;
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    margin-top: 4px;
+    list-style: none;
+  }
+}

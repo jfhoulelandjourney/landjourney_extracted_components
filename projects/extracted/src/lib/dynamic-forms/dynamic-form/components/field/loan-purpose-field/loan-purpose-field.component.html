@@ -1,0 +1,161 @@
+@if (field() && field().value) {
+  <div class="loan-purpose" [class.mobile]="isMobile()">
+    <h3 [style]="getCustomStyle('h3', true)">Loan Purpose</h3>
+    @if (mode() === 'locked') {
+      <div class="loan-information locked-display">
+        <div
+          class="table"
+          [class.locked-error-table]="getErrorMessage() !== undefined"
+          [style]="getCustomStyle('.table')">
+          <div class="table-row" [style]="getCustomStyle('.table-row')">
+            <div
+              class="table-column title"
+              [style]="getCustomStyle('.table-header')">
+              Purpose
+            </div>
+            <div
+              class="table-column title"
+              [style]="getCustomStyle('.table-header')">
+              Percentage
+            </div>
+          </div>
+
+          @for (element of field().value; track $index) {
+            <div
+              class="table-row divider"
+              [style]="getCustomStyle('.table-row')">
+              <div
+                class="table-column body-sm text"
+                [style]="getCustomStyle('.table-column-locked')">
+                {{ element.purpose }}
+              </div>
+              <div
+                class="table-column body-sm text padding"
+                [style]="getCustomStyle('.table-column-locked')">
+                {{ element.percentage }}%
+              </div>
+            </div>
+          }
+
+          <div class="table-row" [style]="getCustomStyle('.table-row')">
+            <div
+              class="table-column body-sm text"
+              [class.bad-total]="getTotal() > 100 || getTotal() < 100"
+              [style]="getCustomStyle('.table-column-locked')">
+              Total:
+            </div>
+            <div
+              class="table-column body-sm text"
+              [class.bad-total]="getTotal() > 100 || getTotal() < 100"
+              [style]="getCustomStyle('.table-column-locked')">
+              {{ getTotal().toLocaleString() }}%
+            </div>
+          </div>
+
+          @if (getErrorMessage()) {
+            <div class="body-sm">
+              {{ getErrorMessage() }}
+            </div>
+          }
+        </div>
+      </div>
+    } @else {
+      <div class="loan-information dynamic-form-input">
+        <div class="row body-s" [style]="getCustomStyle('.small-text', true)">
+          Please provide a breakdown of how the loan funds will be used (e.g.,
+          similar to a HUD Settlement Statement).
+        </div>
+        <div class="table" [style]="getCustomStyle('.table')">
+          <div class="table-row" [style]="getCustomStyle('.table-row')">
+            <div
+              class="table-column purpose title"
+              [style]="getCustomStyle('.table-header')">
+              Purpose
+            </div>
+            <div
+              class="table-column amount title"
+              [style]="getCustomStyle('.table-header')">
+              Percentage
+            </div>
+            <div
+              class="table-column action title"
+              [style]="getCustomStyle('.table-header')">
+              <button
+                mat-icon-button
+                (activate)="addRow()"
+                [style]="getCustomStyle('.table-header-button')">
+                <mat-icon [style]="getCustomStyle('.table-header-button-icon')">
+                  add
+                </mat-icon>
+              </button>
+            </div>
+          </div>
+
+          @for (element of field().value; track $index) {
+            <div class="table-row" [style]="getCustomStyle('.table-row')">
+              <div
+                class="table-column purpose"
+                [style]="getCustomStyle('.table-column')">
+                <lj-input-field
+                  placeholder="Purpose"
+                  id="purpose-{{ $index }}"
+                  name="purpose-{{ $index }}"
+                  type="text"
+                  [style]="'gray'"
+                  [required]="true"
+                  [showError]="true"
+                  [ngModel]="element.purpose"
+                  (ngModelChange)="updateElementPurpose($event, $index)" />
+              </div>
+              <div
+                class="table-column amount"
+                [style]="getCustomStyle('.table-column')">
+                <lj-input-field
+                  placeholder="100"
+                  id="percentage-{{ $index }}"
+                  name="percentage-{{ $index }}"
+                  type="number"
+                  [style]="'gray'"
+                  [required]="true"
+                  [customErrorMessage]="
+                    touched()
+                      ? getPercentageErrorMessage(element.percentage)
+                      : undefined
+                  "
+                  [ngModel]="element.percentage"
+                  (ngModelChange)="updateElementPercentage($event, $index)" />
+              </div>
+              <div
+                class="table-column action remove"
+                [style]="getCustomStyle('.table-column')">
+                <button
+                  mat-icon-button
+                  (activate)="removeRow($index)"
+                  [style]="getCustomStyle('.table-column-button')">
+                  <mat-icon
+                    [style]="getCustomStyle('.table-column-button-icon')">
+                    remove
+                  </mat-icon>
+                </button>
+              </div>
+            </div>
+          }
+
+          <div class="error-message">
+            @if (touched()) {
+              {{ getErrorMessage() }}
+            }
+          </div>
+
+          <div
+            class="total"
+            [class.bad-total]="getTotal() > 100 || getTotal() < 100">
+            Total: {{ getTotal().toLocaleString() }}%
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

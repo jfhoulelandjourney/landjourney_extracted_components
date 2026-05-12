@@ -1,0 +1,356 @@
+/* COMMON CONTAINER STYLES */
+:host,
+.btn {
+  display: inline-flex;
+  position: relative;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: fit-content;
+
+  /* SIZES and typography - common defaults */
+  font-size: var(--button-font-size, var(--font-size-sm));
+  font-style: var(--button-font-style);
+  font-weight: var(--button-font-weight, var(--font-weight-medium));
+  line-height: var(--button-line-height, var(--line-height-sm));
+  text-decoration: none; // Important for anchor tags
+  text-align: center;
+
+  /* Spacing and layout */
+  padding: var(--button-padding);
+  gap: var(--button-gap);
+  border-radius: var(--button-border-radius);
+}
+
+:host([disabled]) {
+  cursor: default;
+  pointer-events: none;
+}
+
+[aria-busy] .btn > :not(.loading-spinner-container) {
+  opacity: 0.4;
+}
+
+.after-content:empty,
+.before-content:empty {
+  display: none !important;
+}
+
+.loading-spinner-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.15);
+  border-radius: var(--button-border-radius);
+}
+
+.btn.compact {
+  padding: var(--padding-tight);
+}
+
+.btn.align-start {
+  text-align: start;
+}
+
+.btn.align-center {
+  text-align: center;
+}
+
+.btn.align-end {
+  text-align: end;
+}
+
+:host(.fluid-width),
+.btn.fluid-width {
+  width: 100%;
+}
+
+:host(.fluid-height),
+.btn.fluid-height {
+  height: 100%;
+}
+
+.btn .icon-container.hidden-container {
+  display: none;
+}
+
+/* ICONS */
+.btn .icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--button-icon-size);
+  height: var(--button-icon-size);
+}
+
+.btn .button-icon {
+  width: var(--button-icon-size);
+  height: var(--button-icon-size);
+  font-size: var(--button-icon-size);
+}
+
+/* MAIN CONTENT */
+.main-content {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+}
+
+/* SIZE VARIANTS */
+.btn.size-xxs {
+  --button-font-size: var(--font-size-xxs);
+  --button-font-style: var(--font-size-normal);
+  --button-font-weight: var(--font-weight-light);
+  --button-line-height: var(--line-height-xxxs);
+  --button-padding: var(--padding-default);
+  --button-border-radius: var(--radius-strong);
+  --button-gap: var(--padding-compact);
+  --button-icon-size: var(--font-size-xxs);
+
+  &:has(.icon-container) {
+    --button-icon-size: var(--font-size-xxs);
+  }
+}
+
+.btn.size-xs {
+  --button-font-size: var(--font-size-xs);
+  --button-font-style: var(--font-size-normal);
+  --button-font-weight: var(--font-weight-light);
+  --button-line-height: var(--line-height-xs);
+  --button-padding: var(--padding-default);
+  --button-border-radius: var(--radius-strong);
+  --button-gap: var(--gap-compact);
+  --button-icon-size: var(--font-size-xs);
+}
+
+.btn.size-sm {
+  --button-font-size: var(--font-size-xs);
+  --button-font-style: var(--font-size-normal);
+  --button-font-weight: var(--font-weight-light);
+  --button-line-height: var(--line-height-xs);
+  --button-padding: var(--padding-default) var(--padding-comfortable);
+  --button-border-radius: var(--radius-strong);
+  --button-gap: var(--gap-default);
+  --button-icon-size: var(--font-size-xs);
+}
+
+.btn.size-md {
+  --button-font-size: var(--font-size-xs);
+  --button-font-style: var(--font-size-normal);
+  --button-font-weight: var(--font-weight-regular);
+  --button-line-height: var(--line-height-xs);
+  --button-padding: var(--padding-comfortable) 16px;
+  --button-border-radius: var(--radius-strong);
+  --button-gap: var(--gap-compact);
+  --button-icon-size: var(--font-size-sm);
+}
+
+.btn.size-lg {
+  --button-font-size: var(--font-size-sm);
+  --button-font-style: var(--font-size-normal);
+  --button-font-weight: var(--font-weight-light);
+  --button-line-height: var(--line-height-xs);
+  --button-padding: var(--padding-comfortable) 20px;
+  --button-border-radius: var(--radius-strong);
+  --button-gap: var(--gap-compact);
+  --button-icon-size: var(--font-size-lg);
+}
+
+.btn.size-xl {
+  --button-font-size: var(--font-size-sm);
+  --button-font-style: var(--font-size-normal);
+  --button-font-weight: var(--font-weight-regular);
+  --button-line-height: var(--line-height-sm);
+  --button-padding: 16px var(--padding-spacious);
+  --button-border-radius: var(--radius-strong);
+  --button-gap: var(--gap-compact);
+  --button-icon-size: var(--font-size-xl);
+}
+
+/* VARIANTS and STATES */
+.btn {
+  --button-border-width: 2px;
+  color: var(--button-foreground-color);
+  background-color: var(--button-background-color);
+  box-shadow: var(--button-box-shadow-idle);
+  border: var(--button-border-width) solid var(--button-border-color);
+  position: relative;
+  transition:
+    color 0.2s ease-in-out,
+    background-color 0.2s ease-in-out,
+    transform 0.05s ease;
+
+  & * {
+    backface-visibility: hidden;
+    transition: transform 0.05s ease;
+  }
+}
+
+/* Color adjustments on hover/active using CSS color-mix */
+.btn:not([disabled]):hover,
+.btn:not([disabled]):active {
+  background-color: color-mix(
+    in srgb,
+    var(--button-background-color) 96%,
+    black 4%
+  );
+  border-color: color-mix(in srgb, var(--button-border-color) 96%, black 4%);
+}
+
+.btn:not([disabled]):active * {
+  transform: scale(0.9, 0.9) translateZ(0) perspective(1px);
+  transform-origin: center center;
+}
+
+/* VARIANT SPECIFIC STYLES */
+.btn.variant-primary {
+  --button-background-color: var(--color-background-primary-button);
+  --button-foreground-color: var(--color-foreground-primary-button);
+  --button-border-color: var(--color-border-primary-button);
+
+  &.intent-success {
+    --button-background-color: var(--status-success-700);
+    --button-foreground-color: var(--accent-black-100);
+    --button-border-color: var(--status-success-700);
+  }
+
+  &.intent-warning {
+    --button-background-color: var(--status-warning-700);
+    --button-foreground-color: var(--accent-black-100);
+    --button-border-color: var(--status-warning-700);
+  }
+
+  &.intent-error {
+    --button-background-color: var(--status-error-700);
+    --button-foreground-color: var(--accent-black-100);
+    --button-border-color: var(--status-error-700);
+  }
+
+  &.intent-neutral {
+    --button-background-color: var(--accent-black-500);
+    --button-foreground-color: var(--accent-black-100);
+    --button-border-color: var(--accent-black-500);
+  }
+}
+
+.btn.variant-secondary {
+  --button-background-color: var(--color-background-secondary-button);
+  --button-foreground-color: var(--color-foreground-secondary-button);
+  --button-border-color: var(--color-border-secondary-button);
+
+  &.intent-success {
+    --button-background-color: var(--status-success-100);
+    --button-foreground-color: var(--status-success-700);
+    --button-border-color: var(--status-success-100);
+  }
+
+  &.intent-warning {
+    --button-background-color: var(--status-warning-100);
+    --button-foreground-color: var(--status-warning-700);
+    --button-border-color: var(--status-warning-100);
+  }
+
+  &.intent-error {
+    --button-background-color: var(--status-error-100);
+    --button-foreground-color: var(--status-error-700);
+    --button-border-color: var(--status-error-100);
+  }
+
+  &.intent-neutral {
+    --button-background-color: var(--accent-black-200);
+    --button-foreground-color: var(--accent-black-600);
+    --button-border-color: var(--accent-black-200);
+  }
+}
+
+.btn.variant-tertiary {
+  --button-background-color: var(--color-background-tertiary-button);
+  --button-foreground-color: var(--color-foreground-tertiary-button);
+  --button-border-color: var(--color-border-tertiary-button);
+
+  &.intent-success {
+    --button-foreground-color: var(--status-success-700);
+  }
+
+  &.intent-warning {
+    --button-foreground-color: var(--status-warning-700);
+  }
+
+  &.intent-error {
+    --button-foreground-color: var(--status-error-700);
+  }
+
+  &.intent-neutral {
+    --button-foreground-color: var(--accent-black-600);
+  }
+}
+
+.btn.variant-ghost {
+  --button-background-color: transparent;
+  --button-foreground-color: var(--color-foreground-tertiary-button);
+  --button-border-color: transparent;
+
+  &.intent-success {
+    --button-foreground-color: var(--status-success-700);
+  }
+
+  &.intent-warning {
+    --button-foreground-color: var(--status-warning-700);
+  }
+
+  &.intent-error {
+    --button-foreground-color: var(--status-error-700);
+  }
+
+  &.intent-neutral {
+    --button-foreground-color: var(--accent-black-600);
+  }
+}
+
+.btn.variant-icon {
+  --button-background-color: transparent;
+  --button-foreground-color: var(--color-foreground-tertiary-button);
+  --button-border-color: transparent;
+  --button-border-radius: 50%;
+  aspect-ratio: 1;
+
+  &.intent-success {
+    --button-foreground-color: var(--status-success-700);
+  }
+
+  &.intent-warning {
+    --button-foreground-color: var(--status-warning-500);
+  }
+
+  &.intent-error {
+    --button-foreground-color: var(--status-error-500);
+  }
+
+  &.intent-neutral {
+    --button-foreground-color: var(--accent-black-500);
+  }
+
+  &:hover {
+    --button-background-color: var(--accent-black-100);
+  }
+}
+
+.btn[disabled],
+.btn.variant-primary[disabled],
+.btn.variant-secondary[disabled],
+.btn.variant-tertiary[disabled] {
+  cursor: default;
+  pointer-events: none;
+  --button-background-color: var(--accent-black-200);
+  --button-foreground-color: var(--accent-black-400);
+  --button-border-color: var(--accent-black-200);
+  --button-box-shadow-idle: none;
+  --button-box-shadow-hover: none;
+}

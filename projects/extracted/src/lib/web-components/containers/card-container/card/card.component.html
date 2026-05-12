@@ -1,0 +1,65 @@
+<div
+  class="card"
+  (click)="click()"
+  [class.odd-card]="this.odd"
+  [class.pointer]="!this.linkText">
+  @if (this.iconsSrc && this.iconsSrc.length > 0) {
+    <div class="icons">
+      @for (iconSrc of this.iconsSrc; track $index) {
+        <span>
+          <lj-avatar
+            avatarUrl="{{ iconSrc }}"
+            size="medium"
+            [showBorder]="true"
+            [imagePadding]="true"></lj-avatar>
+        </span>
+      }
+    </div>
+  }
+
+  @if (
+    this.formattedId || this.title || this.subtitle || this.tags.length > 0
+  ) {
+    <div class="text">
+      @if (this.title) {
+        <div class="title">
+          {{ this.title }}
+          @if (this.tags.length > 0) {
+            @for (tag of this.tags; track tag) {
+              <span class="tag" [classList]="getCssClassForTag(tag)">
+                {{ tag }}
+              </span>
+            }
+          }
+        </div>
+      }
+
+      @if (this.formattedId || this.tags.length > 0) {
+        <span class="id">
+          @if (this.showId) {
+            {{ this.formattedId }}
+          }
+        </span>
+      }
+
+      @if (this.subtitle) {
+        <span class="subtitle">{{ this.subtitle }}</span>
+      }
+    </div>
+  }
+
+  <span class="separator"></span>
+
+  @if (this.amount) {
+    <span class="amount">${{ this.amount.toLocaleString() }}</span>
+  }
+
+  @if (this.linkText && this.url && !this.amount) {
+    <a routerLink="{{ this.url }}">{{ this.linkText }}&nbsp;&gt;</a>
+  }
+
+  @if (this.linkText && !this.url && !this.amount && this.onClick) {
+    <a (click)="click()">{{ this.linkText }}&nbsp;&gt;</a>
+  }
+  <ng-content />
+</div>

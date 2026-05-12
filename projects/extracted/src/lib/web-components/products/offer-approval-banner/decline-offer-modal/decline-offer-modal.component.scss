@@ -1,0 +1,14 @@
+.decline-modal__description {
+  margin-bottom: var(--spacing-4);
+  color: var(--accent-black-700);
+  font-size: var(--font-size-sm);
+}
+
+.decline-modal__error {
+  margin-top: var(--spacing-2);
+  color: var(--color--accent--danger-600);
+  font-size: var(--font-size-xs);
+}
+
+@media (max-width: 500px) {
+}

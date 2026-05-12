@@ -1,0 +1,26 @@
+.hint {
+  margin: 0 0 var(--padding-compact);
+  color: var(--accent-black-500, #6b6b6b);
+}
+
+.monaco-wrap {
+  height: min(480px, 50vh);
+  min-height: 240px;
+  border: solid 1px var(--box-border-color);
+  border-radius: var(--radius-primary);
+  overflow: hidden;
+
+  &.monaco-wrap-error {
+    border-color: var(--error-color);
+  }
+
+  ngx-monaco-editor {
+    display: block;
+    height: 100%;
+  }
+}
+
+.error {
+  margin: var(--padding-compact) 0 0;
+  color: var(--error-color);
+}

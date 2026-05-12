@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>Edit form definition (JSON)</h2>
+
+<mat-dialog-content>
+  <p class="body-s hint">
+    Changes apply to the editor only. Save the form from the page header when
+    ready.
+  </p>
+  <div
+    class="monaco-wrap"
+    [class.monaco-wrap-error]="parseError() !== null">
+    <ngx-monaco-editor
+      name="formDefinitionJson"
+      [options]="editorOptions"
+      [ngModel]="jsonText()"
+      (ngModelChange)="onJsonTextChange($event)"
+      (init)="onMonacoInit($event)"></ngx-monaco-editor>
+  </div>
+  @if (parseError(); as err) {
+    <p class="body-s error" role="alert">{{ err }}</p>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button type="button" lj-button="inverse-cta" (activate)="cancel()">
+    Cancel
+  </button>
+  <button type="button" lj-button="cta" (activate)="apply()">Apply</button>
+</mat-dialog-actions>

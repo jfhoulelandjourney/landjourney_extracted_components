@@ -1,0 +1,54 @@
+<div class="coverage">
+  <header class="coverage-header">
+    <p class="coverage-subtitle">
+      Verify all required fields are collected for the selected products.
+      Missing fields will block automatic eligibility validation.
+    </p>
+  </header>
+
+  @if (loading()) {
+    <div class="coverage-loading">
+      <mat-spinner diameter="32" />
+      <span>Checking products…</span>
+    </div>
+  } @else {
+    @let list = entries();
+    @if (list.length === 0) {
+      <div class="coverage-empty">
+        <mat-icon>info</mat-icon>
+        <p>No products to check, or add sections and tasks to the request.</p>
+      </div>
+    } @else {
+      <div class="coverage-list">
+        @for (
+          entry of list;
+          track entry.product.id ?? entry.program.name + entry.product.name
+        ) {
+          <div
+            class="coverage-card"
+            [class.coverage-card--compliant]="entry.compliant"
+            [class.coverage-card--non-compliant]="!entry.compliant"
+            [class.coverage-card--selected]="
+              isProductSelected(entry.product.id)
+            "
+            role="button"
+            tabindex="0"
+            activate
+            (activate)="onCardClick(entry)">
+            @if (isProductSelected(entry.product.id)) {
+              <span class="coverage-card-badge">Selected</span>
+            }
+            <lj-product
+              [productDisplay]="getDisplayForEntry(entry)"
+              [showProductParts]="[
+                'SCORECARD',
+                RuleTypeKeyEnum.ELIGIBILITY_RULES,
+                RuleTypeKeyEnum.RENEWAL_ELIGIBILITY_RULES,
+                RuleTypeKeyEnum.PRICING_RULES,
+              ]" />
+          </div>
+        }
+      </div>
+    }
+  }
+</div>

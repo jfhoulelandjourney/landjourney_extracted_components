@@ -1,0 +1,21 @@
+.modal {
+  background: var(--color-lighter, #fff);
+  padding: var(--padding-default);
+
+  ::ng-deep .mat-mdc-dialog-content {
+    padding-inline: var(--padding-tight) !important;
+  }
+}
+
+.condition-text {
+  font-size: var(--font-size-xs);
+  white-space: pre-line;
+  background-color: var(--gray-100, #f5f5f5);
+  padding: var(--padding-default);
+  border-radius: var(--radius-primary, 5px);
+}
+
+.confirmation-container {
+  margin-top: var(--padding-comfortable);
+  font-size: var(--font-size-xs);
+}

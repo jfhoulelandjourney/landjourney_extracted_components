@@ -1,0 +1,17 @@
+@if (isScopedView() && !dismissed() && !isLoginPage()) {
+  <div class="scoped-view-notice overlay-all">
+    <mat-icon>visibility</mat-icon>
+    <div class="message">
+      This is a partial view of your account. To access all functionality,
+      please log in.
+    </div>
+    <div class="actions">
+      <button mat-button (activate)="logout()" (click)="logout()">
+        Log In
+      </button>
+      <button mat-icon-button (activate)="dismiss()" (click)="dismiss()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+}

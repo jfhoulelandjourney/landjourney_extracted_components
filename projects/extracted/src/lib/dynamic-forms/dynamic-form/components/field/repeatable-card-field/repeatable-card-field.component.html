@@ -1,0 +1,330 @@
+@if (field()) {
+  <div class="repeatable-card">
+    <h3 [style]="getCustomStyle('h3', true)">
+      {{ field().label }}
+    </h3>
+
+    @if (itemFields().length !== 0) {
+      <div class="card-container">
+        @for (row of rows(); track row.id) {
+          <div
+            class="card"
+            [style]="getCustomStyle('.card')"
+            [class.display]="mode() === 'locked' || !isCurrentlyEditedRow(row)"
+            [class.full-width]="isMobile()">
+            @if (mode() !== 'locked' && isCurrentlyEditedRow(row)) {
+              @for (spec of itemFields(); track spec.id) {
+                @if (shouldShowInnerField(spec, editedRow())) {
+                  <div class="inner-runtime-field">
+                    @switch (spec.fieldType) {
+                      @case (FieldType.INPUT) {
+                        <lj-df-input-field
+                          [field]="innerFieldAsString(spec)"
+                          [formData]="editedRowAsFormData()"
+                          [containerLayout]="containerLayout()"
+                          [customStyle]="customStyle()"
+                          [suppressedErrorKeys]="suppressedErrorKeys()"
+                          (dataChange)="onInnerDataChange($event)" />
+                      }
+                      @case (FieldType.TEXT) {
+                        <lj-df-text-field
+                          [field]="innerFieldAsString(spec)"
+                          [formData]="editedRowAsFormData()"
+                          [containerLayout]="containerLayout()"
+                          [customStyle]="customStyle()"
+                          [suppressedErrorKeys]="suppressedErrorKeys()"
+                          (dataChange)="onInnerDataChange($event)" />
+                      }
+                      @case (FieldType.MONEY) {
+                        <lj-df-money-field
+                          [field]="innerFieldAsNumber(spec)"
+                          [formData]="editedRowAsFormData()"
+                          [containerLayout]="containerLayout()"
+                          [customStyle]="customStyle()"
+                          [suppressedErrorKeys]="suppressedErrorKeys()"
+                          (dataChange)="onInnerDataChange($event)" />
+                      }
+                      @case (FieldType.NUMBER) {
+                        <lj-df-number-field
+                          [field]="innerFieldAsNumber(spec)"
+                          [formData]="editedRowAsFormData()"
+                          [containerLayout]="containerLayout()"
+                          [customStyle]="customStyle()"
+                          [suppressedErrorKeys]="suppressedErrorKeys()"
+                          (dataChange)="onInnerDataChange($event)" />
+                      }
+                      @case (FieldType.DATE) {
+                        <lj-df-date-field
+                          [field]="innerFieldAsNumber(spec)"
+                          [formData]="editedRowAsFormData()"
+                          [containerLayout]="containerLayout()"
+                          [customStyle]="customStyle()"
+                          [suppressedErrorKeys]="suppressedErrorKeys()"
+                          (dataChange)="onInnerDataChange($event)" />
+                      }
+                      @case (FieldType.SELECT) {
+                        <lj-df-select-field
+                          [field]="innerFieldAsString(spec)"
+                          [formData]="editedRowAsFormData()"
+                          [containerLayout]="containerLayout()"
+                          [customStyle]="customStyle()"
+                          [suppressedErrorKeys]="suppressedErrorKeys()"
+                          (dataChange)="onInnerDataChange($event)" />
+                      }
+                      @case (FieldType.RADIO) {
+                        <lj-df-radio-field
+                          [field]="innerFieldAsString(spec)"
+                          [formData]="editedRowAsFormData()"
+                          [containerLayout]="containerLayout()"
+                          [customStyle]="customStyle()"
+                          [suppressedErrorKeys]="suppressedErrorKeys()"
+                          (dataChange)="onInnerDataChange($event)" />
+                      }
+                      @case (FieldType.CHECKBOX) {
+                        <lj-df-checkbox-field
+                          [field]="innerFieldAsBoolean(spec)"
+                          [formData]="editedRowAsFormData()"
+                          [containerLayout]="containerLayout()"
+                          [customStyle]="customStyle()"
+                          [suppressedErrorKeys]="suppressedErrorKeys()"
+                          (dataChange)="onInnerDataChange($event)" />
+                      }
+                      @case (FieldType.COMPUTED) {
+                        <lj-df-computed-field
+                          [field]="innerFieldAsString(spec)"
+                          [formData]="editedRowAsFormData()"
+                          [containerLayout]="containerLayout()"
+                          [customStyle]="customStyle()"
+                          [suppressedErrorKeys]="suppressedErrorKeys()"
+                          [disabled]="true"
+                          (dataChange)="onInnerDataChange($event)" />
+                      }
+                      @case (FieldType.NOTE) {
+                        <lj-df-note-field
+                          [field]="innerNoteField(spec)"
+                          [formData]="editedRowAsFormData()"
+                          [containerLayout]="containerLayout()"
+                          [customStyle]="customStyle()"
+                          [mode]="mode()" />
+                      }
+                    }
+                  </div>
+                }
+              }
+
+              <div class="card-actions">
+                <button
+                  lj-button="ghost"
+                  [style]="getCustomStyle('.cancel-button')"
+                  (activate)="cancelEdit()">
+                  Cancel
+                </button>
+                <button
+                  lj-button="inverse-cta"
+                  [style]="getCustomStyle('.button')"
+                  (activate)="saveRow()">
+                  Done
+                </button>
+              </div>
+            } @else {
+              <div class="card-actions use-title">
+                <h4 [style]="getCustomStyle('h4', true)">
+                  {{ getCardTitle(row) }}
+                </h4>
+                @if (mode() !== 'locked') {
+                  <div class="card-actions-buttons">
+                    <button
+                      mat-icon-button
+                      lj-confirmation-required
+                      message="Remove this item?"
+                      (confirm)="removeRow(row)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                    <button mat-icon-button (activate)="startEdit(row)">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                  </div>
+                }
+              </div>
+              @for (spec of itemFields(); track spec.id) {
+                @if (shouldShowInnerField(spec, row)) {
+                  @if (spec.fieldType === FieldType.NOTE) {
+                    <lj-df-note-field
+                      [field]="innerNoteField(spec)"
+                      [formData]="editedRowAsFormData()"
+                      [containerLayout]="containerLayout()"
+                      [customStyle]="customStyle()"
+                      [mode]="mode()" />
+                  } @else {
+                    <div class="message">
+                      <div class="title">{{ spec.label }}</div>
+                      <div class="content">{{ displayValue(row, spec) }}</div>
+                    </div>
+                  }
+                }
+              }
+            }
+          </div>
+        } @empty {
+          @if (mode() !== 'locked' && !pendingNewRowId()) {
+            <div
+              class="empty-message"
+              [style]="getCustomStyle('.explanation-message')">
+              No {{ itemLabel() }}s yet. Use the button below to add one.
+            </div>
+          } @else if (mode() === 'locked') {
+            <div>No {{ itemLabel() }}s added.</div>
+          }
+        }
+
+        @if (pendingNewRowId()) {
+          <div
+            class="card"
+            [style]="getCustomStyle('.card')"
+            [class.full-width]="isMobile()">
+            @for (spec of itemFields(); track spec.id) {
+              @if (shouldShowInnerField(spec, editedRow())) {
+                <div class="inner-runtime-field">
+                  @switch (spec.fieldType) {
+                    @case (FieldType.INPUT) {
+                      <lj-df-input-field
+                        [field]="innerFieldAsString(spec)"
+                        [formData]="editedRowAsFormData()"
+                        [containerLayout]="containerLayout()"
+                        [customStyle]="customStyle()"
+                        [suppressedErrorKeys]="suppressedErrorKeys()"
+                        (dataChange)="onInnerDataChange($event)" />
+                    }
+                    @case (FieldType.TEXT) {
+                      <lj-df-text-field
+                        [field]="innerFieldAsString(spec)"
+                        [formData]="editedRowAsFormData()"
+                        [containerLayout]="containerLayout()"
+                        [customStyle]="customStyle()"
+                        [suppressedErrorKeys]="suppressedErrorKeys()"
+                        (dataChange)="onInnerDataChange($event)" />
+                    }
+                    @case (FieldType.MONEY) {
+                      <lj-df-money-field
+                        [field]="innerFieldAsNumber(spec)"
+                        [formData]="editedRowAsFormData()"
+                        [containerLayout]="containerLayout()"
+                        [customStyle]="customStyle()"
+                        [suppressedErrorKeys]="suppressedErrorKeys()"
+                        (dataChange)="onInnerDataChange($event)" />
+                    }
+                    @case (FieldType.NUMBER) {
+                      <lj-df-number-field
+                        [field]="innerFieldAsNumber(spec)"
+                        [formData]="editedRowAsFormData()"
+                        [containerLayout]="containerLayout()"
+                        [customStyle]="customStyle()"
+                        [suppressedErrorKeys]="suppressedErrorKeys()"
+                        (dataChange)="onInnerDataChange($event)" />
+                    }
+                    @case (FieldType.DATE) {
+                      <lj-df-date-field
+                        [field]="innerFieldAsNumber(spec)"
+                        [formData]="editedRowAsFormData()"
+                        [containerLayout]="containerLayout()"
+                        [customStyle]="customStyle()"
+                        [suppressedErrorKeys]="suppressedErrorKeys()"
+                        (dataChange)="onInnerDataChange($event)" />
+                    }
+                    @case (FieldType.SELECT) {
+                      <lj-df-select-field
+                        [field]="innerFieldAsString(spec)"
+                        [formData]="editedRowAsFormData()"
+                        [containerLayout]="containerLayout()"
+                        [customStyle]="customStyle()"
+                        [suppressedErrorKeys]="suppressedErrorKeys()"
+                        (dataChange)="onInnerDataChange($event)" />
+                    }
+                    @case (FieldType.RADIO) {
+                      <lj-df-radio-field
+                        [field]="innerFieldAsString(spec)"
+                        [formData]="editedRowAsFormData()"
+                        [containerLayout]="containerLayout()"
+                        [customStyle]="customStyle()"
+                        [suppressedErrorKeys]="suppressedErrorKeys()"
+                        (dataChange)="onInnerDataChange($event)" />
+                    }
+                    @case (FieldType.CHECKBOX) {
+                      <lj-df-checkbox-field
+                        [field]="innerFieldAsBoolean(spec)"
+                        [formData]="editedRowAsFormData()"
+                        [containerLayout]="containerLayout()"
+                        [customStyle]="customStyle()"
+                        [suppressedErrorKeys]="suppressedErrorKeys()"
+                        (dataChange)="onInnerDataChange($event)" />
+                    }
+                    @case (FieldType.COMPUTED) {
+                      <lj-df-computed-field
+                        [field]="innerFieldAsString(spec)"
+                        [formData]="editedRowAsFormData()"
+                        [containerLayout]="containerLayout()"
+                        [customStyle]="customStyle()"
+                        [suppressedErrorKeys]="suppressedErrorKeys()"
+                        [disabled]="true"
+                        (dataChange)="onInnerDataChange($event)" />
+                    }
+                    @case (FieldType.NOTE) {
+                      <lj-df-note-field
+                        [field]="innerNoteField(spec)"
+                        [formData]="editedRowAsFormData()"
+                        [containerLayout]="containerLayout()"
+                        [customStyle]="customStyle()"
+                        [mode]="mode()" />
+                    }
+                  }
+                </div>
+              }
+            }
+
+            <div class="card-actions">
+              <button
+                lj-button="ghost"
+                [style]="getCustomStyle('.cancel-button')"
+                (activate)="cancelEdit()">
+                Cancel
+              </button>
+              <button
+                lj-button="inverse-cta"
+                [style]="getCustomStyle('.button')"
+                (activate)="saveRow()">
+                Done
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+
+      @if (mode() !== 'locked') {
+        <div class="actions">
+          @if (!isEditing()) {
+            <button
+              lj-button="inverse-cta"
+              [style]="getCustomStyle('.button')"
+              (activate)="addNewRow()">
+              {{ addButtonLabel() }}
+              <mat-icon>add</mat-icon>
+            </button>
+          }
+        </div>
+      }
+
+      @if (showSummary() && rows().length > 0 && summaryRow().length > 0) {
+        <div class="card-summary">
+          @for (entry of summaryRow(); track entry.fieldId) {
+            <div class="card-summary-item">
+              <span class="card-summary-label">{{ entry.label }}</span>
+              <span class="card-summary-value">{{ entry.value }}</span>
+            </div>
+          }
+        </div>
+      }
+    }
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

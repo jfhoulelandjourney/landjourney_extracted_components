@@ -1,0 +1,63 @@
+<div class="history">
+  @if (histories().length === 0) {
+    There is no history available at the moment
+  } @else {
+    <div class="items years">
+      @for (history of histories(); track history.year) {
+        <div class="item">
+          <div
+            class="body-s label"
+            [class.selected]="history.year === selectedHistory()?.year"
+            (activate)="handleHistoryClicked(history)">
+            {{ history.year }}
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="info">
+      <div class="items">
+        <!-- <div class="item">
+        <div class="label">Accrued Interest</div>
+        <div class="data">
+          {{ formatAmount(selectedHistory()?.accruedInterestCentsYtd) }}
+        </div>
+      </div> -->
+        <div class="item">
+          <div class="label">Interest Paid</div>
+          <div class="data">
+            {{ formatAmount(selectedHistory()?.interestPaidCentsYtd) }}
+          </div>
+        </div>
+        <div class="item">
+          <div class="label">Total Paid</div>
+          <div class="data">
+            {{ formatAmount(selectedHistory()?.paidCentsYtd) }}
+          </div>
+        </div>
+        <!-- <div class="item">
+        <div class="label">Total Withdrawn</div>
+        <div class="data">
+          {{ formatAmount(selectedHistory()?.withdrawnCentsYtd) }}
+        </div>
+      </div> -->
+        <div class="item">
+          <div class="label">Late Fees Paid</div>
+          <div class="data">
+            {{ formatAmount(selectedHistory()?.lateFeesPaidCentsYtd) }}
+          </div>
+        </div>
+        <div class="item">
+          <div class="label">NSF Fees Paid</div>
+          <div class="data">
+            {{
+              formatAmount(
+                selectedHistory()?.nonSufficientFundsFeesPaidCentsYtd
+              )
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>

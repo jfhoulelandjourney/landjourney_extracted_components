@@ -1,0 +1,13 @@
+<div class="card-container">
+  @if (title !== null) {
+    <h2>
+      {{ title }}
+      @if (subTitle !== null) {
+        <span>{{ subTitle }}</span>
+      }
+    </h2>
+  }
+  <div [class.carousel]="this.carousel">
+    <ng-content />
+  </div>
+</div>

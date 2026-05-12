@@ -1,0 +1,90 @@
+@if (documentId() && documentDigest()) {
+  <div class="ai-assistant-container">
+    <div class="ai-assistant-messaging" (activate)="toggleCollapse()">
+      <div class="ai-assistant-header">
+        <h3>AI Chat Assistant</h3>
+      </div>
+      @if (isCollapsed()) {
+        <div class="header-actions">
+          <mat-icon>chevron_right</mat-icon>
+        </div>
+      } @else {
+        <div class="header-actions">
+          <mat-icon>expand_less</mat-icon>
+        </div>
+      }
+    </div>
+    <div class="container" [hidden]="isCollapsed()">
+      <div class="ai-actions">
+        <div>
+          <button
+            lj-button="ghost"
+            [size]="'small'"
+            [compact]="true"
+            (activate)="deleteConversation()"
+            matTooltip="Delete conversation">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+        <div>
+          <button
+            lj-button="ghost"
+            [size]="'small'"
+            [compact]="true"
+            (activate)="generateSummary()"
+            matTooltip="Summarize document">
+            <mat-icon>summarize</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="chat-container" #messageList>
+        <div class="only-you">
+          <mat-icon>thumb_up</mat-icon>
+          <span>Only you can view the content of this chat window</span>
+        </div>
+        <div class="message-list">
+          @for (message of messages(); track $index) {
+            @if (message.sender === 'assistant') {
+              <div class="message received">
+                <img src="/assets/misc/ai-agent.svg" alt="AI Agent" />
+                <div>
+                  {{ message.message }}
+                </div>
+              </div>
+            } @else {
+              <div class="message sent">
+                <lj-avatar
+                  size="tiny"
+                  [name]="getFirstName()"
+                  [avatarUrl]="getAvatar()" />
+
+                <div>
+                  {{ message.message }}
+                </div>
+              </div>
+            }
+          }
+        </div>
+      </div>
+      <div class="add-message">
+        <textarea
+          [value]="newMessage()"
+          (input)="handleNewMessageChange($event)"
+          cdkAutosizeMinRows="1"
+          id="newMessage"
+          placeholder="Enter a question for our smart agent"
+          name="newMessage"
+          type="text"></textarea>
+        @if (waitingAnswer()) {
+          <button class="waiting-answer">
+            <mat-icon>stop_circle</mat-icon>
+          </button>
+        } @else {
+          <button (activate)="addMessage()">
+            <mat-icon>arrow_upward</mat-icon>
+          </button>
+        }
+      </div>
+    </div>
+  </div>
+}

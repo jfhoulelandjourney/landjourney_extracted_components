@@ -1,0 +1,134 @@
+@if (isTaskProvidedByClient() || isTaskApproved() || isTaskRejected()) {
+  <div
+    class="checks"
+    [class.green]="isTaskApproved()"
+    [class.error]="isTaskRejected()">
+    @if (isTaskApproved()) {
+      <mat-icon svgIcon="green-check"></mat-icon>
+      <p class="body-m inter">
+        <b>Your Identity Verification has been approved.</b>
+      </p>
+      <p class="body-s inter">
+        If anything more is needed for this task we will let you know.
+      </p>
+    } @else if (isTaskRejected()) {
+      <mat-icon svgIcon="red-cross"></mat-icon>
+      <p class="body-m inter">
+        <b>Your Identity Verification needs revision.</b>
+      </p>
+      <p class="body-s inter explanation">
+        Explanation:
+        {{ section().tasks[0]?.justification }}
+      </p>
+    } @else {
+      <mat-icon svgIcon="yellow-warning"></mat-icon>
+      <p class="body-m inter">
+        <b>Your Identity Verification is being reviewed.</b>
+      </p>
+      <p class="body-s inter">
+        If anything more is needed for this task we will let you know.
+      </p>
+    }
+  </div>
+}
+<div class="container">
+  @if (isTaskCancelled()) {
+    <div>
+      The Identity Verification was marked as not applicable:
+      {{ section().tasks[0]?.attachments?.[0]?.justification }}
+    </div>
+    <div>
+      <button class="lj-button" (activate)="back()">
+        Return
+        <mat-icon class="u-turn">u_turn_right</mat-icon>
+      </button>
+    </div>
+  } @else {
+    @if (currentStep() === IdentityVerificationSteps.CONSENT) {
+      <lj-identity-consent
+        (onConsentGiven)="onConsentGiven()"
+        (onBack)="back()"
+        [isMobile]="isMobile()" />
+    } @else if (currentStep() === IdentityVerificationSteps.ID_CHOICE) {
+      <lj-identity-id-choice
+        [name]="name()"
+        (onIdDocumentTypeClick)="onIdDocumentTypeClick($event)"
+        (onBack)="back()"
+        [isMobile]="isMobile()" />
+    } @else if (currentStep() === IdentityVerificationSteps.FILE_CHOICE) {
+      <lj-identity-file-choice
+        [name]="name()"
+        (onUploadClick)="onUploadClick()"
+        (onCameraClick)="onCameraClick()"
+        (onBack)="back()"
+        [isMobile]="isMobile()" />
+    } @else if (currentStep() === IdentityVerificationSteps.CAMERA) {
+      <lj-identity-camera
+        [name]="name()"
+        [idDocumentType]="idDocumentType()"
+        [request]="request()"
+        [section]="section()"
+        (onIdentityFilesUploaded)="
+          startVerification($event.idFrontDocumentId, $event.idBackDocumentId)
+        "
+        (onBack)="back()" />
+    } @else if (currentStep() === IdentityVerificationSteps.UPLOAD) {
+      <lj-identity-upload
+        [name]="name()"
+        [idDocumentType]="idDocumentType()"
+        [request]="request()"
+        [section]="section()"
+        (onIdentityFilesUploaded)="
+          startVerification($event.idFrontDocumentId, $event.idBackDocumentId)
+        "
+        (onBack)="back()" />
+    } @else if (currentStep() === IdentityVerificationSteps.IDENTITY_DETAILS) {
+      <lj-identity-details
+        [prefillTargetUserId]="section().assigneeId"
+        [name]="name()"
+        (onBack)="back()"
+        (onIdentityDetailsProvided)="identityVerificationProvided($event)"
+        [isMobile]="isMobile()" />
+    } @else if (currentStep() === IdentityVerificationSteps.MANUAL_REVIEW) {
+      <lj-identity-manual-review
+        [name]="name()"
+        (next)="next()"
+        [request]="request()"
+        [section]="section()"
+        [isMobile]="isMobile()" />
+    } @else if (
+      currentStep() === IdentityVerificationSteps.FALLBACK_MANUAL_REVIEW
+    ) {
+      <lj-identity-manual-review
+        [name]="name()"
+        (next)="next()"
+        [request]="request()"
+        [section]="section()"
+        [fallback]="true"
+        [isMobile]="isMobile()" />
+    } @else if (currentStep() === IdentityVerificationSteps.SUCCESS) {
+      <lj-identity-success
+        [name]="name()"
+        (next)="next()"
+        [request]="request()"
+        [section]="section()"
+        [isMobile]="isMobile()" />
+    } @else if (
+      currentStep() === IdentityVerificationSteps.PREVIOUSLY_VERIFIED
+    ) {
+      <lj-identity-success
+        [name]="name()"
+        (next)="next()"
+        [request]="request()"
+        [section]="section()"
+        [isMobile]="isMobile()"
+        [alreadyVerified]="true" />
+    } @else if (
+      currentStep() ===
+      IdentityVerificationSteps.IDENTITY_VERIFICATION_IN_PROGRESS
+    ) {
+      <lj-lottie-wrapper
+        jsonPath="/assets/animations/identity_verification_in_progress.json"></lj-lottie-wrapper>
+    }
+  }
+</div>

@@ -1,0 +1,109 @@
+@use '../../../../ui-styles/tokens/breakpoints' as bp;
+
+.container {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: var(--gap-spacious);
+  padding: var(--padding-spacious);
+}
+
+.icon-section {
+  .warning-icon {
+    color: var(--color-warning);
+    font-size: var(--font-size-2xl);
+    width: var(--font-size-2xl);
+    height: var(--font-size-2xl);
+  }
+}
+
+.content-section {
+  flex: 1;
+}
+
+.title {
+  margin: 0 0 var(--margin-compact) 0;
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  color: var(--color--accent--success);
+  line-height: 1.4;
+}
+
+.description {
+  font-size: var(--font-size-sm);
+  color: var(--color--accent--success);
+  line-height: 1.5;
+}
+
+.task-counts {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--gap-comfortable);
+  padding-top: var(--padding-default);
+}
+
+.count-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-default);
+  padding: var(--padding-compact) var(--padding-comfortable)
+    var(--padding-compact) var(--padding-compact);
+  border-radius: var(--radius-rounded);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+
+  &.todo {
+    background: var(--status-warning-500);
+  }
+
+  &.under-review {
+    background: var(--status-error-300);
+  }
+
+  .count {
+    background-color: var(--accent-black-100);
+    color: inherit;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--radius-rounded);
+    font-weight: var(--font-weight-semibold);
+    min-width: 1.5rem;
+    text-align: center;
+    height: 25px;
+  }
+
+  .label {
+    color: inherit;
+  }
+}
+
+@include bp.max-mobile {
+  .container {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--gap-compact);
+    align-items: start;
+  }
+  .icon-section {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .content-section {
+    display: contents;
+  }
+  .title {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: var(--font-size-sm);
+  }
+  .description {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  .task-counts {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
+}

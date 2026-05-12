@@ -1,0 +1,99 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--gap-spacious);
+}
+
+.discussion-list {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.selected-discussion {
+  width: 50%;
+  border-radius: var(--radius-strong, 8px);
+  border: 1px solid var(--accent-black-200, #f5f5f5);
+  background: var(--accent-black-100, #fff);
+  height: 80vh;
+
+  &.selected {
+    border: 1px solid var(--accent-black-300, #c9c9c9);
+    background: var(--accent-black-200, #f5f5f5);
+  }
+}
+
+.discussion-container {
+  border-bottom: 1px solid var(--accent-black-200, #f5f5f5);
+  cursor: pointer;
+  margin-bottom: var(--gap-default);
+  padding-bottom: var(--padding-default);
+}
+
+.discussion-summary {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  border: 1px solid var(--accent-black-100, #fff);
+  background: var(--accent-black-100, #fff);
+
+  &:hover,
+  &.selected {
+    border-radius: var(--radius-primary, 4px);
+    border: 1px solid var(--accent-black-400, #b0b0b0);
+    background: var(--accent-black-200, #f5f5f5);
+  }
+
+  .preview {
+    width: 200px;
+    margin-left: var(--gap-default);
+  }
+
+  .author {
+    font-family: Inter;
+    font-size: var(--font-size-xs);
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+  }
+
+  .message {
+    font-family: Inter;
+    font-size: var(--font-size-xxs);
+    font-style: normal;
+    font-weight: 300;
+    line-height: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .metadata {
+    flex-grow: 1;
+    text-align: right;
+    align-self: center;
+
+    p {
+      font-family: Inter;
+      font-size: var(--font-size-xxs);
+      font-style: normal;
+      font-weight: 300;
+      line-height: 18px;
+    }
+  }
+}
+
+.mobile {
+  .discussion-list {
+    width: 100%;
+  }
+
+  .preview {
+    width: 140px;
+  }
+}

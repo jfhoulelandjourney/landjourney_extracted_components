@@ -1,0 +1,15 @@
+<span class="label-container">
+  <ng-content select="[start]">
+    {{ startLabel() }}
+  </ng-content>
+</span>
+
+<div class="progress-bar-container">
+  <div class="progress-bar-filler" [style.width.%]="progress()"></div>
+</div>
+
+<span class="label-container">
+  <ng-content select="[end]">
+    {{ endLabel() }}
+  </ng-content>
+</span>

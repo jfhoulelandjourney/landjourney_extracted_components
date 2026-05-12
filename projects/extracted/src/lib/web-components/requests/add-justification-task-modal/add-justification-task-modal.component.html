@@ -1,0 +1,27 @@
+<div mat-dialog-title>
+  @if (futureStatus() === TaskStatuses.CANCELLED) {
+    <h3>Please provide details on why {{ data.taskName }} is not applicable</h3>
+  } @else if (futureStatus() === TaskStatuses.REJECTED) {
+    <h3>Please provide details on why {{ data.taskName }} is rejected</h3>
+  } @else {
+    <h3>Please provide any details on {{ data.taskName }}</h3>
+  }
+</div>
+
+<mat-dialog-content>
+  <textarea
+    [required]="true"
+    [(ngModel)]="justification"
+    matInput
+    cdkTextareaAutosize
+    #autosize="cdkTextareaAutosize"
+    cdkAutosizeMinRows="1"
+    cdkAutosizeMaxRows="10"></textarea>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" style="gap: var(--padding-default)">
+  <button lj-button="ghost" (activate)="closeDialog(false)">Cancel</button>
+  <button lj-button (activate)="closeDialog(true)" [disabled]="!isValid()">
+    Confirm
+  </button>
+</mat-dialog-actions>

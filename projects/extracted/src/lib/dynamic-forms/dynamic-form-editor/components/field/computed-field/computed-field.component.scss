@@ -1,0 +1,119 @@
+:host {
+  .container {
+    padding: var(--padding-reset) 28px;
+    margin-bottom: var(--padding-comfortable);
+  }
+
+  .input {
+    padding: var(--padding-comfortable);
+  }
+
+  .shadow {
+    box-shadow: var(--shadow-xs);
+    border-radius: var(--radius-strong);
+  }
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--padding-compact);
+
+    lj-editable-input {
+      flex-grow: 1;
+    }
+
+    mat-icon {
+      width: 16px !important;
+      height: 16px !important;
+      font-size: 16px !important;
+      margin-top: 6px !important;
+      overflow: visible !important;
+    }
+
+    .hidden-indicator {
+      margin-right: var(--padding-compact);
+    }
+  }
+
+  ::ng-deep lj-input-field input {
+    color: var(--placeholder-color);
+  }
+}
+
+.formula-field {
+  margin-top: 1rem;
+  width: 100%;
+
+  .formula-field-label {
+    font-size: var(--font-size-xxs);
+    font-weight: 600;
+    margin-bottom: var(--padding-compact);
+    color: var(--accent-black-700);
+  }
+}
+
+.formula-readonly-hint {
+  margin: 0 0 var(--padding-compact);
+  font-size: var(--font-size-xxs);
+  color: var(--accent-black-600);
+}
+
+.formula-readonly-field {
+  width: 100%;
+}
+
+.formula-fields {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+
+  .formula-fields-title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.125rem 0;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .name {
+    flex: 1;
+  }
+
+  .status {
+    font-size: 0.75rem;
+    opacity: 0.8;
+  }
+
+  li.ok {
+    color: #059669;
+
+    .dot {
+      background-color: #059669;
+    }
+  }
+
+  li.missing {
+    color: #dc2626;
+
+    .dot {
+      background-color: #dc2626;
+    }
+  }
+}

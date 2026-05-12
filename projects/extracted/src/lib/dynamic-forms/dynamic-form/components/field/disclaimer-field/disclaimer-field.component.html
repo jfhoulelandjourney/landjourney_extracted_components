@@ -1,0 +1,85 @@
+@if (field() && field().value) {
+  <div class="disclaimer">
+    @if (mode() === 'locked') {
+      <h3>
+        <span>{{ field().value?.disclaimerTitle }}</span>
+      </h3>
+      <div
+        id="disclaimer-text"
+        class="disclaimer-text"
+        [class.text]="mode() === 'locked'"
+        [style]="getCustomStyle('.disclaimer-text', true)"
+        [innerHTML]="field().value?.disclaimer?.trim() | SafeHtml"></div>
+      <div class="text">
+        @if (field().value?.disclaimerAccepted) {
+          <div class="accepted-status">
+            <div class="accepted-status__badge">
+              <mat-icon class="accepted-status__icon hide-on-pdf-export">
+                check_circle
+              </mat-icon>
+              <span class="accepted-status__label">Accepted</span>
+            </div>
+            @if (field().value?.acceptedByName || field().value?.acceptedAt) {
+              <div class="accepted-status__details">
+                @if (field().value?.acceptedByName) {
+                  <span class="accepted-status__by">by</span>
+                  <lj-avatar
+                    size="small"
+                    class="hide-on-pdf-export"
+                    [name]="field().value?.acceptedByName ?? ''"
+                    [avatarUrl]="field().value?.acceptedByAvatarUri ?? ''" />
+                  <span class="accepted-status__name">
+                    {{ field().value?.acceptedByName ?? '' }}
+                  </span>
+                }
+                @if (field().value?.acceptedAt) {
+                  <span class="accepted-status__on">on</span>
+                  <span class="accepted-status__date">
+                    {{ formatAcceptedDate(field().value?.acceptedAt ?? 0) }}
+                  </span>
+                }
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="not-accepted-status">
+            <mat-icon class="not-accepted-status__icon hide-on-pdf-export">
+              cancel
+            </mat-icon>
+            <span class="not-accepted-status__label">Not Accepted</span>
+          </div>
+        }
+      </div>
+    } @else {
+      <h3>
+        <span>{{ field().value?.disclaimerTitle }}</span>
+        <button ngxPrint mat-icon-button printSectionId="disclaimer-text">
+          <mat-icon>print</mat-icon>
+        </button>
+      </h3>
+      <div
+        id="disclaimer-text"
+        class="disclaimer-text"
+        [class.text]="mode() === 'locked'"
+        [style]="getCustomStyle('.disclaimer-text', true)"
+        [innerHTML]="field().value?.disclaimer?.trim() | SafeHtml"></div>
+
+      @if (field().value?.showAcceptButton) {
+        <div class="disclaimer-accept">
+          <mat-checkbox
+            class="checkbox"
+            [ngModel]="field().value?.disclaimerAccepted"
+            (ngModelChange)="handleDisclaimerAcceptedChange($event)"
+            labelPosition="before">
+            Accept {{ field().value?.disclaimerTitle }}
+          </mat-checkbox>
+          @if (touched()) {
+            <div class="error-message">{{ getErrorMessage() }}</div>
+          }
+        </div>
+      }
+    }
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

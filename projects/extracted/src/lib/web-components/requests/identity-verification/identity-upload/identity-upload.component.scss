@@ -1,0 +1,88 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-items: flex-start;
+  gap: var(--gap-spacious);
+
+  ::ng-deep lj-file-uploader .uploader-wrapper {
+    background: var(--gray-300, #e8e7e3) !important;
+  }
+
+  ::ng-deep app-mobile-file-uploader .uploader-wrapper {
+    background: var(--gray-300, #e8e7e3) !important;
+  }
+
+  button {
+    align-self: flex-end;
+  }
+
+  .u-turn {
+    transform: rotate(90deg);
+    margin-left: var(--padding-compact);
+  }
+}
+
+.upload-icon {
+  color: var(--active-color);
+  width: 62px;
+  height: 62px;
+  font-size: 62px;
+}
+
+.title {
+  color: var(--accent-black-500, #7d7d7d);
+}
+
+.file-preview {
+  border-radius: var(--radius-primary, 4px);
+  border: 1px solid var(--accent-black-400, #b0b0b0);
+  background: var(--gray-300, #e8e7e3);
+  display: flex;
+  padding: var(--gap-spacious, 24px);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--gap-spacious, 24px);
+  align-self: stretch;
+
+  p {
+    cursor: pointer;
+  }
+}
+
+.arrow-icon,
+.cloud-icon {
+  margin-left: var(--padding-compact);
+}
+
+.uploading-file {
+  display: flex;
+  align-items: center;
+  gap: var(--padding-comfortable, 12px);
+  padding: var(--padding-spacious, 24px);
+  color: var(--accent-black-500, #7d7d7d);
+  font-size: 0.875rem;
+}
+
+.instructions {
+  align-self: stretch;
+  padding: var(--padding-comfortable);
+  background: var(--gray-200, #f5f5f3);
+  border-radius: var(--radius-primary, 4px);
+
+  ul {
+    margin: var(--padding-compact) 0 0 0;
+    padding-left: var(--padding-comfortable);
+    color: var(--accent-black-500, #7d7d7d);
+
+    li {
+      margin-bottom: var(--padding-compact);
+    }
+  }
+
+  p {
+    margin: 0;
+    color: var(--accent-black-600, #5a5a5a);
+  }
+}

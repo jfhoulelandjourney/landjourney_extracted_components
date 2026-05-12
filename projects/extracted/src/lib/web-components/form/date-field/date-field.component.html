@@ -1,0 +1,106 @@
+@if (!stripped()) {
+  <!-- label -->
+  <div class="slot-wrapper">
+    <ng-content select="[label]">
+      @if (label()) {
+        <label
+          class="field-label default-content"
+          [for]="id()"
+          [style]="customCssTitleStyle()">
+          {{ label() }}
+        </label>
+      }
+    </ng-content>
+  </div>
+}
+
+<!-- field container -->
+<div class="field-wrapper">
+  @if (!stripped()) {
+    <!-- prefix icon -->
+    <div class="slot-wrapper">
+      <ng-content select="[before-input]">
+        @if (before()) {
+          <div class="before default-content">
+            <mat-icon>{{ before() }}</mat-icon>
+          </div>
+        }
+      </ng-content>
+    </div>
+  }
+
+  <!-- input -->
+  <div
+    class="slot-wrapper input-slot"
+    [class.error]="
+      (touched() && required() && value() === null) || customErrorMessage()
+    "
+    [class.gray]="style() === 'gray'">
+    <ng-content #inputSlot>
+      <input
+        #textInput
+        class="default-content"
+        [id]="id()"
+        [name]="name()"
+        [class.gray]="style() === 'gray'"
+        [disabled]="disabled()"
+        [readonly]="readonly()"
+        [required]="required()"
+        [attr.placeholder]="placeholder()"
+        [matDatepicker]="datePicker"
+        (dateChange)="dateChanged($event)"
+        (input)="onInputChange($event)"
+        [min]="minDateAsDate()"
+        [max]="maxDateAsDate()"
+        [style]="customCssStyle()"
+        (blur)="handleOnBlur()" />
+      <mat-datepicker-toggle
+        [class.readonly]="readonly()"
+        matIconSuffix
+        [for]="datePicker"
+        style="text-align: end"></mat-datepicker-toggle>
+      <mat-datepicker #datePicker [startAt]="startAtDate()"></mat-datepicker>
+    </ng-content>
+  </div>
+  @if (!stripped()) {
+    <!-- suffix icon -->
+    <div class="slot-wrapper">
+      <ng-content select="[after-input]">
+        @if (after()) {
+          <div class="after default-content">
+            <mat-icon>{{ after() }}</mat-icon>
+          </div>
+        }
+      </ng-content>
+    </div>
+  }
+</div>
+
+@if (!stripped()) {
+  <!-- Hint -->
+  <div class="hint">
+    <ng-content select="[hint]" />
+  </div>
+}
+
+<!-- Errors -->
+@if (showError() && !stripped()) {
+  <div class="errors">
+    <ng-content select="[errors]">
+      @if (customErrorMessage()) {
+        <ul class="default-content">
+          <li>{{ customErrorMessage() }}</li>
+        </ul>
+      } @else if (touched()) {
+        <!-- Consume errors automatically -->
+        <ul class="default-content">
+          @for (error of errorsList; track error[0]) {
+            @let errorKey = error[0];
+            @let errorValue = error[1];
+            <li>{{ getErrorMessage(errorKey, errorValue) }}</li>
+          }
+        </ul>
+      }
+    </ng-content>
+  </div>
+}

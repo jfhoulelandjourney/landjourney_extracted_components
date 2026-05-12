@@ -1,0 +1,9 @@
+<div
+  (activate)="handledRequiredChange(!field().required)"
+  matTooltip="Required"
+  class="quick-required-configuration">
+  <mat-slide-toggle
+    [disableRipple]="true"
+    [hideIcon]="true"
+    [checked]="field().required" />
+</div>

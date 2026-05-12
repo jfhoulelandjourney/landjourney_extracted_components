@@ -1,0 +1,76 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "extracted": {
+      "projectType": "library",
+      "root": "projects/extracted",
+      "sourceRoot": "projects/extracted/src",
+      "prefix": "lj",
+      "schematics": {
+        "@schematics/angular:component": {
+          "changeDetection": "OnPush",
+          "standalone": true,
+          "skipTests": true,
+          "style": "scss"
+        },
+        "@schematics/angular:directive": { "standalone": true },
+        "@schematics/angular:pipe": { "standalone": true }
+      },
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "options": { "project": "projects/extracted/ng-package.json" },
+          "configurations": {
+            "production": { "tsConfig": "projects/extracted/tsconfig.lib.prod.json" },
+            "development": { "tsConfig": "projects/extracted/tsconfig.lib.json" }
+          },
+          "defaultConfiguration": "development"
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "configDir": "projects/extracted/.storybook",
+            "browserTarget": "extracted:build",
+            "compodoc": false,
+            "port": 6006,
+            "styles": [
+              "projects/extracted/src/lib/ui-styles/_ui-styles.scss",
+              "projects/extracted/src/lib/design-system/storybook.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/extracted/src/lib/ui-styles/tokens",
+                "projects/extracted/src/lib/ui-styles"
+              ]
+            }
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "configDir": "projects/extracted/.storybook",
+            "browserTarget": "extracted:build",
+            "compodoc": false,
+            "outputDir": "dist/storybook/extracted",
+            "styles": [
+              "projects/extracted/src/lib/ui-styles/_ui-styles.scss",
+              "projects/extracted/src/lib/design-system/storybook.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "projects/extracted/src/lib/ui-styles/tokens",
+                "projects/extracted/src/lib/ui-styles"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": false,
+    "cache": { "enabled": true, "environment": "all", "path": ".angular/cache" }
+  }
+}

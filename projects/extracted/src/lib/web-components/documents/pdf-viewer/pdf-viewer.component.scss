@@ -1,0 +1,15 @@
+:host,
+.pdf-viewer,
+.pspdfkit-container {
+  display: block;
+  width: var(--pdf-viewer-width, 100%);
+  height: var(--pdf-viewer-height, max(50vh, 600px));
+}
+
+.pdf-viewer {
+  &.mobile {
+    .pspdfkit-container {
+      height: 90vh;
+    }
+  }
+}

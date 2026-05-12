@@ -1,0 +1,64 @@
+@let nameLabel = 'Document name';
+@let descriptionLabel = 'Description';
+
+<div class="content">
+  @if (this.mode() === 'view') {
+    <p class="body-xs">
+      {{ nameLabel }}
+    </p>
+    <p class="input-name body-md">
+      <strong>{{ inputName() || '-' }}</strong>
+    </p>
+    <p class="body-xs">
+      {{ descriptionLabel }}
+    </p>
+    <p class="body-sm">
+      {{ inputDescription() || '-' }}
+    </p>
+  }
+
+  @if (this.mode() === 'edit' || this.mode() === 'edit-and-confirm') {
+    <lj-input-field
+      name="templateName"
+      [label]="nameLabel"
+      [value]="innerName()"
+      (valueChange)="onNameChange($event)"
+      (onInputBlur)="markNameInteracted()"
+      placeholder="Type here"
+      [disabled]="false"
+      [required]="true"
+      [customErrorMessage]="nameRequiredError()" />
+
+    <lj-textarea-field
+      name="templateDescription"
+      label="Description"
+      [value]="innerDescription()"
+      (valueChange)="onDescriptionChange($event)"
+      placeholder="Type here"
+      [disabled]="false"
+      [required]="false" />
+  }
+
+  @if (this.mode() === 'edit-and-confirm') {
+    <div class="template-summary-confirmation">
+      <lj-button variant="secondary" size="sm" (activate)="cancelChanges()">
+        Cancel
+      </lj-button>
+      <lj-button
+        variant="primary"
+        size="sm"
+        [disabled]="innerName().trim() === ''"
+        (activate)="saveChanges()">
+        Save
+      </lj-button>
+    </div>
+  }
+</div>
+
+@if (this.mode() === 'view') {
+  <aside>
+    <lj-button variant="icon" size="xs" intent="neutral" (activate)="edit()">
+      <mat-icon>edit</mat-icon>
+    </lj-button>
+  </aside>
+}

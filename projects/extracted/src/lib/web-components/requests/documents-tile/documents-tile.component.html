@@ -1,0 +1,36 @@
+<div class="documents-tile">
+  <div class="summary">
+    <div class="number">{{ request()?.attachments?.length ?? 0 }}</div>
+    <div class="status">
+      <mat-icon>description</mat-icon>
+      <div>
+        <p class="title">Documents</p>
+        <p class="body-s subtitle">Available</p>
+      </div>
+    </div>
+  </div>
+  <div class="documents">
+    @if (attachments().length > 0) {
+      <p class="body-s">Recent documents</p>
+    }
+    @for (document of attachments(); track document.id) {
+      <div class="document">
+        <div class="icon">
+          <mat-icon>description</mat-icon>
+          <div class="title">{{ document.name }}</div>
+        </div>
+        <div class="cta" (activate)="goToDocuments(document.id)">
+          <p class="body-s">See document</p>
+          <mat-icon>chevron_right</mat-icon>
+        </div>
+      </div>
+    } @empty {
+      <p class="body-s">No documents</p>
+    }
+  </div>
+
+  <div class="full cta" (activate)="goToDocuments()">
+    <p class="body-s">View all documents</p>
+    <mat-icon>chevron_right</mat-icon>
+  </div>
+</div>

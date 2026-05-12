@@ -1,0 +1,32 @@
+:host {
+  display: flex;
+  flex-wrap: nowrap;
+  position: relative;
+  font-size: var(--font-size-xs);
+  line-height: var(--line-height-xs);
+  font-weight: var(--font-weight-regular);
+  gap: var(--gap-compact);
+  border: 0.5px solid var(--accent-black-300, #c9c9c9);
+  border-radius: var(--radius-strong);
+  background: var(--accent-black-200, #f5f5f5);
+  box-shadow: var(--shadow-xs) inset;
+  color: var(--accent-black-500);
+}
+
+:host(.lj-slider-tab-group--horizontal) {
+  flex-direction: row;
+}
+
+:host(.lj-slider-tab-group--vertical) {
+  flex-direction: column;
+}
+
+.selection-indicator {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-color: var(--brand-color-primary);
+  border-radius: var(--slider-tab--border-radius);
+  box-shadow: var(--shadow-md);
+}

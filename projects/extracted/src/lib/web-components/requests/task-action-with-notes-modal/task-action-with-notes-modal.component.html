@@ -1,0 +1,32 @@
+<div mat-dialog-title>
+  <h3>{{ data.title || data.message || 'Confirm Action' }}</h3>
+</div>
+
+<mat-dialog-content>
+  @if (data.message && data.title) {
+    <p>
+      {{ data.message }}
+    </p>
+  }
+  <label for="notes-input">
+    {{ data.notesLabel || 'Add narrative (optional)' }}
+  </label>
+  <textarea
+    id="notes-input"
+    [(ngModel)]="notes"
+    matInput
+    cdkTextareaAutosize
+    #autosize="cdkTextareaAutosize"
+    cdkAutosizeMinRows="3"
+    cdkAutosizeMaxRows="10"
+    [placeholder]="
+      data.notesPlaceholder || 'Add any relevant notes...'
+    "></textarea>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button lj-button="ghost" (activate)="closeDialog(false)">Cancel</button>
+  <button lj-button (activate)="closeDialog(true)">
+    {{ data.confirmButtonText || 'Confirm' }}
+  </button>
+</mat-dialog-actions>

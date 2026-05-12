@@ -1,0 +1,40 @@
+// COMPONENT VARIABLES API
+
+:host {
+  --slider-tab--background-color: transparent;
+  --slider-tab--color: var(--accent-black-400, #b0b0b0);
+  --slider-tab--padding: var(--padding-default, 0.5rem);
+  --slider-tab--selected--color: var(--accent-black-100, #ffffff);
+}
+
+// APPLIED STYLES
+
+:host {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--slider-tab--border-radius);
+  background-color: var(--slider-tab--background-color);
+  color: var(--slider-tab--color);
+  padding: var(--slider-tab--padding);
+  z-index: 1;
+  cursor: pointer;
+  transition:
+    color 0.3s 0.05s,
+    background-color 0.3s 0.05s;
+}
+
+:host(.lj-slider-tab--selected) {
+  color: var(--slider-tab--selected--color);
+  font-weight: var(--font-weight-semi-bold);
+  background-color: var(--brand-primary-600);
+  border-radius: var(--radius-strong);
+  box-shadow: var(--shadow-md);
+}
+
+:host(.lj-slider-tab--disabled) {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

@@ -1,0 +1,82 @@
+<div class="container" [class.mobile]="isMobile()">
+  <div class="success-header">
+    <mat-icon class="check-icon">check_circle</mat-icon>
+    <p class="title-xl inter title">Credit Check Complete</p>
+  </div>
+
+  <div class="credit-score-card">
+    @if (name()) {
+      <p class="body-m inter card-label">{{ name() }}'s Credit Score</p>
+    }
+    <div class="score-display">
+      <svg class="score-circle" viewBox="0 0 200 200">
+        <!-- Background circle -->
+        <circle
+          cx="100"
+          cy="100"
+          r="85"
+          fill="none"
+          stroke="#e5e7eb"
+          stroke-width="12" />
+
+        <!-- Progress circle -->
+        <circle
+          cx="100"
+          cy="100"
+          r="85"
+          fill="none"
+          [attr.stroke]="getScoreColor()"
+          stroke-width="12"
+          stroke-linecap="round"
+          [attr.stroke-dasharray]="getCircumference()"
+          [attr.stroke-dashoffset]="getStrokeDashOffset()"
+          transform="rotate(-90 100 100)" />
+      </svg>
+
+      <div class="score-content">
+        <div class="score-number">{{ creditCheckScore() || '---' }}</div>
+        <div class="score-range">out of 850</div>
+      </div>
+    </div>
+
+    <div class="score-rating" [class]="getScoreRatingClass()">
+      <div class="rating-badge">{{ getScoreRating() }}</div>
+      <p class="body-xs rating-description">{{ getScoreDescription() }}</p>
+    </div>
+
+    <div class="score-breakdown">
+      <div class="breakdown-bar">
+        <div
+          class="bar-section poor"
+          [class.active]="getScoreCategory() === 'poor'">
+          <span class="bar-label">Poor</span>
+          <span class="bar-range">300-579</span>
+        </div>
+        <div
+          class="bar-section fair"
+          [class.active]="getScoreCategory() === 'fair'">
+          <span class="bar-label">Fair</span>
+          <span class="bar-range">580-669</span>
+        </div>
+        <div
+          class="bar-section good"
+          [class.active]="getScoreCategory() === 'good'">
+          <span class="bar-label">Good</span>
+          <span class="bar-range">670-739</span>
+        </div>
+        <div
+          class="bar-section very-good"
+          [class.active]="getScoreCategory() === 'very-good'">
+          <span class="bar-label">Very Good</span>
+          <span class="bar-range">740-799</span>
+        </div>
+        <div
+          class="bar-section excellent"
+          [class.active]="getScoreCategory() === 'excellent'">
+          <span class="bar-label">Excellent</span>
+          <span class="bar-range">800-850</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

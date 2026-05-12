@@ -1,0 +1,92 @@
+@if (creditLine().inHouse || organizationService.isDemoModeActivated()) {
+  <lj-box-row
+    class="content-wrapper"
+    [padding]="3"
+    [routerLink]="getRouterLink(creditLine())"
+    [class.nsf]="isNsfStateEnabled() && creditLine().isNSF"
+    [class.mobile]="isMobile()">
+    <div class="content">
+      <div class="body-sm title">
+        {{ getFormattedCreditLineTitle(creditLine()) }}
+
+        @if (showCollaboratorTag(creditLine())) {
+          <div
+            class="collaborator-tag"
+            (confirm)="optOutAsCollaborator(creditLine())"
+            lj-confirmation-required
+            message="Are you sure you want to opt-out as a collaborator on this Line of Credit?">
+            <div>Collaborator</div>
+            <button mat-icon-button class="small-icon-button">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        }
+      </div>
+      <div class="body-l oswald amount">
+        {{ formatAmount(creditLine().usedCreditCents) }}
+      </div>
+      @if (isNsfStateEnabled() && creditLine().isNSF) {
+        <div class="body-s border-top">
+          Payment has been returned due to Non-Sufficient Funds.
+        </div>
+      }
+    </div>
+    @if (isNsfStateEnabled() && creditLine().isNSF) {
+      <div class="cta">
+        <p class="body-s">
+          <mat-icon>warning</mat-icon>
+          <span>Action</span>
+          <span>Needed</span>
+        </p>
+        <mat-icon>chevron_right</mat-icon>
+      </div>
+    } @else {
+      <div class="cta">
+        <p class="body-s">Take Action</p>
+        <mat-icon>chevron_right</mat-icon>
+      </div>
+    }
+  </lj-box-row>
+} @else {
+  <lj-box-row
+    class="content-wrapper"
+    [padding]="3"
+    (activate)="openPortal(creditLine().id)"
+    [class.nsf]="isNsfStateEnabled() && creditLine().isNSF">
+    <div class="content">
+      <div class="body-sm title">
+        {{ getFormattedCreditLineTitle(creditLine()) }}
+
+        @if (showCollaboratorTag(creditLine())) {
+          <div
+            class="collaborator-tag"
+            lj-confirmation-required
+            message="Are you sure you want to opt-out as a collaborator on this Line of Credit?"
+            (confirm)="optOutAsCollaborator(creditLine())">
+            <div>Collaborator</div>
+            <button mat-icon-button class="small-icon-button">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        }
+      </div>
+      <div class="body-s">
+        @if (creditLine().servicerName) {
+          This Line of Credit is serviced by
+          {{ creditLine().servicerName }}.
+        }
+      </div>
+    </div>
+    <div class="cta">
+      @if (creditLine().portalUrl) {
+        <a
+          id="{{ creditLine().id }}"
+          href="{{ creditLine().portalUrl }}"
+          target="_blank">
+          <p class="body-s">Servicer portal</p>
+          <mat-icon>open_in_new</mat-icon>
+        </a>
+      }
+    </div>
+  </lj-box-row>
+}

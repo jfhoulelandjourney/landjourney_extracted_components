@@ -1,0 +1,102 @@
+.overlay-all {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 9999;
+
+  color: var(--color-darker);
+}
+
+.logo {
+  max-height: 10svh;
+  padding-top: 47px;
+  padding-left: 37px;
+
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 10000;
+}
+
+.active-incident {
+  background: var(--color-darker);
+  width: 100vw;
+  color: var(--color-lighter);
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  .message {
+    flex-grow: 1;
+  }
+}
+
+.planned-maintenance-container {
+  background: var(--color-darker);
+  width: 100vw;
+  color: var(--color-lighter);
+
+  .maintenance {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    .animation {
+      height: 8vh;
+      margin-right: var(--padding-spacious);
+    }
+
+    .message {
+      padding-right: var(--padding-spacious);
+      margin-right: var(--padding-spacious);
+      border-right: solid 1px var(--color-lighter);
+      font-weight: 600;
+    }
+
+    .time {
+      flex-grow: 1;
+      font-weight: 300;
+      font-size: var(--font-size-xs);
+    }
+  }
+}
+
+.active-maintenance {
+  width: 100vw;
+  height: 100vh;
+  background: var(--color-lighter);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .animation {
+    width: 50vh;
+  }
+
+  .message {
+    width: 50vw;
+
+    & > * {
+      margin: 0px;
+      padding: 0px;
+
+      &.border {
+        border-bottom: solid 1px var(--box-border-color);
+      }
+
+      &.padding {
+        padding-bottom: var(--padding-spacious);
+        margin-bottom: var(--padding-spacious);
+      }
+
+      &.reason {
+        margin-bottom: var(--padding-spacious);
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+@if (isUserGuideEnabled() && guideContentService.hasContentForCurrentRoute()) {
+  <div class="separator"></div>
+  <div
+    class="guide-toggle"
+    (activate)="toggle()"
+    matTooltip="User Guide"
+    matTooltipPosition="below">
+    <mat-icon class="guide-toggle__icon material-symbols-outlined">
+      auto_stories
+    </mat-icon>
+  </div>
+  <lj-guide-panel [isOpen]="panelOpen()" (closed)="onPanelClosed()" />
+}

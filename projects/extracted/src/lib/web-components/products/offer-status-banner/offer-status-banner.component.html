@@ -1,0 +1,55 @@
+<div
+  class="offer-status-banner"
+  [style.background-color]="getStatusColor()"
+  [style.color]="getStatusTextColor()">
+  <div class="banner-content">
+    <div class="banner-message">
+      <span class="message-text">{{ getStatusMessage() }}</span>
+      @if (statusDetails()) {
+        <span class="message-details">{{ statusDetails() }}</span>
+      }
+    </div>
+
+    @if (!noLinkButton()) {
+      @if (offer().status === OfferStatus.LOAN_CREATED) {
+        <button
+          class="see-offer-button"
+          (activate)="onSeeLoan()"
+          [attr.aria-label]="'See the loan'">
+          <span class="button-text">View Loan</span>
+          <mat-icon class="eye-icon">visibility</mat-icon>
+        </button>
+      } @else {
+        <button
+          class="see-offer-button"
+          (activate)="onSeeOffer()"
+          [attr.aria-label]="'See the offer'">
+          <span class="button-text">{{ getSeeOfferText() }}</span>
+          <mat-icon class="eye-icon">visibility</mat-icon>
+        </button>
+      }
+
+      @if (!isClient() && offer().status === OfferStatus.APPROVED) {
+        <button
+          class="see-offer-button"
+          (activate)="createLoanFromOffer()"
+          [attr.aria-label]="'Create the loan'">
+          <span class="button-text">Create Loan</span>
+          <mat-icon class="eye-icon">add_circle</mat-icon>
+        </button>
+      }
+    }
+  </div>
+  @if (
+    offer().status === OfferStatus.REJECTED_BY_UNDERWRITING ||
+    offer().status === OfferStatus.REJECTED_BY_CLIENT ||
+    offer().status === OfferStatus.REJECTED_BY_RETAILER ||
+    offer().status === OfferStatus.REJECTED_BY_AGENT
+  ) {
+    <div class="banner-message">
+      <span class="message-details">
+        Rejected reason: {{ offer().rejectedReason }}
+      </span>
+    </div>
+  }
+</div>

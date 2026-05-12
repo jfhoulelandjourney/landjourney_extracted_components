@@ -1,0 +1,284 @@
+@use './dynamic-form-player-animations.scss';
+@use '../../ui-styles/tokens/breakpoints' as bp;
+
+:host {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: var(--padding-comfortable);
+  overflow-x: hidden;
+  flex-wrap: nowrap;
+}
+
+.form {
+  position: relative;
+  flex-grow: 1;
+  padding: var(--padding-spacious);
+  background: var(--accent-black-100, #ffffff);
+  border: solid 1px var(--box-border-color);
+  border-radius: var(--radius-strong);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  min-width: 100%;
+  width: 100%;
+
+  &.display-mode {
+    background: unset;
+    border: unset;
+    border-radius: unset;
+  }
+
+  &.display-mode-in-backoffice {
+    background: var(--accent-black-100, #ffffff) !important;
+    border: solid 1px var(--box-border-color) !important;
+    border-radius: var(--radius-strong) !important;
+  }
+
+  &.locked-mode {
+    border: none;
+  }
+
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding-comfortable);
+    margin-top: var(--padding-spacious);
+
+    lj-df-section {
+      border-radius: var(--radius-strong);
+      box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.25);
+
+      &.display-mode {
+        box-shadow: unset;
+      }
+    }
+  }
+
+  .last-saved-at {
+    font-size: var(--font-size-xs);
+  }
+}
+
+.form-information {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--padding-comfortable);
+
+  .column {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--padding-comfortable);
+
+    &:first-child {
+      min-width: 400px;
+      max-width: 500px;
+    }
+  }
+}
+
+.mobile {
+  &.form {
+    padding: var(--padding-default);
+    gap: var(--padding-compact);
+  }
+
+  h2 {
+    margin-top: 9px;
+    margin-bottom: 5px;
+    font-size: var(--font-size-xs);
+  }
+
+  .form-container {
+    margin-top: 4px;
+  }
+}
+
+@include bp.max-mobile {
+  :host {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .form {
+    min-width: 0;
+    box-sizing: border-box;
+    padding: var(--padding-reset);
+
+    .form-container {
+      min-width: 0;
+      width: 100%;
+
+      lj-df-section,
+      lj-df-field {
+        min-width: 0;
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+
+    .form-information {
+      flex-direction: column;
+    }
+  }
+
+  .form-information .column:first-child {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .form ::ng-deep lj-input-field,
+  .form ::ng-deep lj-textarea-field,
+  .form ::ng-deep .dynamic-form-select {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .form ::ng-deep lj-input-field .field-wrapper,
+  .form ::ng-deep lj-textarea-field .field-wrapper {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+.form--submit-player-active {
+  min-height: min(100vh, 640px);
+}
+
+.df-submit-player-panel {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: var(--padding-spacious) var(--padding-comfortable) 80px;
+  box-sizing: border-box;
+  background: var(--accent-black-100, #ffffff);
+  border-radius: inherit;
+}
+
+.df-submit-player-card {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+
+.df-submit-player-title {
+  font-size: 22px;
+  line-height: 1.3;
+  font-weight: 600;
+  color: var(--color-primary-darker, #00309b);
+  margin: 0;
+}
+
+.df-submit-player-subtitle {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--gray-700, #5b6478);
+  margin: 0;
+}
+
+.df-processing-icon mat-icon {
+  font-size: 34px;
+  width: 34px;
+  height: 34px;
+  line-height: 34px;
+}
+
+.df-success-check {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #0fa875;
+  color: var(--color-on-primary, #ffffff);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 10px 24px rgba(15, 168, 117, 0.3);
+}
+
+.df-success-check mat-icon {
+  font-size: 38px;
+  width: 38px;
+  height: 38px;
+  line-height: 38px;
+}
+
+.df-success-rep-card {
+  width: 100%;
+  margin-top: 8px;
+  padding: 20px;
+  border-radius: 12px;
+  background: var(--gray-50, #f7f9fc);
+  border: 1px solid var(--gray-100, #eaebf0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.df-success-rep-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.df-success-rep-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #e5e9f2;
+}
+
+.df-success-rep-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.df-success-rep-name {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-primary-darker, #00309b);
+  line-height: 1.2;
+}
+
+.df-success-rep-role {
+  margin: 0;
+  font-size: 12px;
+  color: var(--gray-700, #5b6478);
+  line-height: 1.2;
+}
+
+@media (min-width: 768px) {
+  .df-submit-player-panel {
+    padding-top: 96px;
+  }
+
+  .df-submit-player-card {
+    max-width: 520px;
+  }
+
+  .df-submit-player-title {
+    font-size: 28px;
+  }
+
+  .df-success-rep-card {
+    padding: 24px;
+  }
+}

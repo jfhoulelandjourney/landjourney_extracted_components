@@ -1,0 +1,21 @@
+@if (showNextSectionButton()) {
+  <div class="next-action-container" [class.mobile]="mobile()">
+    <a class="link-as-btn inter" (activate)="goToNextSection()">
+      Next Task
+      <mat-icon>arrow_forward</mat-icon>
+    </a>
+  </div>
+}
+@if (showCompletedTasksButton()) {
+  <div class="next-action-container" [class.mobile]="mobile()">
+    <p>
+      All your tasks have now been completed.
+      <br />
+      <strong>Nothing else is required for now.</strong>
+    </p>
+    <a class="link-as-btn inter" [routerLink]="getRequestsListLink()">
+      <mat-icon>arrow_upward</mat-icon>
+      Back to Request list
+    </a>
+  </div>
+}

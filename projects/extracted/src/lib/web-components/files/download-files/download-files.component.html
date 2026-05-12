@@ -1,0 +1,61 @@
+<div class="download-files">
+  <div class="download-files-compact">
+    <lj-chip variant="muted" class="download-files-chip">
+      <button
+        lj-button="ghost"
+        (activate)="documentsCount() > 0 ? downloadFiles() : null"
+        class="download-button">
+        <mat-icon>cloud_download</mat-icon>
+      </button>
+      <div class="document-counter">
+        {{ documentsCount() }}
+      </div>
+      @if (hideListDisplay()) {
+        <button
+          lj-button="ghost"
+          (activate)="expandComponent()"
+          class="show-files-button"
+          #downloadMenuTrigger="matMenuTrigger"
+          [matMenuTriggerFor]="downloadMenu"
+          [hidden]="hideListDisplay()">
+          |
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+      }
+    </lj-chip>
+  </div>
+  <mat-menu
+    #downloadMenu="matMenu"
+    class="mat-menu-margin-top-12"
+    [hidden]="hideListDisplay()">
+    <div class="download-files-list">
+      @for (document of documentsList(); track document.id) {
+        <div
+          class="download-file-item"
+          (activate)="downloadSingleFile(document)">
+          <div class="download-file-item-row">
+            <div class="download-file-icon">
+              @if (document.type.toUpperCase() === FileTypes.ZIP) {
+                <mat-icon>folder_zip</mat-icon>
+              } @else if (document.type.toUpperCase() === FileTypes.PDF) {
+                <mat-icon>picture_as_pdf</mat-icon>
+              } @else if (document.type.toUpperCase() === FileTypes.IMAGE) {
+                <mat-icon>image</mat-icon>
+              } @else {
+                <mat-icon>description</mat-icon>
+              }
+            </div>
+            <div class="download-file-name">
+              {{ document.name }}
+            </div>
+          </div>
+          <div class="download-file-item-row">
+            <div class="download-file-date">
+              Exported on {{ formatDate(document.createdAt, 'short') }}
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </mat-menu>
+</div>

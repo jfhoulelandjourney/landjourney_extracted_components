@@ -1,0 +1,24 @@
+:host {
+  display: flex;
+  flex-flow: row nowrap;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+:host-context(tbody tr:hover),
+:host-context(tbody tr:focus-within) {
+  opacity: 1;
+}
+
+button {
+  display: inline-block;
+  background: transparent;
+  border: none;
+  border-radius: 100%;
+  padding: var(--padding-default) var(--padding-default);
+}
+
+mat-icon {
+  font-size: var(--font-size-lg);
+  color: #68727d;
+}

@@ -1,0 +1,709 @@
+<div class="offer-container">
+  <!-- Users Section -->
+  <div class="users-section">
+    @if (displayUsers().length > 0) {
+      @for (user of displayUsers(); track user.userId) {
+        <div class="user-card">
+          <lj-avatar
+            [name]="getUserDisplayName(user)"
+            [avatarUrl]="getUserProfile(user).avatarUri ?? ''"
+            size="small" />
+          <div class="user-info">
+            <div class="user-name">{{ getUserDisplayName(user) }}</div>
+            <div class="user-role">{{ getUserRoleLabel(user) }}</div>
+          </div>
+        </div>
+      }
+    }
+  </div>
+
+  <!-- Programs Section -->
+  <div class="programs-section">
+    @if (displayUsers().length > 0) {
+      <div class="divider"></div>
+    }
+    @if (!isProgramSelected()) {
+      <!-- Program Selection View -->
+      <h2 class="section-title">Select a Program</h2>
+      <div class="auto-rule-callout info">
+        <mat-icon>info</mat-icon>
+        <div class="auto-rule-callout__text">
+          <span class="auto-rule-callout__title">{{
+            callouts.offerProgram.title
+          }}</span>
+          <span class="auto-rule-callout__body">{{
+            callouts.offerProgram.body
+          }}</span>
+        </div>
+      </div>
+      <div class="programs-list">
+        @for (program of sortedPrograms(); track program.id) {
+          @let isPreviewed = previewedProgramId() === program.id;
+          <div
+            (activate)="selectProgram(program.id ?? '')"
+            class="program-card"
+            [class.previewed]="isPreviewed"
+            [class.is-disabled]="program.disabled">
+            <lj-product-eligibility
+              [productDisplay]="getProgramDisplay(program)"
+              [productDisplaySection]="getProgramDisplaySection(program)"
+              [isRecommended]="
+                getProgramDisplaySection(program).qualifying ===
+                QualifyingEnum.QUALIFYING
+              " />
+          </div>
+        }
+      </div>
+      <div class="save-button-container">
+        @if (!viewOnly()) {
+          <button
+            lj-button="cta"
+            [compact]="true"
+            class="save-selection-button"
+            [disabled]="!previewedProgramId()"
+            (activate)="saveSelection()">
+            <mat-icon>save</mat-icon>
+            Save selection
+          </button>
+        }
+      </div>
+    } @else {
+      <!-- Selected Program View -->
+      @if (selectedProgram(); as program) {
+        <!-- Selected Program Card -->
+        <div class="selected-program-card">
+          <div class="program-header">
+            <div>
+              <div class="program-name">{{ program.name }}</div>
+            </div>
+          </div>
+          @if (!viewOnly()) {
+            <button
+              lj-button="inverse-cta"
+              [compact]="true"
+              class="select-another-button"
+              (activate)="deselectProgram()">
+              <mat-icon>visibility</mat-icon>
+              Select another program
+            </button>
+          }
+        </div>
+
+        <!-- Define the master line Section -->
+        <div class="define-master-line-section">
+          @if (!viewOnly()) {
+            <h2 class="section-title">Define the master line</h2>
+          } @else {
+            <h2 class="section-title">Master line</h2>
+          }
+          @if (!viewOnly()) {
+            <div class="form-fields">
+              <mat-form-field appearance="outline" class="credit-limit-field">
+                <mat-label>Desired Credit Limit</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  placeholder="$"
+                  [ngModel]="
+                    offer().desiredCreditLimit !== undefined
+                      ? '$' + offer().desiredCreditLimit!.toLocaleString()
+                      : ''
+                  "
+                  (input)="onCreditLimitChange($any($event.target).value)"
+                  [attr.data-offer-id]="offer().id" />
+              </mat-form-field>
+
+              <div class="date-fields-row">
+                <mat-form-field appearance="outline" class="maturity-field">
+                  <mat-label>Origination Date</mat-label>
+                  <input
+                    matInput
+                    [matDatepicker]="picker2"
+                    [ngModel]="offer().originationDate"
+                    (dateChange)="onOriginationDateChange($event)"
+                    [attr.data-offer-id]="offer().id" />
+                  <mat-datepicker-toggle
+                    matIconSuffix
+                    [for]="picker2"></mat-datepicker-toggle>
+                  <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="maturity-field">
+                  <mat-label>Targeted Maturity</mat-label>
+                  <input
+                    matInput
+                    [matDatepicker]="picker1"
+                    [ngModel]="offer().targetedMaturity"
+                    (dateChange)="onMaturityChange($event)"
+                    [attr.data-offer-id]="offer().id" />
+                  <mat-datepicker-toggle
+                    matIconSuffix
+                    [for]="picker1"></mat-datepicker-toggle>
+                  <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+              </div>
+            </div>
+          } @else {
+            <div class="form-fields">
+              <div class="form-field">
+                <div class="form-field-label">
+                  Desired Credit Limit:
+                  <span class="form-field-value">
+                    {{ '$' + offer().desiredCreditLimit!.toLocaleString() }}
+                  </span>
+                </div>
+              </div>
+              <div class="form-field">
+                <div class="form-field-label">
+                  Origination Date:
+                  <span class="form-field-value">
+                    {{ formatDate(offer().originationDate!) }}
+                  </span>
+                </div>
+              </div>
+              <div class="form-field">
+                <div class="form-field-label">
+                  Targeted Maturity:
+                  <span class="form-field-value">
+                    {{ formatDate(offer().targetedMaturity!) }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Expandable Summary Cards -->
+        <div class="summary-cards">
+          <!-- Facility & Identification -->
+          <div class="summary-card">
+            <div
+              class="summary-card-header"
+              [class.expanded]="facilityExpanded()"
+              (activate)="toggleFacility()"
+              tabindex="0"
+              role="button">
+              <div class="summary-card-title">Facility & Identification</div>
+              <div class="summary-card-preview">
+                {{ getMasterlineId() }} • {{ getCoreMasterAccountNumber() }} •
+                {{ getMainBorrowerLegalName() }}
+              </div>
+              <mat-icon class="chevron-icon">
+                {{ facilityExpanded() ? 'expand_less' : 'expand_more' }}
+              </mat-icon>
+            </div>
+            <mat-expansion-panel
+              [expanded]="facilityExpanded()"
+              class="mat-elevation-z0">
+              <div class="summary-card-content">
+                <div class="facility-fields">
+                  <!-- Masterline ID (LJ) -->
+                  <div class="facility-field-row">
+                    <div class="facility-field-label">Masterline ID (LJ)</div>
+                    <div class="facility-field-value">
+                      {{ getMasterlineId() }}
+                    </div>
+                    <div class="facility-field-core">master_account_id</div>
+                  </div>
+
+                  <!-- Core master account number -->
+                  <div class="facility-field-row">
+                    <div class="facility-field-label-wrapper">
+                      <div class="facility-field-label">
+                        Core master account number
+                      </div>
+                    </div>
+                    <div class="facility-field-value">
+                      {{ getCoreMasterAccountNumber() }}
+                    </div>
+                    <div class="facility-field-core">core_acc_num</div>
+                  </div>
+
+                  <!-- Borrower legal name -->
+                  <div class="facility-field-row">
+                    <div class="facility-field-label-wrapper">
+                      <div class="facility-field-label">
+                        Borrower legal name
+                      </div>
+                    </div>
+                    <div class="facility-field-value">
+                      {{ getMainBorrowerLegalName() }}
+                    </div>
+                    <div class="facility-field-core">customer_name</div>
+                  </div>
+
+                  <!-- Borrower ID -->
+                  <div class="facility-field-row">
+                    <div class="facility-field-label-wrapper">
+                      <div class="facility-field-label">Borrower ID</div>
+                    </div>
+                    <div class="facility-field-value">
+                      {{ getMainBorrowerId() }}
+                    </div>
+                    <div class="facility-field-core">customer_id</div>
+                  </div>
+
+                  <!-- Program code -->
+                  <div class="facility-field-row">
+                    <div class="facility-field-label-wrapper">
+                      <div class="facility-field-label">Program code</div>
+                    </div>
+                    <div class="facility-field-value">
+                      {{ getProgramCode() }}
+                    </div>
+                    <div class="facility-field-core">program_code</div>
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </div>
+
+          <!-- Terms & Limits -->
+          <div class="summary-card">
+            <div
+              class="summary-card-header"
+              [class.expanded]="termsExpanded()"
+              (activate)="toggleTerms()"
+              tabindex="0"
+              role="button">
+              <div class="summary-card-title">Terms & Limits</div>
+              <div class="summary-card-preview">
+                {{ getFacilityCommitmentAmount() }} • {{ getCurrency() }} •
+                {{ getOriginationDate() }} to {{ getMaturityDate() }} •
+                {{ getRevolving() ? 'Revolving' : 'Non-Revolving' }}
+              </div>
+              <mat-icon class="chevron-icon">
+                {{ termsExpanded() ? 'expand_less' : 'expand_more' }}
+              </mat-icon>
+            </div>
+            <mat-expansion-panel
+              [expanded]="termsExpanded()"
+              class="mat-elevation-z0">
+              <div class="summary-card-content">
+                <div class="facility-fields">
+                  <!-- Facility commitment amount -->
+                  <div class="facility-field-row">
+                    <div class="facility-field-label-wrapper">
+                      <div class="facility-field-label">
+                        Facility commitment amount
+                      </div>
+                    </div>
+                    <div class="facility-field-value">
+                      {{ getFacilityCommitmentAmount() }}
+                    </div>
+                  </div>
+
+                  <!-- Currency -->
+                  <div class="facility-field-row">
+                    <div class="facility-field-label-wrapper">
+                      <div class="facility-field-label">Currency</div>
+                    </div>
+                    <div class="facility-field-value">
+                      {{ getCurrency() }}
+                    </div>
+                  </div>
+
+                  <!-- Origination date -->
+                  <div class="facility-field-row">
+                    <div class="facility-field-label">Origination date</div>
+                    <div class="facility-field-value">
+                      {{ getOriginationDate() }}
+                    </div>
+                  </div>
+
+                  <!-- Maturity date -->
+                  <div class="facility-field-row">
+                    <div class="facility-field-label">Maturity date</div>
+                    <div class="facility-field-value">
+                      {{ getMaturityDate() }}
+                    </div>
+                  </div>
+
+                  <!-- Revolving -->
+                  <div class="facility-field-row">
+                    <div class="facility-field-label-wrapper">
+                      <div class="facility-field-label">Revolving</div>
+                    </div>
+                    <div class="facility-field-value">
+                      {{ getRevolving() }}
+                    </div>
+                  </div>
+
+                  <!-- Repayment structure -->
+                  <div class="facility-field-row">
+                    <div class="facility-field-label-wrapper">
+                      <div class="facility-field-label">
+                        Repayment structure
+                      </div>
+                    </div>
+                    <div class="facility-field-value">
+                      {{ getRepaymentStructure() }}
+                    </div>
+                  </div>
+
+                  <!-- Payment frequency -->
+                  <div class="facility-field-row">
+                    <div class="facility-field-label-wrapper">
+                      <div class="facility-field-label">Payment frequency</div>
+                    </div>
+                    <div class="facility-field-value">
+                      {{ getPaymentFrequency() }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </div>
+        </div>
+
+        @if (!viewOnly()) {
+          <!-- Save Master Line Button -->
+          <div class="save-master-line-container">
+            <button
+              lj-button="cta"
+              class="save-master-line-button"
+              [disabled]="
+                !offer().desiredCreditLimit ||
+                !offer().originationDate ||
+                !offer().targetedMaturity
+              "
+              (activate)="saveMasterLine()">
+              <mat-icon>description</mat-icon>
+              Save the master line
+            </button>
+          </div>
+        }
+      }
+    }
+  </div>
+  @if (showSublines()) {
+    @for (subline of sublines(); track subline.id) {
+      @if (!subline.product) {
+        <div class="products-section">
+          <div class="section-title-row">
+            <h2 class="subline-title">Sub Line</h2>
+            @if (!viewOnly()) {
+              <button
+                mat-icon-button
+                class="delete-subline-button"
+                lj-confirmation-required
+                [message]="'Are you sure you want to delete this subline?'"
+                (confirm)="removeSubline(subline.id)"
+                [attr.aria-label]="'Delete subline ' + ($index + 1)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            }
+          </div>
+          @if (!viewOnly()) {
+            <p class="section-description">
+              Each bucket uses a time-based step-rate schedule. Promo periods
+              roll automatically into the post-promo Base formula.
+            </p>
+          }
+          <div class="subline-card">
+            <div class="subline-content">
+              <!-- Select a product Section -->
+              <div class="select-product-section">
+                <h3 class="section-title">Select a product</h3>
+                <div class="auto-rule-callout info">
+                  <mat-icon>info</mat-icon>
+                  <div class="auto-rule-callout__text">
+                    <span class="auto-rule-callout__title">{{
+                      callouts.offerProduct.title
+                    }}</span>
+                    <span class="auto-rule-callout__body">{{
+                      callouts.offerProduct.body
+                    }}</span>
+                  </div>
+                </div>
+                <div class="products-list">
+                  @for (product of sortedSublineProducts(); track product.id) {
+                    <div
+                      class="product-wrapper"
+                      [class.is-disabled]="product.disabled"
+                      [class.previewed]="
+                        isProductPreviewedForSubline(
+                          subline.id,
+                          product.id ?? ''
+                        )
+                      "
+                      (activate)="
+                        selectProductForSubline(subline.id, product.id ?? '')
+                      "
+                      tabindex="0"
+                      role="button">
+                      <lj-product-eligibility
+                        [productDisplay]="getProductDisplay(product)"
+                        [isRecommended]="
+                          getProductDisplaySection(product).qualifying ===
+                          QualifyingEnum.QUALIFYING
+                        "
+                        [productDisplaySection]="
+                          getProductDisplaySection(product)
+                        "
+                        [showProductRate]="true" />
+                    </div>
+                  }
+                </div>
+
+                @if (!viewOnly()) {
+                  <!-- Save Selection Button -->
+                  <div class="save-selection-container">
+                    <button
+                      lj-button="cta"
+                      class="save-selection-button"
+                      [disabled]="!sublinePreviewedProducts().get(subline.id)"
+                      (activate)="saveSublineSelection(subline.id)">
+                      <mat-icon>save</mat-icon>
+                      Save selection
+                    </button>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      } @else {
+        <!-- Show collapsed view if saved, otherwise show full product selection -->
+        @if (isSublineSaved(subline.id) && !isSublineExpanded(subline.id)) {
+          <!-- Collapsed saved subline view -->
+          <div
+            class="subline-collapsed-card"
+            (activate)="toggleSublineExpansion(subline.id)"
+            (keyup.enter)="toggleSublineExpansion(subline.id)"
+            (keyup.space)="toggleSublineExpansion(subline.id)"
+            tabindex="0"
+            role="button"
+            [attr.aria-label]="'Expand subline ' + ($index + 1)">
+            <div class="subline-collapsed-left">
+              <div class="subline-product-info">
+                <div class="subline-product-name">
+                  {{ subline.product.name }}
+                  @if (subline.product.productCode) {
+                    - {{ subline.product.productCode }}
+                  }
+                </div>
+                @if (getProductRateDisplay(subline.product)) {
+                  <div class="subline-product-rate">
+                    {{ getProductRateDisplay(subline.product) }}
+                  </div>
+                }
+              </div>
+            </div>
+            <div class="subline-collapsed-center">
+              @if (subline.coreSubAccountNumber) {
+                <div class="subline-account-info">
+                  <span class="subline-account-label">
+                    Core sub-account # {{ subline.coreSubAccountNumber }}
+                    @if (subline.sublineLimit) {
+                      |
+                      <b>${{ subline.sublineLimit.toLocaleString() }}</b>
+                    }
+                  </span>
+                </div>
+              }
+            </div>
+            <div class="subline-collapsed-right">
+              <mat-icon class="chevron-icon">
+                {{
+                  isSublineExpanded(subline.id) ? 'expand_less' : 'expand_more'
+                }}
+              </mat-icon>
+            </div>
+          </div>
+        } @else {
+          <div class="products-section">
+            <div class="section-title-row">
+              <h2 class="subline-title">Sub Line</h2>
+              @if (!viewOnly()) {
+                <button
+                  mat-icon-button
+                  class="delete-subline-button"
+                  lj-confirmation-required
+                  [message]="'Are you sure you want to delete this subline?'"
+                  (confirm)="removeSubline(subline.id)"
+                  [attr.aria-label]="'Delete subline ' + ($index + 1)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              } @else {
+                <div class="subline-collapsed-right">
+                  <mat-icon
+                    class="chevron-icon"
+                    (activate)="toggleSublineExpansion(subline.id)">
+                    {{
+                      isSublineExpanded(subline.id)
+                        ? 'expand_less'
+                        : 'expand_more'
+                    }}
+                  </mat-icon>
+                </div>
+              }
+            </div>
+            @if (!viewOnly()) {
+              <p class="section-description">
+                Each bucket uses a time-based step-rate schedule. Promo periods
+                roll automatically into the post-promo Base formula.
+              </p>
+            }
+            <div class="subline-card">
+              <div class="subline-content">
+                <!-- Show selected product -->
+                <div class="selected-product-section">
+                  <div class="selected-program-card">
+                    <div class="program-header">
+                      <div>
+                        <div class="program-name">
+                          {{ subline.product.name }}
+                        </div>
+                        <div class="program-description">
+                          {{ getProductRateDisplay(subline.product) }}
+                        </div>
+                      </div>
+                    </div>
+                    @if (!viewOnly()) {
+                      <button
+                        lj-button="inverse-cta"
+                        [compact]="true"
+                        class="select-another-button"
+                        (activate)="deselectProduct(subline.id)">
+                        <mat-icon>visibility</mat-icon>
+                        Select another product
+                      </button>
+                    }
+                  </div>
+
+                  @if (!viewOnly()) {
+                    <!-- Subline Limit Field -->
+                    <div class="form-fields">
+                      <mat-form-field
+                        appearance="outline"
+                        class="credit-limit-field">
+                        <mat-label>Subline Limit (Optional)</mat-label>
+                        <input
+                          matInput
+                          id="subline-limit-{{ subline.id }}"
+                          type="text"
+                          [ngModel]="
+                            subline.sublineLimit
+                              ? '$' + subline.sublineLimit.toLocaleString()
+                              : ''
+                          "
+                          (input)="
+                            onSublineLimitChange(
+                              subline.id,
+                              $any($event.target).value
+                            )
+                          "
+                          placeholder="$" />
+                      </mat-form-field>
+                    </div>
+                  } @else {
+                    <div class="form-field">
+                      <div class="form-field-label">
+                        Subline Limit (Optional):
+                        <span class="form-field-value">
+                          @if (subline.sublineLimit) {
+                            {{ '$' + subline.sublineLimit.toLocaleString() }}
+                          } @else {
+                            Not set
+                          }
+                        </span>
+                      </div>
+                    </div>
+                  }
+                  @if (!viewOnly()) {
+                    <div
+                      class="step-rates-table"
+                      role="region"
+                      aria-label="Step rates table">
+                      <div class="steps-table">
+                        <div class="table-header">
+                          <div class="column-header">Starting On</div>
+                          <div class="column-header">Ending On</div>
+                          <div class="column-header">Rate Type</div>
+                          <div class="column-header">Rate</div>
+                          <div class="column-header">Comment</div>
+                        </div>
+                        @for (
+                          stepRate of subline.product.interestRateSteps;
+                          track stepRate.startingOn
+                        ) {
+                          <div class="table-row">
+                            <div class="table-cell">
+                              {{
+                                readableDateFromTimestamp(stepRate.startingOn)
+                              }}
+                            </div>
+                            <div class="table-cell">
+                              @if (!stepRate.endingOnValue) {
+                                Open-ended
+                              } @else if (
+                                stepRate.endingOnUnit === 'SPECIFIC_DATE'
+                              ) {
+                                {{
+                                  readableDateFromTimestamp(
+                                    stepRate.endingOnValue
+                                  )
+                                }}
+                              } @else if (
+                                stepRate.endingOnUnit && stepRate.endingOnValue
+                              ) {
+                                {{ stepRate.endingOnValue }}
+                                {{ stepRate.endingOnUnit.toLowerCase()
+                                }}{{ stepRate.endingOnValue !== 1 ? '' : '' }}
+                              }
+                            </div>
+                            <div class="table-cell">
+                              {{ stepRate.interestRateType }}
+                            </div>
+                            <div class="table-cell">
+                              {{ (stepRate.rateValue * 100).toFixed(2) }}%
+                            </div>
+                            <div class="table-cell">
+                              {{ stepRate.comments }}
+                            </div>
+                          </div>
+                        } @empty {
+                          <div class="empty-row">
+                            <div class="table-cell">
+                              No step rates defined for this product.
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    </div>
+
+                    <!-- Save Master Line Button -->
+                    <div class="save-master-line-container">
+                      <button
+                        lj-button="cta"
+                        class="save-master-line-button"
+                        (activate)="saveSubline(subline.id)">
+                        <mat-icon>description</mat-icon>
+                        Save the sub line
+                      </button>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      }
+    }
+
+    @if (!viewOnly()) {
+      <div class="products-section">
+        <!-- Add Subline Button -->
+        <div class="add-subline-container">
+          <button
+            lj-button="ghost"
+            class="add-subline-button"
+            (activate)="addSubline()">
+            <mat-icon>add_circle</mat-icon>
+            Add Sub Line Product
+          </button>
+        </div>
+      </div>
+    }
+  }
+</div>

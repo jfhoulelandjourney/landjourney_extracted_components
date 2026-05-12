@@ -1,0 +1,65 @@
+<div class="customer-business-selection" (activate)="$event.stopPropagation()">
+  <div class="search">
+    <input
+      type="text"
+      [id]="id"
+      [(ngModel)]="searchExpression"
+      (input)="registerModelChange()"
+      lj-mobile-search
+      placeholder="Search customers or businesses..." />
+    <mat-icon class="small-icon search-icon">search</mat-icon>
+  </div>
+
+  @if (showResults()) {
+    <div class="results" [class.scroll]="scrollResults()">
+    @for (row of results(); track rowKey(row)) {
+      <button type="button" class="result-row" (activate)="selectItem(row)">
+        <div class="avatar">
+          <lj-avatar
+            [avatarUrl]="avatarUrl(row)"
+            [name]="avatarName(row)"
+            size="small" />
+        </div>
+        <div class="info">
+          <span class="name">{{ displayName(row) }}</span>
+          <span class="subtitle">{{ subtitle(row) }}</span>
+        </div>
+      </button>
+    }
+    @if (
+      searchExpression.trim() &&
+      results().length === 0 &&
+      selected().length === 0
+    ) {
+      <div class="empty">No customers or businesses found.</div>
+    }
+    @if (
+      searchExpression.trim() && results().length === 0 && selected().length > 0
+    ) {
+      <div class="empty">No more results. Selected items are hidden.</div>
+    }
+    </div>
+  }
+
+  @if (selected().length > 0) {
+    <div class="selected-section">
+      <span class="selected-label">Selected</span>
+      <div class="selected-list">
+        @for (item of selected(); track rowKey(item)) {
+          <div class="selected-chip">
+            <span class="chip-label">
+              {{ subtitle(item) }}: {{ displayName(item) }}
+            </span>
+            <button
+              type="button"
+              class="chip-remove"
+              (activate)="removeSelected(item)"
+              matTooltip="Remove">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

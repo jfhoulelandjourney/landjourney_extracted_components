@@ -1,0 +1,52 @@
+<div class="statement-list">
+  @if (statementYears().length) {
+    <div class="items years">
+      @for (year of statementYears(); track year) {
+        <div class="item">
+          <div
+            class="body-s label"
+            [class.selected]="year === selectedYear()"
+            (activate)="changeSelectedYear(year)">
+            {{ year }}
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <div class="statements" [class.mobile]="mobile()">
+    @for (statement of getFilteredStatements(); track statement.id) {
+      <div class="statement">
+        <div class="document">
+          @if (!mobile()) {
+            <mat-icon>description</mat-icon>
+          }
+          <div>
+            {{ statement.formattedDate }}
+            @if (dateHasMoreThanOneStatement(statement)) {
+              <span class="body-s pill">
+                Version {{ getStatementNumber(statement) }}
+              </span>
+            }
+          </div>
+        </div>
+        <div class="download" (activate)="handleDownloadClicked(statement)">
+          <mat-icon>cloud_download</mat-icon>
+          @if (downloading().includes(statement.id)) {
+            Downloading...
+          } @else {
+            Download
+          }
+        </div>
+      </div>
+    } @empty {
+      No statements available.
+    }
+    @if (more() !== 0) {
+      <div class="see-more" (activate)="handleSeeMoreClicked()">
+        <p class="body-s">{{ more() }} more | See all</p>
+        <mat-icon>add</mat-icon>
+      </div>
+    }
+  </div>
+</div>

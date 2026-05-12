@@ -1,0 +1,127 @@
+<div class="container" [class.mobile]="mobile()">
+  <lj-loan-header [loan]="loan()" [mobile]="mobile()" />
+  @if (showPaymentPanel()) {
+    <mat-expansion-panel
+      class="mat-elevation-z0"
+      [expanded]="panelOpen()"
+      (opened)="panelOpen.set(true)"
+      (closed)="panelOpen.set(false)">
+      <mat-expansion-panel-header>
+        <div class="body-m">Make a Payment</div>
+      </mat-expansion-panel-header>
+      <!-- <ng-template carousel-item>
+        <div class="content">
+          <div class="form">
+            <lj-money-input-field
+              id="amount"
+              name="amount"
+              [showError]="false"
+              [(ngModel)]="amount" />
+
+            <button
+              lj-button
+              (activate)="carousel.next()"
+              [disabled]="!isFormValid()">
+              Next
+              <mat-icon>arrow_right_alt</mat-icon>
+            </button>
+          </div>
+        </div>
+      </ng-template>
+
+      <ng-template carousel-item>
+        <div class="content">
+          <div class="inter body-m subtitle">Summary</div>
+          <div class="summary">
+            <div class="sub-container">
+              <div class="loan-info">
+                <div class="box">
+                  <div class="body-s">Payment of</div>
+                  <div class="inter title-lg">
+                    {{ amount }}
+                  </div>
+                </div>
+
+                <div class="divider"></div>
+                <div class="box">
+                  <div class="body-s">Loan Balance after Payment</div>
+                  <div class="inter title-lg">
+                    {{ formatAmount(getNewPrincipalBalance()) }}
+                  </div>
+                </div>
+                <div class="divider"></div>
+                <button lj-button (activate)="confirmPayment()">
+                  Confirm&nbsp;Payment
+                  <mat-icon>arrow_right_alt</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template> -->
+
+      <div class="content">
+        <div class="summary">
+          <div class="payment-options">
+            @if (showPortalUrl()) {
+              <div class="option">
+                <div class="title-lg">ACH Payment</div>
+                <button lj-button (activate)="goToPaymentPortal()">
+                  Payment Portal
+                  <mat-icon>open_in_new</mat-icon>
+                </button>
+              </div>
+            }
+
+            @if (showPortalUrl() && showWireInstructions()) {
+              <div class="divider"></div>
+            }
+
+            @if (showWireInstructions()) {
+              <div class="option">
+                <div class="title-lg">Alternative Payment Methods</div>
+
+                <div class="instructions-container">
+                  @for (
+                    fundingEntity of loan()?.fundingEntities ?? [];
+                    track fundingEntity
+                  ) {
+                    @let parsedFundingEntity =
+                      parseFundingEntity(fundingEntity);
+
+                    <div
+                      id="wire-instructions-{{ parsedFundingEntity.id }}"
+                      class="instruction"
+                      [innerHTML]="
+                        parsedFundingEntity.wireInstructions | SafeHtml
+                      "></div>
+                  }
+                </div>
+
+                <div class="fraud-warning">
+                  <div class="inter body-m">FRAUD WARNING</div>
+                  <div class="body-s">THESE INSTRUCTIONS WILL NOT CHANGE</div>
+                  <div class="body-s">
+                    We do not accept or request changes to payment intructions
+                    via e-mail. Please call {{ getTenantName() }} to verify any
+                    and all payment instructions you receive prior to initiating
+                    a payment.
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+          <!-- <div class="reset">
+              <button
+                lj-button
+                (activate)="reset() && carousel.reset()"
+                class="reset-btn">
+                Make another Payment
+                <mat-icon>add</mat-icon>
+              </button>
+            </div> -->
+        </div>
+      </div>
+    </mat-expansion-panel>
+  }
+</div>

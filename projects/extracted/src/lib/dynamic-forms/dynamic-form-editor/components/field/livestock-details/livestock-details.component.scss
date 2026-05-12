@@ -1,0 +1,116 @@
+:host {
+  .container {
+    position: relative;
+    padding: var(--padding-reset) 28px;
+    margin-bottom: var(--padding-comfortable);
+  }
+
+  .input {
+    padding: var(--padding-comfortable);
+  }
+
+  .shadow {
+    box-shadow: var(--shadow-xs);
+    border-radius: var(--radius-strong);
+  }
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--padding-compact);
+
+    mat-icon {
+      width: 16px !important;
+      height: 16px !important;
+      font-size: 16px !important;
+      margin-top: 6px !important;
+      overflow: visible !important;
+    }
+
+    lj-editable-input {
+      flex-grow: 1;
+    }
+  }
+}
+
+.livestock-details {
+  flex-grow: 1;
+  margin-top: var(--padding-comfortable);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--padding-default);
+
+  .card-container {
+    display: flex;
+    flex-direction: row;
+    gap: var(--padding-spacious);
+    flex-wrap: wrap;
+    width: 100%;
+
+    margin-bottom: var(--padding-spacious);
+
+    .card {
+      width: 100%;
+      max-width: calc(50% - (var(--padding-spacious) / 2));
+      padding: var(--padding-spacious);
+      border-radius: var(--radius-strong);
+      background: var(--accent-black-100);
+      border: 1px solid var(--accent-black-200);
+
+      .input {
+        padding: var(--padding-reset);
+        margin-bottom: var(--padding-comfortable);
+      }
+
+      &.display {
+        display: flex;
+        flex-direction: column;
+        gap: var(--padding-spacious);
+        background: var(--accent-black-200);
+      }
+
+      .message {
+        .title {
+          color: var(--accent-black-500, #7d7d7d);
+          line-height: 150%;
+          letter-spacing: 0.12px;
+        }
+      }
+
+      .card-actions {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        gap: var(--padding-default);
+
+        &.livestock-title {
+          align-items: center;
+
+          h4 {
+            flex-grow: 1;
+            color: var(--color-background-button);
+          }
+        }
+      }
+    }
+  }
+
+  .actions {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    button {
+      width: 100%;
+      margin-bottom: var(--padding-spacious);
+      justify-content: center;
+    }
+  }
+}

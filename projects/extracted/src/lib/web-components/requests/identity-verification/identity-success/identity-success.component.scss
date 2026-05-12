@@ -1,0 +1,34 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-spacious);
+
+  .check-icon {
+    color: var(--active-color);
+    width: 62px;
+    height: 62px;
+    font-size: 62px;
+  }
+
+  .next-button {
+    align-self: flex-end;
+  }
+
+  .title {
+    color: var(--accent-black-500, #7d7d7d);
+  }
+
+  &.mobile {
+    .check-icon {
+      width: 42px;
+      height: 42px;
+      font-size: 42px;
+    }
+
+    .title {
+      font-size: var(--font-size-xl) !important;
+      line-height: var(--line-height-md);
+    }
+  }
+}

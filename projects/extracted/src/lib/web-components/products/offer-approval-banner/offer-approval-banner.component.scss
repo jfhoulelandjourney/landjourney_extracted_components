@@ -1,0 +1,136 @@
+.approval-bar {
+  margin-top: var(--spacing-4);
+  background: var(--accent-black-100);
+  border: 2px solid var(--brand-primary-300);
+  border-radius: 12px;
+  padding: var(--spacing-4);
+  margin-bottom: var(--spacing-4);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.approval-bar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-4);
+  flex-wrap: wrap;
+}
+
+.approval-bar-message {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  flex: 1;
+  min-width: 200px;
+
+  .approval-icon {
+    color: var(--brand-primary-600);
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .approval-bar-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-3);
+    flex: 1;
+
+    .approval-title {
+      color: var(--brand-primary-900);
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+    }
+
+    span {
+      color: var(--brand-primary-900);
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+    }
+
+    .approval-conditions {
+      margin-top: var(--spacing-2);
+
+      strong {
+        color: var(--brand-primary-900);
+        font-size: var(--font-size-xs);
+        font-weight: 600;
+        display: block;
+        margin-bottom: var(--spacing-2);
+      }
+
+      .conditions-list {
+        margin: 0;
+        padding-left: var(--spacing-5);
+        color: var(--brand-primary-800);
+        font-size: var(--font-size-xs);
+
+        li {
+          margin-bottom: var(--spacing-2);
+          line-height: 1.5;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+.approval-bar-actions {
+  display: flex;
+  gap: var(--spacing-3);
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.decline-button,
+.approve-button {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3) var(--spacing-5);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.decline-button {
+  background: var(--status-error-100);
+  border: 2px solid var(--status-error-500);
+  color: var(--status-error-700);
+
+  &:hover {
+    background: var(--status-error-200);
+  }
+}
+
+.approve-button {
+  background: var(--status-success-100);
+  border: 2px solid var(--status-success-500);
+  color: var(--status-success-700);
+
+  &:hover {
+    background: var(--status-success-200);
+  }
+}
+
+@media (max-width: 500px) {
+  .approval-bar-actions {
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+}

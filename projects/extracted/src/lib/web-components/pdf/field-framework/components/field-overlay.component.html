@@ -1,0 +1,81 @@
+<!-- Floating adornment row above the widget: type icon+label on left, roles on right -->
+<div class="adornments">
+  <div class="type-badge" [class.readonly]="isReadonly()">
+    <svg class="icon" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path [attr.d]="iconPath()"></path>
+    </svg>
+    <span class="label">{{ typeLabel() }}</span>
+    @if (constraintLabel(); as range) {
+      <span class="constraint" [title]="'Allowed range: ' + range">{{ range }}</span>
+    }
+    @if (isRequired()) {
+      <span class="required-asterisk" aria-label="Required field" title="This field is required">*</span>
+    }
+    @if (isReadonly()) {
+      <svg class="readonly-icon" viewBox="0 -960 960 960" xmlns="http://www.w3.org/2000/svg" aria-label="Read-only field">
+        <title>This field is read-only</title>
+        <path d="M240-80q-33 0-56.5-23.5T160-160v-400q0-33 23.5-56.5T240-640h40v-80q0-83 58.5-141.5T480-920q83 0 141.5 58.5T680-720v80h40q33 0 56.5 23.5T800-560v400q0 33-23.5 56.5T720-80H240Zm240-200q33 0 56.5-23.5T560-360q0-33-23.5-56.5T480-440q-33 0-56.5 23.5T400-360q0 33 23.5 56.5T480-280ZM360-640h240v-80q0-50-35-85t-85-35q-50 0-85 35t-35 85v80Z"></path>
+      </svg>
+    }
+  </div>
+
+  @if (!isFillMode()) {
+    @if (isOrphan()) {
+      <span class="orphan-pill" title="No signee assigned. Pick one to enable saving.">
+        ⚠ Unassigned
+      </span>
+    } @else if (allFormattedRoles().length > 0) {
+      <div class="roles-container">
+        @for (role of visibleRoles(); track role) {
+          <span class="role-pill">{{ role }}</span>
+        }
+        @if (extraRoleCount() > 0) {
+          <span class="role-pill role-pill--extra">+{{ extraRoleCount() }}</span>
+        }
+      </div>
+    }
+  }
+</div>
+
+<!-- Signer caption: sits beneath the widget so the input area is unobstructed.
+     Shown in fill mode (explicit signer) and request builder mode (explicit or
+     auto-resolved signer). Fades after the field is filled. -->
+@if (resolvedSignerCaption(); as caption) {
+  <div class="signer-caption" [class.filled]="isFilled()">
+    <span class="signer-caption-name" [title]="caption.name">
+      {{ caption.name }}
+      @if (caption.automatic) {
+        <span class="caption-auto"> · auto</span>
+      }
+    </span>
+  </div>
+}
+
+@if (showPlaceholder()) {
+  <span class="field-placeholder">{{ placeholder() }}</span>
+}
+
+<!-- Checkbox/radio option preview: N equal-height rows, each with a small
+     box (square for checkbox, circle for radio) and the option label.
+     Sized to match the materialized layout pixel-for-pixel. -->
+@if (optionsPreview(); as preview) {
+  <div
+    class="options-preview"
+    [class.options-preview--radio]="preview.type === 'radio'">
+    @if (preview.options.length === 0) {
+      <div class="options-empty">No options · add some in the inspector</div>
+    } @else {
+      @for (option of preview.options; track option.id) {
+        <div class="options-row">
+          <span
+            class="options-box"
+            [class.options-box--checked]="option.checked"></span>
+          <span class="options-label">{{ option.label }}</span>
+        </div>
+      }
+    }
+  </div>
+}
+
+<!-- Widget chrome (builder mode only) -->
+<div class="widget-chrome"></div>

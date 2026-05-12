@@ -1,0 +1,51 @@
+@if (field()) {
+  @if (mode() === 'locked') {
+    <div class="locked-display">
+      <div [class.locked-error]="getErrorMessage() !== undefined">
+        <div
+          class="body-sm title"
+          [style]="getCustomStyle('.field-title', true)">
+          {{ field().label }}
+        </div>
+        <lj-copy-to-clipboard-button [value]="formattedValue()">
+          <div
+            class="body-sm text"
+            [style]="getCustomStyle('.field-text', true)">
+            {{ formattedValue() }}
+          </div>
+        </lj-copy-to-clipboard-button>
+        @if (getErrorMessage()) {
+          <div class="body-sm">
+            {{ getErrorMessage() }}
+          </div>
+        }
+      </div>
+    </div>
+  } @else {
+    <div
+      class="input"
+      [class.style-normal]="style() === 'normal'"
+      [matTooltip]="
+        disabled() ? 'This field is computed and cannot be edited.' : null
+      ">
+      <lj-input-field
+        [required]="field().required ?? false"
+        [id]="field().id"
+        [name]="field().name"
+        [label]="field().label"
+        [style]="style()"
+        [customCssTitleStyle]="getCustomStyle('.field-title', true)"
+        [customCssStyle]="getCustomStyle('.input-field', true)"
+        type="text"
+        [disabled]="disabled()"
+        [placeholder]="field().parameters.placeholder ?? ''"
+        [ngModel]="formattedValue()"
+        (ngModelChange)="handleValueChange($event)"
+        (onInputBlur)="handleOnBlur()"
+        [showError]="!(touched() && isErrorSuppressed())"
+        [customErrorMessage]="touched() ? getErrorMessage() : undefined" />
+    </div>
+  }
+} @else {
+  <div class="error">Field initialization error</div>
+}

@@ -1,0 +1,31 @@
+<div class="modal">
+  <h2 mat-dialog-title>{{ title() }}</h2>
+
+  <mat-dialog-content>
+    <div class="dialog-content">
+      @if (showPdfViewer()) {
+        <lj-pdf-viewer
+          mode="preview"
+          [fileMetadata]="file()"
+          [file]="file().pdfUrl ?? file().originalUrl ?? ''"
+          [fileName]="file().originalName"
+          customCss="assets/client-pspdfkit.css"></lj-pdf-viewer>
+      }
+
+      @if (showImageViewer()) {
+        <div class="image-container">
+          <lj-image [src]="file().originalUrl ?? ''"></lj-image>
+        </div>
+      }
+
+      @if (showConversionInProgress()) {
+        <lj-lottie-wrapper
+          jsonPath="/assets/animations/file-conversion-in-progress.json"></lj-lottie-wrapper>
+      }
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button lj-button="inverse-cta" (activate)="close()">Close</button>
+  </mat-dialog-actions>
+</div>

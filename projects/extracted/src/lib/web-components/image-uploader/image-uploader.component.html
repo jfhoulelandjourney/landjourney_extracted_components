@@ -1,0 +1,27 @@
+@if (logoUrl()) {
+  <div class="image-uploader-wrapper">
+    <div class="image-preview">
+      <img [src]="logoUrl()" alt="Logo" />
+    </div>
+    <div class="image-actions">
+      <button mat-icon-button (activate)="triggerFileInput(fileInput)">
+        <mat-icon>autorenew</mat-icon>
+      </button>
+
+      <button mat-icon-button (activate)="removeLogo()">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+} @else {
+  <div class="upload-button" (activate)="triggerFileInput(fileInput)">
+    <mat-icon>cloud_upload</mat-icon>
+    Upload your logo
+  </div>
+}
+<input
+  #fileInput
+  type="file"
+  accept="image/*"
+  (change)="onFileSelected($event)"
+  hidden />

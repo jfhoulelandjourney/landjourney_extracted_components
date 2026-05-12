@@ -1,0 +1,35 @@
+<h2 mat-dialog-title>Decline Offer</h2>
+
+<mat-dialog-content>
+  <p class="decline-modal__description">
+    Please provide a reason for declining this offer.
+  </p>
+
+  <lj-textarea-field
+    label="Reason for Decline"
+    name="reason"
+    placeholder="Enter the reason for declining the offer..."
+    [ngModel]="reason()"
+    [required]="true"
+    [showCounter]="true"
+    [style]="'gray'"
+    [minlength]="10"
+    (ngModelChange)="onReasonChange($event)" />
+
+  @if (!isValid() && reason().length > 0) {
+    <p class="decline-modal__error">
+      Please provide at least 10 characters for the reason.
+    </p>
+  }
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <lj-button variant="ghost" (activate)="handleCancel()">Cancel</lj-button>
+  <lj-button
+    variant="primary"
+    intent="error"
+    [disabled]="!isValid()"
+    (activate)="handleConfirm()">
+    Decline Offer
+  </lj-button>
+</mat-dialog-actions>

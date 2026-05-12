@@ -1,0 +1,189 @@
+<div class="eligibility-products-container" [class.visible]="isVisible()">
+  <!-- Header -->
+  <div class="header">
+    <button class="close-button" (click)="onCloseClick()">
+      <mat-icon class="stack-icon">layers</mat-icon>
+      <span>Close eligible product(s)</span>
+      <mat-icon class="close-icon">close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Borrowers and Guarantors Section -->
+  <div class="borrowers-guarantors-section">
+    <div class="users-row">
+      @if (borrowers().length > 0) {
+        <div class="section-group">
+          <h3 class="section-title">Borrowers</h3>
+          <div class="users-list">
+            @for (borrower of borrowers(); track borrower.userId) {
+              <div class="user-item">
+                <mat-checkbox
+                  [checked]="isUserSelected(borrower)"
+                  (change)="onUserToggle(borrower)"
+                  class="user-checkbox"></mat-checkbox>
+                <lj-avatar
+                  [name]="getFullName(borrower)"
+                  size="small"
+                  data-testid="user-avatar" />
+                <span class="user-name">{{ getFullName(borrower) }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      }
+      @if (guarantors().length > 0) {
+        <div class="section-group">
+          <h3 class="section-title">Garantors</h3>
+          <div class="users-list">
+            @for (guarantor of guarantors(); track guarantor.userId) {
+              <div class="user-item">
+                <mat-checkbox
+                  [checked]="isUserSelected(guarantor)"
+                  (change)="onUserToggle(guarantor)"
+                  class="user-checkbox"></mat-checkbox>
+                <lj-avatar
+                  [name]="getFullName(guarantor)"
+                  size="small"
+                  data-testid="user-avatar" />
+                <span class="user-name">{{ getFullName(guarantor) }}</span>
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Eligibility Sections -->
+  <div class="eligibility-sections">
+    <!-- Eligible Section -->
+    <mat-expansion-panel
+      class="eligibility-panel eligible-panel"
+      [expanded]="true">
+      <mat-expansion-panel-header>
+        <div class="panel-header-content">
+          <span class="status-label eligible">Eligible</span>
+          <span class="separator">|</span>
+          <span class="product-count">
+            @if (eligibleProducts().length > 1) {
+              {{ eligibleProducts().length }} products
+            } @else if (eligibleProducts().length === 1) {
+              {{ eligibleProducts().length }} product
+            } @else {
+              No products
+            }
+          </span>
+        </div>
+      </mat-expansion-panel-header>
+
+      @if (eligibleProducts().length > 0) {
+        <div class="auto-rule-callout success">
+          <mat-icon>check_circle</mat-icon>
+          <div class="auto-rule-callout__text">
+            <span class="auto-rule-callout__title">
+              {{ callouts.eligible.title }}
+            </span>
+            <span class="auto-rule-callout__body">
+              {{ callouts.eligible.body }}
+            </span>
+          </div>
+        </div>
+      }
+
+      <div class="products-grid">
+        @for (product of eligibleProducts(); track $index) {
+          <lj-product-eligibility
+            [productDisplay]="getProductDisplay(product)"
+            [isRecommended]="$index === 0"
+            [productDisplaySection]="getProductDisplaySection(product)" />
+        }
+      </div>
+    </mat-expansion-panel>
+
+    <!-- Potentially Eligible Section -->
+    <mat-expansion-panel class="eligibility-panel potentially-eligible-panel">
+      <mat-expansion-panel-header>
+        <div class="panel-header-content">
+          <span class="status-label potentially-eligible">
+            Potentially Eligible
+          </span>
+          <span class="separator">|</span>
+          <span class="product-count">
+            @if (potentiallyEligibleProducts().length > 1) {
+              {{ potentiallyEligibleProducts().length }} products
+            } @else if (potentiallyEligibleProducts().length === 1) {
+              {{ potentiallyEligibleProducts().length }} product
+            } @else {
+              No products
+            }
+          </span>
+        </div>
+      </mat-expansion-panel-header>
+
+      @if (potentiallyEligibleProducts().length > 0) {
+        <div class="auto-rule-callout warning">
+          <mat-icon>info</mat-icon>
+          <div class="auto-rule-callout__text">
+            <span class="auto-rule-callout__title">
+              {{ callouts.potentiallyEligible.title }}
+            </span>
+            <span class="auto-rule-callout__body">
+              {{ callouts.potentiallyEligible.body }}
+            </span>
+          </div>
+        </div>
+      }
+
+      <div class="products-grid">
+        <!-- Potentially eligible products would go here -->
+        @for (product of potentiallyEligibleProducts(); track product.id) {
+          <lj-product-eligibility
+            [productDisplay]="getProductDisplay(product)"
+            [productDisplaySection]="getProductDisplaySection(product)" />
+        }
+      </div>
+    </mat-expansion-panel>
+
+    <!-- Not Eligible Section -->
+    <mat-expansion-panel class="eligibility-panel not-eligible-panel">
+      <mat-expansion-panel-header>
+        <div class="panel-header-content">
+          <span class="status-label not-eligible">Not Eligible</span>
+          <span class="separator">|</span>
+          <span class="product-count">
+            @if (notEligibleProducts().length > 1) {
+              {{ notEligibleProducts().length }} products
+            } @else if (notEligibleProducts().length === 1) {
+              {{ notEligibleProducts().length }} product
+            } @else {
+              No products
+            }
+          </span>
+        </div>
+      </mat-expansion-panel-header>
+
+      @if (notEligibleProducts().length > 0) {
+        <div class="auto-rule-callout danger">
+          <mat-icon>info</mat-icon>
+          <div class="auto-rule-callout__text">
+            <span class="auto-rule-callout__title">
+              {{ callouts.notEligible.title }}
+            </span>
+            <span class="auto-rule-callout__body">
+              {{ callouts.notEligible.body }}
+            </span>
+          </div>
+        </div>
+      }
+
+      <div class="products-grid">
+        <!-- Not eligible products would go here -->
+        @for (product of notEligibleProducts(); track product.id) {
+          <lj-product-eligibility
+            [productDisplay]="getProductDisplay(product)"
+            [productDisplaySection]="getProductDisplaySection(product)" />
+        }
+      </div>
+    </mat-expansion-panel>
+  </div>
+</div>

@@ -1,0 +1,138 @@
+@if (field()) {
+  <div
+    class="container"
+    (mouseenter)="showShadow.set(true)"
+    (mouseleave)="showShadow.set(false)">
+    <div class="input" [class.shadow]="showShadow()">
+      <div class="row">
+        @if (field().parameters.type === 'email') {
+          <mat-icon>alternate_email</mat-icon>
+        } @else if (field().parameters.type === 'tel') {
+          <mat-icon>call</mat-icon>
+        } @else if (field().parameters.type === 'ssn') {
+          <mat-icon>badge</mat-icon>
+        } @else {
+          <mat-icon>short_text</mat-icon>
+        }
+        <lj-editable-input
+          [value]="field().label"
+          label="label"
+          [name]="field().name"
+          (onValueChange)="handleLabelChange($event)" />
+
+        <lj-quick-required-configuration
+          (handleFieldChange)="handleFieldChange($event)"
+          [field]="field()" />
+
+        <lj-field-configuration
+          (remove)="handleRemove()"
+          [options]="{
+            required: true,
+            inputType: true,
+            minMaxLength: field().parameters.type === 'text',
+            minMaxValue: false,
+            conditionalLogic: true,
+            validator: field().parameters.type === 'text',
+            privacy: true,
+            decimalPrecision: false,
+            prefillable: allowPrefill(),
+            visible: false,
+          }"
+          (addConditionalLogic)="showConditionalLogic.set(true)"
+          (handleFieldChange)="handleFieldChange($event)"
+          [field]="field()" />
+      </div>
+
+      @if (field().parameters.type === 'email') {
+        <lj-input-field
+          [id]="field().id"
+          [name]="field().name"
+          [style]="'gray'"
+          type="text"
+          [showError]="false"
+          [ngModel]="field().parameters.placeholder ?? ''"
+          (ngModelChange)="handlePlaceholderChange($event)"
+          (onInputFocus)="focused.set(true)"
+          (onInputBlur)="focused.set(false)"
+          [placeholder]="
+            (field().parameters.placeholder === '' ||
+              !field().parameters.placeholder) &&
+            focused()
+              ? 'Type placeholder text'
+              : (field().parameters.placeholder ?? '')
+          " />
+      } @else if (field().parameters.type === 'tel') {
+        <lj-input-field
+          [id]="field().id"
+          [name]="field().name"
+          [style]="'gray'"
+          type="text"
+          [showError]="false"
+          [ngModel]="field().parameters.placeholder ?? ''"
+          (ngModelChange)="handlePlaceholderChange($event)"
+          (onInputFocus)="focused.set(true)"
+          (onInputBlur)="focused.set(false)"
+          [placeholder]="
+            (field().parameters.placeholder === '' ||
+              !field().parameters.placeholder) &&
+            focused()
+              ? 'Type placeholder text. Ex.: +1 (555) 555-5555'
+              : (field().parameters.placeholder ?? '')
+          " />
+      } @else if (field().parameters.type === 'ssn') {
+        <lj-input-field
+          [id]="field().id"
+          [name]="field().name"
+          [style]="'gray'"
+          type="text"
+          [showError]="false"
+          [ngModel]="field().parameters.placeholder ?? ''"
+          (ngModelChange)="handlePlaceholderChange($event)"
+          (onInputFocus)="focused.set(true)"
+          (onInputBlur)="focused.set(false)"
+          [placeholder]="
+            (field().parameters.placeholder === '' ||
+              !field().parameters.placeholder) &&
+            focused()
+              ? 'Type placeholder text. Ex.: 123-45-6789'
+              : (field().parameters.placeholder ?? '')
+          " />
+      } @else {
+        <lj-input-field
+          [id]="field().id"
+          [name]="field().name"
+          [style]="'gray'"
+          type="text"
+          [showError]="false"
+          [ngModel]="field().parameters.placeholder ?? ''"
+          (ngModelChange)="handlePlaceholderChange($event)"
+          (onInputFocus)="focused.set(true)"
+          (onInputBlur)="focused.set(false)"
+          [placeholder]="
+            (field().parameters.placeholder === '' ||
+              !field().parameters.placeholder) &&
+            focused()
+              ? 'Type placeholder text'
+              : (field().parameters.placeholder ?? '')
+          " />
+      }
+
+      @if (
+        (field().dependsOn !== undefined && field().dependsOn !== null) ||
+        showConditionalLogic()
+      ) {
+        <lj-conditional-logic
+          [mobile]="containerLayout() !== SectionLayouts.ONE_COLUMN"
+          [dependsOn]="field().dependsOn"
+          [existingFields]="existingFields()"
+          [formDefinition]="formDefinition()"
+          (removeConditionalLogic)="showConditionalLogic.set(false)"
+          (handleConditionalLogicChange)="
+            handleConditionalLogicChange($event)
+          " />
+      }
+    </div>
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

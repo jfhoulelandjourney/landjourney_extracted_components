@@ -1,0 +1,101 @@
+.comment-wrapper {
+  border-radius: var(--radius-primary, 4px);
+  border: 1px solid var(--accent-black-300, #c9c9c9);
+  background: var(--accent-black-100, #fff);
+  padding: 10px;
+  margin-bottom: var(--gap-compact);
+
+  &.child {
+    margin-left: var(--gap-default);
+  }
+}
+
+.thread-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: var(--gap-comfortable);
+  font-family: Inter;
+  font-size: var(--font-size-xs);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+  padding-bottom: var(--gap-comfortable);
+}
+
+.comment-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  .author,
+  .date {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-compact);
+  }
+
+  .author p {
+    font-family: Inter;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+  }
+
+  .date {
+    font-family: Inter;
+    font-size: var(--font-size-xxs);
+    font-weight: 300;
+
+    mat-icon {
+      font-size: var(--font-size-xxs);
+      width: 12px;
+      height: 12px;
+    }
+  }
+}
+
+mat-card-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--padding-default);
+}
+
+.comment-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-size-xxs);
+  font-family: Inter;
+  font-weight: 300;
+  padding: var(--padding-compact) var(--padding-default);
+
+  mat-icon {
+    font-size: var(--font-size-xs);
+    width: 14px;
+    height: 14px;
+    margin-right: var(--gap-compact);
+  }
+
+  &.clear {
+    border: 1px solid var(--color-border-strong, var(--green-470)) !important;
+    color: var(--color-border-strong, var(--green-470)) !important;
+    border: 1px solid var(--color-border-strong, var(--green-470)) !important;
+  }
+
+  &.submit {
+    background-color: var(--color-border-strong, var(--green-470)) !important;
+    border: 1px solid var(--color-border-strong, var(--green-470)) !important;
+    color: var(--accent-black-100, #fff);
+  }
+
+  &.delete {
+    background: var(--color-darker);
+    border: 1px solid var(--color-darker, var(--green-470)) !important;
+    color: var(--accent-black-100, #fff);
+  }
+}

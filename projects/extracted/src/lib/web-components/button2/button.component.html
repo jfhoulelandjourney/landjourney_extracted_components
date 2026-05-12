@@ -1,0 +1,120 @@
+<!-- Button element -->
+@if (isButton()) {
+  <button
+    class="btn"
+    [type]="type()"
+    [disabled]="isDisabled()"
+    [attr.aria-label]="ariaLabel() || null"
+    [attr.aria-describedby]="ariaDescribedBy() || null"
+    [attr.aria-busy]="loading() ? 'true' : null"
+    [attr.aria-disabled]="isDisabled() ? 'true' : null"
+    [ngClass]="classes()">
+    @if (loading()) {
+      <div
+        class="loading-spinner-container"
+        role="status"
+        aria-live="polite"
+        aria-label="Loading">
+        <mat-spinner
+          [diameter]="getSpinnerDiameter()"
+          [strokeWidth]="getSpinnerStrokeWidth()"
+          color="primary"
+          mode="indeterminate"></mat-spinner>
+      </div>
+    }
+    <ng-container *ngTemplateOutlet="buttonBody"></ng-container>
+  </button>
+}
+
+<!-- Router link -->
+@if (isRouterLink()) {
+  <a
+    class="btn"
+    [routerLink]="routerLink()"
+    [queryParams]="queryParams()"
+    [fragment]="fragment() ?? undefined"
+    [queryParamsHandling]="queryParamsHandling()"
+    [preserveFragment]="preserveFragment()"
+    [skipLocationChange]="skipLocationChange()"
+    [replaceUrl]="replaceUrl()"
+    [state]="state() ?? undefined"
+    [ngClass]="classes()"
+    [attr.aria-label]="ariaLabel() || null"
+    [attr.aria-describedby]="ariaDescribedBy() || null"
+    [attr.aria-busy]="loading() ? 'true' : null"
+    [attr.aria-disabled]="isDisabled() ? 'true' : null"
+    [attr.tabindex]="isDisabled() ? -1 : 0"
+    [style.pointer-events]="isDisabled() ? 'none' : null">
+    @if (loading()) {
+      <div class="loading-overlay" role="status" aria-live="polite">
+        <mat-spinner
+          [diameter]="getSpinnerDiameter()"
+          [strokeWidth]="getSpinnerStrokeWidth()"
+          color="primary"
+          mode="indeterminate"></mat-spinner>
+      </div>
+    }
+
+    <ng-container *ngTemplateOutlet="buttonBody"></ng-container>
+  </a>
+}
+
+<!-- External link -->
+@if (isExternalLink()) {
+  <a
+    class="btn"
+    [href]="href()"
+    [target]="target()"
+    [ngClass]="classes()"
+    [attr.aria-label]="ariaLabel() || null"
+    [attr.aria-describedby]="ariaDescribedBy() || null"
+    [attr.aria-busy]="loading() ? 'true' : null"
+    [attr.aria-disabled]="isDisabled() ? 'true' : null"
+    [attr.tabindex]="isDisabled() ? -1 : 0"
+    [attr.rel]="'noopener noreferrer'"
+    [style.pointer-events]="isDisabled() ? 'none' : null">
+    @if (loading()) {
+      <div class="loading-overlay" role="status" aria-live="polite">
+        <mat-spinner
+          [diameter]="getSpinnerDiameter()"
+          [strokeWidth]="getSpinnerStrokeWidth()"
+          color="primary"
+          mode="indeterminate"></mat-spinner>
+      </div>
+    }
+
+    <ng-container *ngTemplateOutlet="buttonBody"></ng-container>
+  </a>
+}
+
+<ng-template #buttonBody>
+  <div class="icon-container" [class.hidden-container]="!beforeIcon()">
+    @if (beforeIcon()) {
+      <mat-icon class="button-icon">{{ beforeIcon() }}</mat-icon>
+    }
+  </div>
+
+  <div
+    #beforeContent
+    class="before-content"
+    [class.hidden-container]="!showBeforeContent()">
+    <ng-content select="[before-content]"></ng-content>
+  </div>
+
+  <div class="main-content">
+    <ng-content />
+  </div>
+
+  <div
+    #afterContent
+    class="after-content"
+    [class.hidden-container]="!showAfterContent()">
+    <ng-content select="[after-content]"></ng-content>
+  </div>
+
+  <div class="icon-container" [class.hidden-container]="!afterIcon()">
+    @if (afterIcon()) {
+      <mat-icon class="button-icon">{{ afterIcon() }}</mat-icon>
+    }
+  </div>
+</ng-template>

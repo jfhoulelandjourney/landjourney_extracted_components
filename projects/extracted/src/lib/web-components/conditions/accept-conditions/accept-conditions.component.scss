@@ -1,0 +1,119 @@
+@use '../../../ui-styles/tokens/breakpoints' as bp;
+
+.conditions-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.5);
+
+  z-index: 9999;
+}
+
+.conditions-container {
+  border-radius: var(--radius-primary, 5px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: var(--color-lighter, #fff);
+
+  width: calc(100vw - 88px);
+  height: calc(100vh - 88px);
+
+  &.mobile {
+    width: 95vw;
+    height: calc(100vh - 120px);
+    padding: var(--padding-comfortable, 8px);
+
+    h1 {
+      flex-wrap: wrap;
+    }
+
+    .condition-text {
+      padding: var(--padding-comfortable, 8px);
+    }
+
+    .actions {
+      flex-direction: column;
+      gap: var(--padding-comfortable, 8px);
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+
+  padding: var(--padding-spacious, 10px);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--padding-spacious, 10px);
+
+  h1 {
+    color: var(--color-darker, rgba(0, 0, 0, 0.8));
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--padding-spacious);
+
+    span {
+      flex-grow: 1;
+    }
+  }
+
+  .condition-title {
+    h3 {
+      text-transform: uppercase;
+    }
+  }
+
+  .condition-text {
+    flex-grow: 1;
+    font-size: var(--font-size-xs);
+    white-space: pre-line;
+
+    overflow-y: scroll;
+    background-color: var(--gray-100, #f5f5f5);
+    padding: var(--padding-spacious, 10px);
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  @include bp.max-mobile {
+    width: 95vw;
+    padding: var(--padding-comfortable, 8px);
+
+    h1 {
+      flex-wrap: wrap;
+    }
+
+    .condition-text {
+      padding: var(--padding-comfortable, 8px);
+    }
+
+    .actions {
+      flex-direction: column;
+      gap: var(--padding-comfortable, 8px);
+
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
+
+.confirmation-checkbox-container {
+  text-align: right;
+}

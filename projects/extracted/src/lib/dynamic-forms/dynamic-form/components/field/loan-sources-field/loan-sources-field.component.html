@@ -1,0 +1,247 @@
+@if (field() && field().value) {
+  <div class="loan-sources" [class.mobile]="isMobile()">
+    <h3 [style]="getCustomStyle('h3', true)">Loan Sources</h3>
+    @if (mode() === 'locked') {
+      <div class="locked-display">
+        <div
+          [class.locked-error]="getPurchagePriceErrorMessage() !== undefined">
+          <div
+            class="body-sm title"
+            [style]="getCustomStyle('.field-title', true)">
+            Purchase Price
+          </div>
+          <div
+            class="body-sm text"
+            [style]="getCustomStyle('.field-text', true)">
+            {{ formatMoney(field().value!.purchasePrice ?? 0) }}
+          </div>
+          @if (getPurchagePriceErrorMessage()) {
+            <div class="body-sm">
+              {{ getPurchagePriceErrorMessage() }}
+            </div>
+          }
+        </div>
+      </div>
+      <div class="locked-display">
+        <div>
+          <div
+            class="body-sm title"
+            [style]="getCustomStyle('.field-title', true)">
+            This is an arm's length transaction
+          </div>
+          <div
+            class="body-sm text"
+            [style]="getCustomStyle('.field-text', true)">
+            {{ field().value!.armsLengthTransaction ? 'Yes' : 'No' }}
+          </div>
+        </div>
+      </div>
+      <div class="locked-display">
+        <div
+          class="table"
+          [class.locked-error-table]="getErrorMessage() !== undefined"
+          [style]="getCustomStyle('.table')">
+          <div class="table-row" [style]="getCustomStyle('.table-row')">
+            <div
+              class="table-column body-sm title"
+              [style]="getCustomStyle('.table-header')">
+              Sources
+            </div>
+            <div
+              class="table-column body-sm title"
+              [style]="getCustomStyle('.table-header')">
+              Amount
+            </div>
+          </div>
+
+          @for (element of field().value!.sources; track $index) {
+            <div
+              class="table-row divider"
+              [style]="getCustomStyle('.table-row')">
+              <div
+                class="table-column body-sm text"
+                [style]="getCustomStyle('.table-column')">
+                {{ element.source }}
+              </div>
+              <div
+                class="table-column body-sm text padding"
+                [style]="getCustomStyle('.table-column')">
+                {{ formatMoney(element.amount ?? 0) }}
+              </div>
+            </div>
+          }
+
+          <div
+            class="table-row body-sm text"
+            [style]="getCustomStyle('.table-row')">
+            <div
+              class="table-column body-sm text"
+              [class.bad-total]="
+                getTotal() > (field().value!.purchasePrice ?? 0) ||
+                getTotal() < (field().value!.purchasePrice ?? 0)
+              "
+              [style]="getCustomStyle('.table-column')">
+              Total:
+            </div>
+            <div
+              class="table-column body-sm text"
+              [class.bad-total]="
+                getTotal() > (field().value!.purchasePrice ?? 0) ||
+                getTotal() < (field().value!.purchasePrice ?? 0)
+              "
+              [style]="getCustomStyle('.table-column')">
+              {{ formatMoney(getTotal()) }}
+            </div>
+          </div>
+
+          @if (getErrorMessage()) {
+            <div class="body-sm">
+              {{ getErrorMessage() }}
+            </div>
+          }
+        </div>
+      </div>
+    } @else {
+      <div
+        class="row margin-bottom body-s"
+        [style]="getCustomStyle('.small-text')">
+        Please provide a breakdown of the sources that will be leveraged for the
+        purchase. Total of all combined sources must equal the purchase price.
+      </div>
+      <div class="dynamic-form-input">
+        <div class="row">
+          <lj-input-field
+            placeholder="Purchase price"
+            id="purchasePrice"
+            name="purchasePrice"
+            type="text"
+            label="Purchase price"
+            [style]="'gray'"
+            [customCssTitleStyle]="getCustomStyle('.field-title')"
+            [customCssStyle]="getCustomStyle('.input-field')"
+            [required]="true"
+            [placeholder]="field().parameters.placeholder || '$ ___.__'"
+            [ngModel]="formatMoney(field().value!.purchasePrice ?? 0)"
+            (ngModelChange)="handlePurchasePriceChange($event)"
+            [customErrorMessage]="
+              purchasedPriceTouched()
+                ? getPurchagePriceErrorMessage()
+                : undefined
+            "
+            (onInputBlur)="handleOnBlur()"
+            [mask]="getMoneyMask('purchasePrice')" />
+        </div>
+        <mat-checkbox
+          class="row"
+          [ngModel]="field().value!.armsLengthTransaction"
+          (ngModelChange)="handleArmsLengthTransactionChange($event)"
+          [style]="getCustomStyle('.checkbox')">
+          Check this box if this is an arm's-length transaction*
+        </mat-checkbox>
+      </div>
+      <div
+        class="body-s margin-bottom"
+        [style]="getCustomStyle('.small-text', true)">
+        * An arm's length transaction is when the buyers and sellers act in
+        their own self-interest to negotiate the best deal. The parties involved
+        have no pre-existing relationship to each other.
+      </div>
+
+      <div class="dynamic-form-input">
+        <div class="table" [style]="getCustomStyle('.table')">
+          <div class="table-row" [style]="getCustomStyle('.table-row')">
+            <div
+              class="table-column purpose title"
+              [style]="getCustomStyle('.table-header')">
+              Source
+            </div>
+            <div
+              class="table-column amount title"
+              [style]="getCustomStyle('.table-header')">
+              Amount
+            </div>
+            <div
+              class="table-column action title"
+              [style]="getCustomStyle('.table-header')">
+              <button
+                mat-icon-button
+                (activate)="addRow()"
+                [style]="getCustomStyle('.table-header-button')">
+                <mat-icon [style]="getCustomStyle('.table-header-button-icon')">
+                  add
+                </mat-icon>
+              </button>
+            </div>
+          </div>
+
+          @for (element of field().value!.sources; track $index) {
+            <div class="table-row" [style]="getCustomStyle('.table-row')">
+              <div
+                class="table-column purpose"
+                [style]="getCustomStyle('.table-column')">
+                <lj-input-field
+                  placeholder="Source"
+                  id="source-{{ $index }}"
+                  name="source-{{ $index }}"
+                  type="text"
+                  [style]="'gray'"
+                  [customCssTitleStyle]="getCustomStyle('.field-title')"
+                  [customCssStyle]="getCustomStyle('.input-field')"
+                  [required]="true"
+                  [ngModel]="element.source"
+                  (ngModelChange)="updateElementSource($event, $index)" />
+              </div>
+              <div
+                class="table-column amount"
+                [style]="getCustomStyle('.table-column')">
+                <lj-input-field
+                  placeholder="Amount"
+                  id="amount-{{ $index }}"
+                  name="amount-{{ $index }}"
+                  type="text"
+                  [style]="'gray'"
+                  [customCssTitleStyle]="getCustomStyle('.field-title')"
+                  [customCssStyle]="getCustomStyle('.input-field')"
+                  [required]="true"
+                  [ngModel]="formatMoney(element.amount ?? 0)"
+                  (ngModelChange)="updateElementAmount($event, $index)"
+                  [mask]="getMoneyMask($index)" />
+              </div>
+              <div
+                class="table-column action remove"
+                [style]="getCustomStyle('.table-column')">
+                <button
+                  mat-icon-button
+                  (activate)="removeRow($index)"
+                  [style]="getCustomStyle('.table-column-button')">
+                  <mat-icon
+                    [style]="getCustomStyle('.table-column-button-icon')">
+                    remove
+                  </mat-icon>
+                </button>
+              </div>
+            </div>
+          }
+
+          <div class="error-message">
+            @if (touched()) {
+              {{ getErrorMessage() }}
+            }
+          </div>
+
+          <div
+            class="total"
+            [class.bad-total]="
+              getTotal() > (field().value!.purchasePrice ?? 0) ||
+              getTotal() < (field().value!.purchasePrice ?? 0)
+            "
+            [style]="getCustomStyle('.table-column')">
+            Total: {{ formatMoney(getTotal()) }}
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

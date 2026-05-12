@@ -1,0 +1,35 @@
+<div class="disclaimer">
+  <div class="disclaimer-text">
+    By checking this box and providing your mobile phone number, you consent to
+    receive text messages about your application, account, and other
+    business-related matters{{
+      getConditionalString(!(showTermsOfUse() || showPrivacyPolicy()), '.')
+    }}{{ getConditionalString(showTermsOfUse() || showPrivacyPolicy(), ', ') }}
+
+    @if (showTermsOfUse() || showPrivacyPolicy()) {
+      subject to our
+
+      @if (showTermsOfUse()) {
+        <a href="{{ getTermsOfUse() }}" target="_blank">
+          <span>TERMS OF USE</span>
+        </a>
+        ({{ getTermsOfUse() }}){{
+          getConditionalString(!showPrivacyPolicy(), '.')
+        }}
+      }
+      @if (showTermsOfUse() && showPrivacyPolicy()) {
+        and
+      }
+      @if (showPrivacyPolicy()) {
+        <a href="{{ getPrivacyPolicy() }}" target="_blank">
+          <span>PRIVACY POLICY</span>
+        </a>
+        ({{ getPrivacyPolicy() }}).
+      }
+    }
+
+    You may opt out of receiving SMS messages at any time, except where
+    necessary for security purposes.
+  </div>
+  <mat-checkbox [(ngModel)]="confirmationCheck" class="checkbox"></mat-checkbox>
+</div>

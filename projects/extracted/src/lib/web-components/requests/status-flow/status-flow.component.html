@@ -1,0 +1,15 @@
+<div class="status-flow">
+  @for (status of statusFlow; track $index) {
+    <div
+      class="status"
+      (activate)="statusWasClicked(status)"
+      [class.displayed-status]="status === displayedStatus"
+      [class.active]="status === currentStatus"
+      [class.completed]="
+        statusFlow.indexOf(status) < statusFlow.indexOf(currentStatus)
+      ">
+      <div class="status-bar"></div>
+      <div class="status-text">{{ formatEnumValue(status) }}</div>
+    </div>
+  }
+</div>

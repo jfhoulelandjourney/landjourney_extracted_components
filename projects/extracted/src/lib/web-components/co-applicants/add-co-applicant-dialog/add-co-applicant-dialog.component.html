@@ -1,0 +1,272 @@
+<h2 mat-dialog-title>
+  <span>Add a Co-applicant</span>
+  <mat-icon (activate)="cancel()">close</mat-icon>
+</h2>
+
+<mat-dialog-content>
+
+  @if (step() === 'type-selector') {
+    <div class="type-selector">
+      @if (data.canShowMyself) {
+        <button class="type-card" type="button" (click)="goToStep('myself-form')">
+          <mat-icon>person</mat-icon>
+          <div>
+            <strong>Add Co-applicant</strong>
+            <p>Add yourself as individual</p>
+          </div>
+          <mat-icon class="arrow">arrow_forward</mat-icon>
+        </button>
+      }
+      @if (data.canDirectAddBusiness) {
+        <button class="type-card" type="button" (click)="goToStep('business-form')">
+          <mat-icon>business</mat-icon>
+          <div>
+            <strong>My Business</strong>
+            <p>Add your own business as a co-applicant</p>
+          </div>
+          <mat-icon class="arrow">arrow_forward</mat-icon>
+        </button>
+      }
+      <button class="type-card" type="button" (click)="goToStep('someone-else-form')">
+        <mat-icon>person_add</mat-icon>
+        <div>
+          <strong>Add Co-applicant</strong>
+          <p>Invite a person that will be able to act as an individual or a business</p>
+        </div>
+        <mat-icon class="arrow">arrow_forward</mat-icon>
+      </button>
+    </div>
+  }
+
+  @if (step() === 'myself-form') {
+    <div class="form-section">
+      <h3 class="section-title">Individual</h3>
+      <lj-select-field
+        name="myself-role"
+        label="Role"
+        [options]="roleOptions"
+        [required]="true"
+        [ngModel]="role()"
+        (change)="onRoleChange($event)" />
+      <lj-input-field
+        name="myself-first-name"
+        label="First name"
+        class="is-readonly"
+        [readonly]="true"
+        [ngModel]="data.currentUserProfile.firstName" />
+      <lj-input-field
+        name="myself-last-name"
+        label="Last name"
+        class="is-readonly"
+        [readonly]="true"
+        [ngModel]="data.currentUserProfile.lastName" />
+      <lj-input-field
+        name="myself-email"
+        label="Email"
+        type="email"
+        class="is-readonly"
+        [readonly]="true"
+        [ngModel]="data.currentUserProfile.email" />
+      @if (submitError()) {
+        <div class="form-error" role="alert">{{ submitError() }}</div>
+      }
+    </div>
+  }
+
+  @if (step() === 'someone-else-form') {
+    <div class="form-section">
+      <h3 class="section-title">Someone Else</h3>
+      <p class="step-hint">
+        The invited person will choose whether to act as an individual or register a
+        business when they accept the invitation.
+      </p>
+      <lj-select-field
+        name="se-role"
+        label="Role"
+        [options]="roleOptions"
+        [required]="true"
+        [ngModel]="role()"
+        (change)="onRoleChange($event)" />
+      <lj-input-field
+        name="se-first-name"
+        label="First name"
+        [required]="true"
+        [ngModel]="firstName()"
+        (ngModelChange)="onFirstNameChange($event)" />
+      <lj-input-field
+        name="se-last-name"
+        label="Last name"
+        [required]="true"
+        [ngModel]="lastName()"
+        (ngModelChange)="onLastNameChange($event)" />
+      <lj-input-field
+        name="se-email"
+        label="Email"
+        type="email"
+        [required]="true"
+        [ngModel]="email()"
+        (ngModelChange)="onEmailChange($event)" />
+      @if (submitError()) {
+        <div class="form-error" role="alert">{{ submitError() }}</div>
+      }
+    </div>
+  }
+
+  @if (step() === 'business-form') {
+    <div class="form-section">
+
+      <h3 class="section-title">Business</h3>
+
+      <p class="step-hint">Pick one of your businesses below or create a new one.</p>
+
+      <lj-select-field
+        name="biz-role"
+        label="Role"
+        [options]="roleOptions"
+        [required]="true"
+        [ngModel]="role()"
+        (change)="onRoleChange($event)" />
+
+      <div class="business-list">
+        @if (businessesLoading()) {
+          <ngx-skeleton-loader count="3" [theme]="{ height: '56px' }" />
+        } @else {
+          @for (biz of availableBusinesses(); track biz.id) {
+            <button
+              type="button"
+              class="business-card"
+              [class.selected]="selectedBusiness()?.id === biz.id"
+              (activate)="selectExistingBusiness(biz)">
+              <mat-icon>business</mat-icon>
+              <div class="body">
+                <strong>{{ biz.name }}</strong>
+                <p>{{ biz.email }}</p>
+              </div>
+            </button>
+          }
+          <button
+            type="button"
+            class="business-card create-new"
+            [class.selected]="businessFormMode() === 'new'"
+            (activate)="startNewBusiness()">
+            <mat-icon>add_circle_outline</mat-icon>
+            <div class="body">
+              <strong>Create a new business</strong>
+              <p>Enter the details manually below.</p>
+            </div>
+          </button>
+        }
+      </div>
+
+      @if (businessFormMode() !== 'none') {
+        <div class="business-detail-form">
+          <lj-input-field
+            name="biz-name"
+            label="Business name"
+            [class.is-readonly]="businessFormMode() === 'existing'"
+            [required]="true"
+            [readonly]="businessFormMode() === 'existing'"
+            [ngModel]="businessName()"
+            (ngModelChange)="onBusinessNameChange($event)" />
+          <lj-input-field
+            name="businessUniqueIdentifier"
+            label="EIN / Tax Number / Unique Identifier"
+            [class.is-readonly]="businessFormMode() === 'existing'"
+            [readonly]="businessFormMode() === 'existing'"
+            [ngModel]="businessUniqueIdentifier()"
+            (ngModelChange)="onBusinessUniqueIdentifierChange($event)" />
+          <lj-select-field
+            name="biz-type"
+            label="Business type"
+            [options]="businessTypeOptions"
+            [class.is-readonly]="businessFormMode() === 'existing'"
+            [required]="true"
+            [readonly]="businessFormMode() === 'existing'"
+            [ngModel]="businessType()"
+            (change)="onBusinessTypeChange($event)" />
+        </div>
+      }
+
+      @if (submitError()) {
+        <div class="form-error" role="alert">{{ submitError() }}</div>
+      }
+    </div>
+  }
+
+  @if (step() !== 'type-selector') {
+    <div
+      class="disclaimer"
+      tabindex="0"
+      (click)="toggleDisclaimer($event)"
+      (keydown.enter)="toggleDisclaimer($event)"
+      (keydown.space)="toggleDisclaimer($event)">
+      <div class="checkbox-container">
+        <mat-checkbox
+          class="checkbox"
+          [ngModel]="confirmationCheck()"
+          (ngModelChange)="confirmationCheck.set($event)"></mat-checkbox>
+      </div>
+      <div class="disclaimer-text">
+        By checking this box, you authorize {{ getOrganizationName() }} to
+        disclose any personal information that you have submitted to
+        {{ getOrganizationName() }} in connection with this Account to each
+        Authorized User of the Account. In addition, if you have submitted any
+        other person's personal information to {{ getOrganizationName() }} in
+        connection with this Account, you represent and warrant that they have
+        authorized you to do so and, further, to authorize
+        {{ getOrganizationName() }} to disclose their personal information to
+        each Authorized User of the Account.
+
+        @if (showTermsOfUse() || showPrivacyPolicy()) {
+          <div class="urls">
+            For more information, see our
+            @if (showTermsOfUse()) {
+              <a [href]="getTermsOfUse()" target="_blank"><span>Terms of Use</span></a>
+              ({{ getTermsOfUse() }}){{ getConditionalString(!showPrivacyPolicy(), '.') }}
+            }
+            @if (showTermsOfUse() && showPrivacyPolicy()) { and }
+            @if (showPrivacyPolicy()) {
+              <a [href]="getPrivacyPolicy()" target="_blank"><span>Privacy Policy</span></a>
+              ({{ getPrivacyPolicy() }}).
+            }
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  @if (step() !== 'type-selector') {
+    <button class="lj-button secondary" type="button" (activate)="goBack()">Back</button>
+
+    @if (step() === 'myself-form') {
+      <button class="lj-button" type="button"
+        [disabled]="!canSubmitMyself()"
+        (activate)="submitMyself()">
+        <mat-icon>send</mat-icon>
+        <span class="label-full">Add myself</span>
+        <span class="label-short">Add</span>
+      </button>
+    }
+    @if (step() === 'someone-else-form') {
+      <button class="lj-button" type="button"
+        [disabled]="!canSubmitSomeoneElse()"
+        (activate)="submitSomeoneElse()">
+        <mat-icon>send</mat-icon>
+        <span class="label-full">Send invitation</span>
+        <span class="label-short">Invite</span>
+      </button>
+    }
+    @if (step() === 'business-form') {
+      <button class="lj-button" type="button"
+        [disabled]="!canSubmitBusiness()"
+        (activate)="submitBusiness()">
+        <mat-icon>send</mat-icon>
+        <span class="label-full">Add co-applicant</span>
+        <span class="label-short">Add</span>
+      </button>
+    }
+  }
+</mat-dialog-actions>

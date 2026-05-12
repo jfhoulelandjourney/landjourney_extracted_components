@@ -1,0 +1,43 @@
+@if (selectedAnnotationId()) {
+  <div
+    #inspectorPanel
+    class="inspector-panel"
+    [ngStyle]="{ top: panelStyle().top, left: panelStyle().left }">
+    <!-- Header: Type badge and close button -->
+    <div class="inspector-header">
+      @if (data(); as fieldData) {
+        <span class="type-badge">{{ fieldData.type }}</span>
+      }
+      <button class="close-btn" (click)="close()" aria-label="Close inspector">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div class="inspector-content">
+      <!-- Plugin-specific configuration (type-specific fields) -->
+      <ng-container #pluginContainer></ng-container>
+
+      <!-- Debug panel (optional) -->
+      @if (showDebug()) {
+        <div class="section debug-section">
+          <button class="debug-toggle" (click)="toggleDebug()">
+            {{ debugExpanded() ? '▼' : '▶' }} Debug Info
+          </button>
+          @if (debugExpanded()) {
+            <div class="debug-content">
+              <pre>{{ debugJson() }}</pre>
+              <button class="copy-btn" (click)="copyDebugJson()">
+                Copy JSON
+              </button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Footer: Form field name -->
+    <div class="inspector-footer">
+      <span class="field-identifier">{{ formFieldName() }}</span>
+    </div>
+  </div>
+}

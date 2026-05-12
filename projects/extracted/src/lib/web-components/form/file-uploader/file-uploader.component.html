@@ -1,0 +1,82 @@
+<input
+  type="file"
+  class="hidden-input"
+  #fileDropRef
+  [id]="id()"
+  [name]="name()"
+  accept="{{ supportedFileTypes() }}"
+  [required]="required()"
+  [disabled]="uploading()"
+  [multiple]="!single()"
+  (change)="handleFileInput($event)" />
+<div
+  [class.uploader-wrapper]="style() !== 'none'"
+  [class.small]="small()"
+  [class.uploading]="!uploading()"
+  [class.vertical]="vertical()"
+  [class.horizontal]="horizontal()"
+  [class.drag-active]="dragging()"
+  (activate)="fileDropRef.click()">
+  @if (uploading()) {
+    @if (useSpinnerWhenLoading()) {
+      <div class="spinner-wrapper">
+        <mat-spinner
+          [diameter]="24"
+          [strokeWidth]="2"
+          color="primary"
+          mode="indeterminate"></mat-spinner>
+      </div>
+    } @else {
+      <div>loading</div>
+    }
+  } @else {
+    <div class="icon-wrapper" [class.remove-style]="style() === 'none'">
+      <mat-icon>upload</mat-icon>
+    </div>
+
+    @if (allowDrag()) {
+      <div class="text-wrapper" data-testid="upload-file-button">
+        @if (isClient()) {
+          @if (deviceDetector.isMobile() || deviceDetector.isTablet()) {
+            Browse
+          } @else {
+            <span class="bold">Upload</span>
+            by drag & drop or
+            <span class="underline bold">Browse</span>
+          }
+        } @else {
+          @if (single()) {
+            @if (deviceDetector.isMobile() || deviceDetector.isTablet()) {
+              Choose a file to upload
+            } @else {
+              Drop your file here or choose a file to upload
+            }
+          } @else {
+            @if (deviceDetector.isMobile() || deviceDetector.isTablet()) {
+              Choose your files to upload
+            } @else {
+              Drop your files here or choose your file to upload
+            }
+          }
+          {{ isTemplate() ? 'as a template' : '' }}
+        }
+      </div>
+    }
+
+    @if (displayFileSizeError()) {
+      <div class="error">
+        The file size is not large enough. Please select a file larger than
+        250KB.
+      </div>
+    }
+
+    @if (displayFileSizeEmptyError()) {
+      <div class="error">
+        The system was not able to load the file properly. If you dragged the
+        file from a system like outlook, it may happen. Please click on "choose
+        file to upload" and select the file from your harddrive, or use a
+        different file.
+      </div>
+    }
+  }
+</div>

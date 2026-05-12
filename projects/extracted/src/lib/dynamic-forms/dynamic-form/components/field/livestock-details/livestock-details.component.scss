@@ -1,0 +1,124 @@
+@use '../../../../../ui-styles/tokens/breakpoints' as bp;
+
+:host {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--padding-default);
+
+  .livestock-details {
+    flex-grow: 1;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--padding-default);
+
+    .input {
+      margin-bottom: var(--padding-comfortable);
+    }
+
+    .card-container {
+      display: flex;
+      flex-direction: row;
+      gap: var(--padding-spacious);
+      flex-wrap: wrap;
+      width: 100%;
+
+      margin-bottom: var(--padding-spacious);
+
+      .empty-message {
+        margin-bottom: var(--gap-spacious);
+        background: var(--status-warning-100, #fef7ec);
+        padding: var(--padding-comfortable);
+        border-radius: var(--radius-strong, 8px);
+        border: 1px solid var(--status-warning-700, #da8911);
+        color: var(--status-warning-700, #da8911);
+        font-size: var(--font-size-xxs);
+        font-family: Inter;
+        flex-grow: 1;
+      }
+
+      .card {
+        width: 100%;
+        max-width: calc(50% - (var(--padding-spacious) / 2));
+
+        padding: var(--padding-spacious);
+        border-radius: var(--radius-strong);
+        background: var(--accent-black-100);
+        border: 1px solid var(--accent-black-200);
+
+        &.display {
+          display: flex;
+          flex-direction: column;
+          gap: var(--padding-spacious);
+          background: var(--accent-black-200);
+        }
+
+        &.full-width {
+          max-width: 100%;
+        }
+
+        @include bp.max-mobile {
+          max-width: 100%;
+          flex: 1 1 100%;
+          padding: var(--padding-default);
+        }
+
+        .message {
+          .title {
+            color: var(--accent-black-500, #7d7d7d);
+            line-height: 150%;
+            letter-spacing: 0.12px;
+          }
+        }
+
+        .card-actions {
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-end;
+          gap: var(--padding-default);
+
+          &.use-title {
+            align-items: center;
+
+            h4 {
+              flex-grow: 1;
+              color: var(--color-background-button);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@include bp.max-mobile {
+  .livestock-details .card-container {
+    flex-direction: column;
+  }
+}
+
+h3 {
+  margin-bottom: var(--padding-comfortable);
+  color: var(--color-background-button);
+  text-transform: uppercase;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semi-bold);
+}
+
+.actions {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  button {
+    width: 100%;
+    margin-bottom: var(--padding-spacious);
+    justify-content: center;
+  }
+}

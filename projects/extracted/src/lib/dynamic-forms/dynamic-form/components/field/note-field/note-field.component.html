@@ -1,0 +1,10 @@
+@if (field() && (noteBody() || field().label)) {
+  <p
+    class="note"
+    [class.variant-warning]="noteVariant() === 'warning'"
+    [class.variant-success]="noteVariant() === 'success'"
+    [class.variant-error]="noteVariant() === 'error'"
+    role="note">
+    {{ noteBody() }}
+  </p>
+}

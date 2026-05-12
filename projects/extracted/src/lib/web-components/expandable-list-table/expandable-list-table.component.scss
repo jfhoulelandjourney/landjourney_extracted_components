@@ -1,0 +1,78 @@
+@use '../../ui-styles/tokens/breakpoints' as bp;
+
+:host {
+  --header-min-height: 56px;
+
+  display: grid;
+  width: 100%;
+  grid-template-rows: auto 1fr auto;
+  border: 1px solid var(--box-border-color);
+  border-radius: var(--radius-strong);
+  overflow: hidden;
+  background: var(--white, #fff);
+}
+
+.elt__header {
+  display: flex;
+  width: 100%;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  min-height: var(--header-min-height);
+  border-bottom: 1px solid var(--box-border-color);
+  border-top-right-radius: var(--radius-strong);
+  border-top-left-radius: var(--radius-strong);
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.elt__title {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  line-height: 24px;
+  margin: 0;
+  padding-inline: var(--padding-spacious);
+}
+
+.elt__actions {
+  padding-inline: var(--padding-spacious);
+}
+
+.search-input {
+  font-size: var(--font-size-xs);
+  padding: var(--padding-default);
+  font-family: var(--input-field--font-family, inherit);
+  border-radius: var(--radius-primary);
+  border: 1px solid var(--input-field--border-color, #eaebf0);
+}
+
+.elt__content {
+  overflow: auto;
+  padding: var(--spacing-4);
+  background: var(--color-lighter);
+}
+
+.elt__footer {
+  border-top: 1px solid var(--box-border-color);
+  background: var(--content-background-color);
+}
+
+@include bp.max-mobile {
+  .elt__header {
+    flex-direction: column;
+    align-items: stretch;
+    padding-block: var(--padding-default);
+    gap: var(--padding-default);
+    min-height: unset;
+  }
+
+  .elt__actions {
+    width: 100%;
+  }
+
+  .search-input {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}

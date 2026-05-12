@@ -1,0 +1,227 @@
+@if (field() && field().value) {
+  <div class="use-details">
+    <h3 [style]="getCustomStyle('h3', true)">
+      @if (field().label.trim() !== 'New field') {
+        {{ field().label }}
+      } @else {
+        Use of Funds
+      }
+    </h3>
+
+    <div class="card-container">
+      @for (use of getFunds(); track use.id) {
+        <div
+          class="card"
+          [style]="getCustomStyle('.card')"
+          [class.display]="mode() === 'locked' || !isCurrentlyEditedUse(use)"
+          [class.full-width]="isMobile()">
+          @if (mode() !== 'locked' && isCurrentlyEditedUse(use)) {
+            <lj-select-field
+              label="Type of Use"
+              id="typeOfUse"
+              name="typeOfUse"
+              [style]="'gray'"
+              [required]="true"
+              [options]="useOfLoanTypes"
+              [value]="editedUse().typeOfUse"
+              (change)="handleTypeOfUseChange($event)" />
+
+            @if (
+              getTypeOfUseHelpText(
+                editedUse().typeOfUse,
+                editedUse().refinanceLoanType
+              );
+              as typeHelp
+            ) {
+              <p class="type-of-use-help" role="note">{{ typeHelp }}</p>
+            }
+
+            @if (isRefinance(editedUse())) {
+              <div class="input">
+                <lj-select-field
+                  label="Refinance Type"
+                  id="refinanceLoanType"
+                  name="refinanceLoanType"
+                  [style]="'gray'"
+                  [required]="true"
+                  [options]="refinanceLoanTypeOptions"
+                  [value]="editedUse().refinanceLoanType"
+                  (change)="handleRefinanceLoanTypeChange($event)"
+                  [customErrorMessage]="
+                    refinanceLoanTypeTouched()
+                      ? getRefinanceLoanTypeError(editedUse())
+                      : undefined
+                  " />
+              </div>
+
+              <div class="input">
+                <lj-input-field
+                  placeholder="Lender's Name"
+                  id="lenderName"
+                  name="lenderName"
+                  type="text"
+                  label="Lender's name"
+                  [style]="'gray'"
+                  [customCssTitleStyle]="getCustomStyle('.field-title')"
+                  [customCssStyle]="getCustomStyle('.input-field')"
+                  [required]="true"
+                  [customErrorMessage]="
+                    lenderNameTouched()
+                      ? getLenderNameError(editedUse())
+                      : undefined
+                  "
+                  [ngModel]="editedUse().lenderName"
+                  (ngModelChange)="handleLenderNameChange($event)" />
+              </div>
+
+              <div class="input">
+                <lj-input-field
+                  placeholder="Amount"
+                  id="amount"
+                  name="amount"
+                  type="text"
+                  [label]="getAmountLabel(editedUse().typeOfUse)"
+                  [style]="'gray'"
+                  [customCssTitleStyle]="getCustomStyle('.field-title')"
+                  [customCssStyle]="getCustomStyle('.input-field')"
+                  [required]="true"
+                  [customErrorMessage]="
+                    amountTouched() ? getAmountError(editedUse()) : undefined
+                  "
+                  [ngModel]="formatMoney(editedUse().amount)"
+                  (ngModelChange)="handleAmountChange($event)"
+                  [mask]="getMoneyMask('amount-1')" />
+              </div>
+            } @else {
+              <div class="input">
+                <lj-input-field
+                  [placeholder]="getUseDetailsLabel()"
+                  id="useDetails"
+                  name="useDetails"
+                  type="text"
+                  [label]="getUseDetailsLabel()"
+                  [style]="'gray'"
+                  [customCssTitleStyle]="getCustomStyle('.field-title')"
+                  [customCssStyle]="getCustomStyle('.input-field')"
+                  [required]="true"
+                  [customErrorMessage]="
+                    useDetailsTouched()
+                      ? getUseDetailsError(editedUse())
+                      : undefined
+                  "
+                  [ngModel]="editedUse().useDetails"
+                  (ngModelChange)="handleUseDetailsChange($event)" />
+              </div>
+
+              <div class="input">
+                <lj-input-field
+                  placeholder="Amount"
+                  id="amount"
+                  name="amount"
+                  type="text"
+                  [label]="getAmountLabel(editedUse().typeOfUse)"
+                  [style]="'gray'"
+                  [customCssTitleStyle]="getCustomStyle('.field-title')"
+                  [customCssStyle]="getCustomStyle('.input-field')"
+                  [required]="true"
+                  [customErrorMessage]="
+                    amountTouched() ? getAmountError(editedUse()) : undefined
+                  "
+                  [ngModel]="formatMoney(editedUse().amount)"
+                  (ngModelChange)="handleAmountChange($event)"
+                  [mask]="getMoneyMask('amount-2')" />
+              </div>
+            }
+
+            <div class="card-actions">
+              <button
+                lj-button="ghost"
+                [style]="getCustomStyle('.cancel-button')"
+                (activate)="cancelEdit()">
+                Cancel
+              </button>
+
+              <button
+                lj-button="inverse-cta"
+                [style]="getCustomStyle('.button')"
+                (activate)="saveUse()">
+                Done
+              </button>
+            </div>
+          } @else {
+            <div class="card-actions use-title">
+              <h4 [style]="getCustomStyle('h4', true)">
+                {{ formatEnumValue(use.typeOfUse) }}
+              </h4>
+
+              @if (mode() !== 'locked') {
+                <button
+                  mat-icon-button
+                  lj-confirmation-required
+                  message="Are you sure you want to remove this use of funds?"
+                  (confirm)="removeUse(use)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+
+                <button mat-icon-button (activate)="editedUse.set(use)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              }
+            </div>
+
+            @if (isRefinance(use)) {
+              <div class="message">
+                <div class="title">Refinance Type</div>
+                <div class="content">
+                  {{ getRefinanceLoanTypeLabel(use.refinanceLoanType) }}
+                </div>
+              </div>
+              <div class="message">
+                <div class="title">Lender's Name</div>
+                <div class="content">
+                  {{ use.lenderName }}
+                </div>
+              </div>
+            } @else {
+              <div class="message">
+                <div class="title">{{ getUseDetailsLabel() }}</div>
+                <div class="content">{{ use.useDetails }}</div>
+              </div>
+            }
+
+            <div class="message">
+              <div class="title">{{ getAmountLabel(use.typeOfUse) }}</div>
+              <div class="content">{{ formatMoney(use.amount) }}</div>
+            </div>
+          }
+        </div>
+      } @empty {
+        @if (mode() !== 'locked') {
+          <div
+            class="empty-message"
+            [style]="getCustomStyle('.explanation-message')">
+            How do you plan to use your desired loan amount?
+          </div>
+        } @else {
+          <div>No use of funds added.</div>
+        }
+      }
+    </div>
+
+    @if (mode() !== 'locked') {
+      <div class="actions">
+        @if (!isEdited()) {
+          <button
+            lj-button="inverse-cta"
+            [style]="getCustomStyle('.button')"
+            (activate)="addNewUse()">
+            Add a Use of Funds
+            <mat-icon>add</mat-icon>
+          </button>
+        }
+      </div>
+    }
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

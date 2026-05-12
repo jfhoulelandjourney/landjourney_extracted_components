@@ -1,0 +1,306 @@
+# Extraction progress
+
+Source: `projects/common/src/lib/`  
+Total components: **258**  
+Total directives: **14**  
+Total pipes: **4**  
+
+Each box gets ticked when the component has a `.stories.ts` in this repo.
+
+## design-system (5)
+
+- [x] `design-system/molecules/avatar/avatar.component.ts`
+- [ ] `design-system/molecules/carousel/carousel.component.ts`
+- [x] `design-system/molecules/tabs/tabs.component.ts`
+- [x] `design-system/organisms/editable-avatar/editable-avatar.component.ts`
+- [x] `design-system/organisms/grouped-avatar/grouped-avatar.component.ts`
+
+## directives (1)
+
+- [x] `directives/custom-tooltip/custom-tool-tip/custom-tool-tip.component.ts`
+
+## dynamic-forms (70)
+
+- [ ] `dynamic-forms/dynamic-form-editor/components/abstract-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/configuration/conditional-logic/conditional-logic.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/configuration/editable-input/editable-input.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/configuration/field-configuration/field-configuration.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/configuration/field-selector/field-selector.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/configuration/form-template-selector/form-template-selector.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/configuration/form-type-selector/form-type-selector.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/configuration/options-configuration/options-configuration.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/configuration/quick-required-configuration/quick-required-configuration.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/configuration/section-configuration/section-configuration.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/field/borrowers-field/borrower-information/borrower-information.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/field/borrowers-field/borrowers-field.component.ts`
+- [x] `dynamic-forms/dynamic-form-editor/components/field/checkbox-field/checkbox-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/field/computed-field/computed-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/field/crop-details/crop-details.component.ts`
+- [x] `dynamic-forms/dynamic-form-editor/components/field/date-field/date-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/field/disclaimer-field/disclaimer-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/field/field.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/field/file-upload/file-upload.component.ts`
+- [x] `dynamic-forms/dynamic-form-editor/components/field/input-field/input-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/field/livestock-details/livestock-details.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/field/loan-information-field/loan-information-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/field/loan-purpose-field/loan-purpose-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/field/loan-sources-field/loan-sources-field.component.ts`
+- [x] `dynamic-forms/dynamic-form-editor/components/field/money-field/money-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/field/note-field/note-field.component.ts`
+- [x] `dynamic-forms/dynamic-form-editor/components/field/number-field/number-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/field/on-screen-approval/on-screen-approval.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/field/questionnaire-field/questionnaire-field.component.ts`
+- [x] `dynamic-forms/dynamic-form-editor/components/field/radio-field/radio-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/field/repeatable-card-field/repeatable-card-field.component.ts`
+- [x] `dynamic-forms/dynamic-form-editor/components/field/select-field/select-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/field/submit-button/submit-button.component.ts`
+- [x] `dynamic-forms/dynamic-form-editor/components/field/text-field/text-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/field/use-of-funds/use-of-funds.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/components/section/section.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/dynamic-form-editor.component.ts`
+- [ ] `dynamic-forms/dynamic-form-editor/form-definition-json-editor-dialog/form-definition-json-editor-dialog.component.ts`
+- [ ] `dynamic-forms/dynamic-form/components/abstract-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form/components/buttons/submit-button/submit-button.component.ts`
+- [ ] `dynamic-forms/dynamic-form/components/dynamic-form-tabs/dynamic-form-tabs.component.ts`
+- [ ] `dynamic-forms/dynamic-form/components/field/borrowers-field/borrower-information/borrower-information.component.ts`
+- [ ] `dynamic-forms/dynamic-form/components/field/borrowers-field/borrowers-field.component.ts`
+- [x] `dynamic-forms/dynamic-form/components/field/checkbox-field/checkbox-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form/components/field/computed-field/computed-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form/components/field/crop-details/crop-details.component.ts`
+- [x] `dynamic-forms/dynamic-form/components/field/date-field/date-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form/components/field/disclaimer-field/disclaimer-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form/components/field/field.component.ts`
+- [ ] `dynamic-forms/dynamic-form/components/field/file-upload/file-upload.component.ts`
+- [x] `dynamic-forms/dynamic-form/components/field/input-field/input-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form/components/field/livestock-details/livestock-details.component.ts`
+- [ ] `dynamic-forms/dynamic-form/components/field/loan-information-field/loan-information-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form/components/field/loan-purpose-field/loan-purpose-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form/components/field/loan-sources-field/loan-sources-field.component.ts`
+- [x] `dynamic-forms/dynamic-form/components/field/money-field/money-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form/components/field/note-field/note-field.component.ts`
+- [x] `dynamic-forms/dynamic-form/components/field/number-field/number-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form/components/field/on-screen-approval/on-screen-approval.component.ts`
+- [ ] `dynamic-forms/dynamic-form/components/field/questionnaire-field/questionnaire-field.component.ts`
+- [x] `dynamic-forms/dynamic-form/components/field/radio-field/radio-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form/components/field/repeatable-card-field/repeatable-card-field.component.ts`
+- [x] `dynamic-forms/dynamic-form/components/field/select-field/select-field.component.ts`
+- [x] `dynamic-forms/dynamic-form/components/field/text-field/text-field.component.ts`
+- [ ] `dynamic-forms/dynamic-form/components/field/use-of-funds/use-of-funds.component.ts`
+- [ ] `dynamic-forms/dynamic-form/components/section/section.component.ts`
+- [ ] `dynamic-forms/dynamic-form/components/stepper/stepper.component.ts`
+- [ ] `dynamic-forms/dynamic-form/components/summary/summary.component.ts`
+- [ ] `dynamic-forms/dynamic-form/dynamic-form.component.ts`
+- [ ] `dynamic-forms/field-value-input/field-value-input.component.ts`
+
+## user-guide (2)
+
+- [ ] `user-guide/guide-panel/guide-panel.component.ts`
+- [ ] `user-guide/guide-toggle-button/guide-toggle-button.component.ts`
+
+## web-components (180)
+
+- [ ] `web-components/ai-checklist/checklist-table/lj-checklist-table.component.ts`
+- [ ] `web-components/ai-checklist/lj-ai-checklist.component.ts`
+- [x] `web-components/attachments-list/attachments-list.component.ts`
+- [ ] `web-components/auth/add-mobile-number/add-mobile-number.component.ts`
+- [ ] `web-components/auth/auth-code/auth-code.component.ts`
+- [ ] `web-components/auth/complete-login/complete-login.component.ts`
+- [ ] `web-components/auth/logout/logout.component.ts`
+- [x] `web-components/box/box-row/box-row.component.ts`
+- [x] `web-components/box/box/box.component.ts`
+- [ ] `web-components/businesses/business-selector/business-selector.component.ts`
+- [x] `web-components/button/button.component.ts`
+- [x] `web-components/button2/button.component.ts`
+- [x] `web-components/chip/chip.component.ts`
+- [x] `web-components/chip/lj-round-header-chip/lj-round-header-chip.component.ts`
+- [x] `web-components/chip/loan-status-chip/loan-status-chip.component.ts`
+- [x] `web-components/chip/request-status-chip/request-status-chip.component.ts`
+- [ ] `web-components/co-applicants/add-co-applicant-dialog/add-co-applicant-dialog.component.ts`
+- [x] `web-components/color-picker/color-picker.component.ts`
+- [ ] `web-components/conditions/accept-conditions/accept-conditions.component.ts`
+- [x] `web-components/conditions/conditions-review-dialog/conditions-review-dialog.component.ts`
+- [x] `web-components/containers/card-container/card-container.component.ts`
+- [x] `web-components/containers/card-container/card/card.component.ts`
+- [x] `web-components/containers/card-container/small-card/small-card.component.ts`
+- [x] `web-components/containers/collapsible-panel/collapsible-panel.component.ts`
+- [x] `web-components/containers/content-panel/content-panel.component.ts`
+- [x] `web-components/containers/section-container/section-container.component.ts`
+- [ ] `web-components/cookie-banner/cookie-banner.component.ts`
+- [x] `web-components/copy-to-clipboard-button/copy-to-clipboard-button.component.ts`
+- [ ] `web-components/customer-business-selector/customer-business-selector.component.ts`
+- [ ] `web-components/data-table/action-buttons/table-action-buttons.component.ts`
+- [x] `web-components/data-table/table/data-table.component.ts`
+- [ ] `web-components/data-table/wrapper/data-table-wrapper.component.ts`
+- [x] `web-components/dialogs/api-key-dialog/api-key-dialog.component.ts`
+- [ ] `web-components/dialogs/base-dialog/base-dialog.component.ts`
+- [x] `web-components/dialogs/contact-details-dialog/contact-details-dialog.component.ts`
+- [x] `web-components/dialogs/general-message-dialog/general-message-dialog.component.ts`
+- [ ] `web-components/documents/document-audit-trail/document-audit-trail.component.ts`
+- [ ] `web-components/documents/document/credit-line-document/credit-line-document.component.ts`
+- [ ] `web-components/documents/document/document/document.component.ts`
+- [ ] `web-components/documents/document/loan-document/loan-document.component.ts`
+- [ ] `web-components/documents/document/request-document/request-document.component.ts`
+- [ ] `web-components/documents/pdf-viewer/pdf-viewer.component.ts`
+- [ ] `web-components/documents/view-document-modal/view-document-modal.component.ts`
+- [x] `web-components/expandable-list-table/expandable-list-table.component.ts`
+- [ ] `web-components/files/download-files/download-files.component.ts`
+- [x] `web-components/files/thumbnail-viewer/thumbnail-viewer.component.ts`
+- [x] `web-components/form/checkbox-field/checkbox-field.component.ts`
+- [x] `web-components/form/date-field/date-field.component.ts`
+- [x] `web-components/form/editable-text-box/editable-text-box.component.ts`
+- [ ] `web-components/form/entity-types-selector/entity-types-selector.component.ts`
+- [x] `web-components/form/file-uploader/file-uploader.component.ts`
+- [x] `web-components/form/form-field/form-field.component.ts`
+- [x] `web-components/form/formula-input/formula-input.component.ts`
+- [x] `web-components/form/input-field/input-field.component.ts`
+- [x] `web-components/form/input/input.component.ts`
+- [x] `web-components/form/money-input-field/money-input-field.component.ts`
+- [x] `web-components/form/rich-text/rich-text.component.ts`
+- [x] `web-components/form/select-field/select-field.component.ts`
+- [ ] `web-components/form/select/select.component.ts`
+- [x] `web-components/form/send-message-form/send-message-form.component.ts`
+- [x] `web-components/form/textarea-field/textarea-field.component.ts`
+- [ ] `web-components/form/uploader-container/uploader-container.component.ts`
+- [ ] `web-components/form/user-roles-selector/user-roles-selector.component.ts`
+- [x] `web-components/groups/group-selector/group-selector.component.ts`
+- [x] `web-components/image-uploader/image-uploader.component.ts`
+- [ ] `web-components/image/image-cropper/image-cropper-modal.component.ts`
+- [x] `web-components/image/image.component.ts`
+- [ ] `web-components/layout/print-layout-adapter/print-layout-adapter.component.ts`
+- [x] `web-components/layout/splash-layout/splash-layout.component.ts`
+- [x] `web-components/loading/loading.component.ts`
+- [ ] `web-components/loans/credit-line-actions/credit-line-actions.component.ts`
+- [ ] `web-components/loans/credit-line-details/credit-line-details.component.ts`
+- [ ] `web-components/loans/credit-line-document-preview/credit-line-document-preview.component.ts`
+- [ ] `web-components/loans/credit-line-documents-tile/credit-line-documents-tile.component.ts`
+- [ ] `web-components/loans/credit-line-draw-funds/credit-line-draw-funds.component.ts`
+- [ ] `web-components/loans/credit-line-header/credit-line-header.component.ts`
+- [ ] `web-components/loans/credit-line-history/credit-line-history.component.ts`
+- [ ] `web-components/loans/credit-line-payment/credit-line-payment.component.ts`
+- [ ] `web-components/loans/credit-line-request-paydown/credit-line-request-paydown.component.ts`
+- [ ] `web-components/loans/credit-line-request-payoff/credit-line-request-payoff.component.ts`
+- [ ] `web-components/loans/credit-line-tile/credit-line-tile.component.ts`
+- [ ] `web-components/loans/credit-line-update-bank-account/credit-line-update-bank-account.component.ts`
+- [ ] `web-components/loans/graphs/credit-line-graph/credit-line-graph.component.ts`
+- [ ] `web-components/loans/graphs/loan-graph/loan-graph.component.ts`
+- [ ] `web-components/loans/loan-actions/loan-actions.component.ts`
+- [x] `web-components/loans/loan-closed-banner/loan-closed-banner.component.ts`
+- [ ] `web-components/loans/loan-collaterals/loan-collaterals.component.ts`
+- [ ] `web-components/loans/loan-details/loan-details.component.ts`
+- [ ] `web-components/loans/loan-document-preview/loan-document-preview.component.ts`
+- [ ] `web-components/loans/loan-documents-tile/loan-documents-tile.component.ts`
+- [ ] `web-components/loans/loan-entities-and-collaterals/loan-entities-and-collaterals.component.ts`
+- [ ] `web-components/loans/loan-entities/loan-entities.component.ts`
+- [ ] `web-components/loans/loan-header/loan-header.component.ts`
+- [ ] `web-components/loans/loan-history/loan-history.component.ts`
+- [ ] `web-components/loans/loan-payment/loan-payment.component.ts`
+- [ ] `web-components/loans/loan-register-payment/loan-register-payment.component.ts`
+- [ ] `web-components/loans/loan-request-paydown/loan-request-paydown.component.ts`
+- [ ] `web-components/loans/loan-request-payoff/loan-request-payoff.component.ts`
+- [ ] `web-components/loans/loan-servicer-details/loan-servicer-details.component.ts`
+- [ ] `web-components/loans/loan-statements/loan-statements.component.ts`
+- [ ] `web-components/loans/loan-tile/loan-tile.component.ts`
+- [ ] `web-components/loans/loan-update-bank-account/loan-update-bank-account.component.ts`
+- [x] `web-components/loans/nsf-banner/nsf-banner.component.ts`
+- [x] `web-components/lottie-wrapper/lottie-wrapper.component.ts`
+- [ ] `web-components/maintenance/maintenance-notices/maintenance-notices.component.ts`
+- [ ] `web-components/maintenance/scoped-view-notice/scoped-view-notice.component.ts`
+- [ ] `web-components/messaging/ai-messaging/ai-chat.component.ts`
+- [ ] `web-components/messaging/message-counter/message-counter.component.ts`
+- [ ] `web-components/messaging/messaging/messaging.component.ts`
+- [ ] `web-components/messaging/request-messaging/comment/comment.component.ts`
+- [ ] `web-components/messaging/request-messaging/quill-editor/comment-quill-editor.component.ts`
+- [ ] `web-components/messaging/request-messaging/request-messaging.component.ts`
+- [ ] `web-components/mobile-navigation/mobile-navigation.component.ts`
+- [x] `web-components/mobile-top-bar/top-bar-avatar/top-bar-avatar.component.ts`
+- [ ] `web-components/mobile-top-bar/top-bar-menu/top-bar-menu.component.ts`
+- [ ] `web-components/mobile-top-bar/top-bar-nav/top-bar-nav.component.ts`
+- [x] `web-components/nav-link/nav-link-item/nav-link.component.ts`
+- [x] `web-components/nav-link/nav-link-list/nav-link-list.component.ts`
+- [ ] `web-components/notifications/notification-list/notification-list.component.ts`
+- [x] `web-components/page/page.component.ts`
+- [x] `web-components/pagination/pagination.component.ts`
+- [x] `web-components/password-strength-validator/password-strength-validator.component.ts`
+- [ ] `web-components/pdf/field-framework/components/field-inspector.component.ts`
+- [ ] `web-components/pdf/field-framework/components/field-overlay.component.ts`
+- [ ] `web-components/products/coverages/request-products-coverage/request-products-coverage.component.ts`
+- [ ] `web-components/products/eligibility-products/eligibility-products.component.ts`
+- [ ] `web-components/products/offer-approval-banner/decline-offer-modal/decline-offer-modal.component.ts`
+- [ ] `web-components/products/offer-approval-banner/offer-approval-banner.component.ts`
+- [x] `web-components/products/offer-status-banner/offer-status-banner.component.ts`
+- [ ] `web-components/products/offer/offer.component.ts`
+- [ ] `web-components/products/offers-approval-banner/offers-approval-banner.component.ts`
+- [ ] `web-components/products/product/product.component.ts`
+- [ ] `web-components/products/products-simulator/products-simulator.component.ts`
+- [x] `web-components/progress-bar/progress-bar.component.ts`
+- [ ] `web-components/requests/add-justification-task-modal/add-justification-task-modal.component.ts`
+- [ ] `web-components/requests/credit-check/credit-check-consent/credit-check-consent.component.ts`
+- [ ] `web-components/requests/credit-check/credit-check-details/credit-check-details.component.ts`
+- [ ] `web-components/requests/credit-check/credit-check-details/inline-edit-text-field.component.ts`
+- [ ] `web-components/requests/credit-check/credit-check-success/credit-check-success.component.ts`
+- [ ] `web-components/requests/credit-check/credit-check.component.ts`
+- [ ] `web-components/requests/document-preview/document-preview.component.ts`
+- [ ] `web-components/requests/documents-tile/documents-tile.component.ts`
+- [ ] `web-components/requests/identity-verification/identity-camera/identity-camera.component.ts`
+- [ ] `web-components/requests/identity-verification/identity-consent/identity-consent.component.ts`
+- [ ] `web-components/requests/identity-verification/identity-details/identity-details.component.ts`
+- [ ] `web-components/requests/identity-verification/identity-details/inline-edit-text-field.component.ts`
+- [ ] `web-components/requests/identity-verification/identity-error/identity-error.component.ts`
+- [ ] `web-components/requests/identity-verification/identity-file-choice/identity-file-choice.component.ts`
+- [ ] `web-components/requests/identity-verification/identity-id-choice/identity-id-choice.component.ts`
+- [ ] `web-components/requests/identity-verification/identity-manual-review/identity-manual-review.component.ts`
+- [ ] `web-components/requests/identity-verification/identity-success/identity-success.component.ts`
+- [ ] `web-components/requests/identity-verification/identity-upload/identity-upload.component.ts`
+- [ ] `web-components/requests/identity-verification/identity-verification.component.ts`
+- [ ] `web-components/requests/next-action-bar/next-action-bar.component.ts`
+- [ ] `web-components/requests/request-application-summary/request-application-summary.component.ts`
+- [ ] `web-components/requests/request-application-summary/request-submission-awaiting-others/request-submission-awaiting-others.component.ts`
+- [ ] `web-components/requests/request-application-summary/request-submission-confirmation/request-submission-confirmation.component.ts`
+- [ ] `web-components/requests/stages-tile/stages-tile.component.ts`
+- [ ] `web-components/requests/status-flow/status-flow.component.ts`
+- [x] `web-components/requests/status-tag/status-tag.component.ts`
+- [ ] `web-components/requests/task-action-with-notes-modal/task-action-with-notes-modal.component.ts`
+- [ ] `web-components/requests/tasks-tile/tasks-tile.component.ts`
+- [x] `web-components/side-panel/side-panel.component.ts`
+- [x] `web-components/signature/annotations-menu/annotations-menu.component.ts`
+- [x] `web-components/signature/draggable-annotation/draggable-annotation.component.ts`
+- [ ] `web-components/signature/signee-selector/signee-selector.component.ts`
+- [ ] `web-components/signature/template-summary/template-summary.component.ts`
+- [ ] `web-components/slider-tab/slider-tab-group/slider-tab-group.component.ts`
+- [ ] `web-components/slider-tab/slider-tab-item/slider-tab-item.component.ts`
+- [ ] `web-components/sms-compliance/sms-compliance.component.ts`
+- [ ] `web-components/stepper/stepper.component.ts`
+- [x] `web-components/tabs/tab/tab.component.ts`
+- [x] `web-components/tabs/tabs/tabs.component.ts`
+- [ ] `web-components/typography/label-field/label-field.component.ts`
+- [ ] `web-components/typography/masked-text/masked-text.component.ts`
+- [ ] `web-components/typography/page-heading/page-heading.component.ts`
+- [ ] `web-components/users/communication-preferences/communication-preferences.component.ts`
+- [ ] `web-components/users/user-accepted-conditions/user-accepted-conditions-list.component.ts`
+- [ ] `web-components/users/user-profile/user-profile.component.ts`
+- [ ] `web-components/users/user-selector/user-selector.component.ts`
+
+## Directives (14)
+
+- `directives/activate/activate.directive.ts`
+- `directives/collapsible/collapsible.directive.ts`
+- `directives/confirmation-required/confirmation-required.directive.ts`
+- `directives/container-dimensions/container-dimensions.directive.ts`
+- `directives/custom-tooltip/custom-tooltip.directive.ts`
+- `directives/feature-flag.directive.ts`
+- `directives/field.directive.ts`
+- `directives/file-drag-and-drop.directive.ts`
+- `directives/focus-within/focus-within.directive.ts`
+- `directives/mobile-search-placeholder/mobile-search-placeholder.directive.ts`
+- `directives/secured.directive.ts`
+- `directives/spacing/spacing.directive.ts`
+- `web-components/signature/annotation-drop-zone.directive.ts`
+- `web-components/signature/annotation-fill.directive.ts`
+
+## Pipes (4)
+
+- `pipes/date-ago/date-ago.pipe.ts`
+- `pipes/due-date/due-date.pipe.ts`
+- `pipes/list/list.pipe.ts`
+- `pipes/safe-html/safe-html.pipe.ts`
+

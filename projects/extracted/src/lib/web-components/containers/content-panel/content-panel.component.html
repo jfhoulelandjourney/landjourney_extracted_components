@@ -1,0 +1,11 @@
+<div class="content-panel" [class.default]="panelPosition() === 'center'">
+  @if (title()) {
+    <h3
+      class="{{ titleColor() }}"
+      [class.left]="panelPosition() === 'left'"
+      [class.right]="panelPosition() === 'right'">
+      {{ title() }}
+    </h3>
+  }
+  <ng-content />
+</div>

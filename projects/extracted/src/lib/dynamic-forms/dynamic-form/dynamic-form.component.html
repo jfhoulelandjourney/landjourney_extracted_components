@@ -1,0 +1,202 @@
+@if (loading()) {
+  <ngx-skeleton-loader
+    style="width: 100%; height: 300px"
+    [theme]="{
+      width: '100%',
+      height: 'calc(100vh - 150px)',
+    }"></ngx-skeleton-loader>
+} @else {
+  <div
+    #dfPlayerRoot
+    class="form"
+    [class.mobile]="isMobile()"
+    [class.display-mode]="mode() === 'display'"
+    [class.display-mode-in-backoffice]="mode() === 'display' && isBackoffice"
+    [class.locked-mode]="mode() === 'locked'"
+    [class.form--submit-player-active]="
+      showSubmitAnimation() && submitPlayerPhase() !== 'idle'
+    ">
+    @if (form()) {
+      @if (showSubmitAnimation() && submitPlayerPhase() === 'processing') {
+        <div
+          class="df-submit-player-panel df-submit-player-panel--processing"
+          role="status"
+          aria-live="polite">
+          <div class="df-submit-player-card">
+            <div class="df-processing-visual" aria-hidden="true">
+              <span class="df-processing-ring"></span>
+              <span class="df-processing-ring df-processing-ring--delay"></span>
+              <div class="df-processing-icon">
+                <mat-icon aria-hidden="true">send</mat-icon>
+              </div>
+            </div>
+            <h2 class="df-submit-player-title">Sending your information</h2>
+            <p class="df-submit-player-subtitle">
+              Hang tight, this only takes a moment.
+            </p>
+            <div class="df-processing-bar" aria-hidden="true">
+              <span class="df-processing-bar-fill"></span>
+            </div>
+          </div>
+        </div>
+      } @else if (showSubmitAnimation() && submitPlayerPhase() === 'success') {
+        <div
+          class="df-submit-player-panel df-submit-player-panel--success"
+          role="status"
+          aria-live="polite">
+          <div class="df-submit-player-card">
+            <div class="df-success-check df-enter-item" aria-hidden="true">
+              <mat-icon>check</mat-icon>
+            </div>
+            <h2 class="df-submit-player-title df-enter-item">
+              {{ form().name }} submitted!
+            </h2>
+            <p class="df-submit-player-subtitle df-enter-item">
+              Thanks for submitting your information.
+            </p>
+            @if (submitSuccessRepresentativeName()) {
+              <div class="df-success-rep-card df-enter-item">
+                <div class="df-success-rep-header">
+                  @if (submitSuccessRepresentativeAvatarUrl()) {
+                    <img
+                      class="df-success-rep-avatar"
+                      [src]="submitSuccessRepresentativeAvatarUrl()!"
+                      [alt]="submitSuccessRepresentativeName() ?? ''" />
+                  }
+                  <div class="df-success-rep-meta">
+                    <p class="df-success-rep-name">
+                      {{ submitSuccessRepresentativeName() }}
+                    </p>
+                    @if (submitSuccessRepresentativeRole()) {
+                      <p class="df-success-rep-role">
+                        {{ submitSuccessRepresentativeRole() }}
+                      </p>
+                    }
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      } @else {
+        @if (form().name !== '' || lastSavedAt()) {
+          <div
+            class="form-information"
+            [class.df-wave-item]="
+              getFormType() === formTypes.INLINE && mode() === 'display'
+            ">
+            @if (form().name !== '') {
+              <h2 [style]="getCustomStyle('.form-name')">{{ form().name }}</h2>
+            }
+            @if (lastSavedAt()) {
+              <div class="last-saved-at">
+                {{ getFormattedSaveTime() }}
+              </div>
+            }
+          </div>
+        }
+
+        <div class="form-container">
+          @switch (getFormType()) {
+            @case (formTypes.INLINE) {
+              @for (element of form().formDefinition; track $index) {
+                @if (showElement(element, form().data, mode())) {
+                  @if (isSection(element)) {
+                    <div [class.df-wave-item]="mode() === 'display'">
+                      <lj-df-section
+                        [formDefinition]="form().formDefinition"
+                        [isMobile]="isMobile()"
+                        [customStyle]="parsedCustomCss()"
+                        [class.display-mode]="mode() === 'display'"
+                        [formData]="form().data"
+                        [section]="getSection(element)"
+                        [mode]="mode()"
+                        [formType]="getFormType()"
+                        [allowManualComputedValueEdit]="
+                          allowManualComputedValueEdit()
+                        "
+                        [fieldValidity]="fieldValidity()"
+                        [suppressedErrors]="suppressedErrors()"
+                        (sectionChange)="handleChange($event)"
+                        (customAction)="handleCustomAction($event)"
+                        (dataChange)="handleDataChange($event)"
+                        (submit)="handleSubmit()"
+                        [prefillPendingChanges]="prefillPendingChanges()"
+                        (prefillChangeAccepted)="acceptPrefillChange($event)"
+                        (prefillChangeDeclined)="
+                          declinePrefillChange($event)
+                        "></lj-df-section>
+                    </div>
+                  }
+                }
+              }
+              @if (mode() === 'display') {
+                <div class="df-wave-item">
+                  <lj-df-submit-button
+                    [containerLayout]="SectionLayouts.ONE_COLUMN"
+                    [formData]="form().data"
+                    [field]="getSubmitField()"
+                    [mode]="mode()"
+                    [formType]="getFormType()"
+                    (submit)="handleSubmit()"></lj-df-submit-button>
+                </div>
+              }
+            }
+            @case (formTypes.STEPS) {
+              <lj-df-stepper
+                [customStyle]="parsedCustomCss()"
+                [formData]="form().data"
+                [formDefinition]="form().formDefinition"
+                [formOptions]="form().formOptions"
+                [mode]="mode()"
+                [allowManualComputedValueEdit]="allowManualComputedValueEdit()"
+                (change)="handleChange($event)"
+                (dataChange)="handleDataChange($event)"
+                [formType]="getFormType()"
+                (submit)="handleSubmit()"
+                [isMobile]="isMobile()"
+                [fieldValidity]="fieldValidity()"
+                [suppressedErrors]="suppressedErrors()"
+                [prefillPendingChanges]="prefillPendingChanges()"
+                (prefillChangeAccepted)="acceptPrefillChange($event)"
+                (prefillChangeDeclined)="
+                  declinePrefillChange($event)
+                "></lj-df-stepper>
+            }
+            @case (formTypes.TABS) {
+              <lj-df-tabs
+                [customStyle]="parsedCustomCss()"
+                [formData]="form().data"
+                [formOptions]="form().formOptions"
+                [formDefinition]="form().formDefinition"
+                [mode]="mode()"
+                [allowManualComputedValueEdit]="allowManualComputedValueEdit()"
+                (change)="handleChange($event)"
+                (dataChange)="handleDataChange($event)"
+                [formType]="getFormType()"
+                (submit)="handleSubmit()"
+                [isMobile]="isMobile()"
+                [fieldValidity]="fieldValidity()"
+                [suppressedErrors]="suppressedErrors()"
+                [prefillPendingChanges]="prefillPendingChanges()"
+                (prefillChangeAccepted)="acceptPrefillChange($event)"
+                (prefillChangeDeclined)="
+                  declinePrefillChange($event)
+                "></lj-df-tabs>
+            }
+            @default {
+              Unable to find the specified form type.
+            }
+          }
+          @if (lastSavedAt()) {
+            <div class="last-saved-at">
+              {{ getFormattedSaveTime() }}
+            </div>
+          }
+        </div>
+      }
+    } @else {
+      Form initialization error
+    }
+  </div>
+}

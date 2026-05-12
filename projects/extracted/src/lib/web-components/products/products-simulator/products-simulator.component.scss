@@ -1,0 +1,344 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--gap-comfortable);
+  padding: var(--padding-spacious, 24px);
+  padding-bottom: 0;
+  position: relative;
+  border-bottom: 1px solid var(--accent-black-200, #e5e7eb);
+
+  .product-selector-container {
+    position: relative;
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: calc(100% + var(--gap-compact, 8px));
+    right: 0;
+    background: var(--accent-black-0, #ffffff);
+    border: 1px solid var(--accent-black-200, #e5e7eb);
+    border-radius: var(--radius-primary, 4px);
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.15),
+      0 2px 4px rgba(0, 0, 0, 0.1);
+    min-width: 280px;
+    max-width: 400px;
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    z-index: 1000;
+    padding: var(--padding-compact, 8px) 0;
+
+    // Custom scrollbar styling
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--accent-black-300, #d1d5db);
+      border-radius: 3px;
+
+      &:hover {
+        background: var(--accent-black-400, #9ca3af);
+      }
+    }
+  }
+
+  .dropdown-item {
+    display: block;
+    width: 100%;
+    padding: var(--padding-comfortable, 12px) var(--padding-spacious, 16px);
+    text-align: left;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: var(--font-size-xs, 12px);
+    color: var(--accent-black-700, #374151);
+    transition: all 0.2s ease;
+    line-height: 1.5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:hover {
+      background: var(--accent-black-50, #f9fafb);
+      color: var(--accent-black-900, #111827);
+    }
+
+    &:active {
+      background: var(--accent-black-100, #f3f4f6);
+    }
+
+    &:focus {
+      outline: none;
+      background: var(--accent-black-50, #f9fafb);
+    }
+
+    &.empty {
+      color: var(--accent-black-400, #9ca3af);
+      cursor: default;
+      font-style: italic;
+      font-weight: var(--font-weight-regular, 400);
+      padding: var(--padding-comfortable, 12px) var(--padding-spacious, 16px);
+
+      &:hover,
+      &:active,
+      &:focus {
+        background: transparent;
+        color: var(--accent-black-400, #9ca3af);
+      }
+    }
+  }
+}
+
+.title-lg {
+  margin-top: var(--padding-spacious, 24px);
+  margin-left: var(--padding-spacious, 24px);
+  margin-right: var(--padding-spacious, 24px);
+}
+
+.customer-search-content {
+  padding: var(--padding-spacious, 24px);
+}
+
+.products-simulator {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  .simulator-main-row {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: flex-start;
+    flex: 1;
+    min-height: 0;
+    min-width: 0;
+    gap: 0;
+  }
+
+  .simulator-callout-banner {
+    flex-shrink: 0;
+    margin: var(--padding-spacious, 24px) var(--padding-spacious, 24px)
+      var(--gap-comfortable, 12px);
+  }
+
+  // Hide submit button in simulator
+  ::ng-deep lj-df-submit-button {
+    display: none !important;
+  }
+
+  .simulator-form {
+    flex: 0 0 420px;
+    width: 420px;
+    max-width: 420px;
+    box-sizing: border-box;
+    min-width: 0;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-spacious);
+
+    button {
+      margin-top: var(--padding-spacious);
+      margin-left: var(--padding-spacious);
+      width: 160px;
+      border: 1px solid var(--brand-secondary-500);
+      color: var(--brand-secondary-500);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--gap-compact);
+    }
+
+    lj-dynamic-form {
+      margin-top: var(--padding-spacious);
+      margin-left: var(--padding-spacious);
+
+      ::ng-deep .form-container,
+      ::ng-deep .form {
+        padding: var(--padding-reset);
+        margin-top: var(--padding-reset);
+      }
+    }
+  }
+
+  .simulator-user-search {
+    flex: 0 0 420px;
+    width: 420px;
+    max-width: 420px;
+    box-sizing: border-box;
+    min-width: 0;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+
+    .prefill-data-display {
+      margin-left: var(--padding-spacious, 24px);
+      padding: var(--padding-comfortable, 16px);
+      background: var(--accent-black-0, #ffffff);
+      border: 1px solid var(--accent-black-200, #e5e7eb);
+      border-radius: var(--radius-primary, 4px);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+      overflow: hidden;
+
+      &:not(:first-child) {
+        margin-top: var(--gap-comfortable, 16px);
+      }
+
+      .prefill-data-title {
+        margin: 0 0 var(--gap-comfortable, 16px) 0;
+        font-size: var(--font-size-sm, 14px);
+        font-weight: var(--font-weight-medium, 500);
+        color: var(--accent-black-800, #1f2937);
+      }
+
+      .simulator-role-field {
+        display: block;
+        width: 100%;
+        max-width: 240px;
+        margin-bottom: var(--gap-comfortable, 16px);
+      }
+
+      .prefill-data-table {
+        border-collapse: collapse;
+        font-size: var(--font-size-xs, 12px);
+        line-height: 1.5;
+      }
+
+      .prefill-data-th {
+        text-align: left;
+        padding: var(--padding-compact, 8px) var(--padding-comfortable, 12px);
+        font-weight: var(--font-weight-medium, 500);
+        color: var(--accent-black-600, #4b5563);
+        background: var(--accent-black-50, #f9fafb);
+        border-bottom: 1px solid var(--accent-black-200, #e5e7eb);
+        white-space: nowrap;
+      }
+
+      .prefill-data-th-key {
+        width: 1%;
+      }
+
+      .prefill-data-th-value {
+        min-width: 0;
+      }
+
+      .prefill-data-tr {
+        transition: background 0.15s ease;
+
+        &:hover {
+          background: var(--accent-black-50, #f9fafb);
+        }
+
+        &:not(:last-child) .prefill-data-td {
+          border-bottom: 1px solid var(--accent-black-100, #f3f4f6);
+        }
+      }
+
+      .prefill-data-td {
+        padding: var(--padding-compact, 8px) var(--padding-comfortable, 12px);
+        vertical-align: top;
+      }
+
+      .prefill-data-td-key {
+        font-weight: var(--font-weight-medium, 500);
+        color: var(--accent-black-700, #374151);
+        white-space: nowrap;
+      }
+
+      .prefill-data-td-value {
+        color: var(--accent-black-600, #4b5563);
+        word-break: break-word;
+        min-width: 0;
+      }
+
+      .prefill-data-empty {
+        padding: var(--padding-comfortable, 12px);
+        font-size: var(--font-size-xs, 12px);
+        color: var(--accent-black-400, #9ca3af);
+        font-style: italic;
+        text-align: center;
+      }
+    }
+  }
+
+  .simulator-products-display {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-comfortable, 12px);
+    min-width: 0;
+    flex: 1;
+  }
+
+  .auto-rule-callout {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--gap-comfortable, 12px);
+    padding: var(--padding-comfortable, 12px) var(--padding-default, 16px);
+    border-radius: var(--radius-primary, 4px);
+    border: 1px solid transparent;
+
+    mat-icon {
+      flex-shrink: 0;
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+    }
+
+    &__text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    &__title {
+      font-size: var(--font-size-sm, 14px);
+      font-weight: 600;
+    }
+
+    &__body {
+      font-size: var(--font-size-xs, 12px);
+      line-height: 1.5;
+    }
+
+    &.info {
+      background: var(--accent-black-100, #f3f4f6);
+      border-color: var(--brand-primary-300);
+      color: var(--brand-primary-900);
+
+      mat-icon {
+        color: var(--brand-primary-600);
+      }
+    }
+  }
+
+  .comparisons-section {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: var(--gap-spacious, 24px);
+    padding: var(--padding-spacious, 24px);
+    overflow-x: auto;
+    min-width: 0;
+
+    .comparison-item {
+      flex-shrink: 0;
+      width: 350px;
+    }
+  }
+}

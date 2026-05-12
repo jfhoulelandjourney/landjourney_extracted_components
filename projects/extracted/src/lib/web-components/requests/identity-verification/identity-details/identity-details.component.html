@@ -1,0 +1,94 @@
+@if (loading()) {
+  <ngx-skeleton-loader
+    style="width: 100%; height: calc(100dvh - 150px)"
+    [theme]="{
+      width: '100%',
+      height: 'calc(100vh - 150px)',
+    }"></ngx-skeleton-loader>
+} @else {
+  <div class="container" [class.mobile]="isMobile()">
+    <mat-icon class="identity-icon">identity_platform</mat-icon>
+    <p class="title-2xl inter title">
+      Before submitting, we need to verify {{ name() }}'s identity.
+    </p>
+
+    <div class="identity-details-wrapper">
+      <p class="title-lg inter subtitle">
+        Please verify {{ name() }}'s details
+      </p>
+      <lj-inline-edit-text-field
+        label="First Name"
+        [value]="firstName"
+        [required]="true"
+        name="firstName"
+        [enabled]="enable_firstName"
+        (valueChange)="handleValueChanged('firstName', $event)" />
+      <lj-inline-edit-text-field
+        label="Middle Name"
+        [value]="middleName"
+        name="middleName"
+        [enabled]="enable_middleName"
+        (valueChange)="handleValueChanged('middleName', $event)" />
+      <lj-inline-edit-text-field
+        label="Last Name"
+        [value]="lastName"
+        [required]="true"
+        name="lastName"
+        [enabled]="enable_lastName"
+        (valueChange)="handleValueChanged('lastName', $event)" />
+      <lj-inline-edit-text-field
+        label="Phone Number"
+        [value]="phoneNumber"
+        type="tel"
+        name="phoneNumber"
+        [enabled]="enable_phoneNumber"
+        (valueChange)="handleValueChanged('phoneNumber', $event)" />
+      <lj-inline-edit-text-field
+        label="Date of Birth"
+        type="date"
+        [value]="dateOfBirth"
+        name="dateOfBirth"
+        type="date"
+        [required]="true"
+        [enabled]="enable_dateOfBirth"
+        (valueChange)="dateOfBirthChanged($event)" />
+      <lj-inline-edit-text-field
+        label="SSN"
+        [value]="ssn"
+        type="ssn"
+        name="ssn"
+        [enabled]="enable_ssn"
+        (valueChange)="handleValueChanged('ssn', $event)" />
+      <lj-inline-edit-address-fields
+        [address]="getAddress()"
+        [enabled]="
+          enable_streetNumber ||
+          enable_streetName ||
+          enable_city ||
+          enable_state ||
+          enable_zipCode ||
+          enable_country
+        "
+        (valueChange)="handleAddressChanged($event)" />
+    </div>
+
+    @if (!isFormComplete()) {
+      <p class="body-s start-button error">
+        You need to provide at least your first name, last name and date of
+        birth to continue.
+      </p>
+    }
+    <button
+      class="lj-button start-button"
+      (activate)="start()"
+      [disabled]="!isFormComplete()">
+      Next
+      <mat-icon class="cloud-icon">arrow_forward</mat-icon>
+    </button>
+
+    <button class="lj-button" (activate)="onBack.emit()">
+      Return
+      <mat-icon class="u-turn">u_turn_right</mat-icon>
+    </button>
+  </div>
+}

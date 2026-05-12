@@ -1,0 +1,216 @@
+<div
+  class="comment-quill-editor"
+  [class.editor-disabled]="disabled()"
+  [class.editor-deleted]="deleted()"
+  [class.editor-dirty]="isDirty()"
+  [class.editor-has-selection]="
+    popupMode() === 'insert-link' && savedRange() !== null
+  ">
+  <quill-editor
+    [formats]="formats"
+    [modules]="modules"
+    [theme]="'bubble'"
+    [placeholder]="placeholder()"
+    [readOnly]="disabled()"
+    (onContentChanged)="onTextChange($event)"
+    (onFocus)="onFocus()"
+    (onBlur)="onBlur()"
+    (onEditorCreated)="onEditorCreated($event)" />
+</div>
+
+<div
+  #quillPopup
+  id="quill-popup"
+  role="tooltip"
+  class="ql-popup quill-bubble-popup"
+  [style]="
+    popupVisible()
+      ? {}
+      : {
+          left: '-9999px',
+          top: '-9999px',
+          width: '0px',
+          height: '0px',
+          pointerEvents: 'none',
+        }
+  ">
+  <div #quillPopupArrow class="ql-popup-arrow"></div>
+  @switch (popupMode()) {
+    @case ('toolbar') {
+      <div
+        id="quill-toolbar"
+        role="toolbar"
+        class="ql-toolbar quill-bubble-toolbar">
+        <div class="ql-formats">
+          <!-- Undo without class -->
+          <button
+            type="button"
+            class="popup-button-icon"
+            aria-label="undo"
+            (mousedown)="$event.preventDefault()"
+            (click)="undo()"
+            [disabled]="!canUndo()">
+            <svg viewBox="0 0 20 20">
+              <path
+                d="m5.042 9.367 2.189 1.837a.75.75 0 0 1-.965 1.149l-3.788-3.18a.747.747 0 0 1-.21-.284.75.75 0 0 1 .17-.945L6.23 4.762a.75.75 0 1 1 .964 1.15L4.863 7.866h8.917A.75.75 0 0 1 14 7.9a4 4 0 1 1-1.477 7.718l.344-1.489a2.5 2.5 0 1 0 1.094-4.73l.008-.032H5.042z"></path>
+            </svg>
+          </button>
+
+          <!-- Redo -->
+          <button
+            type="button"
+            class="popup-button-icon"
+            aria-label="redo"
+            (mousedown)="$event.preventDefault()"
+            (click)="redo()"
+            [disabled]="!canRedo()">
+            <svg viewBox="0 0 20 20">
+              <path
+                d="m14.958 9.367-2.189 1.837a.75.75 0 0 0 .965 1.149l3.788-3.18a.747.747 0 0 0 .21-.284.75.75 0 0 0-.17-.945L13.77 4.762a.75.75 0 1 0-.964 1.15l2.331 1.955H6.22A.75.75 0 0 0 6 7.9a4 4 0 1 0 1.477 7.718l-.344-1.489A2.5 2.5 0 1 1 6.039 9.4l-.008-.032h8.927z"></path>
+            </svg>
+          </button>
+        </div>
+
+        <div class="ql-formats">
+          <!-- Bold -->
+          <button
+            type="button"
+            class="popup-button-icon"
+            [class.btn-active]="selectionFormat().boldActive"
+            aria-label="Bold (⌘B)"
+            (mousedown)="$event.preventDefault()"
+            (click)="setBold()">
+            <svg viewBox="0 0 20 20">
+              <path
+                d="M10.187 17H5.773c-.637 0-1.092-.138-1.364-.415-.273-.277-.409-.718-.409-1.323V4.738c0-.617.14-1.062.419-1.332.279-.27.73-.406 1.354-.406h4.68c.69 0 1.288.041 1.793.124.506.083.96.242 1.36.478.341.197.644.447.906.75a3.262 3.262 0 0 1 .808 2.162c0 1.401-.722 2.426-2.167 3.075C15.05 10.175 16 11.315 16 13.01a3.756 3.756 0 0 1-2.296 3.504 6.1 6.1 0 0 1-1.517.377c-.571.073-1.238.11-2 .11zm-.217-6.217H7v4.087h3.069c1.977 0 2.965-.69 2.965-2.072 0-.707-.256-1.22-.768-1.537-.512-.319-1.277-.478-2.296-.478zM7 5.13v3.619h2.606c.729 0 1.292-.067 1.69-.2a1.6 1.6 0 0 0 .91-.765c.165-.267.247-.566.247-.897 0-.707-.26-1.176-.778-1.409-.519-.232-1.31-.348-2.375-.348H7z"></path>
+            </svg>
+          </button>
+
+          <!-- Italic -->
+          <button
+            type="button"
+            class="popup-button-icon"
+            [class.btn-active]="selectionFormat().italicActive"
+            aria-label="Italic (⌘I)"
+            (mousedown)="$event.preventDefault()"
+            (click)="setItalic()">
+            <svg viewBox="0 0 20 20">
+              <path
+                d="m9.586 14.633.021.004c-.036.335.095.655.393.962.082.083.173.15.274.201h1.474a.6.6 0 1 1 0 1.2H5.304a.6.6 0 0 1 0-1.2h1.15c.474-.07.809-.182 1.005-.334.157-.122.291-.32.404-.597l2.416-9.55a1.053 1.053 0 0 0-.281-.823 1.12 1.12 0 0 0-.442-.296H8.15a.6.6 0 0 1 0-1.2h6.443a.6.6 0 1 1 0 1.2h-1.195c-.376.056-.65.155-.823.296-.215.175-.423.439-.623.79l-2.366 9.347z"></path>
+            </svg>
+          </button>
+
+          <!-- Code -->
+          <button
+            type="button"
+            class="popup-button-icon"
+            [class.btn-active]="selectionFormat().codeActive"
+            aria-label="Code"
+            (mousedown)="$event.preventDefault()"
+            (click)="setCode()">
+            <svg viewBox="0 0 20 20">
+              <path
+                d="m12.5 5.7 5.2 3.9v1.3l-5.6 4c-.1.2-.3.2-.5.2-.3-.1-.6-.7-.6-1l.3-.4 4.7-3.5L11.5 7l-.2-.2c-.1-.3-.1-.6 0-.8.2-.2.5-.4.8-.4a.8.8 0 0 1 .4.1zm-5.2 0L2 9.6v1.3l5.6 4c.1.2.3.2.5.2.3-.1.7-.7.6-1 0-.1 0-.3-.2-.4l-5-3.5L8.2 7l.2-.2c.1-.3.1-.6 0-.8-.2-.2-.5-.4-.8-.4a.8.8 0 0 0-.3.1z"></path>
+            </svg>
+          </button>
+
+          <!-- Link -->
+          <button
+            type="button"
+            class="popup-button-icon"
+            [class.btn-active]="selectionFormat().linkActive"
+            aria-label="Link"
+            (mousedown)="$event.preventDefault()"
+            (click)="setLink()">
+            <svg viewBox="0 0 20 20">
+              <path
+                d="m11.077 15 .991-1.416a.75.75 0 1 1 1.229.86l-1.148 1.64a.748.748 0 0 1-.217.206 5.251 5.251 0 0 1-8.503-5.955.741.741 0 0 1 .12-.274l1.147-1.639a.75.75 0 1 1 1.228.86L4.933 10.7l.006.003a3.75 3.75 0 0 0 6.132 4.294l.006.004zm5.494-5.335a.748.748 0 0 1-.12.274l-1.147 1.639a.75.75 0 1 1-1.228-.86l.86-1.23a3.75 3.75 0 0 0-6.144-4.301l-.86 1.229a.75.75 0 0 1-1.229-.86l1.148-1.64a.748.748 0 0 1 .217-.206 5.251 5.251 0 0 1 8.503 5.955zm-4.563-2.532a.75.75 0 0 1 .184 1.045l-3.155 4.505a.75.75 0 1 1-1.229-.86l3.155-4.506a.75.75 0 0 1 1.045-.184z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    }
+
+    @case ('insert-link') {
+      <div class="ql-popup-content">
+        <div class="link-row">
+          <div
+            class="link-input-wrap"
+            [class.is-focused]="linkInputFocused()"
+            [class.has-value]="linkUrl().length > 0">
+            <label for="link-input" class="link-floating-label">Link URL</label>
+            <input
+              #linkInput
+              id="link-input"
+              type="text"
+              required
+              [attr.aria-invalid]="linkUrl().length === 0 ? 'true' : null"
+              [ngModel]="linkUrl()"
+              (ngModelChange)="onLinkUrlChange($event)"
+              (keydown.enter)="confirmLink($event)"
+              (focus)="linkInputFocused.set(true)"
+              (blur)="linkInputFocused.set(false)"
+              placeholder="" />
+          </div>
+          <div class="link-actions">
+            <button
+              type="button"
+              [disabled]="linkUrl().length === 0"
+              class="link-action link-action-confirm"
+              (click)="confirmLink($event)"
+              aria-label="Save link">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M9.2 16.2 4.8 11.8l1.4-1.4 3 3 8.6-8.6 1.4 1.4-10 10z" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="link-action link-action-cancel"
+              (click)="cancelLink()"
+              aria-label="Cancel link">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M18.3 5.7 12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3 10.6 10.6 16.9 4.3z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+
+    @case ('edit-link') {
+      <div class="ql-popup-content link-preview">
+        <a
+          class="link-preview-url"
+          [href]="linkUrl()"
+          target="_blank"
+          rel="noopener noreferrer">
+          {{ linkUrl() }}
+        </a>
+        <button
+          type="button"
+          class="link-action link-action-edit"
+          (click)="editLink()"
+          aria-label="Edit link">
+          <svg viewBox="0 0 24 24">
+            <path
+              d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zm2.92 2.83H5v-.92l9.06-9.06.92.92L5.92 20.08zM20.71 7.04a1.003 1.003 0 0 0 0-1.42l-2.34-2.34a1.003 1.003 0 0 0-1.42 0l-1.83 1.83 3.75 3.75 1.84-1.82z" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="link-action link-action-remove"
+          (click)="removeLink()"
+          aria-label="Remove link">
+          <svg viewBox="0 0 20 20">
+            <path
+              d="m11.077 15 .991-1.416a.75.75 0 1 1 1.229.86l-1.148 1.64a.748.748 0 0 1-.217.206 5.251 5.251 0 0 1-8.503-5.955.741.741 0 0 1 .12-.274l1.147-1.639a.75.75 0 1 1 1.228.86L4.933 10.7l.006.003a3.75 3.75 0 0 0 6.132 4.294l.006.004zm5.494-5.335a.748.748 0 0 1-.12.274l-1.147 1.639a.75.75 0 1 1-1.228-.86l.86-1.23a3.75 3.75 0 0 0-6.144-4.301l-.86 1.229a.75.75 0 0 1-1.229-.86l1.148-1.64a.748.748 0 0 1 .217-.206 5.251 5.251 0 0 1 8.503 5.955zm-4.563-2.532a.75.75 0 0 1 .184 1.045l-3.155 4.505a.75.75 0 1 1-1.229-.86l3.155-4.506a.75.75 0 0 1 1.045-.184zm4.919 10.562-1.414 1.414a.75.75 0 1 1-1.06-1.06l1.414-1.415-1.415-1.414a.75.75 0 0 1 1.061-1.06l1.414 1.414 1.414-1.415a.75.75 0 0 1 1.061 1.061l-1.414 1.414 1.414 1.415a.75.75 0 0 1-1.06 1.06l-1.415-1.414z"></path>
+          </svg>
+        </button>
+      </div>
+    }
+
+    @default {}
+  }
+</div>

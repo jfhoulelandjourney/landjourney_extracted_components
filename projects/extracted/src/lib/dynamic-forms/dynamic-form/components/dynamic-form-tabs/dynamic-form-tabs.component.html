@@ -1,0 +1,134 @@
+<div class="tabs" [style]="getCustomStyle('.tabs-header-container')">
+  @for (element of formTabs(); track $index) {
+    @if (isSection(element)) {
+      <div
+        (activate)="onTabSelected($index)"
+        class="tabs-header-item"
+        [class.df-wave-item]="mode() === 'display'"
+        [class.selected]="selectedTabIndex() === $index"
+        [class.warning]="
+          selectedTabIndex() !== $index && isSectionWarning(element)
+        "
+        [class.valid]="selectedTabIndex() !== $index && isSectionValid(element)"
+        [style]="getCustomStyle('.tabs-header-item')">
+        <div
+          [style]="getCustomStyle('.tabs-header-item-title')"
+          class="tabs-header-item-title">
+          @if (selectedTabIndex() === $index) {
+            <span class="tabs-header-icon-badge">
+              <mat-icon class="tabs-header-edit-icon" aria-hidden="true">
+                edit
+              </mat-icon>
+            </span>
+          }
+          @if (selectedTabIndex() !== $index && isSectionWarning(element)) {
+            <span class="tabs-header-icon-badge">
+              <mat-icon class="df-stepper-step-icon" aria-hidden="true">
+                priority_high
+              </mat-icon>
+            </span>
+          }
+          @if (selectedTabIndex() !== $index && isSectionValid(element)) {
+            <span class="tabs-header-icon-badge">
+              <mat-icon class="df-stepper-step-icon" aria-hidden="true">
+                check
+              </mat-icon>
+            </span>
+          }
+          <p>{{ element.name }}</p>
+        </div>
+        <div
+          class="selected-indicator"
+          [style]="
+            getCustomStyle('.tabs-header-item-selected-indicator')
+          "></div>
+      </div>
+    }
+  }
+</div>
+@for (element of formTabs(); track $index) {
+  <div
+    class="tab-content"
+    [class.selected]="selectedTabIndex() === $index"
+    [style]="getCustomStyle('.tabs-content-container')">
+    @if (isSection(element)) {
+      <div [class.df-wave-item]="mode() === 'display'">
+        @if (element.name === 'Summary') {
+          <lj-df-summary
+            [isMobile]="isMobile()"
+            [formDefinition]="formDefinition()"
+            [formData]="formData()"
+            [fieldValidity]="fieldValidity()"
+            (goBackTo)="onTabSelected($event)"></lj-df-summary>
+        } @else if (showElement(element, formData(), mode())) {
+          <lj-df-section
+            [formDefinition]="formDefinition()"
+            [isMobile]="isMobile()"
+            [id]="element.id"
+            [customStyle]="customStyle()"
+            [formData]="formData()"
+            [mode]="mode()"
+            [section]="getSection(element)"
+            [showHeadingInPanel]="false"
+            [formType]="formType()"
+            [fieldValidity]="fieldValidity()"
+            [suppressedErrors]="suppressedErrors()"
+            [allowManualComputedValueEdit]="allowManualComputedValueEdit()"
+            (sectionChange)="handleChange($event)"
+            (customAction)="handleCustomAction($event)"
+            (dataChange)="handleDataChange($event)"
+            (submit)="handleSubmit()"
+            [prefillPendingChanges]="prefillPendingChanges()"
+            (prefillChangeAccepted)="prefillChangeAccepted.emit($event)"
+            (prefillChangeDeclined)="
+              prefillChangeDeclined.emit($event)
+            "></lj-df-section>
+        }
+
+        @if (formOptions()['useHeaderNavigation']) {
+          <div class="navigation-buttons">
+            @if (selectedTabIndex() === 0) {
+              <button
+                lj-button="inverse-cta"
+                [compact]="true"
+                mat-button
+                (activate)="onButtonClicked(selectedTabIndex() + 1)">
+                Next
+              </button>
+            } @else if (selectedTabIndex() === formTabs().length - 1) {
+              <button
+                lj-button="inverse-cta"
+                [compact]="true"
+                mat-button
+                (activate)="onButtonClicked(selectedTabIndex() - 1)">
+                Previous
+              </button>
+              <lj-df-submit-button
+                [containerLayout]="SectionLayouts.ONE_COLUMN"
+                [formData]="formData()"
+                [field]="getSubmitField()"
+                [mode]="mode()"
+                [formType]="formType()"
+                (submit)="handleSubmit()"></lj-df-submit-button>
+            } @else {
+              <button
+                lj-button="inverse-cta"
+                [compact]="true"
+                mat-button
+                (activate)="onButtonClicked(selectedTabIndex() - 1)">
+                Previous
+              </button>
+              <button
+                lj-button="inverse-cta"
+                [compact]="true"
+                mat-button
+                (activate)="onButtonClicked(selectedTabIndex() + 1)">
+                Next
+              </button>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+}

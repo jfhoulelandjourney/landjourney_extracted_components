@@ -1,0 +1,128 @@
+<mat-stepper
+  #stepper
+  class="stepper"
+  [class.mobile]="isMobile()"
+  [style]="getCustomStyle('.stepper')"
+  [selectedIndex]="currentStep()"
+  (selectedIndexChange)="onStepChange($event)"
+  animationDuration="480ms"
+  orientation="vertical">
+  <ng-template matStepperIcon="edit">
+    <mat-icon class="df-stepper-step-icon">edit</mat-icon>
+  </ng-template>
+  <ng-template matStepperIcon="done">
+    <mat-icon class="df-stepper-step-icon">check</mat-icon>
+  </ng-template>
+  <ng-template matStepperIcon="error">
+    <mat-icon class="df-stepper-step-icon">priority_high</mat-icon>
+  </ng-template>
+  @for (step of formSteps(); track $index) {
+    @if (isSection(step)) {
+      <mat-step
+        [style]="getCustomStyle('.stepper-step')"
+        [editable]="true"
+        [completed]="currentStep() !== $index && isSectionValid(step)"
+        [hasError]="currentStep() !== $index && isSectionWarning(step)">
+        <ng-template
+          matStepLabel
+          [style]="getCustomStyle('.tabs-stepper-step-title')">
+          <div class="df-wave-item">{{ step.name }}</div>
+        </ng-template>
+        @if (step.name === 'Summary') {
+          <div
+            class="df-wave-item df-step-panel"
+            [attr.id]="'df-step-content-' + step.id">
+            <lj-df-summary
+              [isMobile]="isMobile()"
+              [formDefinition]="formDefinition()"
+              [formData]="formData()"
+              [fieldValidity]="fieldValidity()"
+              (goBackTo)="onStepChange($event)"></lj-df-summary>
+          </div>
+        } @else if (showElement(step, formData(), mode())) {
+          <div
+            class="df-wave-item df-step-panel"
+            [attr.id]="'df-step-content-' + step.id"
+            [class.last]="$index === formSteps().length - 1">
+            <lj-df-section
+              [formDefinition]="formDefinition()"
+              [isMobile]="isMobile()"
+              [id]="step.id"
+              [customStyle]="customStyle()"
+              [formData]="formData()"
+              [mode]="mode()"
+              [section]="getSection(step)"
+              [showHeadingInPanel]="false"
+              [formType]="formType()"
+              [allowManualComputedValueEdit]="allowManualComputedValueEdit()"
+              [fieldValidity]="fieldValidity()"
+              [suppressedErrors]="suppressedErrors()"
+              (sectionChange)="handleChange($event)"
+              (customAction)="handleCustomAction($event)"
+              (dataChange)="handleDataChange($event)"
+              (submit)="handleSubmit()"
+              [prefillPendingChanges]="prefillPendingChanges()"
+              (prefillChangeAccepted)="prefillChangeAccepted.emit($event)"
+              (prefillChangeDeclined)="
+                prefillChangeDeclined.emit($event)
+              "></lj-df-section>
+          </div>
+        }
+
+        @if (formOptions()['useHeaderNavigation']) {
+          <div class="navigation-buttons df-wave-item">
+            @if (formSteps().length === 1) {
+              <lj-df-submit-button
+                [containerLayout]="SectionLayouts.ONE_COLUMN"
+                [formData]="formData()"
+                [field]="getSubmitField()"
+                [mode]="mode()"
+                [formType]="formType()"
+                (submit)="handleSubmit()"></lj-df-submit-button>
+            } @else if ($index === 0) {
+              <button
+                lj-button="inverse-cta"
+                [compact]="true"
+                mat-button
+                type="button"
+                (click)="onNextClick()">
+                Next
+              </button>
+            } @else if ($index === formSteps().length - 1) {
+              <button
+                lj-button="inverse-cta"
+                [compact]="true"
+                mat-button
+                matStepperPrevious>
+                Previous
+              </button>
+              <lj-df-submit-button
+                [containerLayout]="SectionLayouts.ONE_COLUMN"
+                [formData]="formData()"
+                [field]="getSubmitField()"
+                [mode]="mode()"
+                [formType]="formType()"
+                (submit)="handleSubmit()"></lj-df-submit-button>
+            } @else {
+              <button
+                lj-button="inverse-cta"
+                [compact]="true"
+                mat-button
+                matStepperPrevious>
+                Previous
+              </button>
+              <button
+                lj-button="inverse-cta"
+                [compact]="true"
+                mat-button
+                type="button"
+                (click)="onNextClick()">
+                Next
+              </button>
+            }
+          </div>
+        }
+      </mat-step>
+    }
+  }
+</mat-stepper>

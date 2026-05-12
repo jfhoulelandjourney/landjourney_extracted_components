@@ -1,0 +1,28 @@
+.container-row {
+  padding-top: 32px;
+  padding-bottom: 32px;
+  display: flex;
+  gap: 16px;
+}
+
+.container-column {
+  padding-top: 32px;
+  padding-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.box {
+  width: 100px;
+  height: 100px;
+  text-align: center;
+  padding-top: 40px;
+  font-size: var(--font-size-xs) !important;
+  font-family: var(--font-family-primary) !important;
+}
+
+.text {
+  background-color: lightgray;
+  font-family: var(--font-family-primary) !important;
+}

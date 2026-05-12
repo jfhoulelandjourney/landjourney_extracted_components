@@ -1,0 +1,29 @@
+.note {
+  margin: 0;
+  padding: var(--padding-comfortable);
+  border-radius: var(--radius-strong, 8px);
+  background: var(--accent-black-100);
+  border: 1px solid var(--accent-black-200);
+  font-size: var(--font-size-xxs);
+  line-height: 150%;
+  color: var(--accent-black-600, #5c5c5c);
+  margin-bottom: var(--padding-comfortable);
+
+  &.variant-warning {
+    background: var(--status-warning-100);
+    border-color: var(--status-warning-400);
+    color: var(--status-warning-800);
+  }
+
+  &.variant-success {
+    background: var(--status-success-100);
+    border-color: var(--status-success-400);
+    color: var(--status-success-800);
+  }
+
+  &.variant-error {
+    background: var(--status-error-100);
+    border-color: var(--status-error-400);
+    color: var(--status-error-800);
+  }
+}

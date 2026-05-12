@@ -1,0 +1,111 @@
+@use '../../../ui-styles/tokens/breakpoints' as bp;
+
+.timeline {
+  margin: var(--padding-spacious, 24px);
+  padding: var(--padding-reset, 0px);
+}
+
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+}
+
+.timeline-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-rounded);
+  background-color: #fff;
+  padding: var(--padding-compact);
+  text-align: center;
+
+  mat-icon {
+    width: 22px;
+    height: 22px;
+    font-size: var(--font-size-md);
+  }
+}
+
+.timeline-content {
+  margin-left: 36px;
+  padding: 10px 15px;
+  background-color: var(--black-100, #fff);
+  border-radius: 8px;
+  flex-grow: 1;
+  margin-bottom: var(--padding-spacious, 24px);
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--padding-comfortable, 12px);
+  }
+
+  .details {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: 16px;
+  top: 34px;
+  bottom: 0;
+  width: 2px;
+  background-color: var(--black-300, #c9c9c9);
+}
+
+.timeline-item:last-child::before {
+  display: none;
+}
+
+.mobile {
+  &.timeline {
+    margin: var(--padding-comfortable, 12px);
+    margin-top: var(--padding-spacious, 24px);
+  }
+
+  .timeline-content {
+    margin-left: 18px;
+    margin-bottom: var(--padding-comfortable, 12px);
+    background-color: var(--black-200, #f5f5f5);
+
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--padding-default, 8px);
+      margin-bottom: var(--padding-default, 8px);
+    }
+  }
+}
+
+@include bp.max-mobile {
+  .timeline {
+    margin-left: 0;
+  }
+
+  .timeline-content {
+    margin-left: 4px;
+    padding-left: 8px;
+    margin-bottom: 8px;
+    padding: 12px;
+
+    .details {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+  }
+}

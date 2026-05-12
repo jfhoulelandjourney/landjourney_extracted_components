@@ -1,0 +1,182 @@
+<div class="inspector-section">
+  <label for="label-input" class="label-text">Label</label>
+  <input
+    id="label-input"
+    type="text"
+    class="label-input"
+    [ngModel]="labelInput()"
+    (ngModelChange)="onLabelChange($event)"
+    placeholder="Field label (optional)" />
+</div>
+
+<div class="inspector-section">
+  <label for="field-key-input" class="label-text">Field key</label>
+  <input
+    id="field-key-input"
+    type="text"
+    class="label-input"
+    [ngModel]="fieldKeyInput()"
+    (ngModelChange)="onFieldKeyChange($event)"
+    placeholder="e.g. marital_status" />
+</div>
+
+<div class="inspector-section">
+  <span class="label-text">Options</span>
+  @for (
+    option of optionsInput();
+    track trackOptionById($index, option);
+    let i = $index
+  ) {
+    <div class="option-row">
+      <div class="option-fields">
+        <input
+          type="text"
+          class="label-input"
+          placeholder="Value"
+          [ngModel]="option.value ?? ''"
+          (ngModelChange)="onOptionValueChange(i, $event)" />
+        <input
+          type="text"
+          class="label-input"
+          placeholder="Label (defaults to value)"
+          [ngModel]="option.label ?? ''"
+          (ngModelChange)="onOptionLabelChange(i, $event)" />
+      </div>
+      <div class="option-controls">
+        <mat-checkbox
+          [checked]="option.selected"
+          (change)="onOptionSelectedChange(i, $event.checked)"
+          aria-label="Default-selected at fill time">
+          Default
+        </mat-checkbox>
+        <button
+          type="button"
+          class="option-remove"
+          (click)="onRemoveOption(i)"
+          aria-label="Remove option">
+          ✕
+        </button>
+      </div>
+    </div>
+  }
+  <button type="button" class="option-add" (click)="onAddOption()">
+    + Add option
+  </button>
+</div>
+
+<div class="inspector-section">
+  <label for="readonly-checkbox">
+    <mat-checkbox
+      id="readonly-checkbox"
+      [checked]="data()?.readonly ?? false"
+      (change)="onReadonlyChange($event.checked)"
+      inputId="readonly-checkbox"
+      aria-label="Make field read-only">
+      Read-only
+    </mat-checkbox>
+  </label>
+</div>
+
+<div class="inspector-section">
+  <label for="required-checkbox">
+    <mat-checkbox
+      id="required-checkbox"
+      [checked]="data()?.required ?? false"
+      (change)="onRequiredChange($event.checked)"
+      inputId="required-checkbox"
+      aria-label="Make field required">
+      Required
+    </mat-checkbox>
+  </label>
+</div>
+
+<div class="inspector-section">
+  <span class="assignment-label">
+    Assigned to
+    <span class="optional-hint">(optional)</span>
+  </span>
+
+  @switch (assignmentMode()?.kind) {
+    @case ('signees') {
+      @if (creatingSignee()) {
+        <input
+          type="text"
+          class="label-input"
+          placeholder="Signee name"
+          [ngModel]="newSigneeName()"
+          (ngModelChange)="newSigneeName.set($event)" />
+        @if (newSigneeNameError(); as err) {
+          <p class="field-error">{{ err }}</p>
+        }
+        <mat-select
+          lj-select
+          multiple
+          placeholder="Assign roles"
+          [ngModel]="newSigneeRoles()"
+          (ngModelChange)="newSigneeRoles.set($event)">
+          @for (role of availableRoles; track role) {
+            <mat-option [value]="role">
+              {{ roleDisplayNames()[role] }}
+            </mat-option>
+          }
+        </mat-select>
+        @if (newSigneeRolesError(); as err) {
+          <p class="field-error">{{ err }}</p>
+        }
+        <div class="signee-create-actions">
+          <lj-button
+            type="button"
+            variant="secondary"
+            [disabled]="creatingInFlight()"
+            (activate)="cancelSigneeCreate()">
+            Cancel
+          </lj-button>
+          <lj-button
+            type="button"
+            variant="primary"
+            [disabled]="creatingInFlight()"
+            (activate)="confirmSigneeCreate()">
+            Create
+          </lj-button>
+        </div>
+      } @else {
+        <mat-select
+          lj-select
+          [ngModel]="selectedSignee()"
+          (ngModelChange)="onSigneeChange($event)"
+          [compareWith]="compareSigneeById"
+          placeholder="">
+          <mat-option [value]="null"></mat-option>
+          @for (signee of availableSignees(); track signee.id) {
+            <mat-option [value]="signee">
+              {{ labelForSignee(signee) }}
+            </mat-option>
+          }
+        </mat-select>
+        @if (canCreateSignee()) {
+          <button
+            type="button"
+            class="signee-add-link"
+            (click)="beginSigneeCreate()">
+            + Add new signee
+          </button>
+        }
+      }
+    }
+    @case ('recipients') {
+      <mat-select
+        lj-select
+        [ngModel]="selectedRecipient()"
+        (ngModelChange)="onRecipientChange($event)"
+        [compareWith]="compareRecipientById"
+        placeholder="">
+        <mat-option [value]="null"></mat-option>
+        @for (recipient of recipients(); track recipient.id) {
+          <mat-option [value]="recipient">
+            {{ labelForRecipient(recipient) }}
+          </mat-option>
+        }
+      </mat-select>
+    }
+  }
+</div>

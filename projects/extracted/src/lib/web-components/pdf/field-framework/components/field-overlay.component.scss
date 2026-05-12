@@ -1,0 +1,285 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  box-sizing: border-box;
+  background: #e9f7e7;
+  border: 1px solid #7d7d7d;
+
+  &.readonly {
+    background: #f5f5f5;
+    border-color: #999;
+  }
+
+  /* Orphaned field: signee was deleted; user must reassign before saving. */
+  &.orphan {
+    background: #fdecea;
+    border-color: #d32f2f;
+    border-width: 2px;
+  }
+
+  /* Fill mode: PSPDFKit handles widget chrome — the overlay only provides
+     captions/adornments. Transparent background lets native text values
+     (date, text) show through. A thin border indicates the field boundary. */
+  &.fill-mode {
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.18);
+  }
+}
+
+.widget-chrome {
+  width: 100%;
+  height: 100%;
+}
+
+/* Floating adornment row positioned ABOVE the widget to show field metadata
+   without covering the input area. Positioned at top: -39px to sit above
+   any label TextAnnotation that occupies y-25 to y-9. */
+.adornments {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -39px;
+  height: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  background: transparent;
+  pointer-events: none;
+}
+
+/* Type badge: icon + human-readable field type label on the left.
+   White semi-transparent background for contrast against the page. */
+.type-badge {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  color: #606060;
+  flex-shrink: 0;
+  min-width: 0;
+  padding: 1px 4px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 3px;
+
+  &.readonly {
+    background: rgba(230, 230, 230, 0.9);
+    color: #666;
+  }
+}
+
+.icon {
+  width: 12px;
+  height: 12px;
+  fill: #707070;
+  flex-shrink: 0;
+}
+
+.readonly-icon {
+  width: 12px;
+  height: 12px;
+  fill: #707070;
+  flex-shrink: 0;
+}
+
+/* Required indicator: red asterisk inline with the type label. Web-form
+   convention so signers immediately recognize the meaning. */
+.required-asterisk {
+  color: #d32f2f;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  flex-shrink: 0;
+  /* Nudge upward so the asterisk visually aligns with the label baseline. */
+  transform: translateY(1px);
+}
+
+.label {
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Range pill: shown next to type label for number fields with min/max set.
+   Smaller, monospaced, slightly recessed so it reads as metadata, not a value. */
+.constraint {
+  font-size: 9px;
+  font-weight: 500;
+  line-height: 1;
+  color: #555;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.roles-container {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+/* Role pill: grey background with small text, fits multiple roles on right.
+   Smaller font (8px) and padding (2px 6px) vs. the type badge. */
+.role-pill {
+  background-color: #e0e0e0;
+  color: #000;
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-size: 8px;
+  line-height: 1;
+  white-space: nowrap;
+
+  &--extra {
+    font-weight: 600;
+  }
+}
+
+/* Orphan pill: replaces role badges when the field has no signee assigned.
+   Red background + bold text so the warning is unmistakable on top of
+   PSPDFKit's own widget chrome. */
+.orphan-pill {
+  background-color: #d32f2f;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Signer caption (fill mode only): sits beneath the widget — small italic
+   line stating who is expected to sign, gently set apart by a thin top
+   rule. Fades to 30% opacity once the field is filled so the actual signed
+   value reads cleanly. */
+.signer-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 2px);
+  display: flex;
+  justify-content: flex-end;
+  pointer-events: none;
+  font-size: 10px;
+  line-height: 1.3;
+  color: #707070;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: opacity 0.2s ease;
+
+  &.filled {
+    opacity: 0.3;
+  }
+}
+
+.signer-caption-name {
+  padding: 1px 6px;
+  border-top: 1px solid #c8c8c8;
+  background: rgba(255, 255, 255, 0.9);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 100%;
+
+  .caption-auto {
+    font-style: italic;
+    color: #9e9e9e;
+  }
+}
+
+.field-placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.38);
+  pointer-events: none;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 0 4px;
+}
+
+/* Checkbox/radio option preview. Mirrors the materialized geometry:
+   - N equal-height rows (flex: 1) === sliceBbox vertical equal partitioning.
+   - Each row: 14x14 box at the left (vertically centered) + 6px gap +
+     label === splitOptionSlice.
+   The host already covers the widget bbox; this preview overlays the chrome. */
+.options-preview {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.options-row {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
+  gap: 6px;
+  padding: 0 4px;
+}
+
+.options-box {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  border: 1px solid #707070;
+  background: #fff;
+  box-sizing: border-box;
+
+  &--checked {
+    background: #5b8def;
+    border-color: #5b8def;
+  }
+}
+
+/* Radio variant: round the box into a circle, and inset the "checked" fill
+   so it reads as a radio dot rather than a filled square. */
+.options-preview--radio .options-box {
+  border-radius: 50%;
+
+  &--checked {
+    background:
+      radial-gradient(circle, #5b8def 35%, #fff 38%, #fff 60%, #5b8def 62%);
+    border-color: #5b8def;
+  }
+}
+
+.options-label {
+  font-size: 10px;
+  line-height: 1.2;
+  color: #404040;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.options-empty {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-style: italic;
+  color: #888;
+  padding: 0 6px;
+  text-align: center;
+}

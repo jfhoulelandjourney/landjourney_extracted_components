@@ -1,0 +1,48 @@
+<div class="container" [class.mobile]="isMobile()">
+  <mat-icon class="warning-icon">warning</mat-icon>
+  <p class="title-2xl inter title">
+    Before submitting, we need to verify {{ name() }}'s identity.
+  </p>
+
+  <div class="choice">
+    <div class="header">
+      <mat-icon class="card-icon">id_card</mat-icon>
+      <p class="title-lg inter subtitle">
+        You must provide a government-issued ID.
+      </p>
+    </div>
+    <div class="cards">
+      @if (isMobile()) {
+        <div class="card" (activate)="onUploadClick.emit()">
+          <mat-icon class="choice-icon">cloud_upload</mat-icon>
+          <div class="link">
+            <p class="body-m inter">Upload a photo</p>
+            <mat-icon>chevron_forward</mat-icon>
+          </div>
+        </div>
+      } @else {
+        <div class="card" (activate)="onUploadClick.emit()">
+          <mat-icon class="choice-icon">cloud_upload</mat-icon>
+          <div class="link">
+            <p class="body-m inter">Upload a photo</p>
+            <mat-icon>chevron_forward</mat-icon>
+          </div>
+        </div>
+        <div class="card" (activate)="onCameraClick.emit()">
+          <mat-icon class="choice-icon">camera_video</mat-icon>
+          <div class="link">
+            <p class="body-m inter">Use your camera</p>
+            <mat-icon>chevron_forward</mat-icon>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <div>
+    <button class="lj-button" (activate)="onBack.emit()">
+      Return
+      <mat-icon class="u-turn">u_turn_right</mat-icon>
+    </button>
+  </div>
+</div>

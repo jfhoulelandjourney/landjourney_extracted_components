@@ -1,0 +1,46 @@
+@use '../../ui-styles/tokens/breakpoints' as bp;
+
+.ai-checklist-assistant {
+  display: flex;
+  flex-direction: row;
+  padding: var(--padding-default);
+  padding-bottom: var(--padding-reset);
+  border-radius: var(--radius-primary, 4px);
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+
+  h3 {
+    color: var(--color--accent--success);
+    text-transform: uppercase;
+    font-size: var(--font-size-xs);
+  }
+
+  .header-actions {
+    padding-top: var(--padding-compact);
+  }
+}
+
+.collapsed .ai-checklist-assistant:hover {
+  background: var(--gray-200);
+}
+
+.checklist-container {
+  padding: var(--padding-comfortable);
+}
+
+.loading-container.fade-out {
+  display: none;
+  pointer-events: none;
+}
+
+.hide {
+  display: none;
+  pointer-events: none;
+}
+
+@include bp.max-mobile {
+  .checklist-container {
+    padding: var(--padding-default);
+  }
+}

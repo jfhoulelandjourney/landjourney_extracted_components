@@ -1,0 +1,62 @@
+@if (shouldShowBanner()) {
+  <div class="approval-bar">
+    <div class="approval-bar-content">
+      <div class="approval-bar-message">
+        <mat-icon class="approval-icon">info</mat-icon>
+        <div class="approval-bar-text">
+          @let conditions = offer().underwritingApprovalConditions;
+          @if (conditions && conditions.length > 0) {
+            <span class="approval-title">
+              @if (!isClient()) {
+                This offer has been conditionally approved by underwriting.
+                @if (offer().status !== OfferStatus.APPLICANT) {
+                  Review the conditions below and make a decision.
+                }
+              } @else {
+                This offer has been conditionally approved.
+                @if (offer().status === OfferStatus.APPLICANT) {
+                  Review the conditions below and make a decision.
+                }
+              }
+            </span>
+            <div class="approval-conditions">
+              <strong>Approval Conditions:</strong>
+              <ul class="conditions-list">
+                @for (condition of conditions; track $index) {
+                  <li>{{ condition.description }}</li>
+                }
+              </ul>
+            </div>
+          } @else {
+            @if (
+              (isClient() && offer().status === OfferStatus.APPLICANT) ||
+              (!isClient() && offer().status !== OfferStatus.APPLICANT)
+            ) {
+              <span>Review and make a decision on this offer</span>
+            } @else {
+              <span>This offer has been approved by underwriting.</span>
+            }
+          }
+        </div>
+      </div>
+      @if (shouldShowActions()) {
+        <div class="approval-bar-actions">
+          <button
+            type="button"
+            (activate)="handleDecline()"
+            class="decline-button">
+            <mat-icon>close</mat-icon>
+            Decline
+          </button>
+          <button
+            type="button"
+            (activate)="handleApprove()"
+            class="approve-button">
+            <mat-icon>check</mat-icon>
+            Approve
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+}

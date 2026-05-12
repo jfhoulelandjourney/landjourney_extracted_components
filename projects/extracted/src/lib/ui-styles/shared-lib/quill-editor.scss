@@ -1,0 +1,83 @@
+.ql-editor {
+  font-family: Inter, 'inter', sans-serif;
+}
+
+.ql-editor:focus,
+.ql-editor:focus-within {
+  outline: none;
+  box-shadow: none;
+}
+
+.ql-editor strong {
+  font-weight: bold !important;
+}
+
+.ql-editor code {
+  font-family: monospace;
+  padding: 2px 1px;
+  background-color: hsl(0, 0%, 90%);
+  border-radius: 2px;
+}
+
+/* Ensure the font selector labels in the toolbar also use the correct font */
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value='inter']::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value='inter']::before {
+  content: 'Inter';
+  font-family: 'inter', sans-serif;
+}
+
+/* Define CSS classes for the whitelisted fonts */
+.ql-font-inter {
+  font-family: 'inter', sans-serif;
+}
+
+.ql-container .ql-mention-list-container {
+  background-color: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  box-shadow: 0 2px 12px 0 rgba(30, 30, 30, 0.08);
+  overflow: auto;
+  width: 270px;
+  max-height: 100px;
+  z-index: 9001;
+  padding: 5px 0;
+}
+
+.ql-container .ql-mention-loading {
+  font-size: 13px;
+  line-height: 1.2;
+  padding: 0 10px;
+  vertical-align: middle;
+}
+
+.ql-container .ql-mention-list {
+  list-style: none;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+.ql-container .ql-mention-list-item {
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1.2;
+  padding: 6px 10px;
+  vertical-align: middle;
+}
+
+.ql-container .ql-mention-list-item.disabled {
+  cursor: auto;
+}
+
+.ql-container .ql-mention-list-item.selected {
+  background-color: #d3e1eb;
+  text-decoration: none;
+}
+
+.ql-editor .mention[data-mention] {
+  color: rgb(0, 89, 153);
+  font-weight: 500;
+  background: transparent;
+  border-radius: 2px;
+  padding: 0 1px;
+}

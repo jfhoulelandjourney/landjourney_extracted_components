@@ -1,0 +1,492 @@
+<div class="container" [class.mobile]="mobile()">
+  @if (detailsTitle()) {
+    @if (mobile()) {
+      <div class="accordion master-loan-accordion">
+        <div class="accordion-header">
+          <div class="accordion-header-item details-header master-loan-header">
+            <p class="body-m">
+              <a
+                [href]="'/loans/loan/' + (loan()?.id ?? '')"
+                target="_blank"
+                rel="noopener">
+                {{ detailsTitle() }}
+              </a>
+            </p>
+          </div>
+        </div>
+
+        <div class="details">
+          <div class="items">
+            <div class="item">
+              <div class="body-xs label">Original Funding Date</div>
+              <div class="body-s data">
+                {{ formatDate(loan()?.originationDate) }}
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="body-xs label">Interest Rate</div>
+              <div class="body-s data">
+                {{ formatPercent(loan()?.interestRatePerc) }}
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="body-xs label">Grace Period</div>
+              <div class="body-s data">
+                {{ loan()?.graceValue }}
+                {{ getFormattedEnumValue(loan()?.graceUnit) }}
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="body-xs label">Maturity Date</div>
+              <div class="body-s data">
+                {{ formatDate(loan()?.maturityDate) }}
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="body-xs label">Payment Frequency</div>
+              <div class="body-s data">
+                {{ getFormattedEnumValue(loan()?.paymentFrequency) }}
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="body-xs label">Current Commitment</div>
+              <div class="body-s data">
+                {{ formatAmount(loan()?.currentCommitmentCents) }}
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="body-xs label">Loan Type</div>
+              <div class="body-s data">
+                {{ getFormattedEnumValue(loan()?.accountType) }}
+              </div>
+            </div>
+
+            @if (shouldDisplayRateAdjustmentFrequency()) {
+              <div class="item">
+                <div class="body-xs label">Rate Adjustment Frequency</div>
+                <div class="body-s data">
+                  {{ getFormattedEnumValue(loan()?.rateAdjustmentFrequency) }}
+                </div>
+              </div>
+            }
+
+            @if (shouldDisplayRateAdjustmentFrequency()) {
+              <div class="item">
+                <div class="body-xs label">Next Rate Adjustment Date</div>
+                <div class="body-s data">
+                  {{ formatDate(loan()?.nextRateResetDate) }}
+                </div>
+              </div>
+            }
+
+            @if (false) {
+              <div class="item">
+                <div class="body-xs label">Integrator/Escrowed Funds</div>
+                <div class="body-s data">
+                  {{ formatAmount(loan()?.escrowedAmountCents ?? 0) }}
+                </div>
+              </div>
+            }
+
+            <div class="item">
+              <div class="body-xs label">Interest Rate Type</div>
+              <div class="body-s data">
+                {{ getFormattedEnumValue(loan()?.interestRateAttributes?.[0]) }}
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="body-xs label">Late Fee %</div>
+              <div class="body-s data">
+                {{ formatPercent(loan()?.lateFeePerc) }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <div class="master-loan-section">
+        <h3 class="body-m master-loan-title">
+          <a
+            [href]="'/loans/loan/' + (loan()?.id ?? '')"
+            target="_blank"
+            rel="noopener">
+            {{ detailsTitle() }}
+          </a>
+        </h3>
+        <div class="details">
+          <div class="items">
+            <div class="item">
+              <div class="body-xs label">Original Funding Date</div>
+              <div class="body-s data">
+                {{ formatDate(loan()?.originationDate) }}
+              </div>
+            </div>
+            <div class="item">
+              <div class="body-xs label">Interest Rate</div>
+              <div class="body-s data">
+                {{ formatPercent(loan()?.interestRatePerc) }}
+              </div>
+            </div>
+            <div class="item">
+              <div class="body-xs label">Grace Period</div>
+              <div class="body-s data">
+                {{ loan()?.graceValue }}
+                {{ getFormattedEnumValue(loan()?.graceUnit) }}
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="body-xs label">Maturity Date</div>
+              <div class="body-s data">
+                {{ formatDate(loan()?.maturityDate) }}
+              </div>
+            </div>
+            <div class="item">
+              <div class="body-xs label">Payment Frequency</div>
+              <div class="body-s data">
+                {{ getFormattedEnumValue(loan()?.paymentFrequency) }}
+              </div>
+            </div>
+            <div class="item">
+              <div class="body-xs label">Current Commitment</div>
+              <div class="body-s data">
+                {{ formatAmount(loan()?.currentCommitmentCents) }}
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="body-xs label">Loan Type</div>
+              <div class="body-s data">
+                {{ getFormattedEnumValue(loan()?.accountType) }}
+              </div>
+            </div>
+            @if (shouldDisplayRateAdjustmentFrequency()) {
+              <div class="item">
+                <div class="body-xs label">Rate Adjustment Frequency</div>
+                <div class="body-s data">
+                  {{ getFormattedEnumValue(loan()?.rateAdjustmentFrequency) }}
+                </div>
+              </div>
+            }
+
+            @if (shouldDisplayRateAdjustmentFrequency()) {
+              <div class="item">
+                <div class="body-xs label">Next Rate Adjustment Date</div>
+                <div class="body-s data">
+                  {{ formatDate(loan()?.nextRateResetDate) }}
+                </div>
+              </div>
+            }
+
+            <div class="item">
+              <div class="body-xs label">Interest Rate Type</div>
+              <div class="body-s data">
+                {{ getFormattedEnumValue(loan()?.interestRateAttributes?.[0]) }}
+              </div>
+            </div>
+            <div class="item">
+              <div class="body-xs label">Late Fee %</div>
+              <div class="body-s data">
+                {{ formatPercent(loan()?.lateFeePerc) }}
+              </div>
+            </div>
+
+            @if (false) {
+              <div class="item">
+                <div class="body-xs label">Integrator/Escrowed Funds</div>
+                <div class="body-s data">
+                  {{ formatAmount(loan()?.escrowedAmountCents ?? 0) }}
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    }
+  }
+
+  @if (!onlyDetails() && mobile()) {
+    <div class="accordion" [class.child-loan-accordion]="detailsTitle()">
+      <div class="accordion-header">
+        <div
+          class="accordion-header-item details-header"
+          [class.open]="isLoanDetailsOpen()"
+          (activate)="toggleLoanDetails()">
+          <p class="body-m">Loan Details</p>
+          <mat-icon>expand_more</mat-icon>
+        </div>
+      </div>
+
+      <mat-expansion-panel
+        class="mat-elevation-z0"
+        [expanded]="isLoanDetailsOpen()">
+        <div class="details">
+          <div class="items">
+            <div class="item">
+              <div class="body-xs label">Original Funding Date</div>
+              <div class="body-s data">
+                {{ formatDate(loan()?.originationDate) }}
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="body-xs label">Interest Rate</div>
+              <div class="body-s data">
+                {{ formatPercent(loan()?.interestRatePerc) }}
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="body-xs label">Grace Period</div>
+              <div class="body-s data">
+                {{ loan()?.graceValue }}
+                {{ getFormattedEnumValue(loan()?.graceUnit) }}
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="body-xs label">Maturity Date</div>
+              <div class="body-s data">
+                {{ formatDate(loan()?.maturityDate) }}
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="body-xs label">Payment Frequency</div>
+              <div class="body-s data">
+                {{ getFormattedEnumValue(loan()?.paymentFrequency) }}
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="body-xs label">Current Commitment</div>
+              <div class="body-s data">
+                {{ formatAmount(loan()?.currentCommitmentCents) }}
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="body-xs label">Loan Type</div>
+              <div class="body-s data">
+                {{ getFormattedEnumValue(loan()?.accountType) }}
+              </div>
+            </div>
+
+            @if (shouldDisplayRateAdjustmentFrequency()) {
+              <div class="item">
+                <div class="body-xs label">Rate Adjustment Frequency</div>
+                <div class="body-s data">
+                  {{ getFormattedEnumValue(loan()?.rateAdjustmentFrequency) }}
+                </div>
+              </div>
+            }
+
+            @if (shouldDisplayRateAdjustmentFrequency()) {
+              <div class="item">
+                <div class="body-xs label">Next Rate Adjustment Date</div>
+                <div class="body-s data">
+                  {{ formatDate(loan()?.nextRateResetDate) }}
+                </div>
+              </div>
+            }
+
+            @if (false) {
+              <div class="item">
+                <div class="body-xs label">Integrator/Escrowed Funds</div>
+                <div class="body-s data">
+                  {{ formatAmount(loan()?.escrowedAmountCents ?? 0) }}
+                </div>
+              </div>
+            }
+
+            <div class="item">
+              <div class="body-xs label">Interest Rate Type</div>
+              <div class="body-s data">
+                {{ getFormattedEnumValue(loan()?.interestRateAttributes?.[0]) }}
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="body-xs label">Late Fee %</div>
+              <div class="body-s data">
+                {{ formatPercent(loan()?.lateFeePerc) }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </div>
+  } @else if (!onlyDetails()) {
+    <div class="details" [class.child-loan-details]="detailsTitle()">
+      <div class="items">
+        <div class="item">
+          <div class="body-xs label">Original Funding Date</div>
+          <div class="body-s data">
+            {{ formatDate(loan()?.originationDate) }}
+          </div>
+        </div>
+        <div class="item">
+          <div class="body-xs label">Interest Rate</div>
+          <div class="body-s data">
+            {{ formatPercent(loan()?.interestRatePerc) }}
+          </div>
+        </div>
+        <div class="item">
+          <div class="body-xs label">Grace Period</div>
+          <div class="body-s data">
+            {{ loan()?.graceValue }}
+            {{ getFormattedEnumValue(loan()?.graceUnit) }}
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="body-xs label">Maturity Date</div>
+          <div class="body-s data">
+            {{ formatDate(loan()?.maturityDate) }}
+          </div>
+        </div>
+        <div class="item">
+          <div class="body-xs label">Payment Frequency</div>
+          <div class="body-s data">
+            {{ getFormattedEnumValue(loan()?.paymentFrequency) }}
+          </div>
+        </div>
+        <div class="item">
+          <div class="body-xs label">Current Commitment</div>
+          <div class="body-s data">
+            {{ formatAmount(loan()?.currentCommitmentCents) }}
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="body-xs label">Loan Type</div>
+          <div class="body-s data">
+            {{ getFormattedEnumValue(loan()?.accountType) }}
+          </div>
+        </div>
+        @if (shouldDisplayRateAdjustmentFrequency()) {
+          <div class="item">
+            <div class="body-xs label">Rate Adjustment Frequency</div>
+            <div class="body-s data">
+              {{ getFormattedEnumValue(loan()?.rateAdjustmentFrequency) }}
+            </div>
+          </div>
+        }
+
+        @if (shouldDisplayRateAdjustmentFrequency()) {
+          <div class="item">
+            <div class="body-xs label">Next Rate Adjustment Date</div>
+            <div class="body-s data">
+              {{ formatDate(loan()?.nextRateResetDate) }}
+            </div>
+          </div>
+        }
+
+        <div class="item">
+          <div class="body-xs label">Interest Rate Type</div>
+          <div class="body-s data">
+            {{ getFormattedEnumValue(loan()?.interestRateAttributes?.[0]) }}
+          </div>
+        </div>
+        <div class="item">
+          <div class="body-xs label">Late Fee %</div>
+          <div class="body-s data">
+            {{ formatPercent(loan()?.lateFeePerc) }}
+          </div>
+        </div>
+
+        @if (false) {
+          <div class="item">
+            <div class="body-xs label">Integrator/Escrowed Funds</div>
+            <div class="body-s data">
+              {{ formatAmount(loan()?.escrowedAmountCents ?? 0) }}
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  @if (!onlyDetails()) {
+    <div class="accordion">
+      <div
+        class="accordion-header"
+        [class.closed]="
+          !isLoanHistoryOpen() &&
+          !isLoanStatementOpen() &&
+          !isPaymentTransactionsOpen()
+        ">
+        <div
+          class="accordion-header-item first"
+          [class.open]="isLoanHistoryOpen()"
+          [class.border]="
+            (isLoanStatementOpen() || isPaymentTransactionsOpen()) &&
+            !isLoanHistoryOpen()
+          "
+          (activate)="toggleLoanHistory()">
+          <p class="body-m">Loan History</p>
+          <mat-icon>expand_more</mat-icon>
+        </div>
+        <div
+          class="accordion-header-item second"
+          [class.border]="
+            !isLoanStatementOpen() &&
+            (isLoanHistoryOpen() || isPaymentTransactionsOpen())
+          "
+          [class.open]="isLoanStatementOpen()"
+          (activate)="toggleLoanStatement()">
+          <p class="body-m">Loan Statements</p>
+          <mat-icon>expand_more</mat-icon>
+        </div>
+        @if (isDemoMode()) {
+          <div
+            class="accordion-header-item third"
+            [class.border]="
+              !isPaymentTransactionsOpen() &&
+              (isLoanHistoryOpen() || isLoanStatementOpen())
+            "
+            [class.open]="isPaymentTransactionsOpen()"
+            (activate)="togglePaymentTransactions()">
+            <p class="body-m">Payment Transactions</p>
+            <mat-icon>expand_more</mat-icon>
+          </div>
+        }
+      </div>
+      <mat-expansion-panel
+        class="mat-elevation-z0"
+        [expanded]="isLoanHistoryOpen()">
+        <lj-loan-history [histories]="histories()" />
+      </mat-expansion-panel>
+      <mat-expansion-panel
+        class="mat-elevation-z0"
+        [expanded]="isLoanStatementOpen()">
+        <lj-loan-statements [statements]="statements()" [mobile]="mobile()" />
+      </mat-expansion-panel>
+      @if (isDemoMode()) {
+        <mat-expansion-panel
+          class="mat-elevation-z0"
+          [expanded]="isPaymentTransactionsOpen()">
+          <div class="details">
+            <div class="items">
+              <lj-data-table
+                [title]="'Payment Transactions'"
+                [columns]="paymentColumns"
+                [data]="payments()"
+                [pagination]="false"
+                [loaded]="true"
+                [rowClickable]="false"
+                [searchable]="false"></lj-data-table>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      }
+    </div>
+  }
+</div>

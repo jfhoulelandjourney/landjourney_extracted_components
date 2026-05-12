@@ -1,0 +1,8 @@
+<div id="chart-container">
+  <div echarts [options]="chartOption" class="chart"></div>
+  <div class="farmer-loan">
+    <p class="body-l oswald">{{ formatAmount(lastAmount()) }}</p>
+    <p class="body-s border">Current loan balance</p>
+    <p class="body-xs">on {{ lastDate() }}</p>
+  </div>
+</div>

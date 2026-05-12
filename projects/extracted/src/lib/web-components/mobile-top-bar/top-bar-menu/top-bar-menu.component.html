@@ -1,0 +1,22 @@
+@if (open()) {
+  <button
+    type="button"
+    class="menu-backdrop"
+    aria-label="Close menu"
+    (click)="closed.emit()"></button>
+  <div class="menu-panel">
+    <div class="menu-header">
+      <lj-top-bar-avatar [avatarUrl]="avatarUrl()" [name]="avatarName()" />
+      <span class="menu-user-name">{{ avatarName() }}</span>
+      <button
+        type="button"
+        class="menu-close-btn"
+        aria-label="Close menu"
+        (click)="closed.emit()">
+        <mat-icon>expand_less</mat-icon>
+      </button>
+    </div>
+    <div class="menu-divider"></div>
+    <ng-content />
+  </div>
+}

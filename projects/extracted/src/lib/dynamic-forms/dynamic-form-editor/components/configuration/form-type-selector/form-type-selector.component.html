@@ -1,0 +1,11 @@
+<div class="form-type-selector">
+  @for (type of formTypesOptions; track type) {
+    <div
+      class="form-type"
+      [class.selected]="type.value === formType()"
+      [matTooltip]="type.description"
+      (activate)="handleTypeChange(type.value)">
+      {{ type.value }}
+    </div>
+  }
+</div>

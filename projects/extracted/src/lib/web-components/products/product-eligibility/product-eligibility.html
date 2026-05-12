@@ -1,0 +1,85 @@
+<div class="product-card" [class.recommended]="isRecommended()">
+  @if (isRecommended()) {
+    <div class="recommended-badge">Recommended</div>
+  }
+
+  <div class="product-header">
+    <div class="product-company">{{ productDisplay().programName }}</div>
+    <div class="product-name">
+      {{ productDisplay().productName }}
+      @if (
+        showProductRate() &&
+        productDisplay().rateDisplay &&
+        productDisplay().rateDisplay !== ''
+      ) {
+        <span class="product-rate">• {{ productDisplay().rateDisplay }}</span>
+      }
+    </div>
+  </div>
+
+  <div class="criteria-list">
+    @for (category of productDisplaySection().categories; track category.id) {
+      <div class="category-section">
+        <div
+          class="criterion-item"
+          (activate)="toggleCategory(category.id, $event)"
+          [attr.aria-expanded]="isCategoryExpanded(category.id)">
+          <mat-icon
+            class="check-icon"
+            [style.color]="getEligibilityColor(category.qualifying)">
+            {{ getEligibilityIcon(category.qualifying) }}
+          </mat-icon>
+          <span class="criterion-name">{{ category.name }}</span>
+          <mat-icon class="chevron-icon">
+            {{
+              isCategoryExpanded(category.id) ? 'expand_less' : 'chevron_right'
+            }}
+          </mat-icon>
+        </div>
+
+        @if (isCategoryExpanded(category.id)) {
+          <div class="rules-list">
+            @for (rule of category.rules; track rule.id) {
+              <div class="rule-item">
+                <div class="rule-header">
+                  <mat-icon
+                    class="rule-check-icon"
+                    [style.color]="getEligibilityColor(rule.qualifying)">
+                    {{ getEligibilityIcon(rule.qualifying) }}
+                  </mat-icon>
+                  <div class="rule-info">
+                    <span
+                      class="rule-name"
+                      [style.color]="getEligibilityColor(rule.qualifying)">
+                      {{ rule.name }}
+                    </span>
+
+                    <span
+                      class="rule-value"
+                      [style.color]="getEligibilityColor(rule.qualifying)">
+                      - {{ getRuleValueDisplay(rule) }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="product-status" [ngClass]="productDisplaySection().qualifying">
+    @switch (productDisplaySection().qualifying) {
+      @case (QualifyingEnum.QUALIFYING) {
+        {{ productDisplay().wordDisplay ?? 'Eligible' }}
+      }
+      @case (QualifyingEnum.MISSING) {
+        {{ `Potentially ${productDisplay().wordDisplay ?? 'Eligible'}` }}
+      }
+      @case (QualifyingEnum.NOT_QUALIFYING) {
+        {{ `Not ${productDisplay().wordDisplay ?? 'Eligible'}` }}
+      }
+    }
+  </div>
+</div>

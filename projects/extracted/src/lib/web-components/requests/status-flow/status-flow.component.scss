@@ -1,0 +1,64 @@
+.status-flow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  gap: 2px;
+
+  width: 100%;
+
+  .status {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 80px;
+
+    cursor: pointer;
+
+    .status-bar {
+      height: 5px;
+      background-color: #aeadaa;
+    }
+
+    .status-text {
+      color: #aeadaa;
+      font-size: var(--font-size-xs);
+    }
+
+    &.displayed-status {
+      font-style: italic;
+    }
+
+    &.active {
+      .status-bar {
+        background-color: #8d7954;
+      }
+
+      .status-text {
+        color: #273b39;
+        font-weight: 500;
+        font-style: normal !important;
+      }
+    }
+
+    &.completed {
+      .status-bar {
+        background-color: #8d7954;
+      }
+    }
+
+    &:first-child {
+      .status-bar {
+        border-top-left-radius: 2px;
+        border-bottom-left-radius: 2px;
+      }
+    }
+
+    &:last-child {
+      .status-bar {
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+      }
+    }
+  }
+}

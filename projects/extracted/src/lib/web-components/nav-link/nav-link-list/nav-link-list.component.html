@@ -1,0 +1,22 @@
+<nav>
+  <ul>
+    @for (item of links; track item.title) {
+      <li role="list-item">
+        <lj-nav-link
+          [href]="item.href ?? null"
+          [icon]="isString(item.icon) ? item.icon : null"
+          [variant]="item.variant"
+          [customSvg]="item.customSvg ?? false"
+          (click)="handleClick($event, item)"
+          (keyup.enter)="handleClick($event, item)">
+          @if (!isString(item.icon)) {
+            <ng-container icon>
+              <ng-container *ngTemplateOutlet="item.icon" />
+            </ng-container>
+          }
+          {{ item.title }}
+        </lj-nav-link>
+      </li>
+    }
+  </ul>
+</nav>

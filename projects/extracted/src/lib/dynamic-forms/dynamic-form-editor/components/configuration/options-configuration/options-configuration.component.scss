@@ -1,0 +1,114 @@
+.options {
+  margin-top: 16px;
+  margin-right: var(--padding-comfortable);
+  margin-left: var(--padding-comfortable);
+
+  .add-option-btn {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  &:hover .add-option-btn {
+    opacity: 1;
+  }
+
+  .options-header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: var(--padding-default);
+    margin-bottom: var(--padding-comfortable);
+  }
+
+  .options-title {
+    font-weight: 600;
+  }
+
+  .add-option-btn {
+    padding: 2px 4px;
+    background: var(--green-470);
+    color: var(--accent-black-100, #ffffff);
+    border-radius: var(--radius-strong);
+    font-size: var(--font-size-xs, 12px);
+    cursor: pointer;
+    border: none;
+  }
+
+  .options-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding-default);
+  }
+
+  .option-item {
+    display: flex;
+    align-items: center;
+    gap: var(--padding-compact);
+  }
+
+  .option-fields {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--padding-compact);
+  }
+
+  .option-label-input {
+    width: 100%;
+  }
+
+  .option-actions {
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .danger {
+    color: var(--status-error-800);
+  }
+
+  .small-icon {
+    cursor: pointer;
+    width: 20px !important;
+    height: 20px !important;
+    font-size: 20px !important;
+    line-height: 20px !important;
+
+    svg {
+      width: 20px !important;
+      height: 20px !important;
+    }
+  }
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  gap: var(--padding-compact);
+
+  .drag-handle {
+    cursor: move;
+    display: flex;
+    align-items: center;
+
+    mat-icon {
+      color: var(--text-icons-base-secondary);
+    }
+  }
+
+  .option-label-input {
+    flex: 1;
+  }
+}
+
+.drag-placeholder {
+  background: var(--primary-color-light);
+  border: 2px dashed var(--primary-color);
+  border-radius: var(--radius-primary);
+  height: 40px;
+  margin: var(--padding-compact) 0;
+}
+
+.cdk-drag-preview {
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-primary);
+}

@@ -1,0 +1,19 @@
+<div
+  class="circle"
+  [class.small]="size() === 'small'"
+  [class.medium]="size() === 'medium'"
+  [class.large]="size() === 'large'"
+  [class.gray]="color() === 'gray'"
+  [class.brand]="color() === 'brand'"
+  [class.white]="color() === 'white'">
+  {{ number() }}
+</div>
+<div
+  class="text"
+  [class.small]="size() === 'small'"
+  [class.medium]="size() === 'medium'"
+  [class.large]="size() === 'large'"
+  [class.gray]="color() === 'gray'"
+  [class.brand]="color() === 'brand'">
+  {{ text() }}
+</div>

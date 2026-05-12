@@ -1,0 +1,68 @@
+@if (field()) {
+  @if (mode() === 'locked') {
+    <div class="locked-display">
+      <div [class.locked-error]="getErrorMessage() !== undefined">
+        <div
+          class="body-sm title"
+          [style]="getCustomStyle('.field-title', true)">
+          {{ field().label }}
+        </div>
+        <lj-copy-to-clipboard-button [value]="getSelectedLabel()">
+          <div
+            class="body-sm text"
+            [style]="getCustomStyle('.field-text', true)">
+            {{ getSelectedLabel() }}
+          </div>
+        </lj-copy-to-clipboard-button>
+        @if (getErrorMessage()) {
+          <div class="body-sm">
+            {{ getErrorMessage() }}
+          </div>
+        }
+      </div>
+    </div>
+  } @else {
+    <div
+      class="input"
+      [class.style-gray]="style() === 'gray'"
+      [class.style-normal]="style() === 'normal'">
+      <lj-input-field
+        class="dynamic-form-select"
+        [label]="field().label"
+        [id]="field().id"
+        [name]="field().id"
+        [style]="style()"
+        [customCssTitleStyle]="getCustomStyle('.field-title', true)"
+        [customCssStyle]="getCustomStyle('.input-field', true)"
+        type="text"
+        [required]="field().required ?? false"
+        [ngModel]="field().value"
+        [showError]="!(touched() && isErrorSuppressed())"
+        [customErrorMessage]="touched() ? getErrorMessage() : undefined"
+        (onInputBlur)="handleOnBlur()"
+        [placeholder]="field().parameters.placeholder ?? 'Select an option'">
+        <mat-select
+          lj-select
+          [placeholder]="field().parameters.placeholder ?? 'Select an option'"
+          borderless="true"
+          id="organizationType"
+          name="organizationType"
+          [ngModel]="field().value"
+          (ngModelChange)="handleValueChange($event)">
+          @for (
+            option of field().parameters.options ?? [];
+            track option.value
+          ) {
+            <mat-option
+              [value]="option.value"
+              [style]="getCustomStyle('.select-list-item')">
+              {{ option.label }}
+            </mat-option>
+          }
+        </mat-select>
+      </lj-input-field>
+    </div>
+  }
+} @else {
+  <div class="error">Field initialization error</div>
+}

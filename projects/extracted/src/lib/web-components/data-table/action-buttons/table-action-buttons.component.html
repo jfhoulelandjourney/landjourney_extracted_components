@@ -1,0 +1,10 @@
+@for (button of validButtons(); track button) {
+  <button
+    mat-icon-button
+    type="button"
+    [disabled]="button.disabled"
+    (activate)="emitAction($event, button.name)"
+    [throttle]="timing.click.throttle">
+    <mat-icon>{{ getIcon(button.name) }}</mat-icon>
+  </button>
+}

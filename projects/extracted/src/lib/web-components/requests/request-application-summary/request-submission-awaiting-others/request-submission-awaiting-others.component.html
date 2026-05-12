@@ -1,0 +1,28 @@
+<lj-box [padding]="3">
+  <div class="container">
+    <div class="icon-section">
+      <mat-icon class="warning-icon">warning</mat-icon>
+    </div>
+
+    <div class="content-section">
+      <h3 class="title">
+        Your part is done, but your co-applicants still have incomplete tasks.
+      </h3>
+
+      <p class="description">
+        Your loan application will be automatically submitted once all
+        applicants complete their tasks.
+      </p>
+
+      <div class="task-counts">
+        @if (otherUsersTasks().todoCount > 0) {
+          <div class="count-badge todo">
+            <span class="count">{{ otherUsersTasks().todoCount }}</span>
+            <span class="label">To-Do</span>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</lj-box>
+<ng-content />

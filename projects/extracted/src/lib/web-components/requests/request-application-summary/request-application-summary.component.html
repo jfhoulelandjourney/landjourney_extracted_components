@@ -1,0 +1,239 @@
+<div
+  #contentToExport
+  [class.exporting-pdf]="exportingPdf()"
+  class="print-content">
+  <div class="summary-header">
+    <h1 class="summary-title">
+      Summary
+      @if (!isClient()) {
+        for {{ getUserName(userId()) }} ({{ getSectionStage(section()) }})
+      }
+    </h1>
+    @if (!isClient()) {
+      <lj-button
+        variant="secondary"
+        intent="neutral"
+        size="sm"
+        [loading]="exportingPdf()"
+        beforeIcon="picture_as_pdf"
+        (click)="exportToPdf()">
+        Export PDF
+      </lj-button>
+    }
+  </div>
+
+  @for (section of sectionsFilteredByStatusFlowAndUser(); track section.id) {
+    <div
+      class="section section-title-container"
+      [class.print-content-page-break]="section.id !== this.firstSectionId">
+      <h2 class="section-title">{{ section.name }}</h2>
+      @if (showEditLinks()) {
+        <lj-button
+          variant="icon"
+          intent="neutral"
+          class="edit-link"
+          [routerLink]="getEditLink(section)"
+          [compact]="true"
+          size="sm">
+          <mat-icon>edit</mat-icon>
+        </lj-button>
+      }
+    </div>
+
+    @for (task of section.tasks; track task.id) {
+      @if (task.taskType === TaskTypes.REVIEW_APPLICATION) {
+        @let signatureMeta = getSignatureAttachment(task);
+        <div class="submitted-info inter">
+          @if (signatureMeta) {
+            <p>Signed on: {{ formatDate(signatureMeta.signedAt) }}</p>
+            <p>Signed by: {{ getUserName(signatureMeta.signedBy) }}</p>
+            <p class="cursive submission-signed">
+              {{ signatureMeta.signedName }}
+            </p>
+          } @else {
+            @if (task.submittedAt) {
+              <p>Submission sent on: {{ formatDate(task.submittedAt) }}</p>
+            }
+            @if (task.submittedBy) {
+              @let username = getUserName(task.submittedBy);
+              <p>Submission sent by: {{ username }}</p>
+              <p class="cursive submission-signed">
+                {{ username }}
+              </p>
+            }
+          }
+        </div>
+      }
+
+      @for (
+        groupAttachment of task.groupedAttachments;
+        track groupAttachment.name;
+        let first = $first
+      ) {
+        @if (
+          groupAttachment.type === AttachmentTypes.FILE ||
+          groupAttachment.type === AttachmentTypes.SIGNATURE
+        ) {
+          @let expandedState = getExpandState(groupAttachment.name);
+          <ng-container
+            *ngTemplateOutlet="
+              taskHeader;
+              context: {
+                title: getTitleWithStatus(groupAttachment),
+                expandable: false,
+                expandedState: expandedState,
+                expandKey: groupAttachment.name,
+              }
+            "></ng-container>
+
+          @if (!isClient()) {
+            <div class="submitted-info inter">
+              @if (task.submittedAt) {
+                @if (groupAttachment.type === AttachmentTypes.FILE) {
+                  <p>File submitted on: {{ formatDate(task.submittedAt) }}</p>
+                } @else {
+                  <p>Signed on: {{ formatDate(task.submittedAt) }}</p>
+                }
+              }
+              @if (task.submittedBy) {
+                @if (groupAttachment.type === AttachmentTypes.FILE) {
+                  <p>File submitted by: {{ getUserName(task.submittedBy) }}</p>
+                } @else {
+                  <p>Signed by: {{ getUserName(task.submittedBy) }}</p>
+                }
+              }
+            </div>
+          }
+        }
+
+        @if (groupAttachment.type === AttachmentTypes.IDENTITY_VERIFICATION) {
+          <ng-container
+            *ngTemplateOutlet="
+              taskHeader;
+              context: {
+                title: getTitleWithStatus(groupAttachment),
+                expandable: false,
+              }
+            "></ng-container>
+
+          <div class="submitted-info inter">
+            @if (task.submittedAt) {
+              <p>Identity submitted on: {{ formatDate(task.submittedAt) }}</p>
+            }
+            @if (task.submittedBy) {
+              <p>Identity submitted by: {{ getUserName(task.submittedBy) }}</p>
+            }
+          </div>
+        }
+
+        @if (groupAttachment.type === AttachmentTypes.DYNAMIC_FORM) {
+          @let dynamicFormId = groupAttachment.attachments[0]?.id ?? '';
+          @let dynamicForm = getDynamicFormDefinition(dynamicFormId);
+          @let expandedState = getExpandState(dynamicFormId);
+
+          @if (dynamicForm) {
+            <ng-container
+              *ngTemplateOutlet="
+                taskHeader;
+                context: {
+                  title: groupAttachment.name,
+                  expandable: true,
+                  expandedState: expandedState,
+                  expandKey: dynamicFormId,
+                }
+              "></ng-container>
+
+            @if (!isClient()) {
+              <div class="submitted-info inter">
+                @if (task.submittedAt) {
+                  <p>Form submitted on: {{ formatDate(task.submittedAt) }}</p>
+                }
+                @if (task.submittedBy) {
+                  <p>Form submitted by: {{ getUserName(task.submittedBy) }}</p>
+                }
+              </div>
+            }
+
+            <div
+              class="expandable-content"
+              [class.open]="expandedState === 'open'"
+              [class.closed]="expandedState === 'closed'"
+              [@expandAndShrink]="expandedState">
+              <lj-df-summary
+                [showEditButton]="false"
+                [formDefinition]="dynamicForm.formDefinition"
+                [formData]="dynamicForm.data"
+                [isMobile]="isMobile()"></lj-df-summary>
+            </div>
+          } @else if (!data().isDynamicFormsFetched) {
+            <ng-container
+              *ngTemplateOutlet="
+                taskHeader;
+                context: {
+                  title: groupAttachment.name,
+                  expandable: false,
+                  expandedState: 'closed',
+                  expandKey: dynamicFormId,
+                }
+              "></ng-container>
+            <div class="loading-placeholder">
+              <ngx-skeleton-loader
+                appearance="line"
+                class="skeleton"
+                [count]="2"
+                [theme]="{ height: '300px' }" />
+            </div>
+          } @else {
+            <p>No dynamic form found for this attachment.</p>
+          }
+        }
+      }
+    }
+  } @empty {
+    <br />
+    <p>No data is present for this current stage.</p>
+  }
+
+  <ng-template
+    #taskHeader
+    let-title="title"
+    let-expandable="expandable"
+    let-expandedState="expandedState"
+    let-expandKey="expandKey"
+    let-editLink="editLink">
+    <div class="attachment attachment-title-container">
+      <h3
+        class="attachment-name"
+        (activate)="expandable ? toggleExpandState(expandKey) : null">
+        @if (expandable) {
+          <span class="caret">{{ expandedState === 'open' ? '▼' : '▶' }}</span>
+        }
+        {{ title }}
+      </h3>
+      @if (editLink) {
+        <lj-button
+          variant="icon"
+          intent="neutral"
+          class="edit-link"
+          [routerLink]="editLink"
+          [compact]="true"
+          size="sm">
+          <mat-icon>edit</mat-icon>
+        </lj-button>
+      }
+    </div>
+  </ng-template>
+</div>
+
+@if (
+  organizationService.isFeatureFlagActivated('DOWNLOAD_REVIEW_USING_PRINT') &&
+  printAdapterActive()
+) {
+  <lj-print-layout-adapter
+    [logo]="organizationService.getLogo(true)"
+    [logoWidth]="100"
+    [showUserEmail]="true"
+    [showTimestamp]="true"
+    [referenceId]="request().id"
+    [title]="request().name"></lj-print-layout-adapter>
+}

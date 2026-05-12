@@ -1,0 +1,142 @@
+@if (offersForApproval().length > 0) {
+  <div class="offers-banner-container" [class.mobile]="isMobile()">
+    <div class="title">
+      <mat-icon class="warning-icon">info</mat-icon>
+      <p class="body-s message">{{ getMessage() }}</p>
+    </div>
+
+    @if (offersForApproval().length === 1) {
+      <div class="offers-expandable" [class.expanded]="true">
+        <div class="offers-list">
+          <div
+            class="offer-item"
+            (activate)="goToRequest(offersForApproval()[0]!)">
+            <div class="item-info">
+              <div class="item-name-row">
+                <mat-icon class="info-icon-small">info</mat-icon>
+                <span class="action-text">Review</span>
+                <span class="action-text">Offer</span>
+              </div>
+            </div>
+            <div class="item-action">
+              <mat-icon class="chevron-icon">chevron_right</mat-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <div class="offers-expandable" [class.expanded]="isExpanded()">
+        <button
+          class="expand-header"
+          (activate)="toggleExpanded()"
+          [attr.aria-expanded]="isExpanded()">
+          <span class="expand-title">Review offers</span>
+
+          <mat-icon class="expand-icon">
+            {{ isExpanded() ? 'expand_less' : 'arrow_forward' }}
+          </mat-icon>
+        </button>
+
+        <div
+          class="offers-list"
+          [@expandCollapse]="isExpanded() ? 'expanded' : 'collapsed'">
+          @for (offer of offersForApproval(); track offer.id) {
+            <div class="offer-item" (activate)="goToRequest(offer)">
+              <div class="item-info">
+                <div class="item-name-row">
+                  <span class="item-name">{{ getOfferName(offer) }}</span>
+                </div>
+              </div>
+              <div class="item-action">
+                <div class="action-text-row">
+                  <mat-icon class="info-icon-small">info</mat-icon>
+                  <span class="action-text">Review</span>
+                  <span class="action-text">Offer</span>
+                </div>
+                <mat-icon class="chevron-icon">chevron_right</mat-icon>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+}
+
+@if (showDetails() && acceptedOffers().length === 1) {
+  <div class="offers-banner-container" [class.mobile]="isMobile()">
+    <div class="title">
+      <mat-icon class="warning-icon">info</mat-icon>
+      <p class="body-s message">You accepted the offer</p>
+    </div>
+    <div class="offers-expandable" [class.expanded]="true">
+      <div class="offers-list">
+        <div class="offer-item" (activate)="goToRequest(acceptedOffers()[0]!)">
+          <div class="item-info">
+            <div class="item-name-row">
+              <mat-icon class="info-icon-small">info</mat-icon>
+              <span class="action-text">View</span>
+              <span class="action-text">Offer</span>
+            </div>
+          </div>
+          <div class="item-action">
+            <mat-icon class="chevron-icon">chevron_right</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+@if (showDetails() && rejectedOffers().length === 1) {
+  <div
+    class="offers-banner-container rejected-offer"
+    [class.mobile]="isMobile()">
+    <div class="title">
+      <mat-icon class="warning-icon">info</mat-icon>
+      <p class="body-s message">You rejected the offer</p>
+    </div>
+    <div class="offers-expandable" [class.expanded]="true">
+      <div class="offers-list">
+        <div class="offer-item" (activate)="goToRequest(rejectedOffers()[0]!)">
+          <div class="item-info">
+            <div class="item-name-row">
+              <mat-icon class="info-icon-small">info</mat-icon>
+              <span class="action-text">View</span>
+              <span class="action-text">Offer</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}
+
+@if (showDetails() && loanCreatedOffers().length === 1) {
+  <div class="offers-banner-container" [class.mobile]="isMobile()">
+    <div class="title">
+      <mat-icon class="warning-icon">info</mat-icon>
+      <p class="body-s message">Loan created</p>
+    </div>
+    <div class="offers-expandable" [class.expanded]="true">
+      <div class="offer-item" (activate)="goToRequest(loanCreatedOffers()[0]!)">
+        <div class="item-info">
+          <div class="item-name-row">
+            <mat-icon class="info-icon-small">info</mat-icon>
+            <span class="action-text">View</span>
+            <span class="action-text">Offer</span>
+          </div>
+        </div>
+      </div>
+      <div class="offer-item" (activate)="toToLoan(loanCreatedOffers()[0]!)">
+        <div class="item-info">
+          <div class="item-name-row">
+            <mat-icon class="info-icon-small">info</mat-icon>
+            <span class="action-text">View</span>
+            <span class="action-text">Loan</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}

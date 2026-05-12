@@ -1,0 +1,116 @@
+.coverage {
+  --compliant-fg: var(--status-success-500);
+  --compliant-bg: #e8f5ef;
+  --non-compliant-fg: var(--status-warning-500);
+  --non-compliant-bg: #ffebee;
+  --text: #212121;
+  --text-muted: #616161;
+
+  background: var(--content-background-color);
+  border-radius: var(--radius-strong);
+  border: solid 1px var(--box-border-color);
+  padding: var(--padding-spacious);
+}
+
+.coverage-header {
+  margin-bottom: var(--gap-comfortable, 16px);
+}
+
+.coverage-title {
+  margin: 0 0 4px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.coverage-subtitle {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.coverage-loading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 24px;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.coverage-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 24px;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  text-align: center;
+
+  mat-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+    opacity: 0.7;
+  }
+}
+
+.coverage-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap-comfortable, 16px);
+}
+
+.coverage-card {
+  position: relative;
+  border-radius: var(--radius-strong);
+  border: 1px solid var(--box-border-color);
+  overflow: hidden;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background-color 0.15s ease;
+
+  &:hover {
+    border-color: #bdbdbd;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    background-color: var(--accent-black-50, #f9fafb);
+  }
+
+  &--compliant {
+    border-left: 4px solid var(--compliant-fg);
+  }
+
+  &--non-compliant {
+    border-left: 4px solid var(--non-compliant-fg);
+  }
+
+  &--selected {
+    border-color: var(--status-success-600);
+    box-shadow: 0 0 0 1px var(--status-success-600);
+  }
+
+  .coverage-card-badge {
+    position: absolute;
+    top: var(--padding-compact, 8px);
+    right: var(--padding-compact, 8px);
+    z-index: 1;
+    padding: 2px 8px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: var(--status-success-700);
+    background: var(--status-success-200);
+    border-radius: var(--radius-primary, 4px);
+  }
+
+  ::ng-deep lj-product .product-card {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}

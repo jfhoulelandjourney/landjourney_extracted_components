@@ -1,0 +1,46 @@
+<div class="container" [class.mobile]="mobile()">
+  <div class="sub-container">
+    <div class="loan-info">
+      @if (loan()?.nextPaymentCents ?? 0 > 0) {
+        <div class="box" [class.overdue]="isOverdue()">
+          <div class="body-s">Payment Due</div>
+          <div class="oswald title-xl">
+            {{ formatAmount(loan()?.nextPaymentCents ?? 0) }}
+          </div>
+          <div class="body-s">
+            @if (loan()?.nextPaymentDueDate) {
+              @if (isOverdue()) {
+                Your Loan is Overdue
+              } @else {
+                Due on {{ formatDate(loan()?.nextPaymentDueDate) }}
+              }
+            }
+          </div>
+        </div>
+        <!-- <div class="divider"></div>
+      <div class="box">
+        <div class="body-s">From Account</div>
+        <div class="oswald title-xl">[accountNumber?]</div>
+        <div class="body-xs">at [bank name?]</div>
+      </div> -->
+        <!--
+      <div class="divider"></div>
+
+       <div class="box">
+        <div class="body-s">Other Outstanding Charges</div>
+        <div class="oswald title-xl">
+          {{ formatAmount(loan()?.outstandingBalanceCents) }}
+        </div>
+      </div> -->
+
+        <div class="divider"></div>
+      }
+      <div class="box">
+        <div class="body-s">Principal Balance</div>
+        <div class="oswald title-xl">
+          {{ formatAmount(loan()?.principalBalanceCents) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

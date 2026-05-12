@@ -1,0 +1,457 @@
+<div class="container" [class.mobile]="mobile()">
+  <lj-credit-line-header [creditLine]="creditLine()" [mobile]="mobile()" />
+
+  @if (isDemoMode()) {
+    <mat-expansion-panel
+      class="mat-elevation-z0"
+      [expanded]="panelOpen()"
+      (opened)="panelOpen.set(true)"
+      (closed)="panelOpen.set(false)">
+      <mat-expansion-panel-header>
+        <div class="body-m">
+          @if (isDemoMode()) {
+            @if (isPaymentOverdue()) {
+              Pay Bill
+            } @else {
+              Register a Pay Down
+            }
+          } @else {
+            Make a Payment
+          }
+        </div>
+      </mat-expansion-panel-header>
+
+      <!-- Payment Overdue Banner -->
+      @if (isPaymentOverdue()) {
+        <div class="payment-overdue-banner">
+          <mat-icon>warning</mat-icon>
+          <div class="warning-text">
+            <div class="body-m">Payment Overdue</div>
+            <div class="body-s">
+              Your payment was due on
+              {{ formatDate(creditLine()?.nextPaymentDueDate) }}. Please make a
+              payment as soon as possible.
+            </div>
+          </div>
+        </div>
+      }
+
+      <!-- OVERDUE FLOW: Single Step - Date Selection Only -->
+      @if (isPaymentOverdue()) {
+        @if (currentStep() === 0) {
+          <div class="step">
+            <lj-round-header-chip
+              [number]="1"
+              text="Select your desired payment date"
+              size="small"
+              color="brand"></lj-round-header-chip>
+
+            <div class="content">
+              <div class="form calendar-step">
+                <div class="calendar">
+                  <mat-calendar
+                    style="width: 90%"
+                    [(selected)]="dateModel"
+                    [minDate]="now"></mat-calendar>
+                </div>
+
+                <button
+                  lj-button
+                  (activate)="confirmPayment()"
+                  [disabled]="!isDateValid() || isProcessing()"
+                  [loading]="isProcessing()">
+                  Register Bill Payment
+                  <mat-icon>arrow_right_alt</mat-icon>
+                </button>
+
+                @if (getBillStatementFilename()) {
+                  <button
+                    lj-button
+                    variant="ghost"
+                    (activate)="downloadBillStatement()">
+                    Download Bill Statement
+                    <mat-icon>download</mat-icon>
+                  </button>
+                }
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- Success Step -->
+        @if (currentStep() === 1) {
+          <div class="step">
+            <div class="content">
+              <div class="summary">
+                <div class="sub-container">
+                  <div class="loan-info">
+                    <div class="box">
+                      <div class="body-s">
+                        We are processing the payment. You will receive an email
+                        when the process is complete.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      } @else {
+        <!-- NORMAL FLOW: Full multi-step process -->
+
+        <!-- Step 1: Select subline (only if has sublines AND maturity not within 10 days) -->
+        @if (shouldShowSublineStep() && currentStep() === 0) {
+          <div class="step">
+            <lj-round-header-chip
+              [number]="1"
+              text="Select a subline"
+              size="small"
+              color="brand"></lj-round-header-chip>
+
+            <div class="content">
+              <div class="form">
+                <lj-select-field
+                  id="subline"
+                  name="subline"
+                  label="Subline"
+                  placeholder="Select a subline"
+                  [showErrors]="false"
+                  [options]="getSublines()"
+                  [ngModel]="selectedSublineId()"
+                  (ngModelChange)="handleSublineChange($event)" />
+
+                <button
+                  lj-button
+                  (activate)="currentStep.set(currentStep() + 1)"
+                  [disabled]="!isSublineStepValid()">
+                  Next
+                  <mat-icon>arrow_right_alt</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- Step 2: Enter payment amount -->
+        @if (
+          (!shouldShowSublineStep() && currentStep() === 0) ||
+          (shouldShowSublineStep() && currentStep() === 1)
+        ) {
+          <div class="step">
+            <lj-round-header-chip
+              [number]="shouldShowSublineStep() ? 2 : 1"
+              text="Enter payment amount"
+              size="small"
+              color="brand"></lj-round-header-chip>
+
+            <div class="content">
+              <div class="form">
+                @if (showMaturityWarning()) {
+                  <div class="maturity-warning">
+                    <mat-icon>info</mat-icon>
+                    <div class="warning-text">
+                      <div class="body-m">Pay Off Notice</div>
+                      <div class="body-s">
+                        The credit line is close to maturity. All payments now
+                        apply to the total amount due.
+                      </div>
+                    </div>
+                  </div>
+                }
+
+                <div class="button-row">
+                  @if (shouldShowSublineStep()) {
+                    <button
+                      lj-button
+                      (activate)="currentStep.set(currentStep() - 1)"
+                      variant="ghost">
+                      <mat-icon>arrow_left_alt</mat-icon>
+                      Back
+                    </button>
+                  }
+
+                  <lj-money-input-field
+                    id="amount"
+                    name="amount"
+                    [showError]="false"
+                    [(ngModel)]="amount" />
+
+                  <button
+                    lj-button
+                    (activate)="currentStep.set(currentStep() + 1)"
+                    [disabled]="!isFormValid()">
+                    Next
+                    <mat-icon>arrow_right_alt</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- Step 3: Select payment date -->
+        @if (
+          (!shouldShowSublineStep() && currentStep() === 1) ||
+          (shouldShowSublineStep() && currentStep() === 2)
+        ) {
+          <div class="step">
+            <lj-round-header-chip
+              [number]="shouldShowSublineStep() ? 3 : 2"
+              text="Select your desired payment date"
+              size="small"
+              color="brand"></lj-round-header-chip>
+
+            <div class="content">
+              <div class="form calendar-step">
+                <button
+                  lj-button
+                  style="align-self: center"
+                  (activate)="currentStep.set(currentStep() - 1)"
+                  variant="ghost">
+                  <mat-icon>arrow_left_alt</mat-icon>
+                  Back
+                </button>
+
+                <div class="calendar">
+                  <mat-calendar
+                    style="width: 90%"
+                    [(selected)]="dateModel"
+                    [minDate]="now"></mat-calendar>
+                </div>
+
+                <button
+                  lj-button
+                  (activate)="currentStep.set(currentStep() + 1)"
+                  [disabled]="!isDateValid()">
+                  Next
+                  <mat-icon>arrow_right_alt</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- Step 4: Review and confirm -->
+        @if (
+          (!shouldShowSublineStep() && currentStep() === 2) ||
+          (shouldShowSublineStep() && currentStep() === 3)
+        ) {
+          <div class="step">
+            <lj-round-header-chip
+              [number]="shouldShowSublineStep() ? 4 : 3"
+              text="Review and submit"
+              size="small"
+              color="brand"></lj-round-header-chip>
+
+            <div class="content">
+              <div class="form">
+                <button
+                  lj-button
+                  (activate)="currentStep.set(currentStep() - 1)"
+                  variant="ghost"
+                  [disabled]="isProcessing()">
+                  <mat-icon>arrow_left_alt</mat-icon>
+                  Back
+                </button>
+
+                @if (showMaturityWarning()) {
+                  <div class="maturity-warning compact">
+                    <mat-icon>info</mat-icon>
+                    <div class="body-s">
+                      This payment will apply to the total balance.
+                    </div>
+                  </div>
+                }
+
+                <div class="review-section">
+                  @if (shouldShowSublineStep() && selectedSubline()) {
+                    <div class="body-s">Subline:</div>
+                    <div class="inter body-lg">
+                      {{ selectedSubline()?.name }}
+                    </div>
+                  }
+
+                  <div class="body-s">Payment Amount:</div>
+                  <div class="inter body-lg">{{ amount ?? 0 }}</div>
+
+                  <div class="body-s">Payment Date:</div>
+                  <div class="inter body-lg">{{ formatDate(date()) }}</div>
+
+                  <div class="body-s">Current Balance:</div>
+                  <div class="inter body-lg">
+                    {{ formatAmount(creditLine()?.usageCents ?? 0) }}
+                  </div>
+
+                  <div class="body-s">Balance After Payment:</div>
+                  <div class="inter body-lg">
+                    {{ formatAmount(getNewPrincipalBalance()) }}
+                  </div>
+                </div>
+
+                <button
+                  lj-button
+                  variant="ghost"
+                  (activate)="confirmPayment()"
+                  [disabled]="isProcessing()"
+                  [loading]="isProcessing()">
+                  Confirm&nbsp;Payment
+                  <mat-icon>arrow_right_alt</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+
+        <!-- Step 5: Success -->
+        @if (
+          (!shouldShowSublineStep() && currentStep() === 3) ||
+          (shouldShowSublineStep() && currentStep() === 4)
+        ) {
+          <div class="step">
+            <div class="content">
+              <div class="summary">
+                <div class="sub-container">
+                  <div class="loan-info">
+                    <div class="box">
+                      <div class="body-s">
+                        We are processing the payment. You will receive an email
+                        when the process is complete.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      }
+    </mat-expansion-panel>
+
+    @if (showPaymentPanel()) {
+      <mat-expansion-panel
+        class="mat-elevation-z0 alternative-methods"
+        [expanded]="false">
+        <mat-expansion-panel-header>
+          <div class="body-m">Alternative Payment Methods</div>
+        </mat-expansion-panel-header>
+
+        <div class="content">
+          <div class="summary">
+            <div class="payment-options">
+              @if (showPortalUrl()) {
+                <div class="option">
+                  <div class="title-lg">ACH Payment</div>
+                  <button lj-button (activate)="goToPaymentPortal()">
+                    Payment Portal
+                    <mat-icon>open_in_new</mat-icon>
+                  </button>
+                </div>
+              }
+
+              @if (showPortalUrl() && showWireInstructions()) {
+                <div class="divider"></div>
+              }
+
+              @if (showWireInstructions()) {
+                <div class="option">
+                  <div class="instructions-container">
+                    @for (
+                      fundingEntity of creditLine()?.fundingEntities ?? [];
+                      track fundingEntity
+                    ) {
+                      @let parsedFundingEntity =
+                        parseFundingEntity(fundingEntity);
+
+                      <div
+                        id="wire-instructions-{{ parsedFundingEntity.id }}"
+                        class="instruction"
+                        [innerHTML]="
+                          parsedFundingEntity.wireInstructions | SafeHtml
+                        "></div>
+                    }
+                  </div>
+
+                  <div class="fraud-warning">
+                    <div class="inter body-m">FRAUD WARNING</div>
+                    <div class="body-s">THESE INSTRUCTIONS WILL NOT CHANGE</div>
+                    <div class="body-s">
+                      We do not accept or request changes to payment intructions
+                      via e-mail. Please call {{ getTenantName() }} to verify
+                      any and all payment instructions you receive prior to
+                      initiating a payment.
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    }
+  } @else {
+    @if (showPaymentPanel()) {
+      <mat-expansion-panel
+        class="mat-elevation-z0"
+        [expanded]="panelOpen()"
+        (opened)="panelOpen.set(true)"
+        (closed)="panelOpen.set(false)">
+        <mat-expansion-panel-header>
+          <div class="body-m">Make a Payment</div>
+        </mat-expansion-panel-header>
+
+        <div class="content">
+          <div class="summary">
+            <div class="payment-options">
+              @if (showPortalUrl()) {
+                <div class="option">
+                  <div class="title-lg">ACH Payment</div>
+                  <button lj-button (activate)="goToPaymentPortal()">
+                    Payment Portal
+                    <mat-icon>open_in_new</mat-icon>
+                  </button>
+                </div>
+              }
+
+              @if (showPortalUrl() && showWireInstructions()) {
+                <div class="divider"></div>
+              }
+
+              @if (showWireInstructions()) {
+                <div class="option">
+                  <div class="instructions-container">
+                    @for (
+                      fundingEntity of creditLine()?.fundingEntities ?? [];
+                      track fundingEntity
+                    ) {
+                      @let parsedFundingEntity =
+                        parseFundingEntity(fundingEntity);
+
+                      <div
+                        id="wire-instructions-{{ parsedFundingEntity.id }}"
+                        class="instruction"
+                        [innerHTML]="
+                          parsedFundingEntity.wireInstructions | SafeHtml
+                        "></div>
+                    }
+                  </div>
+
+                  <div class="fraud-warning">
+                    <div class="inter body-m">FRAUD WARNING</div>
+                    <div class="body-s">THESE INSTRUCTIONS WILL NOT CHANGE</div>
+                    <div class="body-s">
+                      We do not accept or request changes to payment intructions
+                      via e-mail. Please call {{ getTenantName() }} to verify
+                      any and all payment instructions you receive prior to
+                      initiating a payment.
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    }
+  }
+</div>

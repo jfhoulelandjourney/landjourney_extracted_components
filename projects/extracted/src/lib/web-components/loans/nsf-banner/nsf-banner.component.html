@@ -1,0 +1,45 @@
+<div class="nsf-banner-container" [class.mobile]="isMobile()">
+  <div class="title">
+    <mat-icon class="warning-icon">warning</mat-icon>
+    <p class="body-s message">{{ getMessage() }}</p>
+  </div>
+
+  @if (!isDetailsPage() || isMobile()) {
+    <div class="nsf-expandable" [class.expanded]="isExpanded()">
+      <button
+        class="expand-header"
+        (activate)="toggleExpanded()"
+        [attr.aria-expanded]="isExpanded()">
+        <span class="expand-title">Please submit a new payment</span>
+        @if (!isDetailsPage() || isMobile()) {
+          <mat-icon class="expand-icon">
+            {{ isExpanded() ? 'expand_less' : 'arrow_forward' }}
+          </mat-icon>
+        }
+      </button>
+
+      <div
+        class="nsf-items-list"
+        [@expandCollapse]="isExpanded() ? 'expanded' : 'collapsed'">
+        @for (item of nsfItems(); track getItemId(item)) {
+          <div class="nsf-item" (activate)="goToItemDetails(item)">
+            <div class="item-info">
+              <div class="item-name-row">
+                <span class="item-name">{{ getFormattedTitle(item) }}</span>
+              </div>
+              <div class="item-amount">{{ getItemAmount(item) }}</div>
+            </div>
+            <div class="item-action">
+              <div class="action-text-row">
+                <mat-icon class="warning-icon-small">warning</mat-icon>
+                <span class="action-text">Action</span>
+                <span class="action-text">Needed</span>
+              </div>
+              <mat-icon class="chevron-icon">chevron_right</mat-icon>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+</div>

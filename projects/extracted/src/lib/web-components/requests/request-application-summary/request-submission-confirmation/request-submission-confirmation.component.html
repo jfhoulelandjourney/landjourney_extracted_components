@@ -1,0 +1,88 @@
+<div class="container">
+  <div class="icon-section">
+    <mat-icon class="success-icon">check_circle</mat-icon>
+  </div>
+
+  <div class="content-section">
+    @if (hasUnfinishedCollaborators()) {
+      <h3 class="title">
+        Superb! Your part is done, but your co-applicants still have incomplete
+        tasks.
+      </h3>
+
+      <p class="description">
+        Your loan application will be automatically submitted once all
+        applicants complete their tasks.
+      </p>
+
+      <p class="progress-note">
+        You can see their progress below, or at any time on the application
+        page.
+      </p>
+
+      <div class="collaborators-status">
+        @for (
+          collaborator of collaboratorStatuses();
+          track collaborator.user.userId
+        ) {
+          <div class="collaborator-item">
+            <div class="collaborator-info">
+              <div class="avatar">
+                <mat-icon>person</mat-icon>
+              </div>
+              <div class="collaborator-details">
+                <span class="name">{{ collaborator.displayName }}</span>
+                <span class="role">{{ collaborator.role }}</span>
+              </div>
+            </div>
+            <div class="task-badges">
+              @if (collaborator.todoCount > 0) {
+                <div class="count-badge todo">
+                  <span class="count">{{ collaborator.todoCount }}</span>
+                  <span class="label">To-Do</span>
+                </div>
+              }
+              @if (collaborator.doneCount > 0) {
+                <div class="count-badge done">
+                  <span class="count">{{ collaborator.doneCount }}</span>
+                  <span class="label">Done</span>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    } @else {
+      <h3 class="title">
+        @if (hasMoreThanOneApplicant()) {
+          Excellent! Your review is complete and all co-applicants have finished
+          their tasks.
+        } @else {
+          Excellent! Your review is complete.
+        }
+      </h3>
+
+      <p class="description">
+        Your loan application has been successfully submitted and is now being
+        processed.
+      </p>
+
+      <p class="progress-note">
+        You can track the status of your application on the application page.
+      </p>
+    }
+
+    <div class="action-section">
+      <lj-button
+        class="return-button"
+        type="button"
+        variant="primary"
+        (click)="onReturnToApplication()"
+        afterIcon="arrow_forward">
+        <span>Return to the application page</span>
+      </lj-button>
+    </div>
+  </div>
+</div>
+
+<ng-content />

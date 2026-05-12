@@ -1,0 +1,21 @@
+<div class="tabs">
+  <div class="tab-headers" [class.centered]="centered()">
+    @for (tab of tabs(); track $index) {
+      <div
+        class="body-m tab-header"
+        [class.selected]="$index === activeTabIndex()"
+        (activate)="selectTab($index)">
+        {{ tab.label }}
+        <div class="selected-indicator"></div>
+      </div>
+    }
+  </div>
+  @for (tab of tabs(); track $index) {
+    <div class="tab-content" [class.selected]="$index === activeTabIndex()">
+      <ng-container
+        *ngTemplateOutlet="
+          tabs()[activeTabIndex()]?.content ?? null
+        "></ng-container>
+    </div>
+  }
+</div>

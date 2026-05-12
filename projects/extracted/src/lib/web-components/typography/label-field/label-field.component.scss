@@ -1,0 +1,12 @@
+:host {
+  color: var(--text-label-field, #252525);
+  font-family: Inter;
+  font-size: var(--font-size-xs);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+
+  &[disabled] {
+    color: var(--text-disabled, #b0b0b0);
+  }
+}

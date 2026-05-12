@@ -1,0 +1,43 @@
+.conditions-list {
+  display: flex;
+  flex-direction: column;
+
+  .condition {
+    padding-bottom: var(--padding-spacious);
+    border-bottom: solid 1px var(--box-border-color);
+    margin-bottom: var(--padding-spacious);
+
+    .condition-title {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: var(--padding-spacious);
+
+      .condition-title-text {
+        flex-grow: 1;
+
+        h3.mobile {
+          font-size: var(--font-size-xs);
+          font-weight: 400;
+        }
+      }
+    }
+
+    &:last-child {
+      padding-bottom: unset;
+      border-bottom: none;
+      margin-bottom: unset;
+    }
+  }
+}
+
+.condition-text {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+
+  &.limit-length {
+    max-height: 70px;
+    overflow: hidden;
+  }
+}

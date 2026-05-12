@@ -1,0 +1,64 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  .container {
+    position: relative;
+    padding: var(--padding-reset) 28px;
+    margin-bottom: var(--padding-comfortable);
+    flex-grow: 1;
+
+    .row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+      gap: var(--padding-compact);
+
+      lj-editable-input {
+        flex-grow: 1;
+      }
+    }
+
+    .submit-container {
+      text-align: center;
+
+      ::ng-deep lj-editable-input label,
+      ::ng-deep lj-editable-input input {
+        font-weight: var(--font-weight-regular);
+        text-align: center;
+      }
+
+      ::ng-deep lj-editable-input label {
+        color: var(--accent-black-100, #fff);
+      }
+    }
+  }
+
+  .input {
+    padding: var(--padding-comfortable);
+  }
+
+  .shadow {
+    box-shadow: var(--shadow-xs);
+    border-radius: var(--radius-strong);
+  }
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--padding-compact);
+
+    lj-editable-input {
+      flex-grow: 1;
+    }
+  }
+
+  ::ng-deep lj-input-field input {
+    color: var(--placeholder-color);
+  }
+}

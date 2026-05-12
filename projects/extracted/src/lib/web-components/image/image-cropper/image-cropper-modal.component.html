@@ -1,0 +1,58 @@
+<h2 mat-dialog-title>
+  <span>Crop the image</span>
+  <mat-icon (activate)="cancel()">close</mat-icon>
+</h2>
+<mat-dialog-content class="no-margin-bottom">
+  <div class="image-cropper-wrapper">
+    <image-cropper
+      id="imageCropper"
+      [imageChangedEvent]="imageChangedEvent()"
+      [maintainAspectRatio]="true"
+      [aspectRatio]="1"
+      [cropperMinWidth]="100"
+      [resizeToWidth]="192"
+      [roundCropper]="true"
+      [canvasRotation]="0"
+      [(transform)]="transform"
+      format="png"
+      (imageCropped)="imageCroppedHandler($event)"
+      (imageLoaded)="imageLoaded()"
+      (cropperReady)="cropperReady()"
+      (loadImageFailed)="loadImageFailed()"></image-cropper>
+    <div class="crop-actions">
+      <button mat-icon-button (click)="zoomOut()">
+        <mat-icon>zoom_out</mat-icon>
+      </button>
+
+      <button mat-icon-button (click)="zoomIn()">
+        <mat-icon>zoom_out</mat-icon>
+      </button>
+
+      <button mat-icon-button (click)="rotateLeft()">
+        <mat-icon>rotate_left</mat-icon>
+      </button>
+
+      <button mat-icon-button (click)="rotateRight()">
+        <mat-icon>rotate_right</mat-icon>
+      </button>
+
+      <button mat-icon-button (click)="flipHorizontal()">
+        <mat-icon>flip</mat-icon>
+      </button>
+
+      <button mat-icon-button (click)="flipVertical()">
+        <mat-icon class="rotate-90-degrees">flip</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button
+    lj-button="inverse-cta"
+    class="button-margin-right"
+    [compact]="true"
+    (activate)="cancel()">
+    Close
+  </button>
+  <button lj-button [compact]="true" (activate)="crop()">Ok</button>
+</mat-dialog-actions>

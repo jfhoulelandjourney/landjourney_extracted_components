@@ -1,0 +1,49 @@
+@if (showSharedDomainTenantSelection()) {
+  <div class="platform-logo">
+    <img [src]="getLogo()" alt="Landjourney logo" />
+  </div>
+
+  <div class="organization-selection borders">
+    <div class="selection-page-title">
+      <p>It looks like you are a member of more than one organization.</p>
+      <p class="subtitle">Please select one below to continue.</p>
+    </div>
+
+    <div class="organization-list">
+      @for (configuration of configurations(); track configuration.dnsPrefix) {
+        <div class="organization borders">
+          <div class="name">
+            {{ configuration.name }}
+          </div>
+          <div class="logo">
+            <img
+              src="{{ configuration.logoUri }}"
+              alt="{{ configuration.name }}" />
+          </div>
+          <div class="action">
+            <lj-button
+              afterIcon="arrow_right"
+              (activate)="selectOrganization(configuration)">
+              Select this one
+            </lj-button>
+          </div>
+        </div>
+      } @empty {
+        <div class="no-organization">
+          You are not a member of any organization.
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="actions">
+    @if (isBackoffice()) {
+      <lj-button afterIcon="add" routerLink="/signup">
+        Create new organization
+      </lj-button>
+    }
+    <lj-button afterIcon="arrow_right" (activate)="logout()">Logout</lj-button>
+  </div>
+} @else {
+  <landjourney-loading></landjourney-loading>
+}

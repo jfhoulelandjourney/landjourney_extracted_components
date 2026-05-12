@@ -1,0 +1,194 @@
+@if (field()) {
+  @if (mode() === 'locked') {
+    <div class="locked-display">
+      <div [class.locked-error]="getErrorMessage() !== undefined">
+        <div
+          class="body-sm title"
+          [style]="getCustomStyle('.field-title', true)">
+          {{ field().label }}
+        </div>
+        <div class="locked-value-row">
+          <lj-copy-to-clipboard-button
+            [value]="
+              field().parameters.type === 'ssn' &&
+              field().value &&
+              !field().value?.includes('-')
+                ? formatSSN(field().value)
+                : field().value?.trim()
+            ">
+            <div
+              class="body-sm text"
+              [style]="getCustomStyle('.field-text', true)">
+              @if (field().parameters.privacy) {
+                {{ getPrivacyDisplayValue() }}
+              } @else {
+                {{
+                  field().parameters.type === 'ssn' &&
+                  field().value &&
+                  !field().value?.includes('-')
+                    ? formatSSN(field().value)
+                    : field().value?.trim()
+                }}
+              }
+            </div>
+          </lj-copy-to-clipboard-button>
+          @if (field().parameters.privacy) {
+            <button
+              mat-icon-button
+              type="button"
+              class="privacy-toggle"
+              (activate)="togglePrivacyVisibility()">
+              <mat-icon>
+                {{ privacyVisible() ? 'visibility' : 'visibility_off' }}
+              </mat-icon>
+            </button>
+          }
+        </div>
+        @if (getErrorMessage()) {
+          <div class="body-sm">
+            {{ getErrorMessage() }}
+          </div>
+        }
+      </div>
+    </div>
+  } @else {
+    <div class="input" [class.style-normal]="style() === 'normal'">
+      @if (field().parameters.type === 'email') {
+        <lj-input-field
+          email
+          [required]="field().required ?? false"
+          [id]="field().id"
+          [name]="field().name"
+          [label]="field().label"
+          [style]="style()"
+          [class.privacy-masked]="isPrivacyMasked()"
+          [customCssTitleStyle]="getCustomStyle('.field-title', true)"
+          [customCssStyle]="getCustomStyle('.input-field', true)"
+          type="email"
+          [placeholder]="field().parameters.placeholder ?? ''"
+          [ngModel]="field().value"
+          (ngModelChange)="handleValueChange($event)"
+          (onInputBlur)="handleOnBlur()"
+          [showError]="!(touched() && isErrorSuppressed())"
+          [customErrorMessage]="touched() ? getErrorMessage() : undefined">
+          @if (field().parameters.privacy) {
+            <button
+              after-input
+              mat-icon-button
+              type="button"
+              class="privacy-toggle"
+              (activate)="togglePrivacyVisibility()">
+              <mat-icon>
+                {{ privacyVisible() ? 'visibility' : 'visibility_off' }}
+              </mat-icon>
+            </button>
+          }
+        </lj-input-field>
+      } @else if (field().parameters.type === 'tel') {
+        <lj-input-field
+          pattern="\+1 \([0-9]{3}\) [0-9]{3}-[0-9]{4}"
+          [required]="field().required ?? false"
+          [mask]="phoneNumberMask"
+          [id]="field().id"
+          [name]="field().name"
+          [label]="field().label"
+          [style]="style()"
+          [class.privacy-masked]="isPrivacyMasked()"
+          [customCssTitleStyle]="getCustomStyle('.field-title', true)"
+          [customCssStyle]="getCustomStyle('.input-field', true)"
+          type="text"
+          [placeholder]="
+            field().parameters.placeholder ?? 'Ex.: +1 (555) 555-5555'
+          "
+          [ngModel]="field().value"
+          (ngModelChange)="handleValueChange($event)"
+          (onInputBlur)="handleOnBlur()"
+          [showError]="!(touched() && isErrorSuppressed())"
+          [customErrorMessage]="touched() ? getErrorMessage() : undefined">
+          @if (field().parameters.privacy) {
+            <button
+              after-input
+              mat-icon-button
+              type="button"
+              class="privacy-toggle"
+              (activate)="togglePrivacyVisibility()">
+              <mat-icon>
+                {{ privacyVisible() ? 'visibility' : 'visibility_off' }}
+              </mat-icon>
+            </button>
+          }
+        </lj-input-field>
+      } @else if (
+        field().parameters.type === 'ssn' ||
+        field().name.toLowerCase().includes('ssn')
+      ) {
+        <lj-input-field
+          [required]="field().required ?? false"
+          [mask]="ssnMask"
+          [id]="field().id"
+          [name]="field().name"
+          [label]="field().label"
+          [style]="style()"
+          [class.privacy-masked]="isPrivacyMasked()"
+          [customCssTitleStyle]="getCustomStyle('.field-title', true)"
+          [customCssStyle]="getCustomStyle('.input-field', true)"
+          type="text"
+          [placeholder]="field().parameters.placeholder ?? 'Ex.: 123-45-6789'"
+          [ngModel]="
+            field().value && !field().value?.includes('-')
+              ? formatSSN(field().value)
+              : field().value
+          "
+          (ngModelChange)="handleValueChange($event)"
+          (onInputBlur)="handleOnBlur()"
+          [showError]="!(touched() && isErrorSuppressed())"
+          [customErrorMessage]="touched() ? getErrorMessage() : undefined">
+          @if (field().parameters.privacy) {
+            <button
+              after-input
+              mat-icon-button
+              type="button"
+              class="privacy-toggle"
+              (activate)="togglePrivacyVisibility()">
+              <mat-icon>
+                {{ privacyVisible() ? 'visibility' : 'visibility_off' }}
+              </mat-icon>
+            </button>
+          }
+        </lj-input-field>
+      } @else {
+        <lj-input-field
+          [required]="field().required ?? false"
+          [id]="field().id"
+          [name]="field().name"
+          [label]="field().label"
+          [style]="style()"
+          [class.privacy-masked]="isPrivacyMasked()"
+          [customCssTitleStyle]="getCustomStyle('.field-title', true)"
+          [customCssStyle]="getCustomStyle('.input-field', true)"
+          type="text"
+          [placeholder]="field().parameters.placeholder ?? ''"
+          [ngModel]="field().value"
+          (ngModelChange)="handleValueChange($event)"
+          (onInputBlur)="handleOnBlur()"
+          [showError]="!(touched() && isErrorSuppressed())"
+          [customErrorMessage]="touched() ? getErrorMessage() : undefined">
+          @if (field().parameters.privacy) {
+            <button
+              after-input
+              mat-icon-button
+              type="button"
+              class="privacy-toggle"
+              (activate)="togglePrivacyVisibility()">
+              <mat-icon>
+                {{ privacyVisible() ? 'visibility' : 'visibility_off' }}
+              </mat-icon>
+            </button>
+          }
+        </lj-input-field>
+      }
+    </div>
+  }
+} @else {
+  <div class="error">Field initialization error</div>
+}

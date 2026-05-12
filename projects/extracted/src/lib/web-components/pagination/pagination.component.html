@@ -1,0 +1,31 @@
+@if (totalPages() > 1) {
+  <button
+    #prevBtn
+    type="button"
+    class="previous-page"
+    [disabled]="previousPageDisabled()"
+    (activate)="prevPage$.next()"
+    data-testid="prev-page-button">
+    <mat-icon>chevron_left</mat-icon>
+    Prev
+  </button>
+}
+
+@if (totalPages() >= 1) {
+  <div class="current-page" data-testid="pagination-indicator">
+    Page {{ currentPageLabel() }} of {{ totalPages() }}
+  </div>
+}
+
+@if (totalPages() > 1) {
+  <button
+    #nextBtn
+    type="button"
+    class="next-page"
+    [disabled]="nextPageDisabled()"
+    (activate)="nextPage$.next()"
+    data-testid="next-page-button">
+    Next
+    <mat-icon>chevron_right</mat-icon>
+  </button>
+}

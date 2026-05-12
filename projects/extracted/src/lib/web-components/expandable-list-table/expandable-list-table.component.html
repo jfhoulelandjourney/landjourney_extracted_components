@@ -1,0 +1,27 @@
+<header class="elt__header">
+  @if (title()) {
+    <p class="elt__title">{{ title() }}</p>
+  }
+  @if (searchable()) {
+    <div class="elt__actions">
+      <input
+        type="search"
+        class="search-input"
+        placeholder="Search"
+        [value]="search()"
+        (input)="onSearchInput($event)" />
+    </div>
+  }
+</header>
+<div class="elt__content">
+  <ng-content />
+</div>
+@if (totalCount() > 0) {
+  <footer class="elt__footer">
+    <lj-pagination
+      [currentPage]="currentPage()"
+      [totalCount]="totalCount()"
+      [pageSize]="pageSize()"
+      (changePage)="changePage.emit($event)" />
+  </footer>
+}

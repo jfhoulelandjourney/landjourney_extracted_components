@@ -1,0 +1,74 @@
+:host(lj-round-header-chip) {
+  padding: var(--padding-default);
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  .circle {
+    border-radius: 50%;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: bold;
+
+    &.small {
+      width: 18px;
+      height: 18px;
+      margin-right: 9px;
+
+      font-size: var(--font-size-xxs);
+    }
+
+    &.medium {
+      width: 32px;
+      height: 32px;
+      margin-right: 18px;
+
+      font-size: var(--font-size-xs);
+    }
+
+    &.large {
+      width: 48px;
+      height: 48px;
+      margin-right: 24px;
+
+      font-size: var(--font-size-lg);
+    }
+
+    &.white {
+      background: var(--color-lighter);
+      color: var(--color-darker);
+    }
+
+    &.gray {
+      background: var(--gray-400);
+      color: var(--color-lighter);
+    }
+
+    &.brand {
+      background: var(--color-background-button);
+      color: var(--color-lighter);
+    }
+  }
+
+  .text {
+    font-weight: 500;
+
+    &.small {
+      font-size: var(--font-size-xs);
+      font-weight: normal;
+    }
+
+    &.medium {
+      font-size: var(--font-size-md);
+    }
+
+    &.large {
+      font-size: var(--font-size-md);
+    }
+  }
+}

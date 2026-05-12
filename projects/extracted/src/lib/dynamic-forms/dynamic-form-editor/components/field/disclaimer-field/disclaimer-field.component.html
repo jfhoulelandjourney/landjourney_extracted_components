@@ -1,0 +1,92 @@
+@if (field()) {
+  <div
+    class="container"
+    (mouseenter)="showShadow.set(true)"
+    (mouseleave)="showShadow.set(false)">
+    <div class="input" [class.shadow]="showShadow()">
+      <div class="row">
+        <mat-icon>label_important</mat-icon>
+
+        <h3>Disclaimer</h3>
+
+        <lj-quick-required-configuration
+          (handleFieldChange)="handleFieldChange($event)"
+          [field]="field()" />
+
+        <lj-field-configuration
+          (remove)="handleRemove()"
+          [options]="{
+            required: true,
+            inputType: false,
+            minMaxLength: false,
+            minMaxValue: false,
+            conditionalLogic: true,
+            validator: false,
+            decimalPrecision: false,
+            prefillable: true,
+            visible: false,
+          }"
+          (addConditionalLogic)="showConditionalLogic.set(true)"
+          (handleFieldChange)="handleFieldChange($event)"
+          [field]="field()" />
+      </div>
+
+      <div class="disclaimer">
+        <div class="input">
+          <lj-input-field
+            placeholder="Title of the disclaimer or notice..."
+            id="disclaimer-title-{{ field().id }}"
+            name="disclaimer-title-{{ field().id }}"
+            type="text"
+            [style]="'gray'"
+            [showError]="false"
+            [ngModel]="field().value?.disclaimerTitle"
+            (ngModelChange)="
+              handleInternalValueChange({ disclaimerTitle: $event })
+            " />
+        </div>
+        <div
+          class="input"
+          (mousedown)="$event.stopPropagation()"
+          (pointerdown)="$event.stopPropagation()"
+          (touchstart)="$event.stopPropagation()">
+          <lj-rich-text
+            placeholder="Disclaimer or notice..."
+            id="disclaimer-{{ field().id }}"
+            [value]="field().value?.disclaimer?.trim() ?? ''"
+            (valueChange)="
+              handleInternalValueChange({ disclaimer: $event })
+            "></lj-rich-text>
+        </div>
+        <div class="input">
+          <mat-checkbox
+            class="checkbox"
+            [ngModel]="field().value?.showAcceptButton"
+            (ngModelChange)="
+              handleInternalValueChange({ showAcceptButton: $event })
+            "
+            labelPosition="before">
+            Show accept button ?
+          </mat-checkbox>
+        </div>
+      </div>
+
+      @if (
+        (field().dependsOn !== undefined && field().dependsOn !== null) ||
+        showConditionalLogic()
+      ) {
+        <lj-conditional-logic
+          [mobile]="containerLayout() !== SectionLayouts.ONE_COLUMN"
+          [dependsOn]="field().dependsOn"
+          [existingFields]="existingFields()"
+          [formDefinition]="formDefinition()"
+          (removeConditionalLogic)="showConditionalLogic.set(false)"
+          (handleConditionalLogicChange)="
+            handleConditionalLogicChange($event)
+          " />
+      }
+    </div>
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

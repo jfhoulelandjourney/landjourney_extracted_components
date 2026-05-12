@@ -1,0 +1,223 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--padding-spacious);
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.icon-section {
+  margin-bottom: 1.5rem;
+
+  .success-icon {
+    font-size: var(--font-size-3xl);
+    width: var(--font-size-3xl);
+    height: var(--font-size-3xl);
+    color: var(--status-success-500);
+  }
+}
+
+.content-section {
+  width: 100%;
+}
+
+.title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--accent-black-600);
+  margin-bottom: var(--padding-comfortable);
+  line-height: 1.4;
+}
+
+.description {
+  font-size: var(--font-size-sm);
+  color: var(--accent-black-500);
+  margin-bottom: var(--padding-comfortable);
+  line-height: 1.5;
+}
+
+.progress-note {
+  font-size: var(--font-size-sm);
+  color: var(--accent-black-800);
+  margin-bottom: var(--padding-spacious);
+  line-height: 1.5;
+}
+
+.collaborators-status {
+  background-color: var(--accent-black-200);
+  border-radius: var(--radius-strong);
+  padding: var(--padding-comfortable);
+  margin-bottom: var(--padding-spacious);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-default);
+
+  &:empty {
+    display: none;
+  }
+}
+
+.collaborator-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--padding-comfortable);
+  background-color: var(--accent-black-100);
+  border-radius: var(--radius-strong);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.collaborator-info {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-default);
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--accent-black-200);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    mat-icon {
+      font-size: var(--font-size-lg);
+      color: var(--accent-black-500);
+    }
+  }
+
+  .collaborator-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+
+    .name {
+      font-weight: 600;
+      color: var(--accent-black-600);
+      font-size: var(--font-size-xs);
+    }
+
+    .role {
+      font-size: var(--font-size-xs);
+      color: var(--accent-black-500);
+    }
+  }
+}
+
+.task-badges {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.count-badge {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-compact);
+  padding: var(--padding-compact) var(--padding-default);
+  border-radius: 12px;
+  font-size: var(--font-size-xxs);
+  font-weight: 600;
+
+  .count {
+    background-color: var(--accent-black-100);
+    color: inherit;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-xxs);
+    font-weight: 700;
+  }
+
+  .label {
+    font-size: var(--font-size-xxs);
+    font-weight: 500;
+  }
+
+  &.todo {
+    background-color: var(--status-warning-600);
+    color: var(--accent-black-100);
+
+    .count {
+      color: var(--status-warning-600);
+    }
+  }
+
+  &.done {
+    background-color: var(--status-success-500);
+    color: var(--accent-black-100);
+
+    .count {
+      color: var(--status-success-500);
+    }
+  }
+
+  &.needs-revision {
+    background-color: var(--status-error-500);
+    color: var(--accent-black-100);
+
+    .count {
+      color: var(--status-error-500);
+    }
+  }
+}
+
+.message-button {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-compact);
+  padding: var(--padding-compact) var(--padding-default);
+  border: 1px solid var(--accent-black-300);
+  border-radius: var(--radius-strong);
+  background-color: var(--accent-black-100);
+  color: var(--accent-black-500);
+  font-size: var(--font-size-xs);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: var(--accent-black-200);
+    border-color: var(--accent-black-300);
+  }
+
+  mat-icon {
+    font-size: 1rem;
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+.action-section {
+  width: 100%;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .container {
+    padding: var(--padding-default);
+  }
+
+  .collaborator-item {
+    gap: var(--gap-default);
+    align-items: stretch;
+  }
+
+  .collaborator-info {
+    justify-content: center;
+  }
+
+  .task-badges {
+    justify-content: center;
+  }
+
+  .message-button {
+    align-self: center;
+  }
+}

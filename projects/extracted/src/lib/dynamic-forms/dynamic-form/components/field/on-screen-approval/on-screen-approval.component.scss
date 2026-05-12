@@ -1,0 +1,217 @@
+.on-screen-approval-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 32px 24px;
+  gap: 16px;
+
+  .icon-container {
+    margin-bottom: 8px;
+
+    .document-icon {
+      width: 80px;
+      height: 80px;
+      color: var(--brand-primary-500);
+
+      .processing-icon {
+        animation: rotate 2s linear infinite;
+      }
+
+      @keyframes rotate {
+        from {
+          transform-origin: center;
+          transform: rotate(0deg);
+        }
+        to {
+          transform-origin: center;
+          transform: rotate(360deg);
+        }
+      }
+
+      .rotating-circle {
+        transform-origin: center;
+        animation: dash 1.5s ease-in-out infinite;
+      }
+
+      @keyframes dash {
+        0% {
+          stroke-dashoffset: 20;
+        }
+        50% {
+          stroke-dashoffset: 100;
+        }
+        100% {
+          stroke-dashoffset: 20;
+        }
+      }
+    }
+  }
+
+  .status-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--brand-primary-700);
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .status-description {
+    font-size: 14px;
+    color: #616161; // Medium gray
+    margin: 0;
+    line-height: 1.5;
+    max-width: 400px;
+  }
+
+  // Progress bar (for CALCULATING state)
+  .progress-bar {
+    width: 100%;
+    max-width: 400px;
+    height: 8px;
+    background-color: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 8px;
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background-color: var(--status-success-400); // Bright green
+      border-radius: 4px;
+      animation: progress-to-completion 5s ease-out forwards;
+    }
+
+    @keyframes progress-to-completion {
+      0% {
+        width: 0%;
+      }
+      20% {
+        width: 30%;
+      }
+      40% {
+        width: 50%;
+      }
+      60% {
+        width: 70%;
+      }
+      80% {
+        width: 85%;
+      }
+      95% {
+        width: 98%;
+      }
+      100% {
+        width: 100%;
+      }
+    }
+  }
+
+  // Status boxes (for APPROVED, MANUAL_APPROVAL, PENDING states)
+  .status-box {
+    width: 100%;
+    max-width: 500px;
+    padding: 24px;
+    border-radius: 12px;
+    margin-top: 16px;
+    text-align: left;
+
+    .label {
+      font-size: 14px;
+      color: #333333;
+      margin: 0 0 8px 0;
+      font-weight: 400;
+    }
+
+    .amount {
+      font-size: 16px;
+      color: #333333;
+      margin: 0 0 12px 0;
+      font-weight: 500;
+    }
+
+    .status-message {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 0 0;
+      line-height: 1.3;
+    }
+
+    .details {
+      font-size: 14px;
+      margin: 0;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    // Manual Approval state - Orange/Cream theme
+    &.manual-approval {
+      background-color: var(--status-warning-100);
+      border: 1px solid var(--status-warning-600);
+
+      .status-message {
+        color: var(--status-warning-600);
+      }
+
+      .details {
+        color: #333333; // Dark gray
+      }
+    }
+
+    // Pending state - Orange theme
+    &.pending {
+      background-color: var(--status-warning-100);
+      border: 1px solid var(--status-warning-600);
+
+      .status-message {
+        color: var(--status-warning-600);
+      }
+    }
+
+    // Approved state - Green theme
+    &.approved {
+      background-color: var(--status-success-100);
+      border: 1px solid var(--status-success-700);
+
+      .amount {
+        color: #343a40; // Medium-dark gray
+      }
+
+      .status-message {
+        color: var(--status-success-700);
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .on-screen-approval-container {
+    padding: 24px 16px;
+
+    .icon-container .document-icon {
+      width: 64px;
+      height: 64px;
+    }
+
+    .status-title {
+      font-size: 20px;
+    }
+
+    .status-description {
+      font-size: 13px;
+    }
+
+    .status-box {
+      padding: 20px;
+
+      .status-message {
+        font-size: 18px;
+      }
+
+      .details {
+        font-size: 13px;
+      }
+    }
+  }
+}

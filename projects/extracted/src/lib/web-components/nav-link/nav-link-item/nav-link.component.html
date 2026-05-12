@@ -1,0 +1,39 @@
+<ng-template #iconContent>
+  @if (customSvg) {
+    <mat-icon [svgIcon]="icon ?? ''"></mat-icon>
+  } @else {
+    <mat-icon>{{ icon }}</mat-icon>
+  }
+</ng-template>
+
+<ng-template #textContent>
+  <ng-content></ng-content>
+</ng-template>
+
+@if (href) {
+  <a
+    [routerLink]="href"
+    class="nav-link"
+    routerLinkActive="nav-link--active"
+    (click)="resetFocus()">
+    <div class="nav-link-icon">
+      <ng-container *ngTemplateOutlet="iconContent" />
+    </div>
+    <div class="nav-link-text">
+      <ng-container *ngTemplateOutlet="textContent" />
+    </div>
+  </a>
+} @else {
+  <button
+    type="button"
+    class="nav-link"
+    routerLinkActive="nav-link--active"
+    (click)="resetFocus()">
+    <div class="nav-link-icon">
+      <ng-container *ngTemplateOutlet="iconContent" />
+    </div>
+    <div class="nav-link-text">
+      <ng-container *ngTemplateOutlet="textContent" />
+    </div>
+  </button>
+}

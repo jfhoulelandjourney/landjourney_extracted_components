@@ -1,0 +1,127 @@
+@use '../../../../../ui-styles/tokens/breakpoints' as bp;
+
+:host {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--padding-default);
+
+  .textarea {
+    flex-grow: 1;
+
+    &.style-gray {
+      ::ng-deep .textarea * .mat-mdc-text-field-wrapper,
+      ::ng-deep .textarea * .mdc-text-field {
+        background: var(--gray-100) !important;
+        border-radius: var(--radius-tight) !important;
+      }
+    }
+
+    &.style-normal {
+      .input {
+        margin-bottom: var(--padding-reset);
+      }
+
+      ::ng-deep lj-textarea-field .field-wrapper textarea,
+      ::ng-deep lj-textarea-field .field-wrapper .mat-mdc-text-field-wrapper,
+      ::ng-deep lj-textarea-field .field-wrapper .mdc-text-field {
+        min-height: 48px;
+        border: 1px solid var(--accent-black-300);
+      }
+    }
+
+    ::ng-deep .textarea * {
+      border: none !important;
+
+      &:focus,
+      &:active {
+        border: none !important;
+      }
+    }
+
+    ::ng-deep .input lj-textarea-field .field-wrapper textarea {
+      border: 1px solid var(--input-field--border-color, #eaebf0);
+    }
+
+    .title {
+      font-family: Inter;
+      font-size: var(--font-size-xs);
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px;
+    }
+
+    .input {
+      margin-bottom: var(--padding-comfortable);
+    }
+
+    .text {
+      white-space: pre-line;
+      font-size: var(--font-size-xs);
+    }
+  }
+
+  .locked-display {
+    width: 100%;
+    padding-bottom: var(--padding-compact);
+    margin-bottom: var(--padding-compact);
+    border-bottom: 1px solid var(--accent-black-200, #f5f5f5);
+
+    .title {
+      color: var(--accent-black-500, #7d7d7d);
+      line-height: 150%;
+      letter-spacing: 0.12px;
+    }
+
+    .text {
+      white-space: pre-line;
+      color: var(--accent-black-700, #303030);
+      letter-spacing: 0.16px;
+      min-height: 22px;
+    }
+
+    .locked-error {
+      border-radius: var(--radius-strong);
+      background: var(--status-error-100);
+      color: var(--status-error-700);
+      display: flex;
+      padding: var(--gap-default) var(--gap-comfortable);
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--gap-compact);
+
+      .text {
+        font-weight: var(--font-weight-semi-bold);
+        color: var(--status-error-700);
+      }
+    }
+  }
+
+  @include bp.max-mobile {
+    width: 100%;
+    min-width: 0;
+    align-items: stretch;
+
+    .textarea {
+      width: 100%;
+      min-width: 0;
+    }
+
+    ::ng-deep lj-textarea-field {
+      width: 100%;
+      max-width: 100%;
+    }
+
+    ::ng-deep lj-textarea-field .field-wrapper {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+}
+
+.title.required::after {
+  content: '*';
+  color: var(--error-color);
+  opacity: 0.5;
+  margin-inline-start: -0.2em;
+}

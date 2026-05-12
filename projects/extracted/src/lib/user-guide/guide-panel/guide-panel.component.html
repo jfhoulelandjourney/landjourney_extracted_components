@@ -1,0 +1,104 @@
+<lj-side-panel
+  [isOpen]="isOpen()"
+  [panelWidth]="'500px'"
+  [closeButtonText]="'Close'"
+  (closePanel)="onClose()">
+  <div class="guide-panel-body">
+    <div class="guide-panel-header">
+      <mat-icon class="guide-panel-icon">auto_stories</mat-icon>
+      <div class="guide-breadcrumb">
+        @if (guideService.currentPageInfo(); as pageInfo) {
+          <button class="breadcrumb-link" type="button" (activate)="showToc()">
+            Guide
+          </button>
+          <mat-icon class="breadcrumb-separator">chevron_right</mat-icon>
+          <span class="breadcrumb-section">{{ pageInfo.section.title }}</span>
+          <mat-icon class="breadcrumb-separator">chevron_right</mat-icon>
+          <span class="breadcrumb-current">{{ pageInfo.page.title }}</span>
+        } @else {
+          <span class="breadcrumb-current">User Guide</span>
+        }
+      </div>
+      <button
+        type="button"
+        class="guide-panel-close"
+        aria-label="Close guide panel"
+        (activate)="onClose()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div class="guide-panel-content">
+      @if (guideService.loading()) {
+        <div class="guide-loading">
+          <mat-spinner diameter="32"></mat-spinner>
+          <p>Loading guide content...</p>
+        </div>
+      }
+
+      @if (guideService.error(); as errorMsg) {
+        <div class="guide-error">
+          <mat-icon>error_outline</mat-icon>
+          <p>{{ errorMsg }}</p>
+          <button type="button" class="retry-button" (activate)="guideService.loadForCurrentRoute()">
+            Try again
+          </button>
+        </div>
+      }
+
+      @if (guideService.showToc() && !guideService.loading()) {
+        <div class="guide-toc">
+          <p class="toc-intro">Browse the user guide to learn about the platform features.</p>
+          @for (section of guideService.sections(); track section.slug) {
+            <div class="toc-section">
+              <h3 class="toc-section-title">{{ section.title }}</h3>
+              <ul class="toc-page-list">
+                @for (page of section.pages; track page.slug) {
+                  <li>
+                    <button
+                      type="button"
+                      class="toc-page-link"
+                      (activate)="navigateToPage(section.slug, page.slug)">
+                      {{ page.title }}
+                    </button>
+                  </li>
+                }
+              </ul>
+            </div>
+          }
+        </div>
+      }
+
+      @if (!guideService.showToc() && !guideService.loading() && guideService.content()) {
+        <div
+          class="guide-markdown-content"
+          [innerHTML]="guideService.content()"
+          tabindex="0"
+          (click)="onContentClick($event)"
+          (keydown.enter)="onContentKeydown($event)"
+          (keydown.space)="onContentKeydown($event)"></div>
+
+        <div class="guide-back-to-toc">
+          <button type="button" class="back-to-toc-button" (activate)="showToc()">
+            <mat-icon>arrow_back</mat-icon>
+            Back to all topics
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</lj-side-panel>
+
+@if (lightboxSrc()) {
+  <div
+    class="guide-lightbox-overlay"
+    tabindex="0"
+    (click)="closeLightbox()"
+    (keydown.enter)="closeLightbox()"
+    (keydown.space)="closeLightbox()">
+    <button type="button" class="lightbox-close" aria-label="Close image">
+      <mat-icon>close</mat-icon>
+    </button>
+    <img [src]="lightboxSrc()!" alt="Enlarged screenshot" />
+  </div>
+}

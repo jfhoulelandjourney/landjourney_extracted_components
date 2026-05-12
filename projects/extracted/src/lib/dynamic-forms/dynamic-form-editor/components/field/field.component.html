@@ -1,0 +1,225 @@
+@if (field()) {
+  @switch (field().fieldType) {
+    @case (FieldType.INPUT) {
+      <lj-df-input-field
+        [containerLayout]="containerLayout()"
+        [field]="this.getFieldAsString()"
+        (remove)="handleRemove($event)"
+        [existingFields]="existingFields()"
+        [formDefinition]="formDefinition()"
+        (fieldChange)="handleFieldChange($event)"></lj-df-input-field>
+    }
+    @case (FieldType.DATE) {
+      <lj-df-date-field
+        [containerLayout]="containerLayout()"
+        [field]="this.getFieldAsNumber()"
+        [existingFields]="existingFields()"
+        [formDefinition]="formDefinition()"
+        (remove)="handleRemove($event)"
+        (fieldChange)="handleFieldChange($event)"></lj-df-date-field>
+    }
+    @case (FieldType.CHECKBOX) {
+      <lj-df-checkbox-field
+        [containerLayout]="containerLayout()"
+        [field]="this.getFieldAsBoolean()"
+        (remove)="handleRemove($event)"
+        [existingFields]="existingFields()"
+        [formDefinition]="formDefinition()"
+        (fieldChange)="handleFieldChange($event)"></lj-df-checkbox-field>
+    }
+    @case (FieldType.MONEY) {
+      <lj-df-money-field
+        [containerLayout]="containerLayout()"
+        [field]="this.getFieldAsNumber()"
+        [existingFields]="existingFields()"
+        [formDefinition]="formDefinition()"
+        (remove)="handleRemove($event)"
+        (fieldChange)="handleFieldChange($event)"></lj-df-money-field>
+    }
+    @case (FieldType.NUMBER) {
+      <lj-df-number-field
+        [containerLayout]="containerLayout()"
+        [field]="this.getFieldAsNumber()"
+        [existingFields]="existingFields()"
+        [formDefinition]="formDefinition()"
+        (remove)="handleRemove($event)"
+        (fieldChange)="handleFieldChange($event)"></lj-df-number-field>
+    }
+    @case (FieldType.RADIO) {
+      <lj-df-radio-field
+        [containerLayout]="containerLayout()"
+        [field]="this.getFieldAsString()"
+        [existingFields]="existingFields()"
+        [formDefinition]="formDefinition()"
+        (remove)="handleRemove($event)"
+        (fieldChange)="handleFieldChange($event)"></lj-df-radio-field>
+    }
+    @case (FieldType.SELECT) {
+      <lj-df-select-field
+        [containerLayout]="containerLayout()"
+        [field]="this.getFieldAsString()"
+        [existingFields]="existingFields()"
+        [formDefinition]="formDefinition()"
+        (remove)="handleRemove($event)"
+        (fieldChange)="handleFieldChange($event)"></lj-df-select-field>
+    }
+    @case (FieldType.TEXT) {
+      <lj-df-text-field
+        [containerLayout]="containerLayout()"
+        [field]="this.getFieldAsString()"
+        [existingFields]="existingFields()"
+        [formDefinition]="formDefinition()"
+        (remove)="handleRemove($event)"
+        (fieldChange)="handleFieldChange($event)"></lj-df-text-field>
+    }
+
+    @case (FieldType.LOAN_INFORMATION) {
+      <lj-df-loan-information-field
+        [containerLayout]="containerLayout()"
+        [field]="this.getFieldAsLoanInformation()"
+        (remove)="handleRemove($event)"
+        [existingFields]="existingFields()"
+        [formDefinition]="formDefinition()"
+        (fieldChange)="
+          handleFieldChange($event)
+        "></lj-df-loan-information-field>
+    }
+    @case (FieldType.LOAN_PURPOSE) {
+      <lj-df-loan-purpose-field
+        [containerLayout]="containerLayout()"
+        [field]="this.getFieldAsLoanPurpose()"
+        [existingFields]="existingFields()"
+        [formDefinition]="formDefinition()"
+        (remove)="handleRemove($event)"
+        (fieldChange)="handleFieldChange($event)"></lj-df-loan-purpose-field>
+    }
+    @case (FieldType.LOAN_SOURCES) {
+      <lj-df-loan-sources-field
+        [containerLayout]="containerLayout()"
+        [field]="this.getFieldAsLoanSources()"
+        [existingFields]="existingFields()"
+        [formDefinition]="formDefinition()"
+        (remove)="handleRemove($event)"
+        (fieldChange)="handleFieldChange($event)"></lj-df-loan-sources-field>
+    }
+    @case (FieldType.BORROWERS) {
+      <lj-df-borrowers-field
+        [containerLayout]="containerLayout()"
+        [field]="this.getFieldAsBorrowers()"
+        [existingFields]="existingFields()"
+        [formDefinition]="formDefinition()"
+        (remove)="handleRemove($event)"
+        (fieldChange)="handleFieldChange($event)"></lj-df-borrowers-field>
+    }
+    @case (FieldType.DISCLAIMER) {
+      <lj-df-disclaimer-field
+        [containerLayout]="containerLayout()"
+        [field]="this.getFieldAsDisclaimer()"
+        [existingFields]="existingFields()"
+        [formDefinition]="formDefinition()"
+        (remove)="handleRemove($event)"
+        (fieldChange)="handleFieldChange($event)"></lj-df-disclaimer-field>
+    }
+    @case (FieldType.QUESTIONNAIRE) {
+      <lj-df-questionnaire-field
+        [containerLayout]="containerLayout()"
+        [field]="this.getFieldAsQuestionnaire()"
+        (remove)="handleRemove($event)"
+        [existingFields]="existingFields()"
+        [formDefinition]="formDefinition()"
+        (fieldChange)="handleFieldChange($event)"></lj-df-questionnaire-field>
+    }
+    @case (FieldType.SUBMIT_BUTTON) {
+      <lj-df-submit-button
+        [containerLayout]="containerLayout()"
+        [field]="this.getFieldAsVoid()"
+        (remove)="handleRemove($event)"
+        [existingFields]="existingFields()"
+        [formDefinition]="formDefinition()"
+        (fieldChange)="handleFieldChange($event)"></lj-df-submit-button>
+    }
+    @case (FieldType.FILE_UPLOAD) {
+      <lj-df-file-upload
+        [containerLayout]="containerLayout()"
+        [field]="this.getFieldAsFileUpload()"
+        (remove)="handleRemove($event)"
+        [existingFields]="existingFields()"
+        [formDefinition]="formDefinition()"
+        (fieldChange)="handleFieldChange($event)"></lj-df-file-upload>
+    }
+    @case (FieldType.CROP_DETAILS) {
+      <lj-df-crop-details
+        [containerLayout]="containerLayout()"
+        [field]="this.getFieldAsCropDetails()"
+        [existingFields]="existingFields()"
+        [formDefinition]="formDefinition()"
+        (remove)="handleRemove($event)"
+        (fieldChange)="handleFieldChange($event)"></lj-df-crop-details>
+    }
+    @case (FieldType.USE_OF_FUNDS) {
+      <lj-df-use-of-funds
+        [containerLayout]="containerLayout()"
+        [field]="this.getFieldAsUseOfFunds()"
+        [existingFields]="existingFields()"
+        [formDefinition]="formDefinition()"
+        (remove)="handleRemove($event)"
+        (fieldChange)="handleFieldChange($event)"></lj-df-use-of-funds>
+    }
+    @case (FieldType.REPEATABLE_CARD) {
+      @if (
+        organizationService.isFeatureFlagActivated('DF_REPEATABLE_CARD')
+      ) {
+        <lj-df-repeatable-card-editor
+          [containerLayout]="containerLayout()"
+          [field]="this.getFieldAsRepeatableCard()"
+          [existingFields]="existingFields()"
+          (remove)="handleRemove($event)"
+          (fieldChange)="
+            handleFieldChange($event)
+          "></lj-df-repeatable-card-editor>
+      }
+    }
+    @case (FieldType.LIVESTOCK) {
+      <lj-df-livestock-details
+        [containerLayout]="containerLayout()"
+        [field]="this.getFieldAsLivestockDetails()"
+        [existingFields]="existingFields()"
+        [formDefinition]="formDefinition()"
+        (remove)="handleRemove($event)"
+        (fieldChange)="handleFieldChange($event)"></lj-df-livestock-details>
+    }
+    @case (FieldType.ON_SCREEN_APPROVAL) {
+      <lj-df-on-screen-approval
+        [containerLayout]="containerLayout()"
+        [field]="this.getFieldAsOnScreenApproval()"
+        [existingFields]="existingFields()"
+        [formDefinition]="formDefinition()"
+        (remove)="handleRemove($event)"
+        (fieldChange)="handleFieldChange($event)"></lj-df-on-screen-approval>
+    }
+    @case (FieldType.NOTE) {
+      <lj-df-note-field
+        [containerLayout]="containerLayout()"
+        [field]="this.getFieldAsNote()"
+        [existingFields]="existingFields()"
+        [formDefinition]="formDefinition()"
+        (remove)="handleRemove($event)"
+        (fieldChange)="handleFieldChange($event)"></lj-df-note-field>
+    }
+    @case (FieldType.COMPUTED) {
+      @if (organizationService.isFeatureFlagActivated('COMPUTED_FIELDS_DF')) {
+        <lj-df-computed-field
+          [containerLayout]="containerLayout()"
+          [field]="this.getFieldAsComputed()"
+          [existingFields]="existingFields()"
+          [formDefinition]="formDefinition()"
+          (remove)="handleRemove($event)"
+          (fieldChange)="handleFieldChange($event)"></lj-df-computed-field>
+      }
+    }
+    @default {
+      Unable to find a suitable component for the provided field type:
+      {{ field().fieldType }}
+    }
+  }
+}

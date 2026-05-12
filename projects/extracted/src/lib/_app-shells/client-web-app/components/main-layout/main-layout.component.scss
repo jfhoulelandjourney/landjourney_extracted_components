@@ -1,0 +1,103 @@
+@use 'breakpoints' as bp;
+
+:host {
+  display: flex;
+  flex-direction: row;
+  --bottom-sliding-bar-padding-hack: 80px;
+}
+
+.layout-sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  z-index: var(--drawer-layer);
+
+  @include bp.max-mobile {
+    display: none;
+  }
+}
+
+.layout-page {
+  margin: var(--gap-reset) var(--spacing-10);
+  margin-top: var(--padding-comfortable);
+  margin-left: 240px;
+  width: 100%;
+  max-width: 1500px;
+  padding-bottom: var(--bottom-sliding-bar-padding-hack);
+  flex-grow: 1;
+
+  @include bp.max-desktop {
+    margin: var(--padding-spacious);
+    margin-left: calc(70px + var(--padding-spacious));
+  }
+
+  @include bp.max-mobile {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: var(--padding-default);
+    padding-right: var(--padding-default);
+    padding-top: calc(
+      var(--mobile-top-bar-height) + env(safe-area-inset-top, 0px)
+    );
+    transition: padding-top 0.4s var(--easing-bounce);
+    padding-bottom: calc(
+      var(--mobile-toolbar-height) + env(safe-area-inset-bottom, 0px)
+    );
+    max-width: 100%;
+    width: 100%;
+
+    :host-context(.collaborators-compact) & {
+      padding-top: calc(
+        var(--mobile-top-bar-height) + 64px + env(safe-area-inset-top, 0px)
+      );
+    }
+
+    :host-context(.collaborators-open) & {
+      padding-top: calc(
+        var(--mobile-top-bar-height) + 50px +
+          var(--collaborator-panel-entities-count) * 68px +
+          var(--panel-action-buttons-count, 0) * 60px +
+          env(safe-area-inset-top, 0px)
+      );
+    }
+  }
+}
+
+.layout-page__container {
+  display: grid;
+  grid-template-rows: minmax(0, auto) minmax(0, auto) 1fr minmax(0, auto);
+  grid-template-areas:
+    'banner'
+    'header'
+    'content'
+    'footer';
+  min-height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.layout-page__banner {
+  grid-row: banner;
+}
+
+.layout-page__header {
+  grid-row: header;
+}
+
+.layout-page__content {
+  grid-row: content;
+}
+
+.layout-page__footer {
+  grid-row: footer;
+}
+
+footer {
+  color: var(--gray-480);
+  font-family: var(--font-family-secondary);
+  font-size: var(--font-size-xxs);
+  font-style: normal;
+  font-weight: 300;
+  line-height: 12px;
+  margin-bottom: var(--gap-spacious);
+}

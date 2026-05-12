@@ -1,0 +1,36 @@
+<div class="avatar-container">
+  <lj-avatar
+    [name]="name()"
+    [tooltip]="tooltip()"
+    [avatarUrl]="computedAvatarUrl()"
+    [size]="size()"
+    [showBorder]="showBorder()"
+    [imagePadding]="imagePadding()"
+    [forceText]="forceText()"
+    [useNameColor]="useNameColor()"
+    [textColor]="textColor()"
+    [showBorder]="showBorder()"></lj-avatar>
+
+  <button
+    class="edit-avatar-button"
+    mat-icon-button
+    (activate)="fileInput.click()">
+    <mat-icon class="icon" fontIcon="edit"></mat-icon>
+  </button>
+
+  @if (imageFile() && imageFile() !== computedAvatarUrl()) {
+    <button
+      class="cancel-edit-avatar-button"
+      mat-icon-button
+      (activate)="this.cancelAvatarEdit()">
+      <mat-icon class="icon" fontIcon="cancel"></mat-icon>
+    </button>
+  }
+
+  <input
+    #fileInput
+    type="file"
+    id="avatar-input-file"
+    accept="image/*"
+    (change)="handleAvatarFileChange($event)" />
+</div>

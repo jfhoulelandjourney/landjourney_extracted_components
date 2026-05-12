@@ -1,0 +1,92 @@
+@if (!isChild()) {
+  <div class="thread-title">
+    @if (getThreadAssignee()) {
+      <lj-avatar
+        size="tiny"
+        [tooltip]="getThreadAssigneeTooltip()"
+        name="{{ getThreadAssignee()?.firstName }} {{
+          getThreadAssignee()?.lastName
+        }}"
+        [avatarUrl]="getThreadAssignee()?.avatarUri ?? null" />
+    }
+
+    {{ getThreadTitle() }}
+
+    @if (shouldShowViewTaskButton()) {
+      <a
+        lj-button="ghost"
+        style="padding: 4px; height: auto; min-height: unset; margin-left: auto"
+        [routerLink]="getTaskLink()"
+        title="View Task">
+        <mat-icon style="font-size: 16px; width: 16px; height: 16px">
+          open_in_new
+        </mat-icon>
+        <span style="margin-left: 4px; font-size: 12px; font-weight: 500">
+          View Task
+        </span>
+      </a>
+    }
+  </div>
+}
+<div class="comment-wrapper" [class.child]="isChild()">
+  <div class="comment-header">
+    <div class="author">
+      <lj-avatar
+        size="tiny"
+        [name]="author()"
+        [avatarUrl]="avatar() ?? null"
+        [tooltip]="author()" />
+      <p>{{ wasCreatedByActiveUser() ? 'You' : author() }}</p>
+    </div>
+
+    <div class="date">
+      <mat-icon>calendar_month</mat-icon>
+      <p>{{ (getCommentDate() | dateAgo) ?? messageDate() }}</p>
+    </div>
+  </div>
+
+  <div class="comment-text">
+    <lj-comment-quill-editor
+      #editorComponent
+      [initialText]="userComment().message"
+      [disabled]="!wasCreatedByActiveUser() || wasDeleted()"
+      [deleted]="wasDeleted()"
+      [isOwner]="wasCreatedByActiveUser()"
+      [(isDirty)]="isDirty"
+      [(messageText)]="messageText"
+      [(participants)]="participants"
+      [isCustomer]="isCustomer()"
+      [activeUser]="activeUser()"
+      [users]="users()"
+      [enableEmployeeSearch]="enableEmployeeSearch()"
+      (sendMessage)="handleIsDirtyChange()" />
+
+    @if (isDirty()) {
+      <mat-card-actions>
+        <button
+          lj-button="inverse-cta"
+          (activate)="clearInput()"
+          class="comment-button clear">
+          <mat-icon>clear</mat-icon>
+          Cancel
+        </button>
+        <button
+          lj-button
+          (activate)="saveComment()"
+          class="comment-button submit">
+          <mat-icon>add</mat-icon>
+          <span>Submit</span>
+        </button>
+        @if (!wasDeleted() && wasCreatedByActiveUser()) {
+          <button
+            lj-button
+            (activate)="deleteComment()"
+            class="comment-button delete">
+            <mat-icon>delete</mat-icon>
+            <span>Delete</span>
+          </button>
+        }
+      </mat-card-actions>
+    }
+  </div>
+</div>

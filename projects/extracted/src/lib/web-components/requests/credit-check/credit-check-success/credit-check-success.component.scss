@@ -1,0 +1,310 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-spacious);
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+
+  .success-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--gap-comfortable);
+    margin-bottom: var(--gap-comfortable);
+
+    .check-icon {
+      color: var(--status-success-500);
+      width: 64px;
+      height: 64px;
+      font-size: 64px;
+    }
+
+    .title {
+      color: var(--accent-black-700);
+      font-weight: 600;
+      text-align: center;
+      margin: 0;
+    }
+  }
+
+  .credit-score-card {
+    width: 100%;
+    background: white;
+    border-radius: var(--radius-strong, 12px);
+    padding: var(--padding-spacious);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid var(--accent-black-200);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--gap-spacious);
+
+    .card-label {
+      color: var(--accent-black-600);
+      font-weight: 500;
+      margin: 0;
+      text-align: center;
+    }
+
+    .score-display {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .score-circle {
+        width: 100%;
+        height: 100%;
+        transform: scale(1);
+        filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+
+        circle {
+          transition:
+            stroke-dashoffset 1s ease-in-out,
+            stroke 0.3s ease;
+        }
+      }
+
+      .score-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+
+        .score-number {
+          font-size: 48px;
+          font-weight: 700;
+          color: var(--accent-black-800);
+          line-height: 1;
+          margin-bottom: 4px;
+        }
+
+        .score-range {
+          font-size: 12px;
+          color: var(--accent-black-500);
+          font-weight: 500;
+        }
+      }
+    }
+
+    .score-rating {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--gap-compact);
+      padding: var(--padding-comfortable);
+      border-radius: var(--radius-primary);
+      width: 100%;
+      max-width: 400px;
+
+      .rating-badge {
+        font-size: 24px;
+        font-weight: 700;
+        padding: var(--padding-compact) var(--padding-comfortable);
+        border-radius: var(--radius-primary);
+        text-align: center;
+      }
+
+      .rating-description {
+        text-align: center;
+        margin: 0;
+        color: var(--accent-black-600);
+      }
+
+      &.rating-excellent {
+        background: rgba(16, 185, 129, 0.1);
+
+        .rating-badge {
+          color: #059669;
+          background: rgba(16, 185, 129, 0.2);
+        }
+      }
+
+      &.rating-very-good {
+        background: rgba(59, 130, 246, 0.1);
+
+        .rating-badge {
+          color: #2563eb;
+          background: rgba(59, 130, 246, 0.2);
+        }
+      }
+
+      &.rating-good {
+        background: rgba(139, 92, 246, 0.1);
+
+        .rating-badge {
+          color: #7c3aed;
+          background: rgba(139, 92, 246, 0.2);
+        }
+      }
+
+      &.rating-fair {
+        background: rgba(245, 158, 11, 0.1);
+
+        .rating-badge {
+          color: #d97706;
+          background: rgba(245, 158, 11, 0.2);
+        }
+      }
+
+      &.rating-poor {
+        background: rgba(239, 68, 68, 0.1);
+
+        .rating-badge {
+          color: #dc2626;
+          background: rgba(239, 68, 68, 0.2);
+        }
+      }
+    }
+
+    .score-breakdown {
+      width: 100%;
+      margin-top: var(--gap-comfortable);
+
+      .breakdown-bar {
+        display: flex;
+        height: 60px;
+        border-radius: var(--radius-primary);
+        overflow: hidden;
+        border: 1px solid var(--accent-black-200);
+
+        .bar-section {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          gap: 2px;
+          padding: var(--padding-compact);
+          transition: all 0.3s ease;
+          opacity: 0.4;
+          cursor: pointer;
+
+          .bar-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+          }
+
+          .bar-range {
+            font-size: 9px;
+            font-weight: 500;
+          }
+
+          &.poor {
+            background: rgba(239, 68, 68, 0.15);
+            color: #dc2626;
+          }
+
+          &.fair {
+            background: rgba(245, 158, 11, 0.15);
+            color: #d97706;
+          }
+
+          &.good {
+            background: rgba(139, 92, 246, 0.15);
+            color: #7c3aed;
+          }
+
+          &.very-good {
+            background: rgba(59, 130, 246, 0.15);
+            color: #2563eb;
+          }
+
+          &.excellent {
+            background: rgba(16, 185, 129, 0.15);
+            color: #059669;
+          }
+
+          &.active {
+            opacity: 1;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1;
+
+            &.poor {
+              background: rgba(239, 68, 68, 0.3);
+            }
+
+            &.fair {
+              background: rgba(245, 158, 11, 0.3);
+            }
+
+            &.good {
+              background: rgba(139, 92, 246, 0.3);
+            }
+
+            &.very-good {
+              background: rgba(59, 130, 246, 0.3);
+            }
+
+            &.excellent {
+              background: rgba(16, 185, 129, 0.3);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .next-button {
+    align-self: center;
+    margin-top: var(--gap-comfortable);
+
+    .continue-icon {
+      margin-left: var(--padding-compact);
+    }
+  }
+
+  &.mobile {
+    .success-header {
+      .title {
+        font-size: var(--font-size-xl) !important;
+        line-height: var(--line-height-md);
+      }
+
+      .check-icon {
+        width: 48px;
+        height: 48px;
+        font-size: 48px;
+      }
+    }
+
+    .credit-score-card {
+      padding: var(--padding-comfortable);
+
+      .score-display {
+        width: 180px;
+        height: 180px;
+
+        .score-content {
+          .score-number {
+            font-size: 42px;
+          }
+        }
+      }
+
+      .score-breakdown {
+        .breakdown-bar {
+          height: 50px;
+
+          .bar-section {
+            .bar-label {
+              font-size: 9px;
+            }
+
+            .bar-range {
+              font-size: 8px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

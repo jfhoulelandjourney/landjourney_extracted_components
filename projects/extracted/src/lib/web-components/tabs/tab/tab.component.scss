@@ -1,0 +1,35 @@
+:host {
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  padding: var(--padding-default);
+  color: var(--gray-500);
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  white-space: nowrap;
+
+  &:hover {
+    color: var(--gray-600);
+    .selected-indicator {
+      background: var(--gray-200);
+    }
+  }
+
+  .selected-indicator {
+    position: absolute;
+    left: 0px;
+    bottom: -3px;
+    padding: 0px;
+    height: 4px;
+    width: 100%;
+    background: transparent;
+  }
+
+  &.selected {
+    color: var(--color-darker);
+
+    .selected-indicator {
+      background: var(--color-background-button);
+    }
+  }
+}

@@ -1,0 +1,37 @@
+@if (isDemoMode()) {
+  <div class="search-container">
+    <lj-input-field
+      [disabled]="disabled()"
+      id="search-fields"
+      name="search-fields"
+      after="search"
+      [value]="searchTerm()"
+      (valueChange)="onSearchChange($event)"
+      placeholder="Type to filter fields..." />
+  </div>
+}
+
+@for (fieldType of visibleFieldTypes(); track fieldType) {
+  <lj-draggable-annotation
+    [id]="fieldType + '-annotation-item'"
+    [type]="fieldType"
+    [disabled]="isFieldTypeDisabled(fieldType)"
+    [isTemplate]="isTemplate()"
+    [signee]="isTemplate() ? signee() : null"
+    [signer]="isTemplate() ? null : signer()"
+    [width]="getFieldWidth(fieldType)"
+    [height]="getFieldHeight(fieldType)" />
+}
+
+@if (isDemoMode()) {
+  @for (field of filteredFields(); track field) {
+    <lj-draggable-annotation
+      id="custom-annotation-item"
+      type="custom"
+      [name]="field"
+      [disabled]="disabled()"
+      [isTemplate]="isTemplate()"
+      [signee]="isTemplate() ? signee() : null"
+      [signer]="isTemplate() ? null : signer()" />
+  }
+}

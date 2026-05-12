@@ -1,0 +1,70 @@
+@if (field()) {
+  <div
+    class="container"
+    (mouseenter)="showShadow.set(true)"
+    (mouseleave)="showShadow.set(false)">
+    <div class="input" [class.shadow]="showShadow()">
+      <div class="row">
+        <div class="label-container">
+          <mat-icon>info</mat-icon>
+          <label for="note-field">Note</label>
+        </div>
+
+        <lj-field-configuration
+          (remove)="handleRemove()"
+          [options]="{
+            required: false,
+            inputType: false,
+            minMaxLength: false,
+            minMaxValue: false,
+            conditionalLogic: true,
+            validator: false,
+            decimalPrecision: false,
+            prefillable: false,
+            variant: true,
+            visible: false,
+          }"
+          (addConditionalLogic)="showConditionalLogic.set(true)"
+          (handleFieldChange)="handleFieldChange($event)"
+          [field]="field()" />
+      </div>
+
+      <div
+        class="note-preview"
+        [class.variant-warning]="noteVariant() === 'warning'"
+        [class.variant-success]="noteVariant() === 'success'"
+        [class.variant-error]="noteVariant() === 'error'"
+        role="note">
+        <lj-editable-input
+          id="note-field"
+          [value]="noteBody()"
+          label="Note text"
+          [name]="field().name"
+          (onValueChange)="onNoteBodyChange($event)" />
+      </div>
+
+      @if (
+        (field().dependsOn !== undefined && field().dependsOn !== null) ||
+        showConditionalLogic()
+      ) {
+        <lj-conditional-logic
+          [mobile]="containerLayout() !== SectionLayouts.ONE_COLUMN"
+          [dependsOn]="field().dependsOn"
+          [existingFields]="existingFields()"
+          [formDefinition]="formDefinition()"
+          (removeConditionalLogic)="showConditionalLogic.set(false)"
+          (handleConditionalLogicChange)="
+            handleConditionalLogicChange($event)
+          " />
+        @if (showSubmitBlockingHint()) {
+          <p class="body-s submit-blocking-hint">
+            When this note is shown to the borrower, they cannot submit the
+            form until the display condition is no longer met.
+          </p>
+        }
+      }
+    </div>
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

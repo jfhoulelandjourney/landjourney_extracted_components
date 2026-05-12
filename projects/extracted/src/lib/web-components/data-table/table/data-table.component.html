@@ -1,0 +1,189 @@
+@let classes = rowClasses();
+
+<header class="data-table__header">
+  <ng-content select="[title]"></ng-content>
+  @if (title()) {
+    <p class="data-table__title">
+      {{ title() }}
+    </p>
+  }
+  @if (searchable()) {
+    <div class="data-table__actions">
+      <input
+        type="search"
+        placeholder="Search"
+        class="search-input"
+        [ngModel]="search()"
+        (ngModelChange)="search.set($event)" />
+      <ng-content select="[actions]"></ng-content>
+    </div>
+  }
+</header>
+
+<main class="data-table__content">
+  <table>
+    <thead>
+      @for (headerGroup of table.getHeaderGroups(); track headerGroup.id) {
+        <tr>
+          @for (header of headerGroup.headers; track header.id) {
+            @if (
+              !header.isPlaceholder && !isChildCell(header.column.columnDef)
+            ) {
+              <th
+                [style.width]="getColumnWidth(header, header.column.columnDef)"
+                [style]="getHeaderCellStyle(header.column.columnDef)">
+                <ng-container
+                  *flexRender="
+                    header.column.columnDef.header;
+                    props: header.getContext();
+                    let headerName
+                  ">
+                  @if (getToolTip(header.column.columnDef)) {
+                    <span [matTooltip]="getToolTip(header.column.columnDef)">
+                      {{ headerName }}
+                    </span>
+                  } @else {
+                    <span>
+                      {{ headerName }}
+                    </span>
+                  }
+                </ng-container>
+              </th>
+            }
+          }
+        </tr>
+      }
+    </thead>
+    <tbody>
+      @if (tableLoading()) {
+        @for (i of fakeRows(); track i) {
+          <tr>
+            @for (column of columns(); track column.id) {
+              <td [style]="getBodyCellStyle(column)" class="skeleton-cell">
+                <ngx-skeleton-loader
+                  appearance="line"
+                  [theme]="{ height: '40px', marginBottom: '0px' }" />
+              </td>
+            }
+          </tr>
+        }
+      } @else {
+        @for (row of table.getRowModel().rows; track row.id) {
+          <tr
+            [ngClass]=""
+            class="{{ classes[getDataId(row)] ?? '' }}"
+            [attr.tabindex]="rowClickable() ? 0 : null"
+            (activate)="handleRowClick(row.original)"
+            [keys]="['Enter']">
+            @for (cell of row.getVisibleCells(); track cell.id) {
+              {{ getToolTip(cell) }}
+              @if (!isChildCell(cell.column.columnDef)) {
+                <td
+                  [attr.data-testid]="cell.id"
+                  [style]="getBodyCellStyle(cell.column.columnDef)">
+                  <ng-container
+                    *flexRender="
+                      cell.column.columnDef.cell;
+                      props: cell.getContext();
+                      let cell
+                    ">
+                    <div [innerHTML]="cell"></div>
+                  </ng-container>
+                </td>
+              }
+            }
+          </tr>
+
+          @if (hasChildren(row.original) && rowIsExpanded(row.original)) {
+            <tr class="{{ classes[getDataId(row)] ?? '' }}">
+              @for (cell of row.getVisibleCells(); track cell.id) {
+                @if (isChildCell(cell.column.columnDef)) {
+                  <td
+                    colspan="100%"
+                    [attr.data-testid]="cell.id"
+                    [style]="getBodyCellStyle(cell.column.columnDef)">
+                    <ng-container
+                      *flexRender="
+                        cell.column.columnDef.cell;
+                        props: cell.getContext();
+                        let cell
+                      ">
+                      <div [innerHTML]="cell"></div>
+                    </ng-container>
+                  </td>
+                }
+              }
+            </tr>
+          }
+        } @empty {
+          @if (emptyMessage()) {
+            @if (loaded()) {
+              <tr>
+                <td colspan="100%" class="empty-message">
+                  {{ emptyMessage() }}
+                </td>
+              </tr>
+            } @else {
+              @for (i of [1, 2, 3, 4, 5]; track i) {
+                <tr>
+                  @for (column of columns(); track column.id) {
+                    <td
+                      [style]="getBodyCellStyle(column)"
+                      class="skeleton-cell">
+                      <ngx-skeleton-loader
+                        appearance="line"
+                        [theme]="{ height: '40px', marginBottom: '0px' }" />
+                    </td>
+                  }
+                </tr>
+              }
+            }
+          }
+        }
+      }
+    </tbody>
+
+    @if (hasFooter()) {
+      <tfoot>
+        @for (footerGroup of table.getFooterGroups(); track footerGroup.id) {
+          <tr>
+            @for (footer of footerGroup.headers; track footer.id) {
+              <th>
+                <ng-container
+                  *flexRender="
+                    footer.column.columnDef.footer;
+                    props: footer.getContext();
+                    let footer
+                  ">
+                  {{ footer }}
+                </ng-container>
+              </th>
+            }
+          </tr>
+        }
+      </tfoot>
+    }
+  </table>
+  <ng-content select="[content]"></ng-content>
+</main>
+
+<footer class="data-table__footer">
+  @if (pagination()) {
+    @if (control() === 'server') {
+      <lj-pagination
+        [currentPage]="currentPage() ?? 0"
+        [pageSize]="pageSize() ?? 10"
+        [totalCount]="totalCount() ?? 10"
+        (changePage)="handleChangePage($event)" />
+    }
+
+    @if (control() === 'local') {
+      <lj-pagination
+        [currentPage]="table.getState().pagination.pageIndex"
+        [pageSize]="table.getState().pagination.pageSize"
+        [totalCount]="table.getFilteredRowModel().rows.length"
+        (changePage)="handleChangePage($event)" />
+    }
+  }
+  <ng-content select="[footer]"></ng-content>
+</footer>

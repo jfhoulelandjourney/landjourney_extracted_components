@@ -1,0 +1,168 @@
+@use '@angular/cdk';
+@include cdk.text-field-autosize;
+
+/* TODO: Add icons and hint styles */
+
+:host {
+  --mat-form-field-container-text-font: var(
+    --input-field--text--font-family,
+    var(--font-family-primary)
+  );
+  --mat-form-field-container-text-line-height: var(
+    --input-field--text--line-height,
+    var(--line-height-xs)
+  );
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+  gap: var(--padding-compact);
+  font-family: var(--input-field--font-family, inherit);
+
+  .slot-wrapper {
+    &.textarea {
+      width: 100%;
+    }
+
+    textarea {
+      width: 100%;
+    }
+  }
+}
+
+/* TODO: Review */
+.field-label {
+  color: var(--text-icons-base-main, #252525);
+  font-family: Inter;
+  font-size: var(--font-size-xs);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+:host([required]) .field-label::after {
+  content: '*';
+  color: var(--error-color);
+  opacity: 0.5;
+  margin-inline-start: -0.2em;
+}
+
+.default-content:not(:first-child) {
+  display: none;
+}
+
+.field-wrapper textarea {
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100%;
+  /* TODO: Add local variables for overwriting */
+  /* TODO: Use color variable */
+  border: 1px solid var(--input-field--border-color, #eaebf0);
+  /* TODO: Add local variables for overwriting */
+  border-radius: var(--radius-primary);
+  /* TODO: Add local variables for overwriting */
+  color: inherit;
+
+  &.gray {
+    background: var(--gray-100);
+  }
+}
+
+:host([disabled]) .field-wrapper textarea {
+  background-color: var(
+    --input-field--disabled--background-color,
+    var(--gray-300)
+  );
+}
+
+.textarea-wrapper {
+  display: grid;
+  width: 100%;
+
+  textarea.error {
+    border: 1px solid var(--error-color) !important;
+  }
+}
+
+.textarea-wrapper::after {
+  /* Note the weird space! Needed to prevent jumpy behavior */
+  content: attr(data-replicated-value) ' ';
+
+  /* This is how textarea text behaves */
+  white-space: pre-wrap;
+
+  /* Hidden from view, clicks, and screen readers */
+  visibility: hidden;
+}
+
+.textarea-wrapper > textarea {
+  /* You could leave this, but after a user resizes, then it ruins the auto sizing */
+  resize: none;
+
+  /* Firefox shows scrollbar on growth, you can hide like this. */
+  overflow: hidden;
+}
+
+.textarea-wrapper > textarea,
+.textarea-wrapper::after {
+  /* TODO: Add local variables for overwriting */
+  /* TODO: Review size */
+  font-size: var(--font-size-xs);
+  line-height: 1.4;
+  border: none;
+  padding: 0;
+  margin: 0;
+  /* TODO: Add local variables for overwriting */
+  padding: var(--padding-comfortable) var(--spacing-4);
+  resize: none;
+  overflow: hidden;
+
+  /* Place on top of each other */
+  grid-area: 1 / 1 / 2 / 2;
+}
+
+.textarea-wrapper::after {
+  /* This is how textarea text behaves */
+  white-space: pre-wrap;
+
+  /* Hidden from view, clicks, and screen readers */
+  visibility: hidden;
+}
+
+textarea::placeholder {
+  /* TODO: Hoist variable to host */
+  color: var(
+    --input-field--placeholder--color,
+    var(--text--color--placeholder, #68727d)
+  );
+}
+
+:host([aria-invalid]) .field-wrapper {
+  border: 1px solid var(--error-color);
+}
+
+.hint:empty {
+  display: none;
+}
+
+.hint {
+  font-size: var(--font-size-xxs);
+  color: var(--text--color--hint, #68727d);
+  min-height: 24px;
+}
+
+.errors {
+  font-size: var(--font-size-xxs);
+  color: var(--error-color);
+  overflow: hidden;
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    padding-bottom: var(--padding-compact);
+    margin: 0;
+  }
+
+  li {
+    list-style: none;
+  }
+}

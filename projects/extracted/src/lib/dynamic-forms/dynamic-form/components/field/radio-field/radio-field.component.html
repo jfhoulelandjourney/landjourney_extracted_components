@@ -1,0 +1,66 @@
+@if (field()) {
+  @if (mode() === 'locked') {
+    <div class="locked-display">
+      <div [class.locked-error]="getErrorMessage() !== undefined">
+        <div
+          class="body-sm title"
+          [style]="getCustomStyle('.field-title', true)">
+          {{ field().label }}
+        </div>
+        <lj-copy-to-clipboard-button [value]="getSelectedLabel(field())">
+          <div class="body-sm text" [style]="getCustomStyle('.field-text', true)">
+            {{ getSelectedLabel(field()) }}
+          </div>
+        </lj-copy-to-clipboard-button>
+        @if (getErrorMessage()) {
+          <div class="body-sm">
+            {{ getErrorMessage() }}
+          </div>
+        }
+      </div>
+    </div>
+  } @else {
+    <div class="group flex-column">
+      <div
+        class="title"
+        [style]="getCustomStyle('.field-title', true)"
+        [class.required]="field().required">
+        {{ field().label }}
+      </div>
+      <div class="options">
+        <mat-radio-group
+          [ngModel]="field().value"
+          (ngModelChange)="handleValueChange($event)">
+          @for (
+            option of field().parameters.options ?? [];
+            track option.value
+          ) {
+            <label
+              lj-label-field
+              class="option"
+              for="radio"
+              [style]="getCustomStyle('.radio-option-item-label')"
+              [matTooltip]="option.description">
+              <mat-radio-button
+                class="radio"
+                [value]="option.value"
+                [required]="field().required ?? false"
+                [style]="getCustomStyle('.radio-option-item')"
+                (blur)="handleOnBlur()">
+                {{ option.label }}
+              </mat-radio-button>
+            </label>
+          }
+        </mat-radio-group>
+      </div>
+
+      @if (touched() && getErrorMessage()) {
+        <div class="error-message">
+          {{ getErrorMessage() }}
+        </div>
+      }
+    </div>
+  }
+} @else {
+  <div>Field initialization error</div>
+}

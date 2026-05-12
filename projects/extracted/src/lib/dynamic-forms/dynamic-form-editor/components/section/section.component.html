@@ -1,0 +1,103 @@
+<div class="section edit-mode">
+  <h4>
+    <div class="title">
+      <lj-editable-input
+        [value]="section().name"
+        label="section name"
+        [name]="section().name ?? ''"
+        (onValueChange)="handleNameChange($event)" />
+    </div>
+
+    <div class="description">
+      <label class="body-s" for="description">Section description:</label>
+      <lj-editable-input
+        [value]="section().description"
+        label="section description"
+        [name]="section().description ?? ''"
+        (onValueChange)="handleDescriptionChange($event)" />
+    </div>
+
+    <lj-section-configuration
+      [section]="section()"
+      [options]="{
+        sectionLayout: true,
+        sectionDirection: true,
+        conditionalLogic: true,
+      }"
+      (handleSectionChange)="sectionChange.emit($event)"
+      (addConditionalLogic)="showConditionalLogic.set(true)"
+      (remove)="handleRemove()" />
+  </h4>
+
+  @if (
+    (section().dependsOn !== undefined && section().dependsOn !== null) ||
+    showConditionalLogic()
+  ) {
+    <lj-conditional-logic
+      [dependsOn]="section().dependsOn"
+      [existingFields]="getExistingFields()"
+      [formDefinition]="formDefinition()"
+      (removeConditionalLogic)="showConditionalLogic.set(false)"
+      (handleConditionalLogicChange)="handleConditionalLogicChange($event)"
+      [isSection]="true" />
+  }
+
+  <mat-accordion>
+    <mat-expansion-panel
+      [expanded]="panelOpenState()"
+      (opened)="panelOpenState.set(true)"
+      (closed)="panelOpenState.set(false)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{ panelOpenState() ? 'Hide' : 'Show' }} Fields
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div
+        class="section-content {{ section().layout }} edit-mode"
+        cdkDropListGroup>
+        @for (column of getColumns(); track column) {
+          <div
+            class="section-fields"
+            [attr.data-testid]="'df-section-column-drop-' + column"
+            cdkDropList
+            [cdkDropListConnectedTo]="dropListConnections()"
+            [id]="'section-' + section().id + '-column-' + column"
+            [cdkDropListData]="{ fields: getFieldsForColumn(column), column }"
+            (cdkDropListDropped)="drop($event)">
+            @for (element of getFieldsForColumn(column); track element.id) {
+              @if (isSection(element)) {
+                <div class="drag-box" cdkDrag>
+                  <div
+                    class="drag-placeholder-section"
+                    *cdkDragPlaceholder></div>
+                  <lj-df-section
+                    [formDefinition]="formDefinition()"
+                    [section]="getSection(element)"
+                    [connectedDropListIds]="dropListConnections()"
+                    (remove)="handleItemRemove($event)"
+                    (sectionChange)="handleChange($event)"
+                    (structureChange)="structureChange.emit()"></lj-df-section>
+                </div>
+              } @else {
+                <div class="drag-box" cdkDrag>
+                  <div class="drag-placeholder-field" *cdkDragPlaceholder></div>
+                  <lj-df-field
+                    [formDefinition]="formDefinition()"
+                    [containerLayout]="section().layout"
+                    [field]="getField(element)"
+                    (remove)="handleItemRemove($event)"
+                    (fieldChange)="handleChange($event)"></lj-df-field>
+                </div>
+              }
+            } @empty {
+              <div class="body-s">
+                Drag and drop fields or sections from the sidebar to start
+                building this section.
+              </div>
+            }
+          </div>
+        }
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

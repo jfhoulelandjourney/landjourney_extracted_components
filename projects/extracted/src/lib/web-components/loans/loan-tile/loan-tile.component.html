@@ -1,0 +1,100 @@
+@if (loan().inHouse || organizationService.isDemoModeActivated()) {
+  <lj-box-row
+    class="content-wrapper"
+    [padding]="3"
+    [routerLink]="getRouterLink(loan())"
+    [class.nsf]="active() && isNsfStateEnabled() && loan().isNSF"
+    [class.mobile]="isMobile()">
+    <div class="content">
+      @if (active() && showPastDueTag(loan())) {
+        <div class="body-sm past-due-tag">Payment is Past Due</div>
+      }
+
+      <div class="body-sm title">
+        {{ getFormattedLoanTitle(loan()) }}
+
+        @if (showCollaboratorTag(loan())) {
+          <div
+            class="collaborator-tag"
+            lj-confirmation-required
+            message="Are you sure you want to opt-out as a collaborator on this loan?"
+            (confirm)="optOutAsCollaborator(loan())">
+            <div>Collaborator</div>
+            <button mat-icon-button class="small-icon-button">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        }
+      </div>
+      @if (active()) {
+        <div class="body-l oswald amount">
+          {{ formatAmount(loan().principalBalanceCents) }}
+        </div>
+
+        @if (isNsfStateEnabled() && loan().isNSF) {
+          <div class="body-s border-top">
+            Payment has been returned due to Non-Sufficient Funds.
+          </div>
+        } @else {
+          <div class="body-s border-top">
+            Payment Due:
+            <b>{{ formatDate(loan().nextPaymentDueDate) }}</b>
+          </div>
+        }
+      }
+    </div>
+    @if (active() && isNsfStateEnabled() && loan().isNSF) {
+      <div class="cta">
+        <p class="body-s">
+          <mat-icon>warning</mat-icon>
+          <span>Action</span>
+          <span>Needed</span>
+        </p>
+        <mat-icon>chevron_right</mat-icon>
+      </div>
+    } @else {
+      <div class="cta">
+        <p class="body-s">{{ active() ? 'Take Action' : 'View' }}</p>
+        <mat-icon>chevron_right</mat-icon>
+      </div>
+    }
+  </lj-box-row>
+} @else {
+  <lj-box-row
+    class="content-wrapper"
+    [padding]="3"
+    (activate)="openPortal(loan().id)"
+    [class.nsf]="active() && isNsfStateEnabled() && loan().isNSF">
+    <div class="content">
+      <div class="body-sm title">
+        {{ getFormattedLoanTitle(loan()) }}
+
+        @if (showCollaboratorTag(loan())) {
+          <div
+            class="collaborator-tag"
+            lj-confirmation-required
+            message="Are you sure you want to opt-out as a collaborator on this loan?"
+            (confirm)="optOutAsCollaborator(loan())">
+            <div>Collaborator</div>
+            <button mat-icon-button class="small-icon-button">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        }
+      </div>
+      <div class="body-s">
+        @if (loan().servicerName) {
+          This loan is serviced by {{ loan().servicerName }}.
+        }
+      </div>
+    </div>
+    <div class="cta">
+      @if (loan().portalUrl) {
+        <a id="{{ loan().id }}" href="{{ loan().portalUrl }}" target="_blank">
+          <p class="body-s">Servicer portal</p>
+          <mat-icon>open_in_new</mat-icon>
+        </a>
+      }
+    </div>
+  </lj-box-row>
+}

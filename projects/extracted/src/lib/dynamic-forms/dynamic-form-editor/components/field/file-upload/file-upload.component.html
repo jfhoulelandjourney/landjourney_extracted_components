@@ -1,0 +1,75 @@
+@if (field()) {
+  <div
+    class="container"
+    (mouseenter)="showShadow.set(true)"
+    (mouseleave)="showShadow.set(false)">
+    <div class="input" [class.shadow]="showShadow()">
+      <div class="row">
+        <mat-icon>upload_file</mat-icon>
+        <lj-editable-input
+          [value]="field().label"
+          label="label"
+          [name]="field().name"
+          (onValueChange)="handleLabelChange($event)" />
+
+        <lj-quick-required-configuration
+          (handleFieldChange)="handleFieldChange($event)"
+          [field]="field()" />
+
+        <lj-field-configuration
+          (remove)="handleRemove()"
+          [options]="{
+            required: true,
+            inputType: false,
+            minMaxLength: false,
+            minMaxValue: false,
+            conditionalLogic: true,
+            validator: false,
+            decimalPrecision: false,
+            prefillable: true,
+            visible: false,
+          }"
+          (addConditionalLogic)="showConditionalLogic.set(true)"
+          (handleFieldChange)="handleFieldChange($event)"
+          [field]="field()" />
+      </div>
+
+      <lj-input-field
+        placeholder="Description of the file upload"
+        id="file-description-{{ field().id }}"
+        name="file-description-{{ field().id }}"
+        type="text"
+        [style]="'gray'"
+        [showError]="false"
+        [ngModel]="field().value?.description ?? ''"
+        (ngModelChange)="handleInternalValueChange({ description: $event })" />
+
+      <mat-checkbox
+        class="body-s"
+        [ngModel]="field().value?.allowMultipleUploads"
+        (ngModelChange)="
+          handleInternalValueChange({ allowMultipleUploads: $event })
+        "
+        labelPosition="before">
+        Allow user to upload multiple files?
+      </mat-checkbox>
+
+      @if (
+        (field().dependsOn !== undefined && field().dependsOn !== null) ||
+        showConditionalLogic()
+      ) {
+        <lj-conditional-logic
+          [mobile]="containerLayout() !== SectionLayouts.ONE_COLUMN"
+          [dependsOn]="field().dependsOn"
+          [existingFields]="existingFields()"
+          [formDefinition]="formDefinition()"
+          (removeConditionalLogic)="showConditionalLogic.set(false)"
+          (handleConditionalLogicChange)="
+            handleConditionalLogicChange($event)
+          " />
+      }
+    </div>
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

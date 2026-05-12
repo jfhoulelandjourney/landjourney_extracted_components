@@ -1,0 +1,73 @@
+@if (activeMaintenance()) {
+  <img [src]="getLogo()" class="logo" alt="Landjourney logo" />
+  <div class="active-maintenance overlay-all">
+    <div class="animation">
+      <lj-lottie-wrapper
+        jsonPath="/assets/animations/{{
+          getAnimation()
+        }}.json"></lj-lottie-wrapper>
+    </div>
+    <div class="message">
+      <h2 class="border padding">We are so sorry</h2>
+      <h1 class="border padding">Some maintenance is underway</h1>
+      <h3 class="reason">{{ activeMaintenance()?.message }}</h3>
+      <h3>
+        Completion is expected by
+        {{ getFormattedDateTime(activeMaintenance()?.endTime ?? 0) }}
+      </h3>
+    </div>
+  </div>
+}
+
+@if (activeIncident() && !activeMaintenance() && showBanner(activeIncident())) {
+  <div
+    class="active-incident overlay-all"
+    [class.mobile]="deviceDetector.isMobile()"
+    [class.web]="!deviceDetector.isMobile()">
+    <mat-icon>{{ activeIncident()?.icon }}</mat-icon>
+    <div class="message">
+      {{ activeIncident()?.message }}
+    </div>
+    <button
+      mat-icon-button
+      (activate)="dismiss(activeIncident())"
+      (click)="dismiss(activeIncident())">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+}
+
+@if (plannedMaintenances() && !activeMaintenance() && !activeIncident()) {
+  <div
+    class="planned-maintenance-container overlay-all"
+    [class.mobile]="deviceDetector.isMobile()"
+    [class.web]="!deviceDetector.isMobile()">
+    @for (maintenance of plannedMaintenances(); track $index) {
+      @if (showBanner(maintenance)) {
+        <div
+          class="maintenance"
+          [class.mobile]="deviceDetector.isMobile() || true"
+          [class.web]="!deviceDetector.isMobile()">
+          <div class="animation">
+            <lj-lottie-wrapper
+              jsonPath="/assets/animations/{{
+                getAnimation()
+              }}.json"></lj-lottie-wrapper>
+          </div>
+          <div class="message">
+            {{ maintenance.plannedMessage }}
+          </div>
+          <div class="time">
+            Scheduled for {{ getFormattedDateTime(maintenance.startTime) }}
+          </div>
+          <button
+            mat-icon-button
+            (activate)="dismiss(maintenance)"
+            (click)="dismiss(maintenance)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      }
+    }
+  </div>
+}

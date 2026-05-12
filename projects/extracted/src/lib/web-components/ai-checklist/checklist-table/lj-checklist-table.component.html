@@ -1,0 +1,136 @@
+<div class="checklist-table-wrapper">
+  <div class="table-row">
+    @if (showHumanVerification()) {
+      <div class="col col-1 gray-background">
+        <div class="cell-center">
+          <mat-icon class="light-icon">check</mat-icon>
+        </div>
+      </div>
+      <div class="col col-2 gray-background">
+        <div class="cell-center">
+          <mat-icon class="light-icon">close</mat-icon>
+        </div>
+      </div>
+    }
+    <div class="col col-3 gray-background">
+      <div class="col4-content">
+        <span class="col4-text">To verify</span>
+      </div>
+    </div>
+  </div>
+  @for (step of checklistItems(); track step.stepNumber) {
+    <div class="table-row">
+      @if (showHumanVerification()) {
+        <div
+          class="col col-1"
+          [class.step-passed]="
+            isHumanPassed(step) ||
+            (!isHumanVerified(step) && step.verified && step.passed)
+          "
+          [class.step-failed]="
+            isHumanFailed(step) ||
+            (!isHumanVerified(step) && step.verified && !step.passed)
+          ">
+          <div class="cell-center">
+            <div
+              class=""
+              role="button"
+              tabindex="0"
+              [attr.aria-label]="'Mark step ' + step.stepNumber + ' as passed'"
+              (activate)="togglePass(step)"
+              (keydown.enter)="togglePass(step)"
+              (keydown.space)="togglePass(step)">
+              <mat-icon>
+                {{
+                  isHumanPassed(step) ? 'check_box' : 'check_box_outline_blank'
+                }}
+              </mat-icon>
+            </div>
+          </div>
+        </div>
+        <div
+          class="col col-2"
+          [class.step-passed]="
+            isHumanPassed(step) ||
+            (!isHumanVerified(step) && step.verified && step.passed)
+          "
+          [class.step-failed]="
+            isHumanFailed(step) ||
+            (!isHumanVerified(step) && step.verified && !step.passed)
+          ">
+          <div class="cell-center">
+            <div
+              class=""
+              role="button"
+              tabindex="0"
+              [attr.aria-label]="'Reject step ' + step.stepNumber"
+              (activate)="toggleFail(step)"
+              (keydown.enter)="toggleFail(step)"
+              (keydown.space)="toggleFail(step)">
+              <mat-icon>
+                {{
+                  isHumanFailed(step)
+                    ? 'disabled_by_default'
+                    : 'check_box_outline_blank'
+                }}
+              </mat-icon>
+            </div>
+          </div>
+        </div>
+      }
+      <div
+        class="col col-3"
+        [class.step-passed]="
+          isHumanPassed(step) ||
+          (!isHumanVerified(step) && step.verified && step.passed)
+        "
+        [class.step-failed]="
+          isHumanFailed(step) ||
+          (!isHumanVerified(step) && step.verified && !step.passed)
+        ">
+        <div class="col4-content">
+          <span class="col4-text">{{ step.description }}</span>
+          <span class="col4-icon">
+            <span
+              class="chat-bubble-trigger"
+              role="button"
+              tabindex="0"
+              [attr.aria-label]="'Show AI reason for step ' + step.stepNumber"
+              (click)="openAccordion(step.stepNumber)"
+              (keydown.enter)="openAccordion(step.stepNumber)"
+              (keydown.space)="openAccordion(step.stepNumber)">
+              <mat-icon class="chat-bubble-icon">chat_bubble</mat-icon>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+    @if (isAccordionOpen(step.stepNumber)) {
+      <div class="ai-accordion-bg">
+        <div class="ai-accordion">
+          <div class="ai-accordion-header">
+            <div class="ai-accordion-title">Comments</div>
+            <button
+              class="ai-accordion-close"
+              (click)="closeAccordion()"
+              aria-label="Close AI reason">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+          <div class="ai-accordion-box">
+            <div class="ai-accordion-box-title">
+              <mat-icon class="mirrored">auto_awesome</mat-icon>
+              AI Assessment
+            </div>
+            <div class="ai-accordion-reason">
+              {{
+                getChecklistOutputItem(step.stepNumber)?.reason ||
+                  'No AI reason provided.'
+              }}
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  }
+</div>

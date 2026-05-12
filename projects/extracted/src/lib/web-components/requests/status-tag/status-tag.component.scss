@@ -1,0 +1,74 @@
+.status-tag {
+  border-radius: var(--radius-primary);
+  padding: 5px;
+  min-width: 40px;
+
+  text-transform: uppercase;
+  font-size: var(--font-size-xxs);
+
+  &.clickable:hover {
+    box-shadow:
+      rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+      rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  }
+
+  &.editable {
+    &:hover {
+      cursor: pointer;
+      box-shadow:
+        rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+        rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+    }
+  }
+
+  span {
+    margin-top: -2px;
+  }
+
+  &.gray {
+    background-color: #cfcfc450;
+    color: #273b39;
+  }
+
+  &.red {
+    background-color: #ff696150;
+    color: var(--error-color);
+  }
+
+  &.yellow {
+    background-color: #fdfd9650;
+    color: darkorange;
+  }
+
+  &.green {
+    background-color: #77dd7750;
+    color: darkgreen;
+  }
+
+  &.small {
+    border-radius: var(--radius-tight);
+    padding: 3px;
+    min-width: 30px;
+
+    font-size: var(--font-size-xxs);
+  }
+
+  &.large {
+    border-radius: var(--radius-primary);
+    padding: 8px;
+    min-width: 50px;
+
+    font-size: var(--font-size-xs);
+  }
+}
+
+.available-status-list {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .available-status {
+    cursor: pointer;
+  }
+}

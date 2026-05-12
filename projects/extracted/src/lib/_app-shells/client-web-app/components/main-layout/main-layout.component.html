@@ -1,0 +1,31 @@
+<ng-content select="[top-bar]"></ng-content>
+
+<div class="layout-sidebar">
+  <ng-content select="[sidebar]"></ng-content>
+</div>
+
+<div class="layout-page" tabindex="-1" [style]="zoomService.layoutPageStyle()">
+  <div
+    class="layout-page__container"
+    [style]="zoomService.layoutContainerStyle()">
+    <div class="layout-page__section layout-page__banner">
+      <ng-content select="[banner]"></ng-content>
+    </div>
+    <ng-content />
+    <!-- <footer>
+      Disclaimer: The information provided on this website is for informational
+      purposes only and does not constitute financial advice. XYZ Bank is not
+      responsible for any decisions made based on the information provided on
+      this website. All financial products and services are subject to terms,
+      conditions, and eligibility requirements, which may vary by region. XYZ
+      Bank does not guarantee the availability of any product or service, and
+      all offerings are subject to change without notice. Deposits are insured
+      by the Federal Insurance Corporation (FIC) up to applicable limits. XYZ
+      Bank does not share your personal data with third parties without your
+      consent, except as required by law. Please review our Privacy Policy and
+      Terms of Service for more details.
+    </footer> -->
+  </div>
+</div>
+
+<ng-content select="[bottom-nav]"></ng-content>

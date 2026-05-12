@@ -1,0 +1,16 @@
+<div class="container" [class.mobile]="isMobile()">
+  <mat-icon class="check-icon">check</mat-icon>
+  <p class="title-xl inter title">
+    @if (alreadyVerified()) {
+      {{ name() }}'s identity has previously been successfully verified by our
+      system.
+    } @else {
+      {{ name() }}'s identity has been successfully verified.
+    }
+  </p>
+
+  <button class="lj-button next-button" (activate)="next.emit()">
+    Continue
+    <mat-icon class="continue-icon">double_arrow</mat-icon>
+  </button>
+</div>

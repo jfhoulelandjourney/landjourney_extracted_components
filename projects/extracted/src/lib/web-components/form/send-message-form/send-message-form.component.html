@@ -1,0 +1,113 @@
+@if (!isTemplate()) {
+  <div class="sender">
+    Send as:
+    <span>{{ getSender() }}</span>
+  </div>
+}
+<div
+  class="message-parameters"
+  [class.full-width]="!(showDueDate() && !isTemplate())">
+  <div class="field">
+    <span class="field-name">Subject</span>
+    <input
+      #subjectElement
+      lj-input
+      [ngModel]="subject()"
+      (ngModelChange)="handleSubjectChange($event)"
+      (selectionchange)="trackSubjectSelection($event)"
+      (keydown)="trackSubjectSelectionKeys($event)"
+      type="text"
+      placeholder="Subject..." />
+  </div>
+  @if (showDueDate()) {
+    <div class="field">
+      <span class="field-name">Due date</span>
+      <input
+        lj-input
+        type="date"
+        [ngModel]="dueDate()"
+        (ngModelChange)="handleDueDateChange($event)" />
+    </div>
+  }
+  @if (false) {
+    <!-- TODO: MAKE ME WORK FOR REAL -->
+    <div class="variables">
+      <span
+        class="variable"
+        (activate)="insertSubjectVariable('userFirstAndLast')">
+        + User First & Last
+      </span>
+      <span class="variable" (activate)="insertSubjectVariable('loanType')">
+        + Loan Type
+      </span>
+    </div>
+  }
+</div>
+
+<div class="message-body">
+  <span class="field-name">
+    <label for="message" class="message-label">
+      Message
+      @if (showHelp()) {
+        <mat-icon lj-custom-tooltip [contentTemplate]="messageExample">
+          help
+        </mat-icon>
+      }
+    </label>
+
+    <div class="actions">
+      @if (showClearButton()) {
+        <button lj-button="ghost" (activate)="clearField()">Clear</button>
+      }
+    </div>
+  </span>
+  @if (isLoading()) {
+    <ngx-skeleton-loader
+      [count]="6"
+      appearance="line"
+      [theme]="{
+        height: '18px',
+        'border-radius': '4px',
+        margin: '6px 0',
+      }"></ngx-skeleton-loader>
+  } @else {
+    <textarea
+      #bodyElement
+      lj-input
+      [ngModel]="body()"
+      (ngModelChange)="handleBodyChange($event)"
+      (selectionchange)="trackBodySelection($event)"
+      (keydown)="trackBodySelectionKeys($event)"
+      placeholder="Message body">
+      body()
+    </textarea>
+  }
+  @if (false) {
+    <!-- TODO: MAKE ME WORK FOR REAL -->
+    <div class="variables">
+      <span
+        class="variable"
+        (activate)="insertBodyVariable('userFirstAndLast')">
+        + User First & Last
+      </span>
+      <span class="variable" (activate)="insertBodyVariable('requestTasks')">
+        + Tasks (Request)
+      </span>
+      <span class="variable" (activate)="insertBodyVariable('userTasks')">
+        + Tasks (User)
+      </span>
+      <span class="variable" (activate)="insertBodyVariable('loanType')">
+        + Loan Type
+      </span>
+      <span class="variable" (activate)="insertBodyVariable('userList')">
+        + List of participants
+      </span>
+    </div>
+  }
+</div>
+
+<ng-template #messageExample>
+  <div class="example-message">
+    <img src="/assets/misc/example-message.png" alt="Example message" />
+  </div>
+</ng-template>

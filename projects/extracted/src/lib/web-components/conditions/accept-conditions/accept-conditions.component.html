@@ -1,0 +1,59 @@
+@if (conditions().length > 0) {
+  <div class="conditions-overlay">
+    <div class="conditions-container" [class.mobile]="mobile()">
+      <h1>
+        <span>{{ conditions().at(0)?.title }}</span>
+        <button mat-icon-button (activate)="downloadToPdf()">
+          <mat-icon>download</mat-icon>
+        </button>
+        @if (displayPrintButton()) {
+          <button ngxPrint mat-icon-button printSectionId="condition-text">
+            <mat-icon>print</mat-icon>
+          </button>
+        }
+      </h1>
+
+      <div
+        id="condition-text"
+        class="condition-text"
+        [innerHTML]="conditions().at(0)?.text | SafeHtml"></div>
+
+      @if (displayConfirmationCheckBox(conditions().at(0))) {
+        <div class="confirmation-checkbox-container">
+          <mat-checkbox
+            [(ngModel)]="confirmationCheck"
+            class="checkbox"
+            labelPosition="before"
+            data-testid="terms-and-condition-confirmation-checkbox">
+            {{ conditions().at(0)?.disclaimerText }}
+          </mat-checkbox>
+        </div>
+      }
+
+      <div class="actions">
+        @if (mode() === 'accept') {
+          <button lj-button="ghost" (activate)="logout()">Logout</button>
+
+          <button
+            lj-button
+            (activate)="acceptCurrentCondition()"
+            [disabled]="
+              displayConfirmationCheckBox(conditions().at(0)) &&
+              !confirmationCheck()
+            "
+            data-testid="terms-and-condition-accept-button">
+            @if (conditions().length > 1) {
+              Submit and View Next
+            }
+
+            @if (conditions().length === 1) {
+              Submit and Get Started
+            }
+          </button>
+        } @else {
+          <button lj-button="inverse-cta" (activate)="close()">Close</button>
+        }
+      </div>
+    </div>
+  </div>
+}

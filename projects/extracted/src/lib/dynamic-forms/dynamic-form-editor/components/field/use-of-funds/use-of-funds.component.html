@@ -1,0 +1,205 @@
+@if (field()) {
+  <div
+    class="container"
+    (mouseenter)="showShadow.set(true)"
+    (mouseleave)="showShadow.set(false)">
+    <div class="input" [class.shadow]="showShadow()">
+      <div class="row">
+        <mat-icon>credit_card</mat-icon>
+        <lj-editable-input
+          [value]="
+            field().label === 'New field' ? 'Use of Funds' : field().label
+          "
+          label="label"
+          [name]="field().name"
+          (onValueChange)="handleLabelChange($event)" />
+        <lj-field-configuration
+          (remove)="handleRemove()"
+          [options]="{
+            required: false,
+            inputType: false,
+            minMaxLength: false,
+            minMaxValue: false,
+            conditionalLogic: true,
+            validator: false,
+            decimalPrecision: false,
+            prefillable: true,
+            visible: false,
+          }"
+          (addConditionalLogic)="showConditionalLogic.set(true)"
+          (handleFieldChange)="handleFieldChange($event)"
+          [field]="field()" />
+      </div>
+
+      <div class="use-details">
+        <div class="card-container">
+          <div class="card display">
+            <div class="card-actions use-title">
+              <h4>
+                {{ formatEnumValue(nonEditedUse().typeOfUse) }}
+              </h4>
+
+              <button mat-icon-button>
+                <mat-icon>delete</mat-icon>
+              </button>
+
+              <button mat-icon-button>
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+
+            @if (isRefinance(nonEditedUse())) {
+              <div class="message">
+                <div class="title">Refinance Type</div>
+                <div class="content">
+                  {{
+                    getRefinanceLoanTypeLabel(nonEditedUse().refinanceLoanType)
+                  }}
+                </div>
+              </div>
+              <div class="message">
+                <div class="title">Lender's Name</div>
+                <div class="content">{{ nonEditedUse().lenderName }}</div>
+              </div>
+            } @else {
+              <div class="message">
+                <div class="title">
+                  {{ getUseDetailsLabel() }}
+                </div>
+                <div class="content">{{ nonEditedUse().useDetails }}</div>
+              </div>
+            }
+
+            <div class="message">
+              <div class="title">
+                {{ getAmountLabel(nonEditedUse().typeOfUse) }}
+              </div>
+              <div class="content">
+                {{ formatMoney(nonEditedUse().amount) }}
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="input">
+              <lj-select-field
+                label="Type of Use"
+                id="typeOfUse"
+                name="typeOfUse"
+                [style]="'gray'"
+                [disabled]="true"
+                [showErrors]="false"
+                [options]="useOfLoanTypes"
+                [value]="editedUse().typeOfUse" />
+            </div>
+
+            @if (
+              getTypeOfUseHelpText(
+                editedUse().typeOfUse,
+                editedUse().refinanceLoanType
+              );
+              as typeHelp
+            ) {
+              <p class="type-of-use-help" role="note">{{ typeHelp }}</p>
+            }
+
+            @if (isRefinance(editedUse())) {
+              <div class="input">
+                <lj-select-field
+                  label="Refinance Type"
+                  id="refinanceLoanType"
+                  name="refinanceLoanType"
+                  [style]="'gray'"
+                  [disabled]="true"
+                  [showErrors]="false"
+                  [options]="refinanceLoanTypeOptions"
+                  [value]="editedUse().refinanceLoanType" />
+              </div>
+
+              <div class="input">
+                <lj-input-field
+                  placeholder="Lender's Name"
+                  id="lenderName"
+                  name="lenderName"
+                  type="text"
+                  label="Lender's name"
+                  [style]="'gray'"
+                  [disabled]="true"
+                  [showError]="false"
+                  [ngModel]="editedUse().lenderName" />
+              </div>
+
+              <div class="input">
+                <lj-input-field
+                  placeholder="Amount"
+                  id="amount"
+                  name="amount"
+                  type="text"
+                  [label]="getAmountLabel(editedUse().typeOfUse)"
+                  [disabled]="true"
+                  [style]="'gray'"
+                  [showError]="false"
+                  [ngModel]="formatMoney(editedUse().amount)" />
+              </div>
+            } @else {
+              <div class="input">
+                <lj-input-field
+                  [placeholder]="getUseDetailsLabel()"
+                  id="useDetails"
+                  name="useDetails"
+                  type="text"
+                  [label]="getUseDetailsLabel()"
+                  [style]="'gray'"
+                  [disabled]="true"
+                  [showError]="false"
+                  [ngModel]="editedUse().useDetails" />
+              </div>
+
+              <div class="input">
+                <lj-input-field
+                  placeholder="Amount"
+                  id="amount"
+                  name="amount"
+                  type="text"
+                  [label]="getAmountLabel(editedUse().typeOfUse)"
+                  [disabled]="true"
+                  [style]="'gray'"
+                  [showError]="false"
+                  [ngModel]="formatMoney(editedUse().amount)" />
+              </div>
+            }
+
+            <div class="card-actions">
+              <button lj-button="ghost">Cancel</button>
+
+              <button lj-button="inverse-cta">Done</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button lj-button="inverse-cta">
+            Add a Use of Funds
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      @if (
+        (field().dependsOn !== undefined && field().dependsOn !== null) ||
+        showConditionalLogic()
+      ) {
+        <lj-conditional-logic
+          [mobile]="containerLayout() !== SectionLayouts.ONE_COLUMN"
+          [dependsOn]="field().dependsOn"
+          [existingFields]="existingFields()"
+          [formDefinition]="formDefinition()"
+          (removeConditionalLogic)="showConditionalLogic.set(false)"
+          (handleConditionalLogicChange)="
+            handleConditionalLogicChange($event)
+          " />
+      }
+    </div>
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

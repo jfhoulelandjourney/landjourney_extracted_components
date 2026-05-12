@@ -1,0 +1,263 @@
+@if (!stripped()) {
+  <!-- label -->
+  <div class="slot-wrapper">
+    <ng-content select="[label]">
+      @if (label()) {
+        <label
+          class="field-label default-content"
+          [for]="id()"
+          [style]="customCssTitleStyle()">
+          {{ label() }}
+          @if (required()) {
+            <span class="required-asterisk">*</span>
+          }
+        </label>
+      }
+    </ng-content>
+  </div>
+}
+
+<!-- field container -->
+<div class="field-wrapper">
+  @if (!stripped()) {
+    <!-- prefix icon -->
+    <div class="slot-wrapper">
+      <ng-content select="[before-input]">
+        @if (before()) {
+          <div class="before default-content">
+            <mat-icon>{{ before() }}</mat-icon>
+          </div>
+        }
+      </ng-content>
+    </div>
+  }
+  <!-- input -->
+
+  <div
+    class="slot-wrapper input-slot"
+    [class.error]="
+      (!stripped() && showError() && touched() && errorsList.length > 0) ||
+      customErrorMessage()
+    ">
+    <ng-content #inputSlot>
+      @if (autocomplete()) {
+        <input
+          #field
+          (input)="onInput($event)"
+          class="default-content"
+          [matAutocomplete]="auto"
+          [id]="id()"
+          [name]="name()"
+          [attr.data-1p-ignore]="data1PasswordIgnore()"
+          [attr.data-lp-ignore]="dataLpIgnore()"
+          [attr.data-lpignore]="dataLpIgnore()"
+          [class.gray]="style() === 'gray'"
+          [style]="customCssStyle()"
+          [disabled]="disabled()"
+          [readonly]="readonly()"
+          [required]="required()"
+          [attr.placeholder]="placeholder()"
+          [type]="type()"
+          [attr.min]="minValue() ?? null"
+          [attr.max]="maxValue() ?? null"
+          [value]="value()"
+          [attr.pattern]="pattern() ?? null"
+          [attr.minlength]="minlength() ?? null"
+          [attr.maxlength]="maxlength() ?? null"
+          [maskito]="mask()"
+          (focus)="handleOnFocus($event)"
+          (blur)="handleOnBlur($event)" />
+      } @else {
+        <input
+          #field
+          (input)="onInput($event)"
+          class="default-content"
+          [id]="id()"
+          [name]="name()"
+          [attr.data-1p-ignore]="data1PasswordIgnore()"
+          [attr.data-lp-ignore]="dataLpIgnore()"
+          [attr.data-lpignore]="dataLpIgnore()"
+          [class.gray]="style() === 'gray'"
+          [style]="customCssStyle()"
+          [disabled]="disabled()"
+          [readonly]="readonly()"
+          [required]="required()"
+          [attr.placeholder]="placeholder()"
+          [type]="type()"
+          [attr.min]="minValue() ?? null"
+          [attr.max]="maxValue() ?? null"
+          [value]="value()"
+          [attr.pattern]="pattern() ?? null"
+          [attr.minlength]="minlength() ?? null"
+          [attr.maxlength]="maxlength() ?? null"
+          [maskito]="mask()"
+          (focus)="handleOnFocus($event)"
+          (blur)="handleOnBlur($event)" />
+      }
+    </ng-content>
+  </div>
+  @if (!stripped()) {
+    <!-- suffix icon -->
+    <div class="slot-wrapper">
+      <ng-content select="[after-input]">
+        @if (after()) {
+          <div class="after default-content">
+            <mat-icon>{{ after() }}</mat-icon>
+          </div>
+        }
+      </ng-content>
+    </div>
+  }
+</div>
+
+@if (!stripped()) {
+  <!-- Hint -->
+  <div class="hint">
+    <ng-content select="[hint]" />
+  </div>
+}
+
+<mat-autocomplete
+  #auto="matAutocomplete"
+  class="autocomplete"
+  [class.autocomplete-loading]="autocompleteOptionsLoading()">
+  @if (autocompleteOptionsLoading()) {
+    <mat-option
+      disabled
+      style="width: 100%"
+      lj-container-dimensions
+      #dimensions="ljContainerDimensions">
+      <div class="option empty">
+        <div class="value">
+          <ngx-skeleton-loader
+            appearance="line"
+            [count]="1"
+            [style]="{
+              display: 'block',
+              width: dimensions.getUnscaledDimensions().width - 24 + 'px',
+              height: '20px',
+            }"></ngx-skeleton-loader>
+        </div>
+      </div>
+    </mat-option>
+    <mat-option disabled style="width: 100%">
+      <div class="option empty">
+        <div class="value">
+          <ngx-skeleton-loader
+            appearance="line"
+            [count]="1"
+            [style]="{
+              display: 'block',
+              width: dimensions.getUnscaledDimensions().width - 24 + 'px',
+              height: '20px',
+            }"></ngx-skeleton-loader>
+        </div>
+      </div>
+    </mat-option>
+    <mat-option disabled style="width: 100%">
+      <div class="option empty">
+        <div class="value">
+          <ngx-skeleton-loader
+            appearance="line"
+            [count]="1"
+            [style]="{
+              display: 'block',
+              width: dimensions.getUnscaledDimensions().width - 24 + 'px',
+              height: '20px',
+            }"></ngx-skeleton-loader>
+        </div>
+      </div>
+    </mat-option>
+  } @else {
+    @for (optionGroup of normalizedOptions(); track optionGroup.group) {
+      @if (optionGroup.group !== this.NO_GROUP_HOLDER) {
+        <mat-optgroup [label]="optionGroup.group">
+          @for (option of optionGroup.options; track option.value) {
+            <mat-option
+              style="width: 100%"
+              [disabled]="option.disabled"
+              (mousedown)="$event.preventDefault()"
+              (onSelectionChange)="handleOptionChange($event, option)">
+              <div class="option">
+                @if (option.avatarUri) {
+                  <div class="avatar">
+                    <lj-avatar
+                      [avatarUrl]="option.avatarUri || ''"
+                      [name]="getAvatarName(option.value)"
+                      size="small"></lj-avatar>
+                  </div>
+                }
+                @if (option.icon) {
+                  <div class="icon">
+                    <mat-icon>{{ option.icon }}</mat-icon>
+                  </div>
+                }
+                <div class="value">
+                  {{ option.value }}
+                </div>
+              </div>
+            </mat-option>
+          }
+        </mat-optgroup>
+      } @else {
+        @for (option of optionGroup.options; track option.value) {
+          <mat-option
+            style="width: 100%"
+            (mousedown)="$event.preventDefault()"
+            (onSelectionChange)="handleOptionChange($event, option)">
+            <div class="option">
+              @if (option.avatarUri) {
+                <div class="avatar">
+                  <lj-avatar
+                    [avatarUrl]="option.avatarUri || ''"
+                    [name]="getAvatarName(option.value)"
+                    size="small"></lj-avatar>
+                </div>
+              }
+              @if (option.icon) {
+                <div class="icon">
+                  <mat-icon>{{ option.icon }}</mat-icon>
+                </div>
+              }
+              <div class="value">
+                {{ option.value }}
+              </div>
+            </div>
+          </mat-option>
+        }
+      }
+    } @empty {
+      @if (value()) {
+        <mat-option disabled>
+          <div class="option empty">
+            <div class="value">
+              <i>No options available</i>
+            </div>
+          </div>
+        </mat-option>
+      }
+    }
+  }
+</mat-autocomplete>
+
+<!-- Errors -->
+@if (!stripped() && showError()) {
+  <div class="errors">
+    @if (customErrorMessage()) {
+      <ul class="default-content">
+        <li>{{ customErrorMessage() }}</li>
+      </ul>
+    } @else if (touched()) {
+      <!-- Consume errors automatically -->
+      <ul class="default-content">
+        @for (error of errorsList; track error[0]) {
+          @let errorKey = error[0];
+          @let errorValue = error[1];
+          <li>{{ getErrorMessage(errorKey, errorValue) }}</li>
+        }
+      </ul>
+    }
+
+    <ng-content select="[errors]"></ng-content>
+  </div>
+}

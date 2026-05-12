@@ -1,0 +1,38 @@
+@if (field()) {
+  <div
+    class="container"
+    (mouseenter)="showShadow.set(true)"
+    (mouseleave)="showShadow.set(false)">
+    <div class="input" [class.shadow]="showShadow()">
+      <div class="row">
+        <lj-field-configuration
+          (remove)="handleRemove()"
+          [options]="{
+            required: false,
+            inputType: false,
+            minMaxLength: false,
+            minMaxValue: false,
+            conditionalLogic: false,
+            validator: false,
+            decimalPrecision: false,
+            prefillable: false,
+            visible: false,
+          }"
+          (handleFieldChange)="handleFieldChange($event)"
+          [field]="field()" />
+      </div>
+      <div class="submit-container">
+        <button lj-button="cta" [compact]="true">
+          <lj-editable-input
+            [value]="getButtonText()"
+            label="name"
+            [rightAlign]="true"
+            [name]="field().name"
+            (onValueChange)="handleLabelChange($event)" />
+        </button>
+      </div>
+    </div>
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

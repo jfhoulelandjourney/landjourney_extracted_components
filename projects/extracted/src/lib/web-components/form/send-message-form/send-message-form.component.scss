@@ -1,0 +1,95 @@
+:host {
+  display: grid;
+  grid-template-rows:
+    auto
+    auto
+    max-content;
+  grid-template-areas:
+    'sender'
+    'message-parameters'
+    'body';
+  padding: var(--padding-spacious);
+  padding-bottom: var(--padding-spacious);
+  gap: var(--padding-spacious);
+
+  .sender,
+  .sender span {
+    color: var(--gray-400);
+  }
+
+  .field-name {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .message-body .variables,
+  .message-parameters .variables {
+    font-size: var(--font-size-xs);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--padding-compact);
+    margin-top: var(--padding-default);
+
+    .variable {
+      background: var(--gray-100);
+
+      border-radius: var(--radius-tight);
+      padding-top: var(--padding-compact);
+      padding-bottom: var(--padding-compact);
+      padding-left: var(--padding-default);
+      padding-right: var(--padding-default);
+
+      transition: background 0.5s;
+
+      &:hover {
+        opacity: 0.8;
+        cursor: pointer;
+      }
+
+      &:active {
+        background: var(--green-470);
+        background-size: 100%;
+        transition: background 0s;
+      }
+    }
+  }
+
+  div {
+    &.message-parameters {
+      display: grid;
+      grid-template-columns:
+        auto
+        minmax(100px, 300px);
+      grid-template-areas: 'subject dueDate';
+      gap: var(--padding-compact);
+
+      &.full-width {
+        display: unset;
+      }
+    }
+
+    &.message-body {
+      .actions {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: var(--padding-compact);
+        margin-bottom: var(--padding-compact);
+      }
+
+      textarea {
+        padding: var(--padding-spacious);
+      }
+    }
+  }
+}
+
+.message-label {
+  display: flex;
+  align-items: center;
+  padding-block-end: var(--padding-comfortable);
+}

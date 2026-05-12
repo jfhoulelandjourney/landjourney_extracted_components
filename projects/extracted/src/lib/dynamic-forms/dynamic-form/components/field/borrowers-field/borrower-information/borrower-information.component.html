@@ -1,0 +1,315 @@
+<div class="borrower" [class.style-gray]="style() === 'gray'">
+  <h5 [style]="getCustomStyle('h5')">
+    <span class="body-sm">
+      @if (position()) {
+        Co-Borrower {{ position() }}
+      } @else {
+        Main Borrower
+      }
+    </span>
+
+    @if (showDelete() && !locked()) {
+      <div class="action">
+        <button mat-icon-button (activate)="remove.emit(borrower())">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    }
+  </h5>
+  <div class="information">
+    @if (locked()) {
+      @if (borrower().isBusiness) {
+        <div class="group">
+          <div class="locked-display">
+            <div
+              [class.locked-error]="
+                getBusinessNameErrorMessage() !== undefined
+              ">
+              <div
+                class="body-sm title"
+                [style]="getCustomStyle('.field-title')">
+                Business Name
+              </div>
+              <div class="body-sm text" [style]="getCustomStyle('.field-text')">
+                {{ borrower().businessName }}
+              </div>
+              @if (getBusinessNameErrorMessage()) {
+                <div class="body-sm">
+                  {{ getBusinessNameErrorMessage() }}
+                </div>
+              }
+            </div>
+          </div>
+
+          <div class="locked-display">
+            <div
+              [class.locked-error]="
+                getBusinessTypeErrorMessage() !== undefined
+              ">
+              <div
+                class="body-sm title"
+                [style]="getCustomStyle('.field-title')">
+                Business Type
+              </div>
+              <div class="body-sm text" [style]="getCustomStyle('.field-text')">
+                {{ borrower().businessType }}
+              </div>
+              @if (getBusinessTypeErrorMessage()) {
+                <div class="body-sm">
+                  {{ getBusinessTypeErrorMessage() }}
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      }
+      <div class="group">
+        <div class="locked-display">
+          <div [class.locked-error]="getFirstNameErrorMessage() !== undefined">
+            <div class="body-sm title" [style]="getCustomStyle('.field-title')">
+              First Name
+            </div>
+            <div class="body-sm text" [style]="getCustomStyle('.field-text')">
+              {{ borrower().firstName }}
+            </div>
+            @if (getFirstNameErrorMessage()) {
+              <div class="body-sm">
+                {{ getFirstNameErrorMessage() }}
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="locked-display">
+          <div [class.locked-error]="getLastNameErrorMessage() !== undefined">
+            <div class="body-sm title" [style]="getCustomStyle('.field-title')">
+              Last Name
+            </div>
+            <div class="body-sm text" [style]="getCustomStyle('.field-text')">
+              {{ borrower().lastName }}
+            </div>
+            @if (getLastNameErrorMessage()) {
+              <div class="body-sm">
+                {{ getLastNameErrorMessage() }}
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="locked-display">
+          <div [class.locked-error]="getEmailErrorMessage() !== undefined">
+            <div class="body-sm title" [style]="getCustomStyle('.field-title')">
+              Email
+            </div>
+            <div class="body-sm text" [style]="getCustomStyle('.field-text')">
+              {{ borrower().email }}
+            </div>
+            @if (getEmailErrorMessage()) {
+              <div class="body-sm">
+                {{ getEmailErrorMessage() }}
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="locked-display">
+          <div [class.locked-error]="getPhoneErrorMessage() !== undefined">
+            <div class="body-sm title" [style]="getCustomStyle('.field-title')">
+              Phone number
+            </div>
+            <div class="body-sm text" [style]="getCustomStyle('.field-text')">
+              {{ borrower().phone }}
+            </div>
+            @if (getPhoneErrorMessage()) {
+              <div class="body-sm">
+                {{ getPhoneErrorMessage() }}
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    } @else {
+      <div>
+        <div class="question body-sm" [style]="getCustomStyle('.small-text')">
+          Is this person applying on behalf of a business?
+        </div>
+        <div class="group">
+          <mat-radio-group [(ngModel)]="borrower().isBusiness">
+            <label
+              lj-label-field
+              class="form-type-option"
+              for="coborrowers"
+              [style]="getCustomStyle('.radio-option-item-label')">
+              <mat-radio-button
+                class="radio"
+                name="isBusiness"
+                [value]="true"
+                required
+                [style]="getCustomStyle('.radio-option-item', 'gray')">
+                Yes
+              </mat-radio-button>
+            </label>
+            <label
+              lj-label-field
+              class="form-type-option"
+              for="coborrowers"
+              [style]="getCustomStyle('.radio-option-item-label')">
+              <mat-radio-button
+                class="radio"
+                name="isBusiness"
+                [value]="false"
+                required
+                [style]="getCustomStyle('.radio-option-item', 'gray')">
+                No
+              </mat-radio-button>
+            </label>
+          </mat-radio-group>
+        </div>
+      </div>
+
+      @if (borrower().isBusiness) {
+        <div class="group">
+          <div class="input">
+            <lj-input-field
+              placeholder="Business name"
+              id="businessName"
+              name="businessName"
+              type="text"
+              label="Business Name"
+              [style]="'gray'"
+              [customCssTitleStyle]="getCustomStyle('.field-title')"
+              [customCssStyle]="getCustomStyle('.input-field')"
+              [required]="true"
+              [ngModel]="borrower().businessName ?? ''"
+              (ngModelChange)="handleBusinessNameChange($event)"
+              (onInputBlur)="handleOnBlurBusinessName()"
+              [customErrorMessage]="
+                businessNameTouched()
+                  ? getBusinessNameErrorMessage()
+                  : undefined
+              " />
+          </div>
+          <div class="input">
+            <lj-input-field
+              placeholder="Business Type"
+              type="text"
+              id="businessType"
+              label="Business Type"
+              [style]="'gray'"
+              [customCssTitleStyle]="getCustomStyle('.field-title')"
+              [customCssStyle]="getCustomStyle('.input-field')"
+              [required]="true"
+              [ngModel]="borrower().businessType"
+              name="businessType"
+              class="borrower-select"
+              [customErrorMessage]="
+                businessTypeTouched()
+                  ? getBusinessTypeErrorMessage()
+                  : undefined
+              ">
+              <mat-select
+                (ngModelChange)="handleBusinessTypeChange($event)"
+                [ngModel]="borrower().businessType"
+                lj-select
+                borderless="true"
+                id="businessType"
+                placeholder="Business Type"
+                name="businessType">
+                @for (type of entityTypes; track type) {
+                  <mat-option
+                    [value]="type.value"
+                    [style]="getCustomStyle('.select-list-item')">
+                    {{ type.label }}
+                  </mat-option>
+                }
+              </mat-select>
+            </lj-input-field>
+          </div>
+        </div>
+      }
+
+      <div class="group">
+        <div class="input">
+          <lj-input-field
+            placeholder="First name"
+            id="firstName"
+            name="firstName"
+            type="text"
+            label="First Name"
+            [style]="'gray'"
+            [customCssTitleStyle]="getCustomStyle('.field-title')"
+            [customCssStyle]="getCustomStyle('.input-field')"
+            [required]="true"
+            [ngModel]="borrower().firstName"
+            (ngModelChange)="handleFirstNameChange($event)"
+            (onInputBlur)="handleOnBlurFirstName()"
+            [customErrorMessage]="
+              firstNameTouched() ? getFirstNameErrorMessage() : undefined
+            " />
+        </div>
+        <div class="input">
+          <lj-input-field
+            placeholder="Last name"
+            id="lastName"
+            name="lastName"
+            type="text"
+            label="Last Name"
+            [style]="'gray'"
+            [customCssTitleStyle]="getCustomStyle('.field-title')"
+            [customCssStyle]="getCustomStyle('.input-field')"
+            [required]="true"
+            [ngModel]="borrower().lastName"
+            (ngModelChange)="handleLastNameChange($event)"
+            (onInputBlur)="handleOnBlurLastName()"
+            [customErrorMessage]="
+              lastNameTouched() ? getLastNameErrorMessage() : undefined
+            " />
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="input">
+          <lj-input-field
+            email
+            placeholder="Email"
+            id="email"
+            name="email"
+            type="email"
+            label="Email"
+            [style]="'gray'"
+            [customCssTitleStyle]="getCustomStyle('.field-title')"
+            [customCssStyle]="getCustomStyle('.input-field')"
+            [required]="!phoneIsRequired()"
+            [ngModel]="borrower().email"
+            (ngModelChange)="handleEmailChange($event)"
+            (onInputBlur)="handleOnBlurEmail()"
+            [customErrorMessage]="
+              emailTouched() ? getEmailErrorMessage() : undefined
+            " />
+        </div>
+        <div class="input">
+          <lj-input-field
+            placeholder="Ex.: +1 (555) 555-5555"
+            pattern="\+1 \([0-9]{3}\) [0-9]{3}-[0-9]{4}"
+            [mask]="phoneNumberMask"
+            id="phone"
+            name="phone"
+            type="text"
+            label="Phone Number"
+            [style]="'gray'"
+            [customCssTitleStyle]="getCustomStyle('.field-title')"
+            [customCssStyle]="getCustomStyle('.input-field')"
+            [required]="!emailIsRequired()"
+            [ngModel]="borrower().phone"
+            (ngModelChange)="handlePhoneChange($event)"
+            (onInputBlur)="handleOnBlurPhone()"
+            [customErrorMessage]="
+              phoneTouched() ? getPhoneErrorMessage() : undefined
+            " />
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,51 @@
+@use '../../../ui-styles/mobile-shared-mixins' as mobile;
+
+:host {
+  display: block;
+  max-width: 100%;
+  box-sizing: border-box;
+
+  @include mobile.on-mobile-shell-viewport-or-session {
+    max-width: 100vw;
+  }
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+textarea {
+  flex-grow: 1;
+
+  width: 100%;
+  min-height: 100px;
+  overflow: auto;
+
+  .title {
+    font-family: Inter;
+    font-size: var(--font-size-xs);
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+  }
+}
+
+mat-dialog-content {
+  @include mobile.on-mobile-shell-viewport-or-session-context {
+    max-height: min(60dvh, 400px);
+    overflow-y: auto;
+    box-sizing: border-box;
+  }
+}
+
+mat-dialog-actions {
+  @include mobile.on-mobile-shell-viewport-or-session-context {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--gap-compact);
+
+    > * {
+      width: 100%;
+    }
+  }
+}

@@ -1,0 +1,48 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--padding-default);
+  margin-bottom: var(--padding-default);
+
+  .borrowers,
+  .error {
+    flex-grow: 1;
+
+    mat-checkbox {
+      font-size: var(--font-size-xs);
+    }
+  }
+}
+
+h3 {
+  color: var(--color-background-button);
+  text-transform: uppercase;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semi-bold);
+}
+
+.add-co-borrower {
+  text-align: center;
+
+  button {
+    width: 100%;
+    margin-top: var(--padding-spacious);
+    margin-bottom: var(--padding-spacious);
+    justify-content: center;
+  }
+}
+
+.co-borrowers {
+  .co-borrowers-list {
+    margin-bottom: var(--padding-spacious);
+  }
+
+  span {
+    font-style: italic;
+  }
+}
+
+.small-text {
+  font-size: var(--font-size-xs);
+}

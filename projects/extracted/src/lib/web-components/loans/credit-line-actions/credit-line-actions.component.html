@@ -1,0 +1,112 @@
+@if (mobile()) {
+  <mat-accordion class="accordion">
+    <mat-expansion-panel
+      id="payment"
+      class="mat-elevation-z0"
+      [class.open]="paymentOpen()"
+      [expanded]="paymentOpen()"
+      (opened)="paymentOpen.set(true)"
+      (closed)="paymentOpen.set(false)">
+      <mat-expansion-panel-header>
+        <div class="body-s">Make a Payment</div>
+      </mat-expansion-panel-header>
+
+      <lj-credit-line-payment
+        [creditLine]="creditLine()"
+        [panelOpen]="false"
+        [mobile]="mobile()" />
+    </mat-expansion-panel>
+
+    <mat-expansion-panel
+      id="draw-funds"
+      class="mat-elevation-z0"
+      [class.open]="drawFundsOpen()"
+      [expanded]="drawFundsOpen()"
+      (opened)="drawFundsOpen.set(true)"
+      (closed)="drawFundsOpen.set(false)">
+      <mat-expansion-panel-header>
+        <div class="body-s">Request a Draw</div>
+      </mat-expansion-panel-header>
+
+      <lj-credit-line-draw-funds
+        [creditLine]="creditLine()"
+        [panelOpen]="false"
+        [mobile]="mobile()" />
+    </mat-expansion-panel>
+
+    <!-- A paydown does't make sense for Line of Credits -->
+    @if (false) {
+      <mat-expansion-panel
+        class="mat-elevation-z0"
+        [class.open]="paydownOpen()"
+        [expanded]="paydownOpen()"
+        (opened)="paydownOpen.set(true)"
+        (closed)="paydownOpen.set(false)">
+        <mat-expansion-panel-header>
+          <div class="body-s">Request a Paydown</div>
+        </mat-expansion-panel-header>
+
+        <lj-credit-line-request-paydown
+          [creditLine]="creditLine()"
+          [panelOpen]="false"
+          [mobile]="mobile()" />
+      </mat-expansion-panel>
+    }
+
+    <mat-expansion-panel
+      class="mat-elevation-z0"
+      [class.open]="payoffOpen()"
+      [expanded]="payoffOpen()"
+      (opened)="payoffOpen.set(true)"
+      (closed)="payoffOpen.set(false)">
+      <mat-expansion-panel-header>
+        <div class="body-s">Request a Payoff</div>
+      </mat-expansion-panel-header>
+
+      <lj-credit-line-request-payoff
+        [creditLine]="creditLine()"
+        [panelOpen]="false"
+        [mobile]="mobile()" />
+    </mat-expansion-panel>
+  </mat-accordion>
+  <p class="body-s data-disclaimer">
+    Please note that all data displayed in the portal reflects updates through
+    the close of business on the previous day.
+  </p>
+  <span id="end-of-page"></span>
+} @else {
+  <div class="container">
+    <lj-tabs [centered]="true">
+      <ng-template tab label="Make a Payment">
+        <lj-credit-line-payment [creditLine]="creditLine()" />
+      </ng-template>
+
+      <ng-template tab label="Request a Draw">
+        <lj-credit-line-draw-funds [creditLine]="creditLine()" />
+      </ng-template>
+
+      <!-- A paydown does't make sense for Line of Credits -->
+      @if (false) {
+        <ng-template tab label="Request a Paydown">
+          <lj-credit-line-request-paydown [creditLine]="creditLine()" />
+          <span id="paydown"></span>
+        </ng-template>
+      }
+
+      <ng-template tab label="Request a Payoff">
+        <lj-credit-line-request-payoff [creditLine]="creditLine()" />
+      </ng-template>
+
+      @if (isDemoMode()) {
+        <ng-template tab label="Update Bank Account">
+          <lj-credit-line-update-bank-account [creditLine]="creditLine()" />
+        </ng-template>
+      }
+    </lj-tabs>
+
+    <p class="body-s data-disclaimer">
+      Please note that all data displayed in the portal reflects updates through
+      the close of business on the previous day.
+    </p>
+  </div>
+}

@@ -1,0 +1,15 @@
+<div class="avatars">
+  @for (entity of entities(); track entity.userId) {
+    <div class="avatar" [style.background]="getAvatarStatusColor(entity)">
+      <lj-avatar
+        size="tiny"
+        name="{{ getProfile(entity).firstName }} {{
+          getProfile(entity).lastName
+        }}"
+        [avatarUrl]="getProfile(entity).avatarUri ?? null"
+        tooltip="{{ getProfile(entity).firstName }} {{
+          getProfile(entity).lastName
+        }}" />
+    </div>
+  }
+</div>

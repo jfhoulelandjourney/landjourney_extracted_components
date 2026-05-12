@@ -1,0 +1,32 @@
+@if (showChecklist()) {
+  <div class="ai-assistant-container" [class.collapsed]="isCollapsed()">
+    <div class="ai-checklist-assistant" (activate)="toggleCollapse()">
+      <div class="ai-assistant-header">
+        <h3>AI Checklist Assistant</h3>
+      </div>
+      @if (isCollapsed()) {
+        <div class="header-actions">
+          <mat-icon>chevron_right</mat-icon>
+        </div>
+      } @else {
+        <div class="header-actions">
+          <mat-icon>expand_less</mat-icon>
+        </div>
+      }
+    </div>
+    <div class="checklist-container" [hidden]="isCollapsed()">
+      <div class="checklist-wrapper">
+        @if (checklist()) {
+          <lj-checklist-table [checklist]="checklist()" />
+        }
+      </div>
+      <div class="loading-container" [class.fade-out]="checklist()">
+        @if (this.isLoading()) {
+          <img src="/assets/animations/ai-loading.gif" alt="AI Agent" />
+        } @else {
+          No checklist available.
+        }
+      </div>
+    </div>
+  </div>
+}

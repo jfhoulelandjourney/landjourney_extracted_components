@@ -1,0 +1,100 @@
+@if (field()) {
+  <div
+    class="container"
+    (mouseenter)="showShadow.set(true)"
+    (mouseleave)="showShadow.set(false)">
+    <div class="input" [class.shadow]="showShadow()">
+      <div class="row">
+        <mat-icon>functions</mat-icon>
+
+        <lj-editable-input
+          [value]="field().label"
+          label="label"
+          [name]="field().name"
+          (onValueChange)="handleLabelChange($event)" />
+
+        <lj-quick-required-configuration
+          (handleFieldChange)="handleFieldChange($event)"
+          [field]="field()" />
+
+        @if (field().parameters.visible !== true) {
+          <mat-icon class="hidden-indicator" matTooltip="Hidden">
+            visibility_off
+          </mat-icon>
+        }
+
+        <lj-field-configuration
+          (remove)="handleRemove()"
+          [options]="{
+            required: true,
+            inputType: false,
+            minMaxLength: false,
+            minMaxValue: false,
+            conditionalLogic: false,
+            validator: false,
+            decimalPrecision: false,
+            prefillable: allowPrefill(),
+            computedOutputType: true,
+            visible: true,
+          }"
+          (addConditionalLogic)="showConditionalLogic.set(true)"
+          (handleFieldChange)="handleFieldChange($event)"
+          [field]="field()" />
+      </div>
+
+      <div class="formula-field">
+        <div class="formula-field-label">Formula</div>
+        @if (isFormulaReadOnly()) {
+          <p class="formula-readonly-hint">
+            Defined in field management. Edit the field there to change the
+            formula.
+          </p>
+          <mat-form-field appearance="outline" class="formula-readonly-field">
+            <input
+              matInput
+              readonly
+              [value]="field().parameters.computedFormula ?? ''" />
+          </mat-form-field>
+        } @else {
+          <lj-formula-input
+            [fields]="formulaContextFields()"
+            [ngModel]="field().parameters.computedFormula ?? ''"
+            (ngModelChange)="handleFormulaChange($event)" />
+        }
+      </div>
+
+      <div class="formula-fields">
+        <div class="formula-fields-title">Fields used in formula</div>
+
+        <ul>
+          @for (ref of getReferencedFields(); track ref.name) {
+            <li [class.ok]="ref.exists" [class.missing]="!ref.exists">
+              <span class="dot"></span>
+              <span class="name">{{ ref.name }}</span>
+              <span class="status">
+                {{ ref.exists ? 'Added to form' : 'Missing from form' }}
+              </span>
+            </li>
+          }
+        </ul>
+      </div>
+
+      @if (
+        (field().dependsOn !== undefined && field().dependsOn !== null) ||
+        showConditionalLogic()
+      ) {
+        <lj-conditional-logic
+          [mobile]="containerLayout() !== SectionLayouts.ONE_COLUMN"
+          [dependsOn]="field().dependsOn"
+          [existingFields]="existingFields()"
+          [formDefinition]="formDefinition()"
+          (removeConditionalLogic)="showConditionalLogic.set(false)"
+          (handleConditionalLogicChange)="
+            handleConditionalLogicChange($event)
+          " />
+      }
+    </div>
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

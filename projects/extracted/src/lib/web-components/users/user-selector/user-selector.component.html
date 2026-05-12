@@ -1,0 +1,25 @@
+<div class="user-selection" (click)="$event.stopPropagation()">
+  <div class="search">
+    <input
+      type="text"
+      id="{{ this.id }}"
+      [(ngModel)]="searchExpression"
+      (keydown)="registerModelChange()" />
+    <mat-icon class="small-icon search-icon">search</mat-icon>
+  </div>
+  <div class="results" [class.scroll]="scrollResults()">
+    @for (user of users(); track user.id) {
+      <div class="user" (click)="userClicked(user)">
+        <div class="avatar">
+          <lj-avatar
+            [avatarUrl]="user.avatarUri || ''"
+            [name]="formatName(user)"
+            size="small"></lj-avatar>
+        </div>
+        <div class="name">
+          {{ formatName(user) }}
+        </div>
+      </div>
+    }
+  </div>
+</div>

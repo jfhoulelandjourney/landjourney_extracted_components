@@ -1,0 +1,202 @@
+<div class="container" [class.mobile]="mobile()">
+  <lj-credit-line-header [creditLine]="creditLine()" [mobile]="mobile()" />
+  <mat-expansion-panel
+    class="mat-elevation-z0"
+    [expanded]="panelOpen()"
+    (opened)="panelOpen.set(true)"
+    (closed)="panelOpen.set(false)">
+    <mat-expansion-panel-header>
+      <div class="body-m">Request a Draw</div>
+    </mat-expansion-panel-header>
+    @if (hasSublines() && currentStep() === 0) {
+      <div class="step">
+        <lj-round-header-chip
+          [number]="1"
+          text="Select a subline"
+          size="small"
+          color="brand"></lj-round-header-chip>
+
+        <div class="content">
+          <div class="form">
+            <lj-select-field
+              id="subline"
+              name="subline"
+              label="Subline"
+              placeholder="Select a subline"
+              [options]="getSublines()"
+              [ngModel]="selectedSublineId()"
+              (ngModelChange)="handleSublineChange($event)" />
+
+            <button
+              lj-button
+              (activate)="currentStep.set(currentStep() + 1)"
+              [disabled]="!isSublineStepValid()">
+              Next
+              <mat-icon>arrow_right_alt</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (
+      (!hasSublines() && currentStep() === 0) ||
+      (hasSublines() && currentStep() === 1)
+    ) {
+      <div class="step">
+        <lj-round-header-chip
+          [number]="hasSublines() ? 2 : 1"
+          text="Enter a draw amount"
+          size="small"
+          color="brand"></lj-round-header-chip>
+
+        <div class="content">
+          <div class="form">
+            @if (hasSublines()) {
+              <button
+                lj-button
+                (activate)="currentStep.set(currentStep() - 1)"
+                variant="ghost">
+                <mat-icon>arrow_left_alt</mat-icon>
+                Back
+              </button>
+            }
+            <lj-money-input-field
+              id="amount"
+              name="amount"
+              [showError]="true"
+              [customErrorMessage]="amountErrorMessage()"
+              [ngModel]="amount()"
+              (ngModelChange)="amount.set($event)" />
+
+            <button
+              lj-button
+              (activate)="currentStep.set(currentStep() + 1)"
+              [disabled]="!isFirstStepValid()">
+              Next
+              <mat-icon>arrow_right_alt</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (
+      (!hasSublines() && currentStep() === 1) ||
+      (hasSublines() && currentStep() === 2)
+    ) {
+      <div class="step">
+        <lj-round-header-chip
+          [number]="hasSublines() ? 3 : 2"
+          text="Select your desired draw date"
+          size="small"
+          color="brand"></lj-round-header-chip>
+
+        <div class="content">
+          <div class="form">
+            <button
+              lj-button
+              (activate)="currentStep.set(currentStep() - 1)"
+              variant="ghost">
+              <mat-icon>arrow_left_alt</mat-icon>
+              Back
+            </button>
+
+            <div class="calendar">
+              <mat-calendar [(selected)]="date" [minDate]="now"></mat-calendar>
+            </div>
+
+            <button
+              lj-button
+              (activate)="currentStep.set(currentStep() + 1)"
+              [disabled]="!isSecondStepValid()">
+              Next
+              <mat-icon>arrow_right_alt</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (
+      (!hasSublines() && currentStep() === 2) ||
+      (hasSublines() && currentStep() === 3)
+    ) {
+      <div class="step">
+        <lj-round-header-chip
+          [number]="hasSublines() ? 4 : 3"
+          text="Review and submit"
+          size="small"
+          color="brand"></lj-round-header-chip>
+
+        <div class="content">
+          <div class="form">
+            <button
+              lj-button
+              (activate)="currentStep.set(currentStep() - 1)"
+              variant="ghost">
+              <mat-icon>arrow_left_alt</mat-icon>
+              Back
+            </button>
+            @if (hasSublines() && selectedSubline()) {
+              <div class="body-s">Subline:</div>
+              <div class="inter body-lg">{{ selectedSubline()?.name }}</div>
+            }
+            <div class="inter body-lg">{{ amount() ?? 0 }}</div>
+            <div class="body-s">on</div>
+            <div class="inter body-lg">
+              {{ formatDate(date) }}
+            </div>
+            @if (!isDemoMode()) {
+              <div>
+                <div class="body-s">
+                  Enter your PIN code to confirm the Draw:
+                </div>
+                <lj-input-field
+                  id="authorizationCode"
+                  name="authorizationCode"
+                  [showError]="false"
+                  [(ngModel)]="authorizationCode"
+                  placeholder="PIN code" />
+              </div>
+            }
+            <button
+              lj-button
+              variant="ghost"
+              (activate)="confirmDrawFunds()"
+              [disabled]="!isAuthorizationCodeValid()">
+              Confirm&nbsp;Draw
+              <mat-icon>arrow_right_alt</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (
+      (!hasSublines() && currentStep() === 3) ||
+      (hasSublines() && currentStep() === 4)
+    ) {
+      <div class="step">
+        <div class="content">
+          <div class="summary">
+            <div class="sub-container">
+              <div class="loan-info">
+                <div class="box">
+                  <div class="body-s">
+                    We are processing the Draw. You will receive an email when
+                    the process is complete.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    <div class="draw-disclaimer">
+      * Draw may be subject to restrictions based on the terms of the Note.
+    </div>
+  </mat-expansion-panel>
+</div>

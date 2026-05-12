@@ -1,0 +1,310 @@
+@if (field() && field().value) {
+  <div class="livestock-details">
+    <h3 [style]="getCustomStyle('h3', true)">
+      @if (field().label.trim() !== 'New field') {
+        {{ field().label }}
+      } @else {
+        Livestock Details
+      }
+    </h3>
+
+    <div class="card-container">
+      @for (livestock of getLivestock(); track livestock.id) {
+        <div
+          class="card"
+          [style]="getCustomStyle('.card')"
+          [class.display]="
+            mode() === 'locked' || !isCurrentlyEditedLivestock(livestock)
+          "
+          [class.full-width]="isMobile()">
+          @if (mode() !== 'locked' && isCurrentlyEditedLivestock(livestock)) {
+            <lj-select-field
+              label="Type of Livestock"
+              id="typeOfLivestock"
+              name="typeOfLivestock"
+              [style]="'gray'"
+              [required]="true"
+              [options]="liveStockTypes"
+              [value]="editedLivestock().typeOfLiveStock"
+              (change)="handleTypeOfLivestockChange($event)" />
+
+            @if (isOtherTypeOfLivestock(editedLivestock())) {
+              <div class="input">
+                <lj-input-field
+                  placeholder="Please specify the type of livestock"
+                  id="otherDetails"
+                  name="otherDetails"
+                  type="text"
+                  label="Type of Livestock"
+                  [style]="'gray'"
+                  [customCssTitleStyle]="getCustomStyle('.field-title')"
+                  [customCssStyle]="getCustomStyle('.input-field')"
+                  [required]="true"
+                  [customErrorMessage]="
+                    otherDetailsTouched()
+                      ? getOtherDetailsError(editedLivestock())
+                      : undefined
+                  "
+                  [ngModel]="editedLivestock().otherDetails"
+                  (ngModelChange)="handleOtherDetailsChange($event)" />
+              </div>
+            }
+
+            <div class="input">
+              <lj-input-field
+                placeholder="Average Herd/Flock Size"
+                id="herdSize"
+                name="herdSize"
+                type="text"
+                label="Average Herd/Flock Size "
+                [style]="'gray'"
+                [customCssTitleStyle]="getCustomStyle('.field-title')"
+                [customCssStyle]="getCustomStyle('.input-field')"
+                [required]="true"
+                [customErrorMessage]="
+                  herdSizeTouched()
+                    ? getHerdSizeError(editedLivestock())
+                    : undefined
+                "
+                [ngModel]="formatNumber(editedLivestock().herdSize)"
+                (ngModelChange)="handleHerdSizeChange($event)"
+                [mask]="numberMask" />
+            </div>
+
+            <div class="input">
+              <lj-input-field
+                placeholder="Type of operation"
+                id="typeOfOperation"
+                name="typeOfOperation"
+                type="text"
+                label="Type of Operation"
+                [style]="'gray'"
+                [customCssTitleStyle]="getCustomStyle('.field-title')"
+                [customCssStyle]="getCustomStyle('.input-field')"
+                [required]="true"
+                [customErrorMessage]="
+                  typeOfOperationTouched()
+                    ? getTypeOfOperationError(editedLivestock())
+                    : undefined
+                "
+                [ngModel]="editedLivestock().typeOfOperation"
+                (ngModelChange)="handleTypeOfOperationChange($event)" />
+            </div>
+
+            <div class="input">
+              <lj-input-field
+                placeholder="e.g. 1,000 lbs or 200 cows"
+                id="averageSaleQuantity"
+                name="averageSaleQuantity"
+                type="text"
+                label="Average Sale Weight or Yield"
+                [style]="'gray'"
+                [customCssTitleStyle]="getCustomStyle('.field-title')"
+                [customCssStyle]="getCustomStyle('.input-field')"
+                [required]="true"
+                [customErrorMessage]="
+                  averageSaleQuantityTouched()
+                    ? getAverageSaleQuantityError(editedLivestock())
+                    : undefined
+                "
+                [ngModel]="editedLivestock().averageSaleQuantity"
+                (ngModelChange)="handleAverageSaleQuantityChange($event)" />
+            </div>
+            <div class="input">
+              <lj-input-field
+                placeholder="Average Sale Price per Unit"
+                id="averageSalePricePerHead"
+                name="averageSalePricePerHead"
+                type="text"
+                label="Average Sale Price per Unit"
+                [style]="'gray'"
+                [customCssTitleStyle]="getCustomStyle('.field-title')"
+                [customCssStyle]="getCustomStyle('.input-field')"
+                [required]="true"
+                [customErrorMessage]="
+                  averageSalePricePerHeadTouched()
+                    ? getAverageSalePricePerHeadError(editedLivestock())
+                    : undefined
+                "
+                [ngModel]="
+                  formatMoney(editedLivestock().averageSalePricePerHead)
+                "
+                (ngModelChange)="handleAveragePricePerHeadChange($event)"
+                [mask]="moneyMask" />
+            </div>
+            <div class="input">
+              <lj-input-field
+                placeholder="Average Number of Units Sold per Year"
+                id="averageHeadSoldPerYear"
+                name="averageHeadSoldPerYear"
+                type="text"
+                label="Average Number of Units Sold per Year"
+                [style]="'gray'"
+                [customCssTitleStyle]="getCustomStyle('.field-title')"
+                [customCssStyle]="getCustomStyle('.input-field')"
+                [required]="true"
+                [customErrorMessage]="
+                  averageHeadSoldPerYearTouched()
+                    ? getAverageHeadSoldPerYearError(editedLivestock())
+                    : undefined
+                "
+                [ngModel]="
+                  formatNumber(editedLivestock().averageHeadSoldPerYear)
+                "
+                (ngModelChange)="handleHeadSoldPerYearChange($event)"
+                [mask]="numberMask" />
+            </div>
+
+            <div class="input">
+              <lj-input-field
+                placeholder="Integrator or marketer name (if applicable)"
+                id="integratorMarketerName"
+                name="integratorMarketerName"
+                type="text"
+                label="Integrator or Marketer Name (if applicable)"
+                [style]="'gray'"
+                [customCssTitleStyle]="getCustomStyle('.field-title')"
+                [customCssStyle]="getCustomStyle('.input-field')"
+                [required]="false"
+                [ngModel]="editedLivestock().integratorOrMarketerName"
+                (ngModelChange)="handleIntegratorMarketerNameChange($event)" />
+            </div>
+            <div class="input">
+              <lj-input-field
+                placeholder="Comments"
+                id="comments"
+                name="comments"
+                type="text"
+                label="Comments"
+                [style]="'gray'"
+                [customCssTitleStyle]="getCustomStyle('.field-title')"
+                [customCssStyle]="getCustomStyle('.input-field')"
+                [required]="false"
+                [ngModel]="editedLivestock().comments"
+                (ngModelChange)="handleCommentChange($event)" />
+            </div>
+            <div class="card-actions">
+              <button
+                lj-button="ghost"
+                [style]="getCustomStyle('.cancel-button')"
+                (activate)="cancelEdit()">
+                Cancel
+              </button>
+
+              <button
+                lj-button="inverse-cta"
+                [style]="getCustomStyle('.button')"
+                (activate)="saveLivestock()">
+                Done
+              </button>
+            </div>
+          } @else {
+            <div class="card-actions use-title">
+              @if (isOtherTypeOfLivestock(livestock)) {
+                <h4 [style]="getCustomStyle('h4', true)">
+                  Other - {{ livestock.otherDetails }}
+                </h4>
+              } @else {
+                <h4 [style]="getCustomStyle('h4', true)">
+                  {{ formatEnumValue(livestock.typeOfLiveStock) }}
+                </h4>
+              }
+              @if (mode() !== 'locked') {
+                <button
+                  mat-icon-button
+                  lj-confirmation-required
+                  message="Are you sure you want to remove this type of livestock?"
+                  (confirm)="removeLivestock(livestock)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+
+                <button
+                  mat-icon-button
+                  (activate)="editedLivestock.set(livestock)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              }
+            </div>
+
+            <div class="message">
+              <div class="title">Average Herd/Flock Size</div>
+              <div class="content">{{ formatNumber(livestock.herdSize) }}</div>
+            </div>
+
+            <div class="message">
+              <div class="title">Type of Operation</div>
+              <div class="content">{{ livestock.typeOfOperation }}</div>
+            </div>
+
+            <div class="message">
+              <div class="title">Average Sale Weight or Yield</div>
+              <div class="content">
+                {{ livestock.averageSaleQuantity }}
+              </div>
+            </div>
+
+            <div class="message">
+              <div class="title">Average Sale Price per Unit</div>
+              <div class="content">
+                {{ formatMoney(livestock.averageSalePricePerHead) }}
+              </div>
+            </div>
+
+            <div class="message">
+              <div class="title">Average Number of Units Sold per Year</div>
+              <div class="content">
+                {{ formatNumber(livestock.averageHeadSoldPerYear) }}
+              </div>
+            </div>
+
+            @if (livestock.integratorOrMarketerName) {
+              <div class="message">
+                <div class="title">
+                  Integrator or Marketer Name (if applicable)
+                </div>
+                <div class="content">
+                  {{ livestock.integratorOrMarketerName }}
+                </div>
+              </div>
+            }
+
+            @if (livestock.comments) {
+              <div class="message">
+                <div class="title">Comments</div>
+                <div class="content">
+                  {{ livestock.comments }}
+                </div>
+              </div>
+            }
+          }
+        </div>
+      } @empty {
+        @if (mode() !== 'locked') {
+          <div
+            class="empty-message"
+            [style]="getCustomStyle('.explanation-message')">
+            What types of livestock are raised at your farm?
+          </div>
+        } @else {
+          <div>No livestock added.</div>
+        }
+      }
+    </div>
+
+    @if (mode() !== 'locked') {
+      <div class="actions">
+        @if (!isEdited()) {
+          <button
+            lj-button="inverse-cta"
+            [style]="getCustomStyle('.button')"
+            (activate)="addNewLivestock()">
+            Add Type of Livestock
+            <mat-icon>add</mat-icon>
+          </button>
+        }
+      </div>
+    }
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

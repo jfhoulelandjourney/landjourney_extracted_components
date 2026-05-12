@@ -1,0 +1,14 @@
+@for (item of attachments(); track item.id) {
+  <div role="listitem" class="list-item">
+    <mat-icon>{{ getAttachmentIcon(item.type) }}</mat-icon>
+    <div class="list-item__info">
+      <h4 class="name">
+        {{ item.name }}
+      </h4>
+    </div>
+
+    <button type="button" mat-icon-button (click)="delete.emit(item)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+}

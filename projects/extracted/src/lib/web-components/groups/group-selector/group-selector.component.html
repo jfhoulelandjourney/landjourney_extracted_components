@@ -1,0 +1,26 @@
+<div class="group-selection" (click)="$event.stopPropagation()">
+  <div class="search">
+    <input
+      type="text"
+      id="{{ this.id }}"
+      [ngModel]="searchExpression"
+      (ngModelChange)="search($event)" />
+    <mat-icon class="small-icon search-icon">search</mat-icon>
+  </div>
+  <div class="results" [class.scroll]="scrollResults()">
+    @for (group of filteredGroups(); track group.id) {
+      <div class="group" (click)="groupClicked(group)">
+        <div class="name">
+          {{ group.name }}
+        </div>
+        <div class="system">
+          @if (group.system) {
+            <mat-icon class="small-icon">lock</mat-icon>
+          }
+        </div>
+      </div>
+    } @empty {
+      <div class="group">No group found</div>
+    }
+  </div>
+</div>

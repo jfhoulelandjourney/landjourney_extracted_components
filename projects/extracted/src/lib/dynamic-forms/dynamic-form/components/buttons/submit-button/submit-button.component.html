@@ -1,0 +1,18 @@
+@if (mode() !== 'locked') {
+  <div
+    class="submit-layout"
+    [class.submit-layout--inline]="formType() === FormTypes.INLINE">
+    <div
+      class="submit-container"
+      [class.inline-style]="formType() === FormTypes.INLINE"
+      [style]="getCustomStyle('.submit-button-container')">
+      <button
+        lj-button="cta"
+        [compact]="true"
+        [style]="getCustomStyle('.submit-button', true)"
+        (activate)="handleSubmit()">
+        {{ getButtonText() }}
+      </button>
+    </div>
+  </div>
+}

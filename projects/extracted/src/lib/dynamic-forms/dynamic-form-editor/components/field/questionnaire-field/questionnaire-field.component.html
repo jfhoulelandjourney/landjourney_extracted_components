@@ -1,0 +1,136 @@
+@if (field()) {
+  <div
+    class="container"
+    (mouseenter)="showShadow.set(true)"
+    (mouseleave)="showShadow.set(false)">
+    <div class="input" [class.shadow]="showShadow()">
+      <div class="row">
+        <mat-icon>question_answer</mat-icon>
+        <h3>Questionnaire</h3>
+
+        <lj-field-configuration
+          (remove)="handleRemove()"
+          [options]="{
+            required: false,
+            inputType: false,
+            minMaxLength: false,
+            minMaxValue: false,
+            conditionalLogic: true,
+            validator: false,
+            decimalPrecision: false,
+            prefillable: true,
+            visible: false,
+          }"
+          (addConditionalLogic)="showConditionalLogic.set(true)"
+          (handleFieldChange)="handleFieldChange($event)"
+          [field]="field()" />
+      </div>
+
+      <div class="questionnaire">
+        @let questions = field().value?.questions ?? [];
+
+        <lj-input-field
+          placeholder="Title of the questionnaire"
+          id="question-title-{{ field().id }}"
+          name="question-title-{{ field().id }}"
+          type="text"
+          [style]="'gray'"
+          [ngModel]="field().value?.title"
+          (ngModelChange)="handleInternalValueChange({ title: $event })" />
+
+        <div class="question edit">
+          <div class="field-title">Question text</div>
+          <div class="field-title">Details request text</div>
+        </div>
+
+        <div
+          class="questions-list"
+          cdkDropList
+          (cdkDropListDropped)="drop($event)">
+          @for (question of questions; track question.id) {
+            <div class="question edit" cdkDrag>
+              <div class="drag-handle" cdkDragHandle>
+                <mat-icon class="small-icon">drag_indicator</mat-icon>
+              </div>
+
+              <div class="questions-definition">
+                <lj-input-field
+                  placeholder="Text of the question"
+                  id="question-text-{{ field().id }}"
+                  name="question-text-{{ field().id }}"
+                  type="text"
+                  [style]="'gray'"
+                  [ngModel]="question.text"
+                  (ngModelChange)="
+                    handleQuestionChange(question, { text: $event })
+                  " />
+
+                <lj-input-field
+                  placeholder="Text of the details request (leave blank for default)"
+                  id="question-details-request-{{ field().id }}"
+                  name="question-details-request-{{ field().id }}"
+                  type="text"
+                  [style]="'gray'"
+                  [ngModel]="question.detailsRequestText"
+                  (ngModelChange)="
+                    handleQuestionChange(question, {
+                      detailsRequestText: $event,
+                    })
+                  " />
+              </div>
+
+              <div class="question-actions">
+                <div
+                  (activate)="deleteQuestion(question)"
+                  matTooltip="Remove question">
+                  <mat-icon class="small-icon danger">delete</mat-icon>
+                </div>
+              </div>
+
+              <div class="drag-placeholder" *cdkDragPlaceholder></div>
+            </div>
+          }
+        </div>
+
+        <div class="add-new-question">
+          <button
+            lj-button="ghost"
+            [compact]="true"
+            (activate)="addNewQuestion()">
+            Add new question
+            <mat-icon>question_answer</mat-icon>
+          </button>
+        </div>
+
+        <div class="field-options">
+          <mat-checkbox
+            class="checkbox"
+            [ngModel]="field().value?.askForExplanations"
+            (ngModelChange)="
+              handleInternalValueChange({ askForExplanations: $event })
+            "
+            labelPosition="before">
+            Ask for details when an answer is "yes" ?
+          </mat-checkbox>
+        </div>
+      </div>
+
+      @if (
+        (field().dependsOn !== undefined && field().dependsOn !== null) ||
+        showConditionalLogic()
+      ) {
+        <lj-conditional-logic
+          [mobile]="containerLayout() !== SectionLayouts.ONE_COLUMN"
+          [dependsOn]="field().dependsOn"
+          [existingFields]="existingFields()"
+          [formDefinition]="formDefinition()"
+          (removeConditionalLogic)="showConditionalLogic.set(false)"
+          (handleConditionalLogicChange)="
+            handleConditionalLogicChange($event)
+          " />
+      }
+    </div>
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

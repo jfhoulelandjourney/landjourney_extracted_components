@@ -1,0 +1,215 @@
+@if (field()) {
+  <div
+    class="container"
+    (mouseenter)="showShadow.set(true)"
+    (mouseleave)="showShadow.set(false)">
+    <div class="input" [class.shadow]="showShadow()">
+      <div class="row">
+        <mat-icon>area_chart</mat-icon>
+        <lj-editable-input
+          [value]="
+            field().label === 'New field' ? 'Crop Details' : field().label
+          "
+          label="label"
+          [name]="field().name"
+          (onValueChange)="handleLabelChange($event)" />
+        <lj-field-configuration
+          (remove)="handleRemove()"
+          [options]="{
+            required: false,
+            inputType: false,
+            minMaxLength: false,
+            minMaxValue: false,
+            conditionalLogic: true,
+            validator: false,
+            decimalPrecision: false,
+            prefillable: true,
+            visible: false,
+          }"
+          (addConditionalLogic)="showConditionalLogic.set(true)"
+          (handleFieldChange)="handleFieldChange($event)"
+          [field]="field()" />
+      </div>
+
+      <div class="crop-details">
+        <div class="card-container">
+          <div class="card display">
+            <div class="card-actions crop-title">
+              <h4>
+                {{ nonEditedCrop().cropType }}
+              </h4>
+
+              <button mat-icon-button>
+                <mat-icon>delete</mat-icon>
+              </button>
+
+              <button mat-icon-button>
+                <mat-icon>edit</mat-icon>
+              </button>
+            </div>
+
+            <div class="message">
+              <div class="title">Irrigation</div>
+              <div class="content">
+                {{ formatIrrigationMessage(nonEditedCrop()) }}
+              </div>
+            </div>
+
+            <div class="message">
+              <div class="title">Acres and price</div>
+              <div class="content">
+                {{ formatAcresAndPriceMessage(nonEditedCrop()) }}
+              </div>
+            </div>
+
+            <div class="message">
+              <div class="title">Revenue Insurance and Type</div>
+              <div class="content">
+                {{ formatRevenueInsuranceDetailsMessage(nonEditedCrop()) }}
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="input">
+              <lj-input-field
+                placeholder="Type of crop"
+                id="cropType"
+                name="typeOfCrops"
+                type="text"
+                label="Type of Crop"
+                [style]="'gray'"
+                [value]="editedCrop().cropType"
+                [disabled]="true"
+                [showError]="false" />
+            </div>
+
+            <div class="input">
+              <lj-select-field
+                label="Irrigation"
+                id="irrigation"
+                name="irrigation"
+                [style]="'gray'"
+                [disabled]="true"
+                [showErrors]="false"
+                [options]="irrigationOptions"
+                [value]="editedCrop().irrigation" />
+            </div>
+
+            @if (
+              editedCrop().irrigation === IrrigationTypes.BOTH ||
+              editedCrop().irrigation === IrrigationTypes.IRRIGATED
+            ) {
+              <div class="input">
+                <lj-input-field
+                  placeholder="Percentage irrigated"
+                  id="percentageIrrigated"
+                  name="percentageIrrigated"
+                  type="text"
+                  label="Percentage Irrigated (%)"
+                  [style]="'gray'"
+                  [disabled]="true"
+                  [showError]="false"
+                  [ngModel]="formatNumber(editedCrop().percentageIrrigated)" />
+              </div>
+            }
+
+            <div class="input">
+              <lj-input-field
+                placeholder="Number of acres"
+                id="numberOfAcres"
+                name="numberOfAcres"
+                type="text"
+                label="Number of Acres"
+                [style]="'gray'"
+                [value]="'' + formatNumber(editedCrop().numberOfAcres)"
+                [disabled]="true"
+                [showError]="false" />
+            </div>
+
+            <div class="side-by-side">
+              <div class="input">
+                <lj-input-field
+                  placeholder="Expected yield"
+                  id="expectedYieldValue"
+                  name="expectedYieldValue"
+                  type="text"
+                  label="Expected Yield"
+                  [style]="'gray'"
+                  [value]="'' + formatNumber(editedCrop().expectedYieldValue)"
+                  [disabled]="true"
+                  [showError]="false" />
+              </div>
+              <div class="input">
+                <lj-select-field
+                  label="Unit"
+                  id="expectedYieldUnit"
+                  name="expectedYieldUnit"
+                  [value]="editedCrop().expectedYieldUnit"
+                  [options]="yieldUnitOptions"
+                  [style]="'gray'"
+                  [showErrors]="false"
+                  [disabled]="true" />
+              </div>
+            </div>
+
+            <div>
+              <div class="input">
+                <lj-input-field
+                  placeholder="Average price"
+                  id="expectedLandValue"
+                  name="expectedLandValue"
+                  type="text"
+                  label="Average Price"
+                  [value]="'' + formatMoney(editedCrop().expectedLandValue)"
+                  [style]="'gray'"
+                  [disabled]="true"
+                  [showError]="false" />
+              </div>
+            </div>
+            <div class="input">
+              <lj-input-field
+                placeholder="Revenue insurance and type"
+                id="revenueInsuranceDetails"
+                name="revenueInsuranceDetails"
+                type="text"
+                label="Revenue Insurance and Type"
+                [style]="'gray'"
+                [disabled]="true"
+                [showError]="false" />
+            </div>
+
+            <div class="card-actions">
+              <button lj-button="ghost">Cancel</button>
+
+              <button lj-button="inverse-cta">Done</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button lj-button="inverse-cta">
+            Add a Crop
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      @if (
+        (field().dependsOn !== undefined && field().dependsOn !== null) ||
+        showConditionalLogic()
+      ) {
+        <lj-conditional-logic
+          [mobile]="containerLayout() !== SectionLayouts.ONE_COLUMN"
+          [dependsOn]="field().dependsOn"
+          [existingFields]="existingFields()"
+          [formDefinition]="formDefinition()"
+          (removeConditionalLogic)="showConditionalLogic.set(false)"
+          (handleConditionalLogicChange)="
+            handleConditionalLogicChange($event)
+          " />
+      }
+    </div>
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

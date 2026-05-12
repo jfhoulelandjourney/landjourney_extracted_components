@@ -1,0 +1,112 @@
+@let _creditLine = creditLine();
+
+<div id="chart">
+  <div
+    class="credit-line"
+    [style]="'width: ' + (showPreApprovedCredit() ? 85 : 100) + '%'">
+    <div class="titles">
+      <div class="title">In Use</div>
+      <div class="title">Available</div>
+    </div>
+    <div class="amounts">
+      <div class="amount">{{ formatAmount(creditInUse()) }}</div>
+      <div class="amount">{{ formatAmount(availableCredit()) }}</div>
+    </div>
+    <div class="carrets">
+      <div class="carret in-use"></div>
+      <div class="carret available"></div>
+    </div>
+    <div class="lines">
+      @if (isStandaloneCreditLine(_creditLine)) {
+        <div class="line in-use" [style.width.%]="creditInUseWidth()"></div>
+      }
+      @if (isMainlineCreditLine(_creditLine)) {
+        @for (
+          subline of _creditLine.sublines;
+          track subline.id;
+          let i = $index
+        ) {
+          <div
+            class="line in-use"
+            [style.border-bottom-color]="getSublineColor(i)"
+            [style.width.%]="getSublineUsagePercentage(subline)"></div>
+        }
+      }
+      <div
+        class="line available"
+        [style]="'width: ' + availableCreditWidth() + '%'"></div>
+    </div>
+  </div>
+  @if (showPreApprovedCredit()) {
+    <div class="pre-approved">
+      <div class="line" [style]="'width: 100%'"></div>
+      <div class="carrets">
+        <div class="carret"></div>
+      </div>
+      <div class="titles">
+        <div class="title">Commitment</div>
+      </div>
+      <div class="amounts">
+        <div class="amount">
+          {{ formatAmount(preApprovedCredit()) }}
+        </div>
+      </div>
+    </div>
+  }
+</div>
+
+@if (isMainlineCreditLine(_creditLine)) {
+  <div class="sublines-list">
+    @for (subline of _creditLine.sublines; track subline.id; let i = $index) {
+      <div class="subline-row">
+        <div
+          class="subline-indicator"
+          [style.background-color]="getSublineColor(i)"
+          [style.height.px]="
+            subline.stepInterestRates && subline.stepInterestRates.length > 0
+              ? 120
+              : 35
+          "></div>
+        <div class="subline-content">
+          <div class="subline-header">
+            <span class="subline-name">{{ subline.name }}</span>
+            <span class="separator">•</span>
+            <span class="used-credit">
+              Used:
+              <strong>{{ formatAmount(subline.usageCents) }}</strong>
+            </span>
+            <span class="separator">•</span>
+            <span class="rate-type-badge">{{ getRateType(subline) }}</span>
+            @if (hasActivePromo(subline)) {
+              <span class="promo-badge">PROMO RATE</span>
+            }
+          </div>
+          @if (
+            subline.stepInterestRates && subline.stepInterestRates.length > 0
+          ) {
+            <div class="rates-timeline">
+              @for (
+                rate of getEffectiveRatesTimeline(subline);
+                track rate.startOn;
+                let i = $index
+              ) {
+                <div
+                  class="rate-item"
+                  [class.active]="isRateActive(rate)"
+                  [class.promo]="isPromoRate(rate)">
+                  <span class="rate-value">{{ formatRateDisplay(rate) }}</span>
+                  <span class="rate-dates">
+                    {{ formatRateDateRange(rate) }}
+                  </span>
+                </div>
+                @if (i < getEffectiveRatesTimeline(subline).length - 1) {
+                  <span class="rate-arrow">→</span>
+                }
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+}

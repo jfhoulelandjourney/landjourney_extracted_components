@@ -1,0 +1,29 @@
+<div class="conditions-list">
+  @for (condition of acceptedConditions(); track condition.id) {
+    <div class="condition">
+      <div class="condition-title">
+        <div class="condition-title-text">
+          <h3 [class.mobile]="mobile()">{{ formatTitle(condition.title) }}</h3>
+        </div>
+        <button mat-icon-button (activate)="viewCondition(condition)">
+          <mat-icon>remove_red_eye</mat-icon>
+        </button>
+      </div>
+
+      @if (!mobile()) {
+        <div
+          class="condition-text limit-length"
+          [innerHTML]="condition.text | SafeHtml"></div>
+      }
+    </div>
+  } @empty {
+    <div class="empty-message">
+      There are no terms and conditions at the moment.
+    </div>
+  }
+</div>
+<lj-accept-conditions
+  mode="review"
+  [mobile]="mobile()"
+  [conditionsToReview]="conditionsToReview()"
+  (closeReview)="closeCondition()" />

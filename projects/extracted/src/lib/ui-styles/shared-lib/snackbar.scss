@@ -1,0 +1,44 @@
+.green-snackbar {
+  border-radius: var(--radius-primary);
+  overflow: hidden;
+
+  .mat-mdc-snackbar-surface {
+    padding-right: 0px;
+  }
+
+  * div,
+  * {
+    background-color: var(--green-470);
+    color: var(--color-lighter);
+  }
+}
+
+.neutral-snackbar,
+.red-snackbar,
+.green-snackbar {
+  border-radius: var(--radius-primary);
+  overflow: hidden;
+
+  .mat-mdc-snackbar-surface {
+    padding-right: 0px;
+  }
+
+  * div,
+  * {
+    color: var(--color-lighter);
+  }
+
+  &.green-snackbar {
+    * div,
+    * {
+      background-color: var(--green-470);
+    }
+  }
+
+  &.red-snackbar {
+    * div,
+    * {
+      background-color: var(--status-error-800);
+    }
+  }
+}

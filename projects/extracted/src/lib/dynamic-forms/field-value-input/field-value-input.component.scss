@@ -1,0 +1,18 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.hide-label {
+  ::ng-deep {
+    .title,
+    [class*='title'],
+    [class*='Title'],
+    label,
+    mat-label,
+    .mat-mdc-form-field-label,
+    .field-title {
+      display: none !important;
+    }
+  }
+}

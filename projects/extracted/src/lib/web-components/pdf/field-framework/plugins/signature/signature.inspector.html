@@ -1,0 +1,144 @@
+<div class="inspector-section">
+  <label for="label-input" class="label-text">Label</label>
+  <input
+    id="label-input"
+    type="text"
+    class="label-input"
+    [ngModel]="labelInput()"
+    (ngModelChange)="onLabelChange($event)"
+    placeholder="Field label (optional)" />
+</div>
+
+<div class="inspector-section">
+  <label for="field-key-input" class="label-text">Field key</label>
+  <input
+    id="field-key-input"
+    type="text"
+    class="label-input"
+    [ngModel]="fieldKeyInput()"
+    (ngModelChange)="onFieldKeyChange($event)"
+    placeholder="e.g. borrower_signature" />
+</div>
+
+<div class="inspector-section">
+  <label for="placeholder-input" class="label-text">Placeholder</label>
+  <input
+    id="placeholder-input"
+    type="text"
+    class="label-input"
+    [ngModel]="placeholderInput()"
+    (ngModelChange)="onPlaceholderChange($event)"
+    placeholder="Hint text shown when empty" />
+</div>
+
+<div class="inspector-section">
+  <label for="readonly-checkbox">
+    <mat-checkbox
+      id="readonly-checkbox"
+      [checked]="data()?.readonly ?? false"
+      (change)="onReadonlyChange($event.checked)"
+      aria-label="Make field read-only">
+      Read-only
+    </mat-checkbox>
+  </label>
+</div>
+
+<div class="inspector-section">
+  <label for="required-checkbox">
+    <mat-checkbox
+      id="required-checkbox"
+      [checked]="data()?.required ?? false"
+      (change)="onRequiredChange($event.checked)"
+      aria-label="Make field required">
+      Required
+    </mat-checkbox>
+  </label>
+</div>
+
+<div class="inspector-section">
+  <span class="assignment-label">Assigned to</span>
+
+  @switch (assignmentMode()?.kind) {
+    @case ('signees') {
+      @if (creatingSignee()) {
+        <input
+          type="text"
+          class="label-input"
+          placeholder="Signee name"
+          [ngModel]="newSigneeName()"
+          (ngModelChange)="newSigneeName.set($event)" />
+        @if (newSigneeNameError(); as err) {
+          <p class="field-error">{{ err }}</p>
+        }
+        <mat-select
+          lj-select
+          multiple
+          placeholder="Assign roles"
+          [ngModel]="newSigneeRoles()"
+          (ngModelChange)="newSigneeRoles.set($event)">
+          @for (role of availableRoles; track role) {
+            <mat-option [value]="role">
+              {{ roleDisplayNames()[role] }}
+            </mat-option>
+          }
+        </mat-select>
+        @if (newSigneeRolesError(); as err) {
+          <p class="field-error">{{ err }}</p>
+        }
+        <div class="signee-create-actions">
+          <lj-button
+            type="button"
+            variant="secondary"
+            [disabled]="creatingInFlight()"
+            (activate)="cancelSigneeCreate()">
+            Cancel
+          </lj-button>
+          <lj-button
+            type="button"
+            variant="primary"
+            [disabled]="creatingInFlight()"
+            (activate)="confirmSigneeCreate()">
+            Create
+          </lj-button>
+        </div>
+      } @else {
+        <mat-select
+          lj-select
+          [ngModel]="selectedSignee()"
+          (ngModelChange)="onSigneeChange($event)"
+          [compareWith]="compareSigneeById"
+          placeholder="">
+          <mat-option [value]="null"></mat-option>
+          @for (signee of availableSignees(); track signee.id) {
+            <mat-option [value]="signee">
+              {{ labelForSignee(signee) }}
+            </mat-option>
+          }
+        </mat-select>
+        @if (canCreateSignee()) {
+          <button
+            type="button"
+            class="signee-add-link"
+            (click)="beginSigneeCreate()">
+            + Add new signee
+          </button>
+        }
+      }
+    }
+    @case ('recipients') {
+      <mat-select
+        lj-select
+        [ngModel]="selectedRecipient()"
+        (ngModelChange)="onRecipientChange($event)"
+        [compareWith]="compareRecipientById"
+        placeholder="">
+        <mat-option [value]="null"></mat-option>
+        @for (recipient of recipients(); track recipient.id) {
+          <mat-option [value]="recipient">
+            {{ labelForRecipient(recipient) }}
+          </mat-option>
+        }
+      </mat-select>
+    }
+  }
+</div>

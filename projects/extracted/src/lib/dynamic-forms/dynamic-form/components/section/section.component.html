@@ -1,0 +1,75 @@
+<div class="section" [class.mobile]="isMobile()">
+  @if (section().name && showHeadingInPanel()) {
+    <h4 [style]="getCustomStyle('.section-title')">
+      <div class="title" [style]="getCustomStyle('.section-title-text')">
+        {{ this.section().name }}
+      </div>
+    </h4>
+  }
+  @if (section().description) {
+    <div
+      class="description body-m"
+      [style]="getCustomStyle('.section-description')">
+      {{ section().description }}
+    </div>
+  }
+  <div
+    class="section-content {{ section().layout }}"
+    [class.edit-mode]="mode() === 'edit'"
+    [style]="getCustomStyle('.section-content-container')">
+    @for (column of getColumns(); track column) {
+      <div
+        class="section-fields"
+        [style]="getCustomStyle('.section-fields-container')">
+        @for (element of getFieldsForColumn(column); track element.id) {
+          @if (showElement(element, formData(), mode())) {
+            @if (isSection(element)) {
+              <lj-df-section
+                [formDefinition]="formDefinition()"
+                [isMobile]="isMobile()"
+                [customStyle]="customStyle()"
+                [formData]="formData()"
+                [mode]="mode()"
+                [formType]="formType()"
+                [section]="getSection(element)"
+                [allowManualComputedValueEdit]="allowManualComputedValueEdit()"
+                [fieldValidity]="fieldValidity()"
+                [suppressedErrors]="suppressedErrors()"
+                (sectionChange)="handleChange($event)"
+                (customAction)="handleCustomAction($event)"
+                (dataChange)="handleDataChange($event)"
+                (submit)="handleSubmit()"
+                [prefillPendingChanges]="prefillPendingChanges()"
+                (prefillChangeAccepted)="prefillChangeAccepted.emit($event)"
+                (prefillChangeDeclined)="
+                  prefillChangeDeclined.emit($event)
+                "></lj-df-section>
+            } @else {
+              <lj-df-field
+                [isMobile]="isMobile()"
+                [customStyle]="customStyle()"
+                [containerLayout]="section().layout"
+                [formData]="formData()"
+                [mode]="mode()"
+                [field]="getField(element)"
+                [formType]="formType()"
+                [allowManualComputedValueEdit]="allowManualComputedValueEdit()"
+                [fieldValidity]="fieldValidity()"
+                [suppressedErrorKeys]="
+                  suppressedErrors()[getField(element).name] ?? []
+                "
+                (customAction)="handleCustomAction($event)"
+                (dataChange)="handleDataChange($event)"
+                (submit)="handleSubmit()"
+                [prefillPendingChanges]="prefillPendingChanges()"
+                (prefillChangeAccepted)="prefillChangeAccepted.emit($event)"
+                (prefillChangeDeclined)="
+                  prefillChangeDeclined.emit($event)
+                "></lj-df-field>
+            }
+          }
+        }
+      </div>
+    }
+  </div>
+</div>

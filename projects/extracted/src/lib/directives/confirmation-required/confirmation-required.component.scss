@@ -1,0 +1,29 @@
+:host {
+  display: block;
+}
+
+.danger {
+  --mat-button-filled-container-color: #e33b32;
+  --mat-button-filled-label-text-color: var(--accent-black-100, #fff);
+}
+
+.warning {
+  --mat-button-filled-container-color: #ffc107;
+}
+
+.info {
+  --mat-button-filled-container-color: #7a7a7a;
+}
+
+.success {
+  --mat-button-filled-container-color: var(--green-470);
+}
+
+.primary {
+  --mat-button-filled-container-color: var(--color-background-primary-button);
+  --mat-button-filled-label-text-color: var(--color-foreground-primary-button);
+}
+
+.dialog-content {
+  margin-top: var(--padding-spacious);
+}

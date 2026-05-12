@@ -1,0 +1,222 @@
+@if (field() && field().value) {
+  <div class="loan-information" [class.mobile]="isMobile()">
+    <h3 [style]="getCustomStyle('h3', true)">Loan Information</h3>
+    <div class="dynamic-form-input">
+      @if (mode() === 'locked') {
+        <div class="locked-display">
+          <div [class.locked-error]="getLoanAmountErrorMessage() !== undefined">
+            <div
+              class="body-sm title"
+              [style]="getCustomStyle('.field-title', true)">
+              Requested loan amount ($)
+            </div>
+            <div
+              class="body-sm text"
+              [style]="getCustomStyle('.field-text', true)">
+              {{ formatMoney(field().value!.loanAmount ?? 0) }}
+            </div>
+            @if (getLoanAmountErrorMessage()) {
+              <div class="body-sm">
+                {{ getLoanAmountErrorMessage() }}
+              </div>
+            }
+          </div>
+        </div>
+        <div class="locked-display">
+          <div>
+            <div
+              class="body-sm title"
+              [style]="getCustomStyle('.field-title', true)">
+              Interest type
+            </div>
+            <div
+              class="body-sm text"
+              [style]="getCustomStyle('.field-text', true)">
+              {{ formatEnumValue(field().value!.interestType) }}
+            </div>
+          </div>
+        </div>
+        <div class="locked-display">
+          <div [class.locked-error]="getTermErrorMessage() !== undefined">
+            <div
+              class="body-sm title"
+              [style]="getCustomStyle('.field-title', true)">
+              Term (years)
+            </div>
+            <div
+              class="body-sm text"
+              [style]="getCustomStyle('.field-text', true)">
+              {{ field().value!.term }}
+            </div>
+            @if (getTermErrorMessage()) {
+              <div class="body-sm">
+                {{ getTermErrorMessage() }}
+              </div>
+            }
+          </div>
+        </div>
+        <div class="locked-display">
+          <div
+            [class.locked-error]="getAmortizationErrorMessage() !== undefined">
+            <div
+              class="body-sm title"
+              [style]="getCustomStyle('.field-title', true)">
+              Amortization (years)
+            </div>
+            <div
+              class="body-sm text"
+              [style]="getCustomStyle('.field-text', true)">
+              {{ field().value!.amortization }}
+            </div>
+            @if (getAmortizationErrorMessage()) {
+              <div class="body-sm">
+                {{ getAmortizationErrorMessage() }}
+              </div>
+            }
+          </div>
+        </div>
+        <div class="locked-display">
+          <div>
+            <div
+              class="body-sm title"
+              [style]="getCustomStyle('.field-title', true)">
+              Payment Frequency
+            </div>
+            <div
+              class="body-sm text"
+              [style]="getCustomStyle('.field-text', true)">
+              {{
+                formatEnumValue(field().value!.paymentFrequency).replace(
+                  ' ',
+                  '-'
+                )
+              }}
+            </div>
+          </div>
+        </div>
+      } @else {
+        <div class="row">
+          <div class="input">
+            <lj-input-field
+              placeholder="Requested loan amount ($)"
+              label="Loan Amount"
+              id="loanAmount"
+              name="loanAmount"
+              type="text"
+              [style]="'gray'"
+              [customCssTitleStyle]="getCustomStyle('.field-title')"
+              [customCssStyle]="getCustomStyle('.input-field')"
+              [required]="true"
+              (ngModelChange)="handleLoanAmountChange($event)"
+              [ngModel]="
+                field().value!.loanAmount
+                  ? formatMoney(field().value!.loanAmount!)
+                  : ''
+              "
+              [customErrorMessage]="
+                touched() ? getLoanAmountErrorMessage() : undefined
+              "
+              (onInputBlur)="handleOnBlur()"
+              [mask]="getMoneyMask('loanAmount')" />
+          </div>
+          <div class="interest-type">
+            <div
+              class="field-title"
+              [style]="getCustomStyle('.field-title', true)">
+              Interest type:
+            </div>
+            <div class="options text">
+              <mat-radio-group
+                [ngModel]="field().value!.interestType"
+                (ngModelChange)="handleInterestTypeChange($event)">
+                @for (option of interestTypesOptions; track option.value) {
+                  <label
+                    lj-label-field
+                    class="form-type-option"
+                    for="radio"
+                    [style]="getCustomStyle('.radio-option-item-label')"
+                    [matTooltip]="option.description">
+                    <mat-radio-button
+                      class="radio"
+                      name="interestType"
+                      required
+                      [style]="getCustomStyle('.radio-option-item', false, 'gray')"
+                      [value]="option.value"
+                      [required]="field().required ?? false">
+                      {{ option.label }}
+                    </mat-radio-button>
+                  </label>
+                }
+              </mat-radio-group>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="input">
+            <lj-input-field
+              placeholder="Years"
+              label="Term (years)"
+              id="term"
+              name="term"
+              type="number"
+              [style]="'gray'"
+              [customCssTitleStyle]="getCustomStyle('.field-title')"
+              [customCssStyle]="getCustomStyle('.input-field')"
+              [required]="true"
+              [customErrorMessage]="getTermErrorMessage()"
+              [ngModel]="field().value!.term ? field().value!.term : ''"
+              (ngModelChange)="handleTermChange($event)" />
+          </div>
+          <div class="input">
+            <lj-input-field
+              placeholder="Years"
+              label="Amortization (years)"
+              id="amortization"
+              name="amortization"
+              type="number"
+              [style]="'gray'"
+              [customCssTitleStyle]="getCustomStyle('.field-title')"
+              [customCssStyle]="getCustomStyle('.input-field')"
+              [required]="true"
+              [customErrorMessage]="getAmortizationErrorMessage()"
+              [ngModel]="
+                field().value!.amortization ? field().value!.amortization : ''
+              "
+              (ngModelChange)="handleAmortizationChange($event)" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="payment-frequency">
+            <div class="field-title">Payment Frequency:</div>
+            <div class="options text">
+              <mat-radio-group
+                [ngModel]="field().value!.paymentFrequency"
+                (ngModelChange)="handlePaymentFrequencyChange($event)">
+                @for (option of paymentFrequencyOptions; track option.value) {
+                  <label
+                    lj-label-field
+                    class="form-type-option"
+                    for="radio"
+                    [style]="getCustomStyle('.radio-option-item-label')"
+                    [matTooltip]="option.description">
+                    <mat-radio-button
+                      class="radio"
+                      name="paymentFrequency"
+                      required
+                      [style]="getCustomStyle('.radio-option-item', false, 'gray')"
+                      [value]="option.value"
+                      [required]="field().required ?? false">
+                      {{ option.label }}
+                    </mat-radio-button>
+                  </label>
+                }
+              </mat-radio-group>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

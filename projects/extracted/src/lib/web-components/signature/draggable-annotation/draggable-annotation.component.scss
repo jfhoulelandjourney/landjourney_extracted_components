@@ -1,0 +1,73 @@
+:host {
+  display: block;
+  cursor: grab;
+  user-select: none;
+  border-radius: var(--radius-strong);
+  width: 100%;
+
+  // Only apply disabled styles when explicitly disabled
+  &[disabled='true'] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  &.cdk-drag-dragging {
+    opacity: 0.5;
+  }
+}
+
+.annotation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+
+  /* avoid being stretched by flex parents */
+  align-self: flex-start;
+  padding: var(--padding-default);
+  align-items: center;
+  gap: var(--gap-comfortable);
+  border-radius: var(--radius-strong);
+  border: 1px dashed var(--accent-black-300);
+  background-color: transparent;
+  opacity: 1;
+
+  &--disabled {
+    opacity: 0.5;
+    border-color: var(--accent-black-200);
+    background-color: var(--accent-black-50);
+  }
+
+  &--dragging {
+    // Override default Angular CDK behavior of hiding the original
+    display: flex !important;
+    opacity: 0.5;
+  }
+
+  &.annotation--preview {
+    display: inline-flex;
+    background: var(--accent-black-100);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    border: 1px dashed var(--accent-black-200);
+    // /* ensure preview doesn't expand to full viewport width */
+    width: auto;
+    max-width: 260px;
+  }
+}
+
+.annotation-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #5f6368;
+}
+
+.cdk-drag-placeholder {
+  display: none !important;
+}
+
+// Custom styling for when in a drop area
+:host-context(.cdk-drop-list-dragging) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

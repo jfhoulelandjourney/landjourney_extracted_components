@@ -1,0 +1,50 @@
+<div class="container" [class.section]="isSection()" [class.mobile]="mobile()">
+  <p class="body-s">Show this {{ isSection() ? 'section' : 'field' }} when</p>
+  <lj-input-field
+    id="field"
+    name="field"
+    placeholder="Select field"
+    type="text"
+    [showError]="false"
+    [autocomplete]="true"
+    [autocompleteOptions]="existingFields()"
+    (autocompleteOptionClick)="handleFieldChange($event)"
+    [ngModel]="dependsOn()?.field ?? null" />
+
+  <lj-select-field
+    id="operator"
+    name="operator"
+    [showErrors]="false"
+    [value]="dependsOn()?.operation"
+    [options]="operators"
+    (change)="handleOperationChange($event)" />
+
+  @if (isNotValidOperator()) {
+    @if (possibleErrors().length > 0) {
+      <lj-select-field
+        id="error-value"
+        name="error-value"
+        [showErrors]="false"
+        [value]="dependsOn()?.value"
+        [options]="possibleErrors()"
+        [placeholder]="'Select error (optional)'"
+        (change)="handleValueChange($event ?? '')" />
+    }
+  } @else if (operatorRequiresValue()) {
+    <lj-input-field
+      id="value"
+      name="value"
+      placeholder="Insert value"
+      type="text"
+      [showError]="false"
+      [value]="dependsOn()?.value ?? null"
+      (valueChange)="handleValueChange($event)" />
+  }
+
+  <div
+    (activate)="removeCondition()"
+    matTooltip="Remove the display condition"
+    class="remove-condition">
+    <mat-icon class="small-icon danger">delete</mat-icon>
+  </div>
+</div>

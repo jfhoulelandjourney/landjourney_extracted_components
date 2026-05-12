@@ -1,0 +1,45 @@
+@for (step of formDefinition(); track $index) {
+  @if (isSection(step) && showElement(step, formData(), 'locked')) {
+    <div class="header">
+      <div class="body-md step-name">{{ step.name }}</div>
+      @if (showEditButton()) {
+        <button type="button" (activate)="backToForm($index)" mat-icon-button>
+          <mat-icon>edit</mat-icon>
+        </button>
+      }
+    </div>
+
+    <ng-container
+      *ngTemplateOutlet="
+        sectionContent;
+        context: { section: getSection(step) }
+      "></ng-container>
+  }
+}
+
+<ng-template #sectionContent let-section="section">
+  @for (element of getSectionFields(section); track element.id) {
+    @if (showElement(element, formData(), 'locked')) {
+      @if (isSection(element)) {
+        <!-- Recursively render nested sections -->
+        <ng-container
+          *ngTemplateOutlet="
+            sectionContent;
+            context: { section: getSection(element) }
+          "></ng-container>
+      } @else {
+        <lj-df-field
+          [isMobile]="isMobile()"
+          [containerLayout]="SectionLayouts.ONE_COLUMN"
+          [formData]="formData()"
+          mode="locked"
+          [field]="getField(element)"
+          [formType]="FormTypes.TABS"
+          [fieldValidity]="fieldValidity()"
+          (customAction)="noop($event)"
+          (dataChange)="noop($event)"
+          (submit)="noop()"></lj-df-field>
+      }
+    }
+  }
+</ng-template>

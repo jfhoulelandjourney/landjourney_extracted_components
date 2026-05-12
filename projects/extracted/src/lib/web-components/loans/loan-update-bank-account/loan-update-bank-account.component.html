@@ -1,0 +1,127 @@
+<div class="container">
+  <lj-loan-header [loan]="loan()" />
+
+  <mat-expansion-panel class="mat-elevation-z0" [expanded]="true">
+    <mat-expansion-panel-header>
+      <div class="body-m">Update Bank Account</div>
+    </mat-expansion-panel-header>
+
+    @if (!showSuccess()) {
+      <div class="step">
+        <lj-round-header-chip
+          [number]="1"
+          text="Update bank information for draws and payments"
+          size="small"
+          color="brand"></lj-round-header-chip>
+
+        <div class="content">
+          <div class="form">
+            <div class="current-bank">
+              <div class="title">Current bank account on file</div>
+              <div class="details">
+                <div class="row">
+                  <div class="label">Bank</div>
+                  <div class="value">{{ currentBankName }}</div>
+                </div>
+                <div class="row">
+                  <div class="label">Account</div>
+                  <div class="value">{{ currentAccountMask }}</div>
+                </div>
+                <div class="row">
+                  <div class="label">Routing</div>
+                  <div class="value">{{ currentRoutingMask }}</div>
+                </div>
+              </div>
+            </div>
+
+            <lj-input-field
+              id="accountHolderName"
+              name="accountHolderName"
+              label="Account holder name"
+              placeholder="Full name"
+              [showError]="false"
+              [(ngModel)]="accountHolderName" />
+
+            <lj-input-field
+              id="bankName"
+              name="bankName"
+              label="Bank name (optional)"
+              placeholder="Bank name"
+              [showError]="false"
+              [(ngModel)]="bankName" />
+
+            <lj-select-field
+              id="accountType"
+              name="accountType"
+              label="Account type"
+              placeholder="Select account type"
+              [options]="accountTypeOptions"
+              [ngModel]="accountType"
+              (change)="accountType = $event" />
+
+            <lj-input-field
+              id="routingNumber"
+              name="routingNumber"
+              label="Routing number"
+              placeholder="9-digit routing number"
+              [showError]="false"
+              [(ngModel)]="routingNumber" />
+
+            <lj-input-field
+              id="accountNumber"
+              name="accountNumber"
+              label="Account number"
+              placeholder="Account number"
+              [showError]="false"
+              [(ngModel)]="accountNumber" />
+
+            <lj-input-field
+              id="confirmAccountNumber"
+              name="confirmAccountNumber"
+              label="Confirm account number"
+              placeholder="Re-enter account number"
+              [showError]="false"
+              [(ngModel)]="confirmAccountNumber" />
+
+            <div class="checkboxes">
+              <lj-checkbox-field
+                label="Automatically debit payments on the due date"
+                [value]="autoDebit()"
+                (valueChanged)="autoDebit.set($event)"></lj-checkbox-field>
+            </div>
+
+            <div class="actions">
+              <button lj-button (activate)="saveDemo()">
+                Save
+                <mat-icon>check</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <div class="step">
+        <div class="content">
+          <div class="summary">
+            <div class="sub-container">
+              <div class="loan-info">
+                <div class="box success-box">
+                  <div class="success-icon">
+                    <mat-icon>check_circle</mat-icon>
+                  </div>
+                  <div class="success-title">
+                    Bank Account Successfully Updated!
+                  </div>
+                  <div class="success-message">
+                    Your bank account information has been updated and is ready
+                    to use.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </mat-expansion-panel>
+</div>

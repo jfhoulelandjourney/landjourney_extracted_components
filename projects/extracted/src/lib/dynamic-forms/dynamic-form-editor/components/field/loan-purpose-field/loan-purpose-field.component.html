@@ -1,0 +1,104 @@
+@if (field()) {
+  <div
+    class="container"
+    (mouseenter)="showShadow.set(true)"
+    (mouseleave)="showShadow.set(false)">
+    <div class="input" [class.shadow]="showShadow()">
+      <div class="row">
+        <mat-icon>grading</mat-icon>
+
+        <lj-editable-input
+          [value]="field().label"
+          label="label"
+          [name]="field().name"
+          (onValueChange)="handleLabelChange($event)" />
+
+        <lj-field-configuration
+          (remove)="handleRemove()"
+          [options]="{
+            required: false,
+            inputType: false,
+            minMaxLength: false,
+            minMaxValue: false,
+            conditionalLogic: true,
+            validator: false,
+            decimalPrecision: false,
+            prefillable: true,
+            visible: false,
+          }"
+          (addConditionalLogic)="showConditionalLogic.set(true)"
+          (handleFieldChange)="handleFieldChange($event)"
+          [field]="field()" />
+      </div>
+
+      <div class="dynamic-form-input">
+        <div class="row body-s">
+          Please provide a breakdown of how the loan funds will be used (e.g.,
+          similar to a HUD Settlement Statement).
+        </div>
+        <div class="table">
+          <div class="table-row">
+            <div class="table-column field-title">Purpose</div>
+            <div class="table-column field-title">Percentage</div>
+            <div class="table-column action">
+              <button mat-icon-button class="small-icon-button">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-row">
+            <div class="table-column purpose">
+              <lj-input-field
+                placeholder="Purpose"
+                id="purpose"
+                name="purpose"
+                type="text"
+                [disabled]="true"
+                [showError]="false"
+                [style]="'gray'" />
+            </div>
+            <div class="table-column amount">
+              <lj-input-field
+                placeholder="100"
+                id="percentage"
+                name="percentage"
+                type="number"
+                [disabled]="true"
+                [showError]="false"
+                [style]="'gray'" />
+            </div>
+            <div class="table-column action remove">
+              <button mat-icon-button class="small-icon-button">
+                <mat-icon>remove</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-row last">
+            <div class="table-column total">Total:</div>
+            <div class="table-column total number">100%</div>
+            <div class="table-column action"></div>
+          </div>
+        </div>
+      </div>
+
+      @if (
+        (field().dependsOn !== undefined && field().dependsOn !== null) ||
+        showConditionalLogic()
+      ) {
+        <lj-conditional-logic
+          [mobile]="containerLayout() !== SectionLayouts.ONE_COLUMN"
+          [dependsOn]="field().dependsOn"
+          [existingFields]="existingFields()"
+          [formDefinition]="formDefinition()"
+          (removeConditionalLogic)="showConditionalLogic.set(false)"
+          (handleConditionalLogicChange)="
+            handleConditionalLogicChange($event)
+          " />
+      }
+    </div>
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

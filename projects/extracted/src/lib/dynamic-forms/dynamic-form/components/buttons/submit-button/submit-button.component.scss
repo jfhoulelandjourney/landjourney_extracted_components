@@ -1,0 +1,35 @@
+:host {
+  display: block;
+}
+
+.submit-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--padding-default);
+}
+
+.submit-layout--inline {
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.inline-style {
+  margin-top: var(--padding-spacious);
+}
+
+.submit-container {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.submit-layout--inline .submit-container {
+  display: flex;
+  flex-grow: 0;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+}

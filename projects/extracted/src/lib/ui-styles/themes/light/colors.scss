@@ -1,0 +1,163 @@
+body {
+  --brand-primary-100: var(--green-100);
+  --brand-primary-200: var(--green-200);
+  --brand-primary-300: var(--green-300);
+  --brand-primary-400: var(--green-400);
+  --brand-primary-500: var(--green-470);
+  --brand-primary-600: var(--green-600);
+  --brand-primary-700: var(--green-700);
+  --brand-primary-800: var(--green-800);
+
+  --brand-secondary-100: var(--blue-100);
+  --brand-secondary-200: var(--blue-200);
+  --brand-secondary-300: var(--blue-300);
+  --brand-secondary-400: var(--blue-400);
+  --brand-secondary-500: var(--blue-500);
+  --brand-secondary-600: var(--blue-600);
+  --brand-secondary-700: var(--blue-700);
+  --brand-secondary-800: var(--blue-800);
+
+  --brand-tertiary-100: var(--yellow-100);
+  --brand-tertiary-200: var(--yellow-200);
+  --brand-tertiary-300: var(--yellow-300);
+  --brand-tertiary-400: var(--yellow-400);
+  --brand-tertiary-500: var(--yellow-500);
+  --brand-tertiary-600: var(--yellow-600);
+  --brand-tertiary-700: var(--yellow-700);
+  --brand-tertiary-800: var(--yellow-800);
+
+  --accent-highlight-100: var(--lime-100);
+  --accent-highlight-200: var(--lime-200);
+  --accent-highlight-600: var(--lime-600);
+  --accent-highlight-700: var(--lime-700);
+
+  /* Neutral Colors */
+
+  --accent-black-100: var(--black-100);
+  --accent-black-200: var(--black-200);
+  --accent-black-300: var(--black-300);
+  --accent-black-400: var(--black-400);
+  --accent-black-500: var(--black-500);
+  --accent-black-600: var(--black-600);
+  --accent-black-700: var(--black-700);
+  --accent-black-800: var(--black-800);
+
+  /* Status Colors */
+  --status-success-100: #e6faf0;
+  --status-success-200: #bcf1d7;
+  --status-success-300: #91e8be;
+  --status-success-400: #6ce0a8;
+  --status-success-500: #41d78f;
+  --status-success-600: #27b973;
+  --status-success-700: #1e8f59;
+  --status-success-800: #15653f;
+
+  --status-warning-100: #fef7ec;
+  --status-warning-200: #fbead0;
+  --status-warning-300: #fae1bd;
+  --status-warning-400: #f6cc8d;
+  --status-warning-500: #f3b75e;
+  --status-warning-600: #efa22f;
+  --status-warning-700: #da8911;
+  --status-warning-800: #aa6b0d;
+
+  --status-error-100: #fceae9;
+  --status-error-200: #f7c7c5;
+  --status-error-300: #f3a9a5;
+  --status-error-400: #ef8f8a;
+  --status-error-500: #e9655d;
+  --status-error-600: #e33b32;
+  --status-error-700: #c5241b;
+  --status-error-800: #991c15;
+
+  /* Semantic Colors */
+  --content-background-color: var(--gray-100);
+  --box-border-color: #eaebf0;
+
+  --login-page: var(--brand-primary-500);
+  --login-page-gradient: var(--brand-primary-700);
+  --login-page-background: linear-gradient(
+    var(--brand-primary-100) 0%,
+    var(--brand-primary-500) 50%,
+    var(--brand-primary-100) 100%
+  );
+
+  --color-lighter: var(--black-100);
+  --color-darker: #141514;
+  --status-warning: var(--status-warning-300);
+  --error-color: var(--status-error-800);
+  --color--accent--success: var(--status-success-600);
+  --color--accent--warning: var(--status-warning-600);
+  --color--accent--danger: var(--status-error-500);
+  --principal-foreground: var(--brand-tertiary-300); // #91784e;
+  --principal-background: var(--brand-primary-300); //#2b2b29;
+
+  --icons-positive: var(--accent-black-800);
+  --icons-negative: var(--accent-black-100);
+  --color-background-main: var(--accent-black-100);
+  --color-background-modal: var(--accent-black-200);
+  --color-text-main: var(--accent-black-700);
+  --color-text-strong: var(--accent-black-800);
+  --color-text-inverse: var(--accent-black-100);
+  --color-text-inverse-secondary: rgba(255, 255, 255, 0.7);
+  --color-background-accent: var(--brand-primary-800);
+  --color-background-accent-secondary: var(--brand-primary-700);
+  --color-highlight: var(--brand-primary-100);
+  --color-inactive: var(--accent-black-300);
+  --color-main-button: var(--accent-highlight-700);
+  --color-secondary-button: var(--accent-black-100);
+  --color-success: var(--status-success-600);
+  --color-warning: var(--status-warning-500);
+  --color-error: var(--status-error-500);
+  --color-disabled: var(--accent-black-400);
+  --color-background-input: var(--accent-black-100);
+  --color-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.15);
+  --color-border: var(--accent-black-300);
+  --color-background-button: var(--brand-tertiary-500);
+  --color-text-title: var(--brand-tertiary-500);
+  --color-background-button-disabled: var(--accent-black-300);
+  --color-background-secondary: #f4f4f2;
+  --color-text-button: var(--accent-black-100);
+  --color-text-button-disabled: var(--accent-black-500);
+  --color-toolbar-background: var(--accent-black-700);
+  --color-border-strong: var(--accent-black-600);
+  --color-text-not-selected: #797979;
+  --color-text-h3: var(--brand-tertiary-500);
+  --color-background-light-grey: #f4f4f2;
+
+  --placeholder-color: #797979;
+
+  // sidebar
+  --sidebar-background: var(--brand-primary-500, --principal-background);
+  --sidebar-footer-background: var(--brand-primary-400);
+  --sidebar-footer-border-color: var(--brand-primary-400);
+  --sidebar-user-wrapper-border-color: var(--brand-primary-800);
+
+  // main navigation
+  --nav-link-text-color: var(--accent-black-100);
+  --nav-link-active-color: var(--brand-primary-800);
+
+  // COMPONENT: LJ_BUTTON_2
+  // primary button
+  --color-background-primary-button: var(--brand-tertiary-500);
+  --color-foreground-primary-button: var(--accent-black-100);
+  --color-border-primary-button: var(--color-background-primary-button);
+  // secondary button
+  --color-background-secondary-button: var(--brand-tertiary-100);
+  --color-foreground-secondary-button: var(--brand-tertiary-700);
+  --color-border-secondary-button: var(--color-background-secondary-button);
+  // tertiary button
+  --color-background-tertiary-button: var(--accent-black-100);
+  --color-foreground-tertiary-button: var(--brand-tertiary-500);
+  --color-border-tertiary-button: var(--color-foreground-tertiary-button);
+
+  // LJ Pill
+  --color-thin-pill-border: rgba(0, 0, 0, 0.08);
+
+  // fatal error
+  --fatal-error-background: linear-gradient(
+    180deg,
+    var(--brand-primary-400) 14%,
+    var(--brand-primary-800) 94%
+  );
+}

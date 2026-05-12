@@ -1,0 +1,43 @@
+.image-cropper-wrapper {
+  min-width: 300px;
+  min-height: 400px;
+}
+
+[mat-dialog-title] {
+  font-size: var(--font-size-md);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 30px;
+  letter-spacing: -0.24px;
+  padding-block-end: var(--spacing-5);
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  margin-top: var(--padding-comfortable);
+
+  span {
+    flex-grow: 1;
+  }
+  mat-icon {
+    &:hover {
+      opacity: 0.8;
+      cursor: pointer;
+    }
+  }
+}
+
+.button-margin-right {
+  margin-right: var(--padding-default);
+}
+
+.rotate-90-degrees {
+  transform: rotate(90deg);
+}
+
+image-cropper {
+  max-height: 50vh;
+  max-width: 80vw;
+}

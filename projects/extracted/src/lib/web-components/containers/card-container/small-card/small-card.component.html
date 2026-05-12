@@ -1,0 +1,45 @@
+@if (this.backgroundImage) {
+  <div
+    class="small-card"
+    [class.align-left]="this.alignContent === 'left'"
+    [class.square]="this.shape === 'square'"
+    [class.dark]="this.dark"
+    [class.rectangle]="this.shape === 'rectangle'"
+    style="background-image: url('{{ this.backgroundImage }}');"
+    (click)="this.navigate()">
+    <ng-content />
+    @if (this.title) {
+      <span class="title">{{ this.title }}</span>
+    }
+
+    @if (this.subtitle) {
+      <span class="subtitle">{{ this.subtitle }}</span>
+    }
+
+    @if (this.linkText) {
+      <span class="separator"></span>
+      <a class="link" href="">{{ this.linkText }}&nbsp;&gt;</a>
+    }
+  </div>
+} @else {
+  <div
+    class="small-card"
+    [class.square]="this.shape === 'square'"
+    [class.dark]="this.dark"
+    [class.rectangle]="this.shape === 'rectangle'"
+    (click)="this.navigate()">
+    <ng-content />
+    @if (this.title) {
+      <span class="title">{{ this.title }}</span>
+    }
+
+    @if (this.subtitle) {
+      <span class="subtitle">{{ this.subtitle }}&nbsp;&gt;</span>
+    }
+
+    @if (this.linkText) {
+      <span class="separator"></span>
+      <a class="link">{{ this.linkText }}</a>
+    }
+  </div>
+}

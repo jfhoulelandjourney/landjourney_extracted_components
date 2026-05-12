@@ -1,0 +1,31 @@
+<div
+  class="avatar"
+  [class.padding]="imagePadding()"
+  [class.avatar-border]="showBorder()"
+  [class.tiny]="size() === 'tiny'"
+  [class.small]="size() === 'small'"
+  [class.medium]="size() === 'medium'"
+  [class.large]="size() === 'large'"
+  [class.x-large]="size() === 'x-large'"
+  [style.background-color]="backgroundColor()"
+  [style.color]="textColor()"
+  #matTooltip="matTooltip"
+  (activate)="isMobile() ? matTooltip.toggle() : undefined"
+  (activate)="avatarClick.emit()"
+  (mouseenter)="isMobile() ? undefined : matTooltip.show()"
+  (mouseleave)="isMobile() ? undefined : matTooltip.hide()"
+  [matTooltip]="tooltip() && tooltip() !== '' ? tooltip() : null"
+  matTooltipPosition="above">
+  @if (avatarUrl()) {
+    <img
+      height="100%"
+      width="100%"
+      [src]="avatarUrl()"
+      alt="avatar-{{ name() }}"
+      onerror="style.display='none';" />
+  }
+
+  @if (name() && name() !== '') {
+    {{ getInitials() }}
+  }
+</div>

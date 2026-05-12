@@ -1,0 +1,118 @@
+<lj-button
+  variant="ghost"
+  intent="neutral"
+  size="sm"
+  fluid="width"
+  (activate)="createSigneeOption()">
+  <mat-icon before-content>add</mat-icon>
+  <span>Add a signee</span>
+</lj-button>
+
+<div class="signees-container">
+  @for (option of options(); track option.id; let idx = $index) {
+    <ng-container
+      [ngTemplateOutlet]="signeeItem"
+      [ngTemplateOutletContext]="{
+        isNew: false,
+        option: option,
+      }"></ng-container>
+  }
+
+  @if (this.editingNewSignee()) {
+    <ng-container
+      [ngTemplateOutlet]="signeeItem"
+      [ngTemplateOutletContext]="{
+        isNew: true,
+        option: this.editingSignee(),
+      }"></ng-container>
+  }
+</div>
+
+<!-- HEADER TEMPLATE -->
+<ng-template #signeeHeader let-option="option" let-isNew="isNew">
+  <div class="signee-header">
+    <span class="signee-name body-sm">{{ option.name }}</span>
+
+    @if (!isNew && editingSignee()?.id !== option.id) {
+      @for (role of option.roles; track role.value) {
+        <lj-button
+          class="signee-role"
+          variant="ghost"
+          intent="neutral"
+          size="sm"
+          (activate)="editSignee(option)">
+          {{ formatRoleAbbreviation(role) }}
+        </lj-button>
+      }
+    }
+
+    @if (allowDelete()) {
+      <lj-button
+        variant="icon"
+        intent="neutral"
+        size="sm"
+        [disabled]="option.noDelete || (!isNew && options().length <= 1)"
+        [attr.title]="
+          !isNew && options().length <= 1
+            ? 'Templates need at least one signee.'
+            : null
+        "
+        (activate)="
+          isNew || editingSignee() === option
+            ? closeSignee()
+            : removeSignee(editingSignee() ?? option)
+        ">
+        <mat-icon>close</mat-icon>
+      </lj-button>
+    }
+  </div>
+</ng-template>
+
+<!-- Signee TEMPLATE -->
+<ng-template #signeeItem let-option="option" let-isNew="isNew">
+  <div
+    class="signee"
+    [class.signee-selected]="selected() === option?.id"
+    [class.signee-editing]="isNew || editingSignee()?.id === option?.id"
+    (activate)="
+      isNew || editingSignee()?.id === option?.id
+        ? null
+        : selectSignee(editingSignee()?.id ?? option.id)
+    ">
+    <ng-container
+      [ngTemplateOutlet]="signeeHeader"
+      [ngTemplateOutletContext]="{
+        isNew: isNew,
+        option: option,
+      }"></ng-container>
+
+    @if (editingSignee()?.id === option?.id) {
+      <div class="role-selection">
+        <span class="role-selection-label">Allowed Roles</span>
+
+        <mat-select
+          lj-select
+          [ngModel]="option.roles ?? []"
+          [ngModelOptions]="{ standalone: true }"
+          (ngModelChange)="toggleRole(editingSignee()?.id, $event)"
+          multiple
+          data-testid="borrower-roles-select">
+          @for (roleOption of roleOptions(); track roleOption.value) {
+            <mat-option [value]="roleOption.value">
+              {{ roleOption.label }}
+            </mat-option>
+          }
+        </mat-select>
+      </div>
+
+      <lj-button
+        variant="primary"
+        fluid="width"
+        size="sm"
+        [disabled]="!option.roles || option.roles.length === 0"
+        (activate)="confirmSignee()">
+        Add this signee
+      </lj-button>
+    }
+  </div>
+</ng-template>

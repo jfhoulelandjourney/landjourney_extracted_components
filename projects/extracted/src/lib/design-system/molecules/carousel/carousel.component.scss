@@ -1,0 +1,23 @@
+//  THIS CAROUSEL MESSES WITH THE WIDTH OF THE PAGE DO NOT USE WITHOUT FIXING
+.carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+
+  .carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .carousel-item {
+    flex: 0 0 100%;
+    opacity: 0;
+    height: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  .carousel-item.active {
+    opacity: 1;
+    height: unset;
+  }
+}

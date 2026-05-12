@@ -1,0 +1,30 @@
+<div
+  class="annotation"
+  [class.annotation--dragging]="dragging()"
+  [class.annotation--disabled]="disabled()"
+  [attr.data-template]="isTemplate() ? 'true' : null"
+  [attr.data-type]="type()"
+  role="button"
+  [attr.aria-label]="getAccessibleDescription()"
+  [attr.aria-describedby]="getAnnotationDescription()"
+  [attr.tabindex]="disabled() ? '-1' : '0'"
+  [attr.aria-disabled]="disabled()">
+  <div class="annotation-icon">
+    <mat-icon [fontIcon]="iconName()" />
+  </div>
+  <span class="body-sm">
+    {{ type() === 'custom' ? name() : (type() | titlecase) }}
+  </span>
+</div>
+
+<!-- This template creates the preview when dragging -->
+<ng-template cdkDragPreview>
+  <div class="annotation annotation--preview">
+    <div class="annotation-icon">
+      <mat-icon [fontIcon]="iconName()" />
+    </div>
+    <span class="body-sm">
+      {{ type() === 'custom' ? name() : (type() | titlecase) }}
+    </span>
+  </div>
+</ng-template>

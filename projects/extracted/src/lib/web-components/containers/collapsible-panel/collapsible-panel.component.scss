@@ -1,0 +1,52 @@
+.panel-content {
+  transition: opacity linear 300ms;
+
+  height: 0px;
+  width: 0px;
+  overflow: hidden;
+  opacity: 0;
+
+  text-align: left;
+
+  &.show-panel-content {
+    height: unset;
+    width: unset;
+    overflow: unset;
+    opacity: 1;
+
+    transition: opacity linear 300ms;
+  }
+}
+
+.max-width,
+.panel-title {
+  flex-grow: 1;
+}
+
+.panel-title {
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--padding-compact);
+
+  opacity: 1;
+
+  cursor: pointer;
+
+  mat-icon {
+    opacity: 1;
+    transition: opacity linear 300ms;
+  }
+
+  :hover {
+    opacity: 1.2;
+
+    mat-icon {
+      opacity: 1.2;
+      transition: opacity linear 300ms;
+    }
+  }
+}

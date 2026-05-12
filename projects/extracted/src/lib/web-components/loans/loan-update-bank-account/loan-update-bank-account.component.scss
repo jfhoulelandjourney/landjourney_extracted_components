@@ -1,0 +1,72 @@
+.form {
+  display: grid;
+  gap: 16px;
+}
+
+.current-bank {
+  border: 1px solid var(--lj-color-border, #e5e7eb);
+  border-radius: 8px;
+  padding: 12px;
+  background: #fafafa;
+}
+
+.current-bank .title {
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.current-bank .row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  padding: 2px 0;
+}
+
+.checkboxes {
+  margin-top: 8px;
+}
+
+.actions {
+  margin-top: 8px;
+}
+
+.success-box {
+  text-align: center;
+  padding: 48px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.success-icon {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--status-success-100, #d1fae5);
+  color: var(--status-success-600, #059669);
+
+  mat-icon {
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    line-height: 64px;
+  }
+}
+
+.success-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--status-success-700, #047857);
+  margin-top: 8px;
+}
+
+.success-message {
+  font-size: 16px;
+  color: var(--color-text-secondary, #6b7280);
+  max-width: 400px;
+  line-height: 1.5;
+}

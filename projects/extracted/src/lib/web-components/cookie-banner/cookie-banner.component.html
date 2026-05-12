@@ -1,0 +1,36 @@
+@if (visible()) {
+  <div class="cookie-banner-overlay">
+    <div class="cookie-banner-overlay__backdrop"></div>
+    <div class="cookie-banner" role="dialog" aria-label="Cookie consent">
+      <div class="cookie-banner__content">
+        <p class="cookie-banner__text">
+          We use cookies and similar technologies for analytics and to improve
+          your experience. By accepting, you allow us to use session replay and
+          analytics. You can change your mind at any time from your profile
+          settings.
+
+          @if (cookiePolicyUrl(); as url) {
+            <br />
+            <br />
+            <a
+              [href]="url"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="cookie-banner__link">
+              View our cookie policy
+              <mat-icon class="cookie-banner__link-icon">open_in_new</mat-icon>
+            </a>
+          }
+        </p>
+        <div class="cookie-banner__actions">
+          <button type="button" lj-button="inverse-cta" (activate)="reject()">
+            Reject
+          </button>
+          <button type="button" lj-button="cta" (activate)="accept()">
+            Accept
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

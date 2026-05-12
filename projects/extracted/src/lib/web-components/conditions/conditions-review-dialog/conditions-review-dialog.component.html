@@ -1,0 +1,21 @@
+<div class="modal">
+  <h2 mat-dialog-title>{{ data.condition.title }}</h2>
+
+  <mat-dialog-content>
+    <div
+      class="condition-text"
+      [innerHTML]="data.condition.text | SafeHtml"></div>
+
+    @if (data.condition.disclaimerText && data.condition.disclaimerText.trim() !== '') {
+      <div class="confirmation-container">
+        <mat-checkbox [(ngModel)]="confirmationCheck" labelPosition="before">
+          {{ data.condition.disclaimerText }}
+        </mat-checkbox>
+      </div>
+    }
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="center">
+    <button class="lj-button secondary" (click)="close()">Close</button>
+  </mat-dialog-actions>
+</div>

@@ -1,0 +1,125 @@
+@if (loading()) {
+  Loading...
+} @else {
+  <div class="section">
+    <h3 [class.mobile]="mobile()">Communication methods</h3>
+    <div class="general-communication-methods">
+      <div class="slide-toggle" [class.mobile]="mobile()">
+        <mat-slide-toggle
+          [checked]="globalEmail()"
+          (toggleChange)="handleEmailChange()"
+          labelPosition="before">
+          Email
+        </mat-slide-toggle>
+      </div>
+      <div class="slide-toggle" [class.mobile]="mobile()">
+        <mat-slide-toggle
+          [checked]="globalSms()"
+          (toggleChange)="handleSmsChange()"
+          labelPosition="before">
+          SMS
+        </mat-slide-toggle>
+      </div>
+      <div class="slide-toggle" [class.mobile]="mobile()">
+        <mat-slide-toggle
+          [checked]="globalInApp()"
+          (toggleChange)="handleInAppChange()"
+          labelPosition="before">
+          In-App
+        </mat-slide-toggle>
+      </div>
+    </div>
+  </div>
+
+  @for (preference of displayedPreferences(); track $index) {
+    <lj-collapsible-panel class="section">
+      <div class="collapsible-title" trigger>
+        <h3 [class.mobile]="mobile()">
+          {{ getHumanName(preference.workflow?.identifier) }}
+        </h3>
+      </div>
+      <div class="workflow-layout" content>
+        <div class="toggles">
+          @if (preference.channels.email !== undefined) {
+            <div class="slide-toggle toggle-width">
+              <mat-slide-toggle
+                [checked]="preference.channels.email"
+                (toggleChange)="
+                  handleChannelPreferenceChange(preference, 'email')
+                "
+                labelPosition="before">
+                Email
+              </mat-slide-toggle>
+            </div>
+          }
+
+          @if (preference.channels.sms !== undefined) {
+            <div class="slide-toggle toggle-width">
+              <mat-slide-toggle
+                [checked]="preference.channels.sms"
+                (toggleChange)="
+                  handleChannelPreferenceChange(preference, 'sms')
+                "
+                labelPosition="before">
+                SMS
+              </mat-slide-toggle>
+            </div>
+          }
+
+          @if (preference.channels.in_app !== undefined) {
+            <div class="slide-toggle toggle-width">
+              <mat-slide-toggle
+                [checked]="preference.channels.in_app"
+                (toggleChange)="
+                  handleChannelPreferenceChange(preference, 'in_app')
+                "
+                labelPosition="before">
+                In-App
+              </mat-slide-toggle>
+            </div>
+          }
+
+          @if (preference.channels.push !== undefined) {
+            <div class="slide-toggle toggle-width">
+              <mat-slide-toggle
+                [checked]="preference.channels.push"
+                (toggleChange)="
+                  handleChannelPreferenceChange(preference, 'push')
+                "
+                labelPosition="before">
+                Push
+              </mat-slide-toggle>
+            </div>
+          }
+
+          @if (preference.channels.chat) {
+            <div class="slide-toggle toggle-width">
+              <mat-slide-toggle
+                [checked]="preference.channels.chat"
+                (toggleChange)="
+                  handleChannelPreferenceChange(preference, 'chat')
+                "
+                labelPosition="before">
+                Chat
+              </mat-slide-toggle>
+            </div>
+          }
+        </div>
+        @if (isDigestActivated()) {
+          <div class="digests">
+            <lj-select-field
+              [required]="true"
+              label="Digest time"
+              name="digestTime{{ preference.workflow?.identifier }}"
+              [required]="false"
+              [options]="digestOptions"
+              [ngModel]="getDigestPreferenceForWorkflow(preference)"
+              (ngModelChange)="
+                handleDigestPreferenceChange(preference, $event)
+              " />
+          </div>
+        }
+      </div>
+    </lj-collapsible-panel>
+  }
+}

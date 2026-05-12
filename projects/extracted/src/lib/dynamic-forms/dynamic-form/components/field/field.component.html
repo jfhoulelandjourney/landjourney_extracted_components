@@ -1,0 +1,337 @@
+@if (field()) {
+  @switch (field().fieldType) {
+    @case (FieldType.INPUT) {
+      <lj-df-input-field
+        [customStyle]="customStyle()"
+        [containerLayout]="containerLayout()"
+        [formData]="formData()"
+        [field]="this.getFieldAsString()"
+        [mode]="mode()"
+        [style]="style()"
+        [suppressedErrorKeys]="suppressedErrorKeys()"
+        (dataChange)="handleDataChange($event)"></lj-df-input-field>
+    }
+    @case (FieldType.DATE) {
+      <lj-df-date-field
+        [customStyle]="customStyle()"
+        [containerLayout]="containerLayout()"
+        [formData]="formData()"
+        [field]="this.getFieldAsNumber()"
+        [mode]="mode()"
+        [style]="style()"
+        [suppressedErrorKeys]="suppressedErrorKeys()"
+        (dataChange)="handleDataChange($event)"></lj-df-date-field>
+    }
+    @case (FieldType.CHECKBOX) {
+      <lj-df-checkbox-field
+        [customStyle]="customStyle()"
+        [containerLayout]="containerLayout()"
+        [formData]="formData()"
+        [field]="this.getFieldAsBoolean()"
+        [mode]="mode()"
+        [style]="style()"
+        [suppressedErrorKeys]="suppressedErrorKeys()"
+        (dataChange)="handleDataChange($event)"></lj-df-checkbox-field>
+    }
+    @case (FieldType.MONEY) {
+      <lj-df-money-field
+        [customStyle]="customStyle()"
+        [containerLayout]="containerLayout()"
+        [formData]="formData()"
+        [field]="this.getFieldAsNumber()"
+        [mode]="mode()"
+        [style]="style()"
+        [suppressedErrorKeys]="suppressedErrorKeys()"
+        (dataChange)="handleDataChange($event)"></lj-df-money-field>
+    }
+    @case (FieldType.NUMBER) {
+      <lj-df-number-field
+        [customStyle]="customStyle()"
+        [containerLayout]="containerLayout()"
+        [formData]="formData()"
+        [field]="this.getFieldAsNumber()"
+        [mode]="mode()"
+        [style]="style()"
+        [suppressedErrorKeys]="suppressedErrorKeys()"
+        (dataChange)="handleDataChange($event)"></lj-df-number-field>
+    }
+    @case (FieldType.RADIO) {
+      <lj-df-radio-field
+        [customStyle]="customStyle()"
+        [containerLayout]="containerLayout()"
+        [formData]="formData()"
+        [field]="this.getFieldAsString()"
+        [mode]="mode()"
+        [style]="style()"
+        [suppressedErrorKeys]="suppressedErrorKeys()"
+        (dataChange)="handleDataChange($event)"></lj-df-radio-field>
+    }
+    @case (FieldType.SELECT) {
+      <lj-df-select-field
+        [customStyle]="customStyle()"
+        [containerLayout]="containerLayout()"
+        [style]="style()"
+        [formData]="formData()"
+        [field]="this.getFieldAsString()"
+        [mode]="mode()"
+        [suppressedErrorKeys]="suppressedErrorKeys()"
+        (dataChange)="handleDataChange($event)"></lj-df-select-field>
+    }
+    @case (FieldType.TEXT) {
+      <lj-df-text-field
+        [customStyle]="customStyle()"
+        [containerLayout]="containerLayout()"
+        [formData]="formData()"
+        [field]="this.getFieldAsString()"
+        [mode]="mode()"
+        [style]="style()"
+        [suppressedErrorKeys]="suppressedErrorKeys()"
+        (dataChange)="handleDataChange($event)"></lj-df-text-field>
+    }
+
+    @case (FieldType.LOAN_INFORMATION) {
+      <lj-df-loan-information-field
+        [isMobile]="isMobile()"
+        [customStyle]="customStyle()"
+        [containerLayout]="containerLayout()"
+        [formData]="formData()"
+        [field]="this.getFieldAsLoanInformation()"
+        [mode]="mode()"
+        [suppressedErrorKeys]="suppressedErrorKeys()"
+        (dataChange)="handleDataChange($event)"></lj-df-loan-information-field>
+    }
+    @case (FieldType.LOAN_PURPOSE) {
+      <lj-df-loan-purpose-field
+        [isMobile]="isMobile()"
+        [customStyle]="customStyle()"
+        [containerLayout]="containerLayout()"
+        [formData]="formData()"
+        [field]="this.getFieldAsLoanPurpose()"
+        [mode]="mode()"
+        [suppressedErrorKeys]="suppressedErrorKeys()"
+        (dataChange)="handleDataChange($event)"></lj-df-loan-purpose-field>
+    }
+    @case (FieldType.LOAN_SOURCES) {
+      <lj-df-loan-sources-field
+        [isMobile]="isMobile()"
+        [customStyle]="customStyle()"
+        [containerLayout]="containerLayout()"
+        [formData]="formData()"
+        [field]="this.getFieldAsLoanSources()"
+        [mode]="mode()"
+        [suppressedErrorKeys]="suppressedErrorKeys()"
+        (dataChange)="handleDataChange($event)"></lj-df-loan-sources-field>
+    }
+    @case (FieldType.BORROWERS) {
+      <lj-df-borrowers-field
+        [isMobile]="isMobile()"
+        [customStyle]="customStyle()"
+        [containerLayout]="containerLayout()"
+        [formData]="formData()"
+        [field]="this.getFieldAsBorrowers()"
+        [mode]="mode()"
+        [suppressedErrorKeys]="suppressedErrorKeys()"
+        (dataChange)="handleDataChange($event)"></lj-df-borrowers-field>
+    }
+    @case (FieldType.DISCLAIMER) {
+      <lj-df-disclaimer-field
+        [customStyle]="customStyle()"
+        [containerLayout]="containerLayout()"
+        [formData]="formData()"
+        [field]="this.getFieldAsDisclaimer()"
+        [mode]="mode()"
+        [suppressedErrorKeys]="suppressedErrorKeys()"
+        (dataChange)="handleDataChange($event)"></lj-df-disclaimer-field>
+    }
+    @case (FieldType.QUESTIONNAIRE) {
+      <lj-df-questionnaire-field
+        [customStyle]="customStyle()"
+        [containerLayout]="containerLayout()"
+        [formData]="formData()"
+        [field]="this.getFieldAsQuestionnaire()"
+        [mode]="mode()"
+        [isMobile]="isMobile()"
+        [suppressedErrorKeys]="suppressedErrorKeys()"
+        (dataChange)="handleDataChange($event)"></lj-df-questionnaire-field>
+    }
+    @case (FieldType.SUBMIT_BUTTON) {
+      <div [style]="mode() !== 'edit' ? 'display: none' : ''">
+        <lj-df-submit-button
+          [customStyle]="customStyle()"
+          [containerLayout]="containerLayout()"
+          [formData]="formData()"
+          [field]="this.getFieldAsVoid()"
+          [mode]="mode()"
+          [formType]="formType()"
+          (submit)="handleSubmit()"></lj-df-submit-button>
+      </div>
+    }
+    @case (FieldType.FILE_UPLOAD) {
+      <lj-df-file-upload
+        [customStyle]="customStyle()"
+        [containerLayout]="containerLayout()"
+        [formData]="formData()"
+        [field]="this.getFieldAsFileUpload()"
+        [mode]="mode()"
+        [suppressedErrorKeys]="suppressedErrorKeys()"
+        (customAction)="handleCustomAction($event)"
+        (submit)="handleSubmit()"
+        (dataChange)="handleDataChange($event)"></lj-df-file-upload>
+    }
+    @case (FieldType.CROP_DETAILS) {
+      <lj-df-crop-details
+        [isMobile]="isMobile()"
+        [customStyle]="customStyle()"
+        [containerLayout]="containerLayout()"
+        [formData]="formData()"
+        [field]="this.getFieldAsCropDetails()"
+        [mode]="mode()"
+        [suppressedErrorKeys]="suppressedErrorKeys()"
+        (customAction)="handleCustomAction($event)"
+        (submit)="handleSubmit()"
+        (dataChange)="handleDataChange($event)"></lj-df-crop-details>
+    }
+    @case (FieldType.USE_OF_FUNDS) {
+      <lj-df-use-of-funds
+        [isMobile]="isMobile()"
+        [customStyle]="customStyle()"
+        [containerLayout]="containerLayout()"
+        [formData]="formData()"
+        [field]="this.getFieldAsUseOfFunds()"
+        [mode]="mode()"
+        [suppressedErrorKeys]="suppressedErrorKeys()"
+        (customAction)="handleCustomAction($event)"
+        (submit)="handleSubmit()"
+        (dataChange)="handleDataChange($event)"></lj-df-use-of-funds>
+    }
+    @case (FieldType.REPEATABLE_CARD) {
+      @if (organizationService.isFeatureFlagActivated('DF_REPEATABLE_CARD')) {
+        <lj-df-repeatable-card
+          [isMobile]="isMobile()"
+          [customStyle]="customStyle()"
+          [containerLayout]="containerLayout()"
+          [formData]="formData()"
+          [field]="this.getFieldAsRepeatableCard()"
+          [mode]="mode()"
+          (customAction)="handleCustomAction($event)"
+          (submit)="handleSubmit()"
+          (dataChange)="handleDataChange($event)"></lj-df-repeatable-card>
+      }
+    }
+    @case (FieldType.LIVESTOCK) {
+      <lj-df-livestock-details
+        [isMobile]="isMobile()"
+        [customStyle]="customStyle()"
+        [containerLayout]="containerLayout()"
+        [formData]="formData()"
+        [field]="this.getFieldALivestockDetails()"
+        [mode]="mode()"
+        [suppressedErrorKeys]="suppressedErrorKeys()"
+        (customAction)="handleCustomAction($event)"
+        (submit)="handleSubmit()"
+        (dataChange)="handleDataChange($event)"></lj-df-livestock-details>
+    }
+
+    @case (FieldType.ON_SCREEN_APPROVAL) {
+      @defer (on viewport) {
+        <lj-df-on-screen-approval
+          [customStyle]="customStyle()"
+          [containerLayout]="containerLayout()"
+          [formData]="formData()"
+          [field]="this.getFieldAsOnScreenApproval()"
+          [mode]="mode()"
+          [suppressedErrorKeys]="suppressedErrorKeys()"
+          (dataChange)="handleDataChange($event)"></lj-df-on-screen-approval>
+      } @placeholder {
+        <p>Not available yet</p>
+      }
+    }
+
+    @case (FieldType.NOTE) {
+      <lj-df-note-field
+        [customStyle]="customStyle()"
+        [containerLayout]="containerLayout()"
+        [formData]="formData()"
+        [field]="this.getFieldAsNote()"
+        [fieldValidity]="fieldValidity()"
+        [mode]="mode()"></lj-df-note-field>
+    }
+
+    @case (FieldType.COMPUTED) {
+      @if (isBackoffice || field().parameters.visible === true) {
+        <div
+          class="computed-wrapper"
+          [class.computed-wrapper--hidden-from-client]="
+            field().parameters.visible !== true &&
+            !allowManualComputedValueEdit()
+          ">
+          @if (
+            field().parameters.visible !== true &&
+            !allowManualComputedValueEdit()
+          ) {
+            <mat-icon class="hidden-badge" matTooltip="Hidden from client">
+              visibility_off
+            </mat-icon>
+          }
+          <lj-df-computed-field
+            [customStyle]="customStyle()"
+            [containerLayout]="containerLayout()"
+            [formData]="formData()"
+            [field]="this.getFieldAsString()"
+            [suppressedErrorKeys]="suppressedErrorKeys()"
+            [disabled]="computedFieldInputDisabled()"
+            [mode]="mode()"
+            [style]="style()"
+            (dataChange)="handleDataChange($event)"></lj-df-computed-field>
+        </div>
+      }
+    }
+
+    @default {
+      Unable to find a suitable component for the provided field type.
+    }
+  }
+
+  @if (isPrefillChangeAvailable()) {
+    <span class="prefill-available" [matMenuTriggerFor]="prefillChange">
+      New pre-filled value
+      <mat-icon class="small-icon">warning_amber</mat-icon>
+    </span>
+
+    <mat-menu #prefillChange="matMenu">
+      <div class="prefill-change-container">
+        <div class="description">
+          <div class="text">
+            <mat-icon class="prefill-icon">warning_amber</mat-icon>
+
+            <div>
+              There's a new version of that information available in our system.
+            </div>
+          </div>
+
+          @if (canPreviewPrefillChange()) {
+            <div class="new-value">
+              New value:
+              <span class="preview">{{ getPrefillChangePreview() }}</span>
+            </div>
+          }
+        </div>
+        <div class="buttons">
+          <lj-button
+            size="xs"
+            variant="ghost"
+            intent="neutral"
+            (activate)="this.prefillChangeDeclined.emit(this.field().name)">
+            Discard Change
+          </lj-button>
+          <lj-button
+            size="xs"
+            variant="primary"
+            (activate)="this.prefillChangeAccepted.emit(this.field().name)">
+            Accept Change
+          </lj-button>
+        </div>
+      </div>
+    </mat-menu>
+  }
+}

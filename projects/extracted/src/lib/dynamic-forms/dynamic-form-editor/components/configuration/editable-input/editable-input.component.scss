@@ -1,0 +1,74 @@
+.editable-text {
+  display: flex;
+  position: relative;
+  min-height: 27px;
+
+  .label-container {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+
+    &:hover .edit-pill {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  .edit-pill {
+    display: inline-flex;
+    align-items: center;
+    margin-left: var(--padding-compact, 8px);
+    padding: 0px 4px;
+    background: var(--green-470);
+    color: var(--accent-black-100, #ffffff);
+    border-radius: var(--radius-strong);
+    font-size: var(--font-size-xs, 12px);
+    cursor: pointer;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease-in-out;
+    white-space: nowrap;
+  }
+
+  label {
+    cursor: text;
+    transition: color 0.2s ease-in-out;
+    color: var(--text-icons-base-main, #252525);
+    font-family: Inter;
+    font-size: var(--font-size-xs);
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    flex-grow: 1;
+    text-align: left;
+  }
+
+  input {
+    border: none;
+    padding: var(--padding-reset, 0px);
+    outline: none;
+    color: var(--text-icons-base-main, #252525);
+    font-family: Inter;
+    font-size: var(--font-size-xs);
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    flex-grow: 1;
+    margin-top: -2px;
+  }
+
+  &.right-align {
+    min-width: 166px;
+    min-height: 25px;
+    text-align: right;
+
+    label {
+      text-align: right;
+      height: 25px;
+    }
+
+    input {
+      margin-top: 0px;
+    }
+  }
+}

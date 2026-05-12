@@ -1,0 +1,86 @@
+<!-- label -->
+<div class="slot-wrapper">
+  <ng-content select="[label]">
+    @if (label()) {
+      <label class="field-label default-content" for="id()">
+        {{ label() }}
+      </label>
+    }
+  </ng-content>
+</div>
+
+<!-- field container -->
+<div
+  class="field-wrapper"
+  [class.has-custom-error]="!!customErrorMessage()">
+  <!-- prefix icon -->
+  <div class="slot-wrapper">
+    <ng-content select="[before-input]">
+      @if (before()) {
+        <div class="before default-content">
+          <mat-icon>{{ before() }}</mat-icon>
+        </div>
+      }
+    </ng-content>
+  </div>
+
+  <!-- input -->
+  <div class="select-wrapper" #selectWrapper>
+    <mat-select
+      [id]="id()"
+      [attr.name]="name()"
+      [disabled]="disabled()"
+      [attr.readonly]="readonly()"
+      [required]="required()"
+      [placeholder]="placeholder() ?? ''"
+      [value]="value()"
+      [class.gray]="style() === 'gray'"
+      (selectionChange)="onSelectionChange($event.value)">
+      @for (option of options(); track option.label) {
+        <mat-option [disabled]="option.disabled" [value]="option.value">
+          {{ option.label }}
+        </mat-option>
+      }
+    </mat-select>
+  </div>
+
+  <!-- suffix icon -->
+  <div class="slot-wrapper">
+    <ng-content select="[after-input]">
+      @if (after()) {
+        <div class="after default-content">
+          <mat-icon>{{ after() }}</mat-icon>
+        </div>
+      }
+    </ng-content>
+  </div>
+</div>
+
+<!-- Hint -->
+<div class="hint">
+  <ng-content select="[hint]">
+    @if (hint()) {
+      <p class="default-content">{{ hint() }}</p>
+    }
+  </ng-content>
+</div>
+
+<!-- Errors -->
+@if (showErrors()) {
+  <div class="errors">
+    @if (customErrorMessage()) {
+      <ul class="default-content">
+        <li>{{ customErrorMessage() }}</li>
+      </ul>
+    } @else if (touched()) {
+      <ul class="default-content">
+        @for (error of errorsList; track error[0]) {
+          @let errorKey = error[0];
+          @let errorValue = error[1];
+          <li>{{ getErrorMessage(errorKey, errorValue) }}</li>
+        }
+      </ul>
+    }
+    <ng-content select="[errors]"></ng-content>
+  </div>
+}

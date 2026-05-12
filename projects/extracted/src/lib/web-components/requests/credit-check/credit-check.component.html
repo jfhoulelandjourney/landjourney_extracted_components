@@ -1,0 +1,71 @@
+@if (isTaskProvidedByClient() || isTaskApproved() || isTaskRejected()) {
+  <div
+    class="checks"
+    [class.green]="isTaskApproved()"
+    [class.error]="isTaskRejected()">
+    @if (isTaskApproved()) {
+      <mat-icon svgIcon="green-check"></mat-icon>
+      <p class="body-m inter">
+        <b>Your Credit Check has been approved.</b>
+      </p>
+      <p class="body-s inter">
+        If anything more is needed for this task we will let you know.
+      </p>
+    } @else if (isTaskRejected()) {
+      <mat-icon svgIcon="red-cross"></mat-icon>
+      <p class="body-m inter">
+        <b>Your Credit Check needs revision.</b>
+      </p>
+      <p class="body-s inter explanation">
+        Explanation:
+        {{ section().tasks[0]?.justification }}
+      </p>
+    } @else {
+      <mat-icon svgIcon="yellow-warning"></mat-icon>
+      <p class="body-m inter">
+        <b>Your Credit Check is being reviewed.</b>
+      </p>
+      <p class="body-s inter">
+        If anything more is needed for this task we will let you know.
+      </p>
+    }
+  </div>
+}
+<div class="container">
+  @if (isTaskCancelled()) {
+    <div>
+      The Credit Check was marked as not applicable:
+      {{ section().tasks[0]?.attachments?.[0]?.justification }}
+    </div>
+    <div>
+      <button class="lj-button" (activate)="back()">
+        Return
+        <mat-icon class="u-turn">u_turn_right</mat-icon>
+      </button>
+    </div>
+  } @else {
+    @if (currentStep() === CreditCheckSteps.CONSENT) {
+      <lj-credit-check-consent
+        (onConsentGiven)="onConsentGiven()"
+        (onBack)="back()"
+        [isMobile]="isMobile()" />
+    } @else if (currentStep() === CreditCheckSteps.CREDIT_CHECK_DETAILS) {
+      <lj-credit-check-details
+        [prefillTargetUserId]="section().assigneeId"
+        [name]="name()"
+        (onBack)="back()"
+        (onCreditCheckDetailsProvided)="creditCheckProvided($event)"
+        [isMobile]="isMobile()" />
+    } @else if (currentStep() === CreditCheckSteps.SUCCESS) {
+      <lj-credit-check-success
+        [name]="name()"
+        [request]="request()"
+        [section]="section()"
+        [isMobile]="isMobile()"
+        [creditCheckScore]="creditCheckScore()" />
+    } @else if (currentStep() === CreditCheckSteps.CREDIT_CHECK_IN_PROGRESS) {
+      <lj-lottie-wrapper
+        jsonPath="/assets/animations/identity_verification_in_progress.json"></lj-lottie-wrapper>
+    }
+  }
+</div>

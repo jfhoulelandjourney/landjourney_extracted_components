@@ -1,0 +1,122 @@
+/* TODO: Add icons and hint styles */
+
+:host {
+  --mat-form-field-container-text-font: var(
+    --input-field--text--font-family,
+    var(--font-family-primary)
+  );
+  --mat-form-field-container-text-line-height: var(
+    --input-field--text--line-height,
+    var(--line-height-xs)
+  );
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+  gap: var(--padding-compact);
+  font-family: var(--input-field--font-family, inherit);
+
+  .slot-wrapper {
+    &.textarea {
+      width: 100%;
+    }
+
+    textarea {
+      width: 100%;
+    }
+  }
+}
+
+/* TODO: Review */
+.field-label {
+  color: var(--text-icons-base-main, #252525);
+  font-family: Inter;
+  font-size: var(--font-size-xs);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+:host([required]) .field-label::after {
+  content: '*';
+  color: var(--error-color);
+  opacity: 0.5;
+  margin-inline-start: -0.2em;
+}
+
+.default-content:not(:first-child) {
+  display: none;
+}
+
+.field-wrapper {
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100%;
+  /* TODO: Add local variables for overwriting */
+  /* TODO: Use color variable */
+  border: 1px solid var(--input-field--border-color, #eaebf0);
+  /* TODO: Add local variables for overwriting */
+  border-radius: var(--radius-primary);
+  /* TODO: Add local variables for overwriting */
+  color: inherit;
+}
+
+:host([disabled]) .field-wrapper {
+  background-color: var(
+    --input-field--disabled--background-color,
+    var(--gray-300)
+  );
+}
+
+:host([aria-invalid]) .field-wrapper,
+.field-wrapper.has-custom-error {
+  border-color: var(--error-color);
+}
+
+.hint:empty {
+  display: none;
+}
+
+.hint {
+  font-size: var(--font-size-xxs);
+  color: var(--text--color--hint, #68727d);
+  min-height: 24px;
+}
+
+.errors {
+  font-size: var(--font-size-xxs);
+  color: var(--error-color);
+  overflow: hidden;
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    padding-bottom: var(--padding-compact);
+    margin: 0;
+  }
+
+  li {
+    list-style: none;
+  }
+}
+
+.select-wrapper {
+  width: 100%;
+}
+
+mat-select {
+  font-size: var(--font-size-xs);
+  border: none;
+  padding: 0;
+  background-color: #ffffff;
+  margin: 0;
+  flex: 1 1 auto;
+  padding: var(--padding-default) var(--spacing-4);
+
+  &.mat-mdc-select-disabled {
+    background-color: var(--gray-300);
+  }
+
+  &.gray {
+    background-color: var(--gray-100);
+  }
+}

@@ -1,0 +1,112 @@
+@if (mobile()) {
+  <mat-accordion class="accordion">
+    <mat-expansion-panel
+      class="mat-elevation-z0"
+      [class.open]="paymentOpen()"
+      [expanded]="paymentOpen()"
+      (opened)="paymentOpen.set(true)"
+      (closed)="paymentOpen.set(false)">
+      <mat-expansion-panel-header>
+        <div class="body-s">Make a Payment</div>
+      </mat-expansion-panel-header>
+
+      <lj-loan-payment
+        [loan]="loan()"
+        [panelOpen]="false"
+        [mobile]="mobile()" />
+    </mat-expansion-panel>
+    <!-- we don't want a paydown on loans at the moment -->
+    @if (false) {
+      <mat-expansion-panel
+        class="mat-elevation-z0"
+        [class.open]="paydownOpen()"
+        [expanded]="paydownOpen()"
+        (opened)="paydownOpen.set(true)"
+        (closed)="paydownOpen.set(false)">
+        <mat-expansion-panel-header>
+          <div class="body-s">Request a Paydown</div>
+        </mat-expansion-panel-header>
+
+        <lj-loan-request-paydown
+          [loan]="loan()"
+          [panelOpen]="false"
+          [mobile]="mobile()" />
+      </mat-expansion-panel>
+    }
+    <mat-expansion-panel
+      class="mat-elevation-z0"
+      [class.open]="payoffOpen()"
+      [expanded]="payoffOpen()"
+      (opened)="payoffOpen.set(true)"
+      (closed)="payoffOpen.set(false)">
+      <mat-expansion-panel-header>
+        <div class="body-s">Request a Payoff</div>
+      </mat-expansion-panel-header>
+
+      <lj-loan-request-payoff
+        [loan]="loan()"
+        [panelOpen]="false"
+        [mobile]="mobile()" />
+    </mat-expansion-panel>
+    @if (canRegisterPayment()) {
+      <mat-expansion-panel
+        class="mat-elevation-z0"
+        [class.open]="registerPaymentOpen()"
+        [expanded]="registerPaymentOpen()"
+        (opened)="registerPaymentOpen.set(true)"
+        (closed)="registerPaymentOpen.set(false)">
+        <mat-expansion-panel-header>
+          <div class="body-s">Register a Payment</div>
+        </mat-expansion-panel-header>
+
+        <lj-loan-register-payment
+          [loan]="loan()"
+          [panelOpen]="false"
+          [mobile]="mobile()"
+          (paymentRegistered)="paymentRegistered.emit()" />
+      </mat-expansion-panel>
+    }
+  </mat-accordion>
+  <p class="body-s data-disclaimer">
+    Please note that all data displayed in the portal reflects updates through
+    the close of business on the previous day.
+  </p>
+  <span id="end-of-page"></span>
+} @else {
+  <div class="container">
+    <lj-tabs [centered]="true">
+      <ng-template tab label="Make a Payment">
+        <lj-loan-payment [loan]="loan()" />
+      </ng-template>
+      <!-- we don't want a paydown on loans at the moment -->
+      @if (false) {
+        <ng-template tab label="Request a Paydown">
+          <lj-loan-request-paydown [loan]="loan()" />
+        </ng-template>
+      }
+
+      <ng-template tab label="Request a Payoff">
+        <lj-loan-request-payoff [loan]="loan()" />
+      </ng-template>
+
+      @if (isDemoMode()) {
+        <ng-template tab label="Update Bank Account">
+          <lj-loan-update-bank-account [loan]="loan()" />
+        </ng-template>
+      }
+
+      @if (canRegisterPayment()) {
+        <ng-template tab label="Register a Payment">
+          <lj-loan-register-payment
+            [loan]="loan()"
+            (paymentRegistered)="paymentRegistered.emit()" />
+        </ng-template>
+      }
+    </lj-tabs>
+
+    <p class="body-s data-disclaimer">
+      Please note that all data displayed in the portal reflects updates through
+      the close of business on the previous day.
+    </p>
+  </div>
+}

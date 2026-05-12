@@ -1,0 +1,12 @@
+<div class="breadcrumbs">
+  <mat-icon (activate)="goBack()" aria-label="Go back">chevron_left</mat-icon>
+  @for (crumb of filteredBreadcrumbs(); track crumb.path) {
+    @if (crumb.path) {
+      <a routerLink="{{ crumb.path }}">{{ crumb.title }}</a>
+    } @else {
+      <span class="current">{{ crumb.title }}</span>
+    }
+
+    <span class="separator">/</span>
+  }
+</div>

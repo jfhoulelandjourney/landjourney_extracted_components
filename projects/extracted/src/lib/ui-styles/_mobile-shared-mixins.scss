@@ -1,0 +1,41 @@
+@use 'tokens/breakpoints' as bp;
+
+@mixin mobile-sidebar-hidden {
+  body.mobile {
+    .layout-sidebar {
+      display: none !important;
+    }
+  }
+}
+
+@mixin on-mobile-shell-viewport-or-session {
+  @include bp.max-mobile {
+    @content;
+  }
+
+  @at-root {
+    :host-context(body.mobile) {
+      @content;
+    }
+  }
+}
+
+@mixin on-mobile-shell-viewport-or-session-context {
+  @include bp.max-mobile {
+    @content;
+  }
+
+  :host-context(body.mobile) & {
+    @content;
+  }
+}
+
+@mixin on-mobile-shell-viewport-or-session-global {
+  @include bp.max-mobile {
+    @content;
+  }
+
+  body.mobile & {
+    @content;
+  }
+}

@@ -1,0 +1,133 @@
+<div class="view-toggle">
+  <button
+    type="button"
+    class="toggle-btn"
+    (activate)="toggleMode()"
+    [attr.aria-pressed]="mode() === 'display'"
+    matTooltip="Switch between edit and preview mode">
+    <mat-icon class="toggle-icon">
+      {{ mode() === 'display' ? 'edit' : 'visibility' }}
+    </mat-icon>
+    <span class="toggle-label body-s">
+      {{ mode() === 'display' ? 'Edit Form' : 'Preview Form' }}
+    </span>
+  </button>
+  @if (organizationService.isFeatureFlagActivated('JEREMIE_FEATURES')) {
+    <button
+      type="button"
+      class="json-btn"
+      (activate)="openFormDefinitionJsonEditor()"
+      matTooltip="Edit form definition as JSON">
+      <mat-icon class="toggle-icon">data_object</mat-icon>
+      <span class="toggle-label body-s">Edit JSON</span>
+    </button>
+  }
+</div>
+@if (mode() === 'display') {
+  <div class="form">
+    <lj-dynamic-form mode="display" [form]="form()" />
+  </div>
+} @else {
+  <div class="content">
+    <div class="sidebar">
+      <div class="form-information">
+        <h3>Form Configuration</h3>
+        <div class="column">
+          <label for="name" class="body-s">Name:</label>
+          <lj-input-field
+            [required]="true"
+            [style]="'gray'"
+            type="text"
+            [showError]="true"
+            [customErrorMessage]="
+              form().name.trim().length < 3 ? 'Form name is required.' : ''
+            "
+            name="form"
+            [minlength]="1"
+            placeholder="Enter a form name"
+            [ngModel]="form().name"
+            (ngModelChange)="handleFormNameChange($event)"></lj-input-field>
+        </div>
+        <div class="column">
+          <label for="name" class="body-s">Section Type:</label>
+          <lj-form-type-selector
+            [formType]="form().formType"
+            [formOptions]="form().formOptions"
+            (change)="handleFormTypeChange($event)"></lj-form-type-selector>
+        </div>
+        <div class="column">
+          <label for="displayReviewScreenOnSubmit" class="body-s">
+            Display Review:
+          </label>
+          <mat-checkbox
+            name="displayReviewScreenOnSubmit"
+            [ngModel]="form().formOptions.displayReviewScreenOnSubmit"
+            (ngModelChange)="handleFormDisplayChange()"
+            class="body-s">
+            Review screen will be shown on submit
+          </mat-checkbox>
+        </div>
+        <div class="divider"></div>
+        <h3>Add Section</h3>
+        <div
+          id="section-selector"
+          cdkDropList
+          cdkDropListSortingDisabled="true"
+          [cdkDropListConnectedTo]="dropZoneIdsWithForm()">
+          <div class="new-section" cdkDrag>
+            <div class="drag-placeholder-section" *cdkDragPlaceholder></div>
+            <div class="icon">
+              <mat-icon>folder</mat-icon>
+            </div>
+            <div class="label">Section</div>
+          </div>
+        </div>
+        @if (organizationService.isFeatureFlagActivated('JEREMIE_FEATURES')) {
+          <div class="divider"></div>
+          <h3>Import from Form</h3>
+          <lj-form-template-selector
+            id="form-template-selector"
+            cdkDropList
+            cdkDropListSortingDisabled="true"
+            [cdkDropListConnectedTo]="dropZoneIdsWithForm()" />
+        }
+        <div class="divider"></div>
+        <h3>Add Fields</h3>
+        <lj-field-selector
+          id="field-selector"
+          cdkDropList
+          cdkDropListSortingDisabled="true"
+          [cdkDropListConnectedTo]="dropZoneIds()" />
+      </div>
+    </div>
+    <div class="form edit">
+      <div
+        cdkDropList
+        [cdkDropListData]="form().formDefinition"
+        (cdkDropListDropped)="drop($event)"
+        [cdkDropListConnectedTo]="dropZoneIds()"
+        id="form-drop-zone"
+        class="form-container">
+        @for (element of form().formDefinition; track $index) {
+          @if (isSection(element)) {
+            <div class="drag-box" cdkDrag>
+              <div class="drag-placeholder-section" *cdkDragPlaceholder></div>
+              <lj-df-section
+                [formDefinition]="form().formDefinition"
+                [section]="getSection(element)"
+                [connectedDropListIds]="dropZoneIdsWithForm()"
+                (sectionChange)="handleChange($event)"
+                (remove)="handleRemove($event)"
+                (structureChange)="handleFormStructureChange()"></lj-df-section>
+            </div>
+          }
+        } @empty {
+          <div class="body-m">
+            Drag and drop a section from the sidebar to start building your
+            form.
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}

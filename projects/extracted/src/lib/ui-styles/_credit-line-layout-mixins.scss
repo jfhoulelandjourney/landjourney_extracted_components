@@ -1,0 +1,19 @@
+@mixin credit-line-page-mobile {
+  .container.mobile {
+    flex-direction: column;
+    gap: var(--padding-comfortable);
+    margin-top: var(--padding-comfortable);
+
+    lj-credit-line-graph,
+    lj-credit-line-details,
+    lj-credit-line-actions {
+      width: 100%;
+    }
+  }
+
+  .sidebar.mobile {
+    min-width: unset;
+    width: 100%;
+    gap: var(--padding-comfortable);
+  }
+}

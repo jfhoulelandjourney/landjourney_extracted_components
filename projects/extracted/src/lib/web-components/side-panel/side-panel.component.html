@@ -1,0 +1,20 @@
+@if (isOverlayInDom()) {
+  <div
+    class="side-panel-overlay"
+    [class.open]="isPanelVisible()"
+    (activate)="onOverlayClick($event)">
+    <div
+      class="side-panel"
+      [style.width]="panelWidth()"
+      (activate)="$event.stopPropagation()"
+      tabindex="0">
+      <button class="close-button" (activate)="onClose()" type="button">
+        <mat-icon>cancel</mat-icon>
+        {{ closeButtonText() }}
+      </button>
+      <div class="side-panel-content">
+        <ng-content />
+      </div>
+    </div>
+  </div>
+}

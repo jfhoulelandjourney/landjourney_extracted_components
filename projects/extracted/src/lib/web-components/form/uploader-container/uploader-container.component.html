@@ -1,0 +1,15 @@
+<input
+  type="file"
+  class="hidden-input"
+  #fileInput
+  multiple
+  [accept]="acceptedFileTypes()"
+  [disabled]="disabled()"
+  (change)="handleChange($event)" />
+
+<button
+  type="button"
+  class="uploader-wrapper"
+  (activate)="handleClick(fileInput)">
+  <ng-content />
+</button>

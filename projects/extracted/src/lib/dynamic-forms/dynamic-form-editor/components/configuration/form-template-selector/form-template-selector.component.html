@@ -1,0 +1,37 @@
+<div class="body-s">Search existing forms to import their sections</div>
+
+<div class="search-container">
+  <lj-input-field
+    id="search-form-templates"
+    name="search-form-templates"
+    after="search"
+    [value]="searchTerm()"
+    (valueChange)="onSearchChange($event)"
+    placeholder="Type to search forms..." />
+</div>
+
+@if (loading()) {
+  <div class="body-s loading">Loading forms...</div>
+}
+
+@for (template of filteredTemplates(); track template.id) {
+  <div
+    class="template-option"
+    cdkDrag
+    [cdkDragData]="{ type: 'form-template', formDefinition: template.formDefinition }">
+    <div *cdkDragPlaceholder class="drag-placeholder-section"></div>
+    <div class="icon">
+      <mat-icon>description</mat-icon>
+    </div>
+    <div class="label-container">
+      <div class="label">{{ template.name }}</div>
+      <div class="meta body-xs">
+        {{ template.formDefinition.length }} section(s)
+      </div>
+    </div>
+  </div>
+} @empty {
+  @if (searchTerm() !== '' && !loading()) {
+    <div class="body-s empty">No forms found</div>
+  }
+}

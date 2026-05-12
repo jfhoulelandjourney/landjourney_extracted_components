@@ -1,0 +1,136 @@
+<div class="container" [class.mobile]="mobile()">
+  <lj-loan-header [loan]="loan()" [mobile]="mobile()" />
+  <mat-expansion-panel
+    class="mat-elevation-z0"
+    [expanded]="panelOpen()"
+    (opened)="panelOpen.set(true)"
+    (closed)="panelOpen.set(false)">
+    <mat-expansion-panel-header>
+      <div class="body-m">Make a Paydown Now</div>
+    </mat-expansion-panel-header>
+    @if (currentStep() === 0) {
+      <div class="step">
+        <div class="content">
+          <div class="form">
+            <lj-money-input-field
+              id="amount"
+              name="amount"
+              [showError]="false"
+              [(ngModel)]="amount" />
+
+            <!-- <div class="body-s">From</div>
+
+            <lj-select-field
+              placeholder="Select an account"
+              id="account"
+              name="account"
+              [showErrors]="false"
+              [value]="account"
+              [options]="getAccounts()"
+              (change)="updateSelectEvent($event)" /> -->
+
+            <button
+              lj-button
+              (activate)="currentStep.set(currentStep() + 1)"
+              [disabled]="!isFirstStepValid()">
+              Next
+              <mat-icon>arrow_right_alt</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (currentStep() === 1) {
+      <div class="step">
+        <div class="content">
+          <div class="form">
+            <button
+              lj-button
+              (activate)="currentStep.set(currentStep() - 1)"
+              variant="ghost">
+              <mat-icon>arrow_left_alt</mat-icon>
+              Back
+            </button>
+
+            <div class="body-s">On</div>
+            <div class="calendar">
+              <mat-calendar [(selected)]="date"></mat-calendar>
+            </div>
+
+            <button
+              lj-button
+              (activate)="currentStep.set(currentStep() + 1)"
+              [disabled]="!isSecondStepValid()">
+              Next
+              <mat-icon>arrow_right_alt</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (currentStep() === 2) {
+      <div class="step">
+        <div class="content">
+          <div class="inter body-m subtitle">Summary</div>
+          <div class="summary">
+            <div class="sub-container">
+              <div class="loan-info">
+                <div class="box">
+                  <div class="body-s">Paydown of</div>
+                  <div class="inter title-lg">
+                    {{ amount }}
+                  </div>
+                </div>
+                <div class="divider"></div>
+                <div class="box">
+                  <div class="body-s">From Account</div>
+                  <div class="inter title-lg">
+                    {{ getSelectedAccount()?.accountNumber }}
+                  </div>
+                </div>
+                <div class="divider"></div>
+                <div class="box">
+                  <div class="body-s">On</div>
+                  <div class="inter title-lg">
+                    {{ formatDate(date) }}
+                  </div>
+                </div>
+                <div class="divider"></div>
+                <button lj-button (activate)="confirmPaydown()">
+                  Confirm Paydown
+                  <mat-icon>arrow_right_alt</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (currentStep() === 3) {
+      <div class="step">
+        <div class="content">
+          <div class="inter body-m subtitle">Paydown Requested</div>
+          <div class="summary">
+            <!-- <div class="sub-container">
+              <div class="loan-info">
+                <div class="box">
+                  <div class="body-s">Confirmation number</div>
+                  <div class="inter title-lg">[confirmation number]</div>
+                </div>
+              </div>
+            </div> -->
+            <div class="reset">
+              <button lj-button (activate)="reset()" class="reset-btn">
+                Make another Paydown
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </mat-expansion-panel>
+</div>

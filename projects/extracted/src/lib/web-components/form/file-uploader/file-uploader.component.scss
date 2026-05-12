@@ -1,0 +1,94 @@
+@use '../../../ui-styles/tokens/breakpoints' as bp;
+
+:host {
+  display: block;
+  width: 100%;
+  position: relative;
+}
+
+.hidden-input {
+  visibility: hidden;
+  position: absolute;
+
+  @include bp.max-mobile {
+    max-width: 100%;
+  }
+}
+
+.uploader-wrapper {
+  display: flex;
+  width: 100%;
+  flex-flow: row nowrap;
+  align-items: center;
+  padding: var(--padding-spacious);
+  gap: var(--spacing-4);
+  color: #252525;
+  font-family: Inter;
+  cursor: pointer;
+  border-radius: var(--radius_strong, 8px);
+  border: 1px dashed var(--accent-black-400, #b0b0b0);
+  background: var(--accent-black-200, #f5f5f5);
+
+  &.small {
+    padding: var(--padding-default);
+  }
+}
+
+.text-wrapper {
+  text-align: left;
+}
+
+.uploader-wrapper.vertical {
+  flex-flow: column nowrap;
+  text-align: center;
+}
+.uploader-wrapper.horizontal {
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  box-shadow: 0px 0 3px rgba(0, 0, 0, 0.3);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.remove-style {
+  box-shadow: none;
+}
+
+.small {
+  .icon-wrapper {
+    width: 30px;
+  }
+}
+
+.drag-active {
+  border: 1px dashed var(--color--accent--success);
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.underline {
+  text-decoration: underline;
+}
+.bold {
+  font-weight: 500;
+}
+
+.spinner-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  mat-spinner {
+    --mat-progress-spinner-active-indicator-color: var(
+      --html-brand-primary-500,
+      #2b9663
+    );
+  }
+}

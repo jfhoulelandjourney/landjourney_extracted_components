@@ -1,0 +1,127 @@
+@if (field() && field().value) {
+  <div class="borrowers" [class.mobile]="isMobile()">
+    @if (field().label) {
+      <h3 [style]="getCustomStyle('h3', true)">
+        {{
+          field().label !== 'New field'
+            ? field().label
+            : 'Borrower(s) information'
+        }}
+      </h3>
+    }
+
+    @if (mode() === 'locked') {
+      <div class="main-borrower">
+        <lj-df-borrower-information
+          [customStyle]="customStyle()"
+          [showDelete]="false"
+          [locked]="true"
+          [borrower]="field().value?.mainBorrower ?? getDefaultBorrower()"
+          (borrowerChange)="
+            updateBorrower($event)
+          "></lj-df-borrower-information>
+      </div>
+
+      @if (field().value?.hasCoBorrowers) {
+        <div
+          class="co-borrowers-list"
+          [style]="getCustomStyle('.co-borrowers-list')">
+          @for (coBorrower of field().value?.coBorrowers ?? []; track $index) {
+            <lj-df-borrower-information
+              [position]="$index + 1"
+              [customStyle]="customStyle()"
+              [borrower]="coBorrower"
+              [locked]="true"
+              (borrowerChange)="updateCoBorrower($index, $event)"
+              (remove)="removeCoBorrower($event)"></lj-df-borrower-information>
+          }
+        </div>
+      }
+    } @else {
+      <div class="main-borrower">
+        <lj-df-borrower-information
+          [customStyle]="customStyle()"
+          [showDelete]="false"
+          [borrower]="field().value?.mainBorrower ?? getDefaultBorrower()"
+          (borrowerChange)="
+            updateBorrower($event)
+          "></lj-df-borrower-information>
+
+        @if (isPhoneNumberValid()) {
+          <lj-sms-compliance [(confirmationCheck)]="confirmationCheck" />
+        }
+      </div>
+      <div class="co-borrowers">
+        <div class="question body-sm" [style]="getCustomStyle('.small-text')">
+          Do you have co-borrrowers for this request?
+        </div>
+        <div class="group">
+          <mat-radio-group [(ngModel)]="field().value!.hasCoBorrowers">
+            <label
+              lj-label-field
+              class="form-type-option"
+              for="coborrowers"
+              [style]="getCustomStyle('.radio-option-item-label')">
+              <mat-radio-button
+                class="radio"
+                name="coborrowers"
+                [value]="true"
+                required
+                [style]="getCustomStyle('.radio-option-item', false, 'gray')">
+                Yes
+              </mat-radio-button>
+            </label>
+            <label
+              lj-label-field
+              class="form-type-option"
+              for="coborrowers"
+              [style]="getCustomStyle('.radio-option-item-label')">
+              <mat-radio-button
+                class="radio"
+                name="coborrowers"
+                [value]="false"
+                required
+                [style]="getCustomStyle('.radio-option-item', false, 'gray')">
+                No
+              </mat-radio-button>
+            </label>
+          </mat-radio-group>
+        </div>
+      </div>
+
+      @if (field().value?.hasCoBorrowers) {
+        <div
+          class="co-borrowers-list"
+          [style]="getCustomStyle('.co-borrowers-list')">
+          @for (coBorrower of field().value?.coBorrowers ?? []; track $index) {
+            <lj-df-borrower-information
+              [position]="$index + 1"
+              [customStyle]="customStyle()"
+              [borrower]="coBorrower"
+              (borrowerChange)="updateCoBorrower($index, $event)"
+              (remove)="removeCoBorrower($event)"></lj-df-borrower-information>
+          } @empty {
+            <span
+              class="small-text"
+              [style]="getCustomStyle('.co-borrowers-list-empty')">
+              No co-borrower has been added yet.
+            </span>
+          }
+        </div>
+        <div class="add-co-borrower">
+          <button
+            lj-button="inverse-cta"
+            (activate)="addCoBorrower()"
+            [style]="getCustomStyle('.add-co-borrower-button')">
+            Add a co-borrower
+            <mat-icon [style]="getCustomStyle('.table-header-button-icon')">
+              add
+            </mat-icon>
+          </button>
+        </div>
+      }
+    }
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

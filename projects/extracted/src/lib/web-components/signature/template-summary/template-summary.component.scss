@@ -1,0 +1,19 @@
+:host {
+  display: flex;
+}
+
+.content {
+  flex: 1;
+}
+
+.input-name {
+  word-break: break-word;
+}
+
+.template-summary-confirmation {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: var(--gap-comfortable);
+  padding: var(--padding-default);
+}

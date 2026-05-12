@@ -1,0 +1,284 @@
+@if (field() && field().value) {
+  <div class="crop-details">
+    <h3 [style]="getCustomStyle('h3', true)">
+      @if (field().label.trim() !== 'New field') {
+        {{ field().label }}
+      } @else {
+        Crop Details
+      }
+    </h3>
+
+    <div class="card-container">
+      @for (crop of getCrops(); track crop.id) {
+        <div
+          class="card"
+          [style]="getCustomStyle('.card')"
+          [class.display]="mode() === 'locked' || !isCurrentlyEditedCrop(crop)"
+          [class.full-width]="isMobile()">
+          @if (mode() !== 'locked' && isCurrentlyEditedCrop(crop)) {
+            <div class="input">
+              <lj-input-field
+                placeholder="Type of crop"
+                id="cropType"
+                name="typeOfCrops"
+                type="text"
+                label="Type of Crop"
+                [style]="'gray'"
+                [customCssTitleStyle]="getCustomStyle('.field-title')"
+                [customCssStyle]="getCustomStyle('.input-field')"
+                [required]="true"
+                [ngModel]="editedCrop().cropType"
+                (ngModelChange)="handleCropTypeChange($event)"
+                [customErrorMessage]="
+                  cropTypeTouched() ? getCropTypeError(editedCrop()) : undefined
+                " />
+            </div>
+
+            <div class="input">
+              <lj-select-field
+                label="Irrigation"
+                id="irrigation"
+                name="irrigation"
+                [style]="'gray'"
+                [required]="true"
+                [showErrors]="false"
+                [options]="irrigationOptions"
+                [value]="editedCrop().irrigation"
+                (change)="handleIrrigationChange($event)" />
+            </div>
+
+            @if (
+              editedCrop().irrigation === 'BOTH' ||
+              editedCrop().irrigation === 'IRRIGATED'
+            ) {
+              <div class="input">
+                <lj-input-field
+                  placeholder="Percentage irrigated"
+                  id="percentageIrrigated"
+                  name="percentageIrrigated"
+                  type="text"
+                  label="Percentage Irrigated (%)"
+                  [style]="'gray'"
+                  [customCssTitleStyle]="getCustomStyle('.field-title')"
+                  [customCssStyle]="getCustomStyle('.input-field')"
+                  [required]="true"
+                  [customErrorMessage]="
+                    percentageIrrigatedTouched()
+                      ? getPercentageIrrigatedError(editedCrop())
+                      : undefined
+                  "
+                  [ngModel]="formatNumber(editedCrop().percentageIrrigated)"
+                  [mask]="numberMask"
+                  (ngModelChange)="handleIrrigationPercentageChange($event)" />
+              </div>
+            }
+
+            <div class="input">
+              <lj-input-field
+                placeholder="Number of acres"
+                id="numberOfAcres"
+                name="numberOfAcres"
+                type="text"
+                label="Number of Acres"
+                [style]="'gray'"
+                [customCssTitleStyle]="getCustomStyle('.field-title')"
+                [customCssStyle]="getCustomStyle('.input-field')"
+                [required]="true"
+                [customErrorMessage]="
+                  numberOfAcresTouched()
+                    ? getNumberOfAcresError(editedCrop())
+                    : undefined
+                "
+                [ngModel]="formatNumber(editedCrop().numberOfAcres)"
+                [mask]="numberMask"
+                (ngModelChange)="handleNumberOfAcresChange($event)" />
+            </div>
+
+            <div class="side-by-side price-unit-layout">
+              <div class="input price-field">
+                <lj-input-field
+                  placeholder="Expected yield"
+                  id="expectedYieldValue"
+                  name="expectedYieldValue"
+                  type="text"
+                  label="Expected Yield"
+                  [style]="'gray'"
+                  [customCssTitleStyle]="getCustomStyle('.field-title')"
+                  [customCssStyle]="getCustomStyle('.input-field')"
+                  [required]="true"
+                  [ngModel]="formatNumber(editedCrop().expectedYieldValue)"
+                  (ngModelChange)="handleExpectedYieldValueChange($event)"
+                  [mask]="numberMask"
+                  [customErrorMessage]="
+                    expectedYieldValueTouched()
+                      ? getExpectedYieldValueError(editedCrop())
+                      : undefined
+                  " />
+              </div>
+              <div class="input unit-field">
+                <lj-select-field
+                  label="Unit"
+                  id="expectedYieldUnit"
+                  name="expectedYieldUnit"
+                  [style]="'gray'"
+                  [required]="true"
+                  [showErrors]="false"
+                  [options]="yieldUnitOptions"
+                  [value]="editedCrop().expectedYieldUnit"
+                  (change)="handleExpectedYieldUnitChange($event)" />
+              </div>
+            </div>
+
+            @if (isOtherUnitSelected(editedCrop().expectedYieldUnit)) {
+              <div class="input">
+                <lj-input-field
+                  placeholder="Specify other yield unit"
+                  id="expectedYieldUnitOther"
+                  name="expectedYieldUnitOther"
+                  type="text"
+                  label="Other Yield Unit"
+                  [style]="'gray'"
+                  [customCssTitleStyle]="getCustomStyle('.field-title')"
+                  [customCssStyle]="getCustomStyle('.input-field')"
+                  [required]="true"
+                  [ngModel]="editedCrop().expectedYieldUnitOther ?? ''"
+                  (ngModelChange)="handleExpectedYieldUnitOtherChange($event)"
+                  [customErrorMessage]="
+                    expectedYieldUnitOtherTouched()
+                      ? getExpectedYieldUnitOtherError(editedCrop())
+                      : undefined
+                  " />
+              </div>
+            }
+
+            <div class="">
+              <div
+                class="input price-field"
+                [class.input-error]="
+                  expectedLandValueTouched() &&
+                  getExpectedLandValueError(editedCrop())
+                ">
+                <lj-input-field
+                  placeholder="Average price"
+                  id="expectedLandValue"
+                  name="expectedLandValue"
+                  type="text"
+                  label="Average Price"
+                  [style]="'gray'"
+                  [customCssTitleStyle]="getCustomStyle('.field-title')"
+                  [customCssStyle]="getCustomStyle('.input-field')"
+                  [required]="true"
+                  [ngModel]="formatMoney(editedCrop().expectedLandValue)"
+                  (ngModelChange)="handleExpectedLandValueChange($event)"
+                  [mask]="moneyMask"
+                  [customErrorMessage]="
+                    expectedLandValueTouched()
+                      ? getExpectedLandValueError(editedCrop())
+                      : undefined
+                  " />
+              </div>
+            </div>
+
+            <div class="input">
+              <lj-input-field
+                placeholder="Revenue insurance and type"
+                id="revenueInsuranceDetails"
+                name="revenueInsuranceDetails"
+                type="text"
+                label="Revenue Insurance and Type"
+                [style]="'gray'"
+                [customCssTitleStyle]="getCustomStyle('.field-title')"
+                [customCssStyle]="getCustomStyle('.input-field')"
+                [required]="true"
+                [ngModel]="editedCrop().revenueInsuranceDetails"
+                (ngModelChange)="handleRevenueInsuranceDetailsChange($event)"
+                [customErrorMessage]="
+                  revenueInsuranceDetailsTouched()
+                    ? getRevenueInsuranceDetailsError(editedCrop())
+                    : undefined
+                " />
+            </div>
+
+            <div class="card-actions">
+              <button
+                lj-button="ghost"
+                [style]="getCustomStyle('.cancel-button')"
+                (activate)="cancelEdit()">
+                Cancel
+              </button>
+
+              <button
+                lj-button="inverse-cta"
+                [style]="getCustomStyle('.button')"
+                (activate)="saveCrop()">
+                Done
+              </button>
+            </div>
+          } @else {
+            <div class="card-actions crop-title">
+              <h4 [style]="getCustomStyle('h4', true)">
+                {{ crop.cropType }}
+              </h4>
+              @if (mode() !== 'locked') {
+                <button
+                  mat-icon-button
+                  lj-confirmation-required
+                  message="Are you sure you want to remove this crop?"
+                  (confirm)="removeCrop(crop)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+
+                <button mat-icon-button (activate)="editedCrop.set(crop)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+              }
+            </div>
+
+            <div class="message">
+              <div class="title">Irrigation</div>
+              <div class="content">{{ formatIrrigationMessage(crop) }}</div>
+            </div>
+
+            <div class="message">
+              <div class="title">Acres and price</div>
+              <div class="content">{{ formatAcresAndPriceMessage(crop) }}</div>
+            </div>
+
+            <div class="message">
+              <div class="title">Revenue Insurance and Type</div>
+              <div class="content">
+                {{ formatRevenueInsuranceDetailsMessage(crop) }}
+              </div>
+            </div>
+          }
+        </div>
+      } @empty {
+        @if (mode() !== 'locked') {
+          <div
+            class="empty-message"
+            [style]="getCustomStyle('.explanation-message')">
+            What crops are grown at your farm?
+          </div>
+        } @else {
+          <div>No crop added.</div>
+        }
+      }
+    </div>
+
+    @if (mode() !== 'locked') {
+      <div class="actions">
+        @if (!isEdited()) {
+          <button
+            lj-button="inverse-cta"
+            [style]="getCustomStyle('.button')"
+            (activate)="addNewCrop()">
+            Add a Crop
+            <mat-icon>add</mat-icon>
+          </button>
+        }
+      </div>
+    }
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

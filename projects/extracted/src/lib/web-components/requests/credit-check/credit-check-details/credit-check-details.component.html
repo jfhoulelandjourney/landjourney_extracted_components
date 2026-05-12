@@ -1,0 +1,83 @@
+@if (loading()) {
+  <ngx-skeleton-loader
+    style="width: 100%; height: calc(100dvh - 150px)"
+    [theme]="{
+      width: '100%',
+      height: 'calc(100vh - 150px)',
+    }"></ngx-skeleton-loader>
+} @else {
+  <div class="container" [class.mobile]="isMobile()">
+    <mat-icon class="identity-icon">identity_platform</mat-icon>
+    <p class="title-2xl inter title">
+      Before submitting, we need to check {{ name() }}'s credit score.
+    </p>
+
+    <div class="identity-details-wrapper">
+      <p class="title-lg inter subtitle">
+        Please check {{ name() }}'s credit score by providing your personal
+        information.
+      </p>
+      <lj-inline-edit-text-field
+        label="First Name"
+        [value]="firstName"
+        [required]="true"
+        name="firstName"
+        (valueChange)="handleValueChanged('firstName', $event)" />
+      <lj-inline-edit-text-field
+        label="Middle Name"
+        [value]="middleName"
+        name="middleName"
+        (valueChange)="handleValueChanged('middleName', $event)" />
+      <lj-inline-edit-text-field
+        label="Last Name"
+        [value]="lastName"
+        [required]="true"
+        name="lastName"
+        (valueChange)="handleValueChanged('lastName', $event)" />
+      <lj-inline-edit-text-field
+        label="Phone Number"
+        [value]="phoneNumber"
+        [required]="true"
+        type="tel"
+        name="phoneNumber"
+        (valueChange)="handleValueChanged('phoneNumber', $event)" />
+      <lj-inline-edit-text-field
+        label="Date of Birth"
+        type="date"
+        [value]="dateOfBirth"
+        name="dateOfBirth"
+        type="date"
+        [required]="true"
+        (valueChange)="dateOfBirthChanged($event)" />
+      <lj-inline-edit-text-field
+        label="SSN"
+        [value]="ssn"
+        [required]="true"
+        type="ssn"
+        name="ssn"
+        (valueChange)="handleValueChanged('ssn', $event)" />
+      <lj-inline-edit-address-fields
+        [address]="getAddress()"
+        (valueChange)="handleAddressChanged($event)" />
+    </div>
+
+    @if (!isFormComplete()) {
+      <p class="body-s start-button error">
+        You need to provide at least your first name, last name, phone number,
+        date of birth and SSN to check {{ name() }}'s credit score.
+      </p>
+    }
+    <button
+      class="lj-button start-button"
+      (activate)="start()"
+      [disabled]="!isFormComplete()">
+      Next
+      <mat-icon class="cloud-icon">arrow_forward</mat-icon>
+    </button>
+
+    <button class="lj-button" (activate)="onBack.emit()">
+      Return
+      <mat-icon class="u-turn">u_turn_right</mat-icon>
+    </button>
+  </div>
+}

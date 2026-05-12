@@ -1,0 +1,159 @@
+/* TODO: Typography */
+:host {
+  display: inline-block;
+  font-size: var(--font-size-xs);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: 0.1px;
+  text-transform: none;
+  text-decoration: none;
+}
+
+:host {
+  display: inline-flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  padding: var(--padding-comfortable) var(--padding-spacious);
+  border-radius: var(--radius-primary);
+  border: none;
+  text-decoration: none;
+
+  &[disabled] {
+    cursor: not-allowed;
+  }
+}
+
+:host(.compact) {
+  padding: var(--padding-compact) var(--padding-default);
+}
+
+:host(.small) {
+  font-size: var(--font-size-xs);
+}
+
+:host(.large) {
+  font-size: var(--font-size-md);
+}
+
+:host(.full-width) {
+  width: 100%;
+}
+
+:host(.lj-button__cta) {
+  color: var(--button-text-color, var(--color-lighter));
+  background-color: var(
+    --button-background-color,
+    var(--color-background-button, var(--green-470))
+  );
+  border: 1px solid
+    var(
+      --button-background-color,
+      var(--color-background-button, var(--green-470))
+    );
+
+  &:hover {
+    filter: brightness(1.05);
+    box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.3);
+  }
+
+  &:active {
+    box-shadow: inset 1px -1px 3px 1px rgba(0, 0, 0, 0.3);
+  }
+
+  &:focus-visible {
+    filter: brightness(1.05);
+    outline: 2px solid
+      var(
+        --button-background-color,
+        var(--color-background-button, var(--green-470))
+      );
+  }
+}
+
+:host(.lj-button__bisque) {
+  color: bisque;
+  background-color: rgba(255, 228, 196, 0.25);
+
+  &:hover {
+    filter: brightness(1.1);
+    box-shadow: 1px 1px 4px 0px rgba(255, 228, 196, 0.6);
+  }
+
+  &:active {
+    box-shadow: inset 1px -1px 3px 1px rgba(0, 0, 0, 0.3);
+  }
+
+  &:focus-visible {
+    filter: brightness(1.05);
+    outline: 2px solid bisque;
+  }
+}
+
+:host(.lj-button__inverse-cta) {
+  color: var(--button-text-color, var(--color-background-button));
+  background-color: var(--button-background-color, white);
+  border: 1px solid var(--button-text-color, var(--color-background-button));
+
+  &:hover {
+    filter: brightness(1.05);
+    box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.3);
+  }
+
+  &:active {
+    box-shadow: inset 1px -2px 2px 0px rgba(0, 0, 0, 0.3);
+  }
+
+  &:focus-visible {
+    filter: brightness(1.05);
+    outline: 2px solid var(--button-background-color, white);
+  }
+}
+
+:host(.lj-button__ghost) {
+  color: var(--button-text-color, var(--color-darker));
+  background-color: transparent;
+  border: none;
+
+  [disabled] & {
+    color: var(--gray-300);
+    background-color: var(--gray-300);
+  }
+}
+
+:host(.lj-button__warn) {
+  color: var(--button-text-color, var(--color-lighter));
+  background-color: var(--status-error-800);
+  border: 1px solid var(--status-error-800);
+
+  [disabled] & {
+    color: var(--gray-300);
+    background-color: var(--gray-300);
+  }
+}
+
+// TODO: Review this entirely
+:host(.lj-button__row) {
+  display: flex;
+  padding-block: var(--padding-default);
+  flex-flow: row nowrap;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--radius-strong);
+  border: 1px solid var(--Stroke-Base, #eaebf0);
+  background: var(--Background-Base-Main, #fff);
+  box-shadow: 0 1px 2px #1018280a;
+  color: #c2c2c2;
+  font-family: Inter;
+  font-size: var(--font-size-sm);
+  font-style: normal;
+  font-weight: 600;
+  line-height: 38px;
+  letter-spacing: -0.36px;
+  width: 100%;
+
+  [disabled] & {
+    color: var(--gray-300);
+    background-color: var(--gray-300);
+  }
+}

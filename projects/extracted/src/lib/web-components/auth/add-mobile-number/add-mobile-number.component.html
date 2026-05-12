@@ -1,0 +1,98 @@
+@if (status() === 'INPUT') {
+  <div class="title">
+    <mat-icon>mobile_2</mat-icon>
+    <p>
+      Add your mobile number
+      <br />
+      <span>
+        We'll use it to verify your identity if you ever forget your password.
+      </span>
+    </p>
+  </div>
+
+  <div class="add-mobile-number-form">
+    <lj-input-field
+      id="phone"
+      name="phone"
+      type="text"
+      [ngModel]="phoneNumber()"
+      (ngModelChange)="phoneNumber.set($event)"
+      placeholder="Ex.: +1 (555) 555-5555"
+      [mask]="phoneNumberMask"
+      (onInputBlur)="blurred.set(true)" />
+
+    @if (blurred() && hasError('phoneRequired')) {
+      <p class="body-s error">You must enter a valid mobile number.</p>
+    }
+
+    <lj-sms-compliance [(confirmationCheck)]="confirmationCheck" />
+
+    <button
+      lj-button
+      [disabled]="!canSendCode()"
+      (activate)="sendVerificationCode()">
+      <span>Send verification code</span>
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </div>
+}
+
+@if (status() === 'VERIFY') {
+  <div class="title">
+    <mat-icon>login</mat-icon>
+    <p>
+      Enter the verification code
+      <br />
+      <span>
+        We've sent a 6-digit security code to
+        {{ getMaskedPhoneNumber() }}. Enter it below to confirm your phone
+        number.
+        @if (this.timeRemainingInSeconds() > 0) {
+          The verification code will expire in {{ getFormatedTime() }}.
+        } @else {
+          The verification code has expired. You need to request a new code.
+          <span class="resend-link" (activate)="resendCode()">
+            Request new code
+          </span>
+        }
+      </span>
+    </p>
+  </div>
+
+  @if (this.timeRemainingInSeconds() > 0) {
+    <div class="add-mobile-number-form">
+      <lj-input-field
+        name="verificationCode"
+        type="text"
+        placeholder="Verification code"
+        [ngModel]="verificationCode()"
+        (ngModelChange)="verificationCode.set($event)" />
+
+      <button lj-button [disabled]="!canVerify()" (activate)="verify()">
+        <span>Verify</span>
+        <mat-icon>arrow_forward</mat-icon>
+      </button>
+
+      <div class="help-text">
+        <p>
+          Didn't get a code? It may take up to a minute to arrive.
+          <span class="resend-link" (activate)="resendCode()">Resend code</span>
+        </p>
+      </div>
+    </div>
+  }
+}
+
+@if (status() === 'SUCCESS') {
+  <div class="title">
+    <mat-icon>check</mat-icon>
+    <p>Your mobile number has been confirmed and added to your account.</p>
+  </div>
+
+  <div class="add-mobile-number-form">
+    <button lj-button (activate)="continue()">
+      <span>Continue</span>
+      <mat-icon>arrow_forward</mat-icon>
+    </button>
+  </div>
+}

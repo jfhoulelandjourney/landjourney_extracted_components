@@ -1,0 +1,66 @@
+:host {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--padding-default);
+  font-family: Inter;
+
+  .borrower {
+    flex-grow: 1;
+
+    .input {
+      flex-grow: 1;
+      padding: var(--padding-reset);
+      padding-top: var(--padding-comfortable);
+    }
+
+    ::ng-deep .borrower-select .field-wrapper {
+      padding: var(--padding-default);
+      min-width: 250px;
+      background: var(--gray-100);
+    }
+
+    mat-select {
+      ::ng-deep .mat-mdc-select-placeholder {
+        color: var(--text-icons-base-second, #68727d);
+        font-weight: 500;
+      }
+    }
+
+    h5 {
+      color: var(--text-icons-base-main, #252525);
+      font-family: Inter;
+      font-size: var(--font-size-xs);
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px;
+      margin-bottom: var(--padding-default);
+    }
+
+    .group {
+      display: flex;
+      flex-direction: row;
+      gap: var(--padding-spacious);
+
+      .input {
+        min-width: 250px;
+        width: calc(50%);
+
+        &.full-width {
+          min-width: 250px;
+          width: calc(100%);
+        }
+      }
+
+      @media (max-width: 600px) {
+        flex-wrap: wrap;
+        flex-direction: column;
+        gap: unset;
+
+        .input {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

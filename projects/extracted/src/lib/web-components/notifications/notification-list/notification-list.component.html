@@ -1,0 +1,218 @@
+<div class="container">
+  <div class="tabs">
+    <div
+      class="tab-header"
+      [class.selected]="selectedTab() === 'ALL'"
+      (activate)="this.selectedTab.set('ALL')">
+      All
+    </div>
+    <div
+      class="tab-header"
+      [class.selected]="selectedTab() === 'UNREAD'"
+      (activate)="this.selectedTab.set('UNREAD')">
+      Unread
+    </div>
+    <div
+      class="tab-header"
+      [class.selected]="selectedTab() === 'READ'"
+      (activate)="this.selectedTab.set('READ')">
+      Read
+    </div>
+  </div>
+  <div class="tabs-content">
+    <div class="tab" [class.selected]="selectedTab() === 'ALL'">
+      @for (notification of allNotificationItems(); track notification.id) {
+        <div
+          class="notification"
+          (mouseenter)="markNotificationAsRead(notification)"
+          [class.clickable]="notification.redirect"
+          (activate)="redirectIfRequired(notification)">
+          <div class="actor-avatar">
+            <lj-avatar
+              [avatarUrl]="getAvatarUrl(notification)"
+              [name]="getActorName(notification)"></lj-avatar>
+          </div>
+          <div class="message">
+            <div class="actor-name">
+              {{ getActorName(notification) }}
+            </div>
+            <div class="body">
+              {{ notification.body }}
+            </div>
+          </div>
+          <div class="info" [class.clickeable]="!notification.isRead">
+            <div class="unread-dot">
+              @if (!notification.isRead) {
+                <div class="dot"></div>
+              }
+            </div>
+            <div class="relative-time">
+              {{ formatDate(notification.createdAt) }}
+            </div>
+          </div>
+        </div>
+      } @empty {
+        @if (loaded()) {
+          No notifications
+        } @else {
+          <ngx-skeleton-loader appearance="custom-content" [count]="5">
+            <div class="notification">
+              <div class="actor-avatar">
+                <ngx-skeleton-loader
+                  appearance="circle"
+                  className="actor-avatar" />
+              </div>
+              <div class="message">
+                <div class="actor-name">
+                  <ngx-skeleton-loader appearance="line" />
+                </div>
+                <div class="body">
+                  <ngx-skeleton-loader appearance="line" />
+                </div>
+              </div>
+            </div>
+          </ngx-skeleton-loader>
+        }
+      }
+      @if (allNotificationHasMore()) {
+        <button
+          lj-button="ghost"
+          class="see-more-btn"
+          (activate)="loadMore('ALL')">
+          <mat-icon>expand_more</mat-icon>
+          See More
+        </button>
+      }
+    </div>
+    <div class="tab" [class.selected]="selectedTab() === 'UNREAD'">
+      @for (notification of unreadNotificationItems(); track notification.id) {
+        <div
+          class="notification"
+          (mouseenter)="markNotificationAsRead(notification)"
+          [class.clickable]="notification.redirect"
+          (activate)="redirectIfRequired(notification)">
+          <div class="actor-avatar">
+            <lj-avatar
+              [avatarUrl]="getAvatarUrl(notification)"
+              [name]="getActorName(notification)"></lj-avatar>
+          </div>
+          <div class="message">
+            <div class="actor-name">
+              {{ getActorName(notification) }}
+            </div>
+            <div class="body">
+              {{ notification.body }}
+            </div>
+          </div>
+          <div class="info" [class.clickeable]="!notification.isRead">
+            <div class="unread-dot">
+              @if (!notification.isRead) {
+                <div class="dot"></div>
+              }
+            </div>
+            <div class="relative-time">
+              {{ formatDate(notification.createdAt) }}
+            </div>
+          </div>
+        </div>
+      } @empty {
+        @if (loaded()) {
+          No notifications
+        } @else {
+          <ngx-skeleton-loader appearance="custom-content" [count]="5">
+            <div class="notification">
+              <div class="actor-avatar">
+                <ngx-skeleton-loader
+                  appearance="circle"
+                  className="actor-avatar" />
+              </div>
+              <div class="message">
+                <div class="actor-name">
+                  <ngx-skeleton-loader appearance="line" />
+                </div>
+                <div class="body">
+                  <ngx-skeleton-loader appearance="line" />
+                </div>
+              </div>
+            </div>
+          </ngx-skeleton-loader>
+        }
+      }
+
+      @if (unreadNotificationHasMore()) {
+        <button
+          lj-button="ghost"
+          class="see-more-btn"
+          (activate)="loadMore('UNREAD')">
+          <mat-icon>expand_more</mat-icon>
+          See More
+        </button>
+      }
+    </div>
+    <div class="tab" [class.selected]="selectedTab() === 'READ'">
+      @for (notification of readNotificationItems(); track notification.id) {
+        <div
+          class="notification"
+          [class.clickable]="notification.redirect"
+          (activate)="redirectIfRequired(notification)"
+          (mouseenter)="markNotificationAsRead(notification)">
+          <div class="actor-avatar">
+            <lj-avatar
+              [avatarUrl]="getAvatarUrl(notification)"
+              [name]="getActorName(notification)"></lj-avatar>
+          </div>
+          <div class="message">
+            <div class="actor-name">
+              {{ getActorName(notification) }}
+            </div>
+            <div class="body">
+              {{ notification.body }}
+            </div>
+          </div>
+          <div class="info" [class.clickeable]="!notification.isRead">
+            <div class="unread-dot">
+              @if (!notification.isRead) {
+                <div class="dot"></div>
+              }
+            </div>
+            <div class="relative-time">
+              {{ formatDate(notification.createdAt) }}
+            </div>
+          </div>
+        </div>
+      } @empty {
+        @if (loaded()) {
+          No notifications
+        } @else {
+          <ngx-skeleton-loader appearance="custom-content" [count]="5">
+            <div class="notification">
+              <div class="actor-avatar">
+                <ngx-skeleton-loader
+                  appearance="circle"
+                  className="actor-avatar" />
+              </div>
+              <div class="message">
+                <div class="actor-name">
+                  <ngx-skeleton-loader appearance="line" />
+                </div>
+                <div class="body">
+                  <ngx-skeleton-loader appearance="line" />
+                </div>
+              </div>
+            </div>
+          </ngx-skeleton-loader>
+        }
+      }
+
+      @if (readNotificationHasMore()) {
+        <button
+          lj-button="ghost"
+          class="see-more-btn"
+          (activate)="loadMore('READ')">
+          <mat-icon>expand_more</mat-icon>
+          See More
+        </button>
+      }
+    </div>
+  </div>
+</div>

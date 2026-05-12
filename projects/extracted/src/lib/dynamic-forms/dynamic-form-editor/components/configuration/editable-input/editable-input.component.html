@@ -1,0 +1,22 @@
+<div class="editable-text" [class.right-align]="rightAlign()">
+  @if (!isEditing()) {
+    <div class="label-container">
+      <label [for]="name()" (activate)="startEdit()">
+        <span class="value-display">{{ value() ?? '' }}</span>
+        @if (!rightAlign()) {
+          <div class="body-s edit-pill">Click to edit</div>
+        }
+      </label>
+    </div>
+  }
+  @if (isEditing()) {
+    <input
+      #editableInput
+      [type]="type()"
+      [placeholder]="'Type ' + label()"
+      [value]="value()"
+      (blur)="handleValueChange($event)"
+      (keyup.enter)="handleValueChange($event)"
+      (keyup.escape)="stopEdit()" />
+  }
+</div>

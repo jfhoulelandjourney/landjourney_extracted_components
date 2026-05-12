@@ -1,0 +1,143 @@
+<div class="container">
+  <mat-icon class="upload-icon">cloud_upload</mat-icon>
+
+  <p class="title-2xl inter title">
+    {{ getTitleSentence() }}
+  </p>
+
+  @if (idDocumentType() === 'PASSPORT') {
+    <div class="instructions">
+      <p class="body-s inter">
+        <b>Instructions:</b>
+      </p>
+      <ul class="body-s inter">
+        <li>
+          Capture the page with your information (generally the first or
+          second page)
+        </li>
+        <li>One picture should capture both pages of the passport</li>
+        <li>
+          Ensure the image is clear and well-focused with minimal glare and
+          sufficient lighting
+        </li>
+        <li>
+          Image quality is critical - avoid blurriness or reflections that can
+          cause processing issues
+        </li>
+        <li>
+          Make sure the passport is clean and not worn, as damage can affect
+          verification
+        </li>
+        <li>
+          Make sure all edges of the passport are visible and not cut off
+        </li>
+        <li>
+          Use a solid-colored background that contrasts with the passport
+        </li>
+      </ul>
+    </div>
+  } @else if (idDocumentType() === 'OTHER_GOVERNMENT_ID') {
+    <div class="instructions">
+      <p class="body-s inter">
+        <b>Instructions:</b>
+      </p>
+      <ul class="body-s inter">
+        <li>Capturing a clear, non-blurry image is extremely important</li>
+        <li>Use a minimum 5-megapixel camera to capture the images</li>
+        <li>
+          Make sure images are not blurry, well-focused with no glare, shadow,
+          or holographic reflection
+        </li>
+        <li>
+          Ensure the ID and background are contrasted with a solid-colored
+          background
+        </li>
+        <li>
+          Make sure all edges of the ID are visible and no edge is cut off
+        </li>
+      </ul>
+    </div>
+  }
+
+  @if (isFirstStep() && frontFilePreview()) {
+    <div class="file-preview">
+      <img
+        [src]="frontFilePreview()"
+        alt="File preview"
+        class="file-preview-image" />
+      <p class="body-s" (activate)="resetFileUpload()">
+        Not the right document!
+        <b><u>Upload another.</u></b>
+      </p>
+    </div>
+  } @else if (!isFirstStep() && backFilePreview()) {
+    <div class="file-preview">
+      <img
+        [src]="backFilePreview()"
+        alt="File preview"
+        class="file-preview-image" />
+      <p class="body-s" (activate)="resetFileUpload()">
+        Not the right document!
+        <b><u>Upload another.</u></b>
+      </p>
+    </div>
+  } @else {
+    @if (showUploader()) {
+      @if (uploadingFile()) {
+        <div class="uploading-file">
+          <mat-spinner diameter="32" />
+          <span>Uploading…</span>
+        </div>
+      } @else {
+        <lj-file-uploader
+          [allowUpload]="false"
+          [single]="true"
+          [allowDrag]="!deviceDetector.isMobile()"
+          (fileSelected)="onFileSelected($event)"
+          [minimumFileSizeInBytes]="1024 * 250"
+          [isClient]="true" />
+      }
+    }
+  }
+
+  @if (isFirstStep() && idDocumentType() === 'OTHER_GOVERNMENT_ID') {
+    <button
+      class="lj-button"
+      (activate)="next()"
+      [disabled]="!frontFilePreview()">
+      Next
+      <mat-icon class="arrow-icon">arrow_forward</mat-icon>
+    </button>
+  } @else if (isFirstStep() && idDocumentType() === 'PASSPORT') {
+    <button
+      class="lj-button"
+      (activate)="next()"
+      [disabled]="!frontFilePreview() || uploading()">
+      @if (uploading()) {
+        <mat-spinner diameter="20" class="spinner"></mat-spinner>
+      } @else {
+        Start Verification
+        <mat-icon class="cloud-icon">send</mat-icon>
+      }
+    </button>
+  } @else {
+    <button
+      class="lj-button"
+      (activate)="submit()"
+      [disabled]="!backFilePreview() || uploading()">
+      @if (uploading()) {
+        <mat-spinner diameter="20" class="spinner"></mat-spinner>
+      } @else {
+        Start Verification
+        <mat-icon class="cloud-icon">send</mat-icon>
+      }
+    </button>
+  }
+
+  <div>
+    <button class="lj-button" (activate)="previous()">
+      Return
+      <mat-icon class="u-turn">u_turn_right</mat-icon>
+    </button>
+  </div>
+</div>

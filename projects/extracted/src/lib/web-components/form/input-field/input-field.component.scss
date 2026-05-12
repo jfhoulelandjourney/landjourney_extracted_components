@@ -1,0 +1,178 @@
+/* TODO: Add icons and hint styles */
+
+:host {
+  --mat-form-field-container-text-font: var(
+    --input-field--text--font-family,
+    var(--font-family-primary)
+  );
+  --mat-form-field-container-text-line-height: var(
+    --input-field--text--line-height,
+    var(--line-height-xs)
+  );
+  display: flex;
+  flex-flow: column nowrap;
+  width: 100%;
+  gap: var(--padding-compact);
+  font-family: var(--input-field--font-family, inherit);
+
+  .slot-wrapper {
+    &.input {
+      width: 100%;
+    }
+
+    input {
+      width: 100%;
+
+      &.gray {
+        background: var(--gray-100);
+      }
+    }
+  }
+}
+
+/* TODO: Review */
+.field-label {
+  color: var(--text-icons-base-main, #252525);
+  font-family: Inter;
+  font-size: var(--font-size-xs);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.required-asterisk {
+  color: var(--error-color);
+  opacity: 0.5;
+  margin-inline-start: -0.2em;
+}
+
+.default-content.after,
+.default-content.before {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-items: center;
+  width: 100%;
+  height: 100%;
+  padding: var(--gap-default);
+}
+
+.default-content:not(:first-child) {
+  display: none;
+}
+
+.field-wrapper {
+  display: flex;
+  flex-flow: row nowrap;
+  overflow: hidden;
+  width: 100%;
+  border: 1px solid #eaebf0;
+  border-radius: var(--radius-primary);
+
+  :host([aria-invalid]) .field-wrapper input,
+  ::ng-deep :host([aria-invalid]) .field-wrapper .mat-mdc-select,
+  .error input,
+  ::ng-deep .error .mat-mdc-select {
+    border: 1px solid var(--error-color) !important;
+    border-radius: var(--radius-primary);
+  }
+}
+
+.input-slot {
+  display: flex;
+  flex: 1 1 auto;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+input {
+  /* TODO: Add local variables for overwriting */
+  /* TODO: Review size */
+  font-size: var(--font-size-xs);
+  border: none;
+  padding: 0;
+  margin: 0;
+  flex: 1 1 auto;
+  /* TODO: Add local variables for overwriting */
+  padding: var(--padding-comfortable) var(--spacing-4);
+  background-color: #fff;
+}
+
+input::placeholder {
+  /* TODO: Hoist variable to host */
+  color: var(
+    --input-field--placeholder--color,
+    var(--text--color--placeholder, #68727d)
+  );
+}
+
+:host([disabled]) input {
+  background-color: var(--gray-100);
+}
+
+/* Enforce hint typography */
+:host .hint {
+  font-size: var(--font-size-xxs) !important;
+  line-height: 16px !important;
+  color: var(--gray-600) !important;
+  font-weight: 400 !important;
+  font-family: inherit !important;
+  margin-top: 4px;
+}
+
+.hint:empty {
+  display: none;
+}
+
+.errors {
+  font-size: var(--font-size-xxs);
+  color: var(--error-color);
+  overflow: hidden;
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    padding-bottom: var(--padding-compact);
+    margin: 0;
+  }
+
+  li {
+    list-style: none;
+  }
+}
+.mat-mdc-autocomplete-panel {
+  .mat-mdc-option,
+  .mdc-list-item {
+    height: 30px;
+    font-size: var(--font-size-xs);
+    padding: var(--padding-comfortable);
+    padding-left: 0px !important;
+  }
+}
+
+.autocomplete {
+  &.autocomplete-loading {
+    pointer-events: none;
+    cursor: default;
+  }
+
+  .option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+
+    .value {
+      font-size: var(--font-size-xs);
+    }
+
+    &.empty {
+      cursor: unset;
+      opacity: 1;
+    }
+  }
+}

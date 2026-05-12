@@ -1,0 +1,66 @@
+<div class="container">
+  <lj-box-row>
+    <h3>Collateral</h3>
+  </lj-box-row>
+
+  <lj-box-row class="collaterals">
+    @for (collateral of collaterals(); track collateral.collateralId) {
+      <div class="collateral">
+        <div class="title">
+          <div class="avatar">
+            <lj-avatar
+              size="tiny"
+              name="{{
+                getProfile(getCollateralsForAvatar(collateral)).firstName
+              }} {{ getProfile(getCollateralsForAvatar(collateral)).lastName }}"
+              tooltip="{{
+                getProfile(getCollateralsForAvatar(collateral)).firstName
+              }} {{ getProfile(getCollateralsForAvatar(collateral)).lastName }}"
+              [avatarUrl]="
+                getProfile(getCollateralsForAvatar(collateral)).avatarUri ??
+                null
+              " />
+          </div>
+          <p class="body-sm">
+            {{ getFormattedEnumValue(collateral.type) }} -
+            <b>{{ collateral.name }}</b>
+          </p>
+        </div>
+        <div class="items">
+          <div class="item">
+            <div class="label">Collateral Value</div>
+            <div class="data">
+              {{ formatAmount(collateral.data.value_cents) }}
+            </div>
+          </div>
+          <div class="item">
+            <div class="label">Last Appraisal Date</div>
+            <div class="data">
+              {{ formatDate(collateral.data.last_appraisal_date) }}
+            </div>
+          </div>
+          <div class="item">
+            <div class="label">Collateral Acres</div>
+            <div class="data">
+              {{ formatAcres(collateral.data.acres) }}
+            </div>
+          </div>
+          <div class="item">
+            <div class="label">Property Tax Status</div>
+            <div class="data">
+              {{ getFormattedEnumValue(collateral.data.tax_status) }}
+            </div>
+          </div>
+          <div class="item">
+            <div class="label">Insurance Policy Coverage</div>
+            <div class="data">
+              {{
+                getFormattedEnumValue(collateral.data.insurance_policy_coverage)
+              }}
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </lj-box-row>
+</div>

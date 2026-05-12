@@ -1,0 +1,48 @@
+<!-- Image -->
+@if (innerSrc()) {
+  <img
+    [src]="innerSrc()"
+    [alt]="alt()"
+    [class.img-hidden]="loadingState() && loadingTemplateRef()"
+    [class.img-display-none]="errorState() && errorTemplateRef()"
+    (load)="onImageLoad($event)"
+    (error)="onImageError($event)" />
+}
+
+@if (loadingState()) {
+  @if (!loadingTemplateRef()) {
+    <ngx-skeleton-loader
+      appearance="line"
+      count="1"
+      [theme]="{
+        width: '100%',
+        height: '100%',
+      }" />
+  } @else {
+    <!-- Loading state -->
+    <ng-container
+      *ngTemplateOutlet="
+        loadingTemplateRef();
+        context: {
+          $implicit: {
+            width: width(),
+            height: height(),
+            src: innerSrc(),
+          },
+        }
+      "></ng-container>
+  }
+} @else if (errorState() && errorTemplateRef()) {
+  <!-- Error state -->
+  <ng-container
+    *ngTemplateOutlet="
+      errorTemplateRef();
+      context: {
+        $implicit: {
+          retry: retryLoad.bind(this),
+          error: errorState(),
+          src: innerSrc(),
+        },
+      }
+    "></ng-container>
+}

@@ -1,0 +1,263 @@
+:host {
+  display: block;
+  position: relative;
+  text-align: left;
+  width: 100%;
+}
+
+quill-editor {
+  width: 100%;
+}
+
+.ql-editor {
+  font-family: Inter;
+  text-align: left;
+}
+
+.ql-editor p,
+.ql-editor div,
+.ql-editor span,
+.ql-editor * {
+  text-align: left;
+}
+
+.ql-popup {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  padding: 12px;
+  border-radius: 6px;
+  width: max-content;
+  z-index: 10;
+}
+
+.ql-popup-arrow {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #fff;
+  border-left: 1px solid #d0d0d0;
+  border-top: 1px solid #d0d0d0;
+  transform: rotate(45deg);
+  z-index: -1;
+}
+
+.ql-popup-content {
+  min-width: unset;
+  width: max-content;
+}
+
+.link-row {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+}
+
+.link-input-wrap {
+  position: relative;
+  min-width: 240px;
+}
+
+.link-input-wrap input {
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  border: 2px solid #b7d3ff;
+  outline: none;
+  padding: 10px 12px 6px;
+  font-size: 14px;
+  font-family: Inter;
+  box-shadow: inset 0 0 0 1px #cfe2ff;
+}
+
+.link-input-wrap.is-invalid input {
+  border-color: #e03131;
+  box-shadow: none;
+}
+
+.link-floating-label {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  font-size: 14px;
+  color: #666;
+  pointer-events: none;
+  transition: all 0.15s ease;
+  background: #fff;
+  padding: 0 4px;
+}
+
+.link-input-wrap.is-focused .link-floating-label,
+.link-input-wrap.has-value .link-floating-label {
+  top: -6px;
+  font-size: 11px;
+  color: #2b6fe5;
+}
+
+.link-input-wrap.is-invalid .link-floating-label {
+  color: #e03131;
+}
+
+.link-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.link-action {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.link-action svg {
+  width: 18px;
+  height: 18px;
+}
+
+.link-action-confirm svg {
+  fill: #26a269;
+}
+
+.link-action-cancel svg {
+  fill: #e03131;
+}
+
+.link-action-edit svg {
+  fill: #222;
+}
+
+.link-action-remove svg {
+  fill: #222;
+}
+
+.link-action:hover {
+  background: #f2f2f2;
+}
+
+.link-preview {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  align-items: center;
+  gap: 0px;
+}
+
+.link-preview-url {
+  color: #1a73e8;
+  font-size: 16px;
+  text-decoration: none;
+  max-width: 240px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-inline-end: 20px;
+}
+
+.comment-quill-editor {
+  font-weight: 300;
+  line-height: 15px;
+  font-size: var(--font-size-xxs);
+  font-family: Inter;
+  color: var(--color-darker);
+  border-radius: var(--radius-primary);
+  width: 100%;
+}
+
+.ql-toolbar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 2px 4px;
+  gap: 0;
+  border: none;
+}
+
+.ql-formats {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 0;
+  gap: var(--gap-compact);
+}
+
+.ql-formats + .ql-formats::before {
+  content: '';
+  display: block;
+  width: 1px;
+  height: 16px;
+  background-color: hsl(0, 0%, 77%);
+  margin: 0 4px;
+}
+
+.popup-button-icon {
+  width: 26px;
+  height: 26px;
+  padding: 2px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+}
+
+.popup-button-icon:disabled,
+.popup-button-icon[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.popup-button-icon:hover {
+  background-color: hsl(0, 0%, 95%);
+  border-radius: 2px;
+}
+
+.popup-button-icon.btn-active {
+  fill: rgb(41, 119, 255);
+  color: rgb(41, 119, 255);
+  background-color: rgb(240, 247, 255);
+  border-radius: 2px;
+}
+
+svg {
+  width: 100%;
+  height: 100%;
+}
+
+// State styles for editor content
+.editor-disabled {
+  background-color: var(--accent-black-100) !important;
+  padding: 0px 8px !important;
+  margin: 8px 0px !important;
+}
+
+.editor-dirty {
+  background-color: #f6f6f6 !important;
+  padding: 0px 8px !important;
+  margin: 8px 0px !important;
+}
+
+.editor-deleted {
+  text-decoration: line-through;
+  background-color: var(--accent-black-100) !important;
+  padding: 0px 8px !important;
+  margin: 8px 0px !important;
+}
+
+.ql-container.ql-bubble {
+  font-size: var(--font-size-xxs);
+  font-family: Inter;
+  font-size: var(--font-size-xxs);
+}
+
+.ql-container.ql-bubble {
+  font-family: Inter;
+}

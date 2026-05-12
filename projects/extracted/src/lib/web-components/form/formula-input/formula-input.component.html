@@ -1,0 +1,76 @@
+<div class="formula-input-container">
+  <div class="input-wrapper">
+    <input
+      #formulaInput
+      type="text"
+      class="formula-input"
+      [class.invalid]="!validationResult().valid && value()"
+      [class.valid]="validationResult().valid && value()"
+      [value]="value()"
+      [disabled]="disabled()"
+      (input)="onInput($event)"
+      (keydown)="onKeyDown($event)"
+      (blur)="onBlur()"
+      (focus)="onFocus()"
+      placeholder="e.g., SUM(field_1, field_2) or interest_rate_percent + fee_rate"
+      autocomplete="off" />
+
+    <button
+      type="button"
+      class="fx-button"
+      [disabled]="disabled()"
+      [matMenuTriggerFor]="formulaMenu"
+      aria-label="Insert formula">
+      <mat-icon>function</mat-icon>
+    </button>
+  </div>
+
+  @if (!validationResult().valid && value()) {
+    <div class="validation-error">
+      <mat-icon class="error-icon">error</mat-icon>
+      <span>{{ validationResult().error }}</span>
+    </div>
+  }
+
+  @if (showSuggestions() && filteredSuggestions().length > 0) {
+    <div class="suggestions-dropdown">
+      @for (
+        suggestion of filteredSuggestions();
+        track suggestion;
+        let i = $index
+      ) {
+        <div
+          class="suggestion-item"
+          [class.selected]="i === selectedSuggestionIndex()"
+          (click)="selectSuggestion(suggestion)"
+          (keydown.enter)="selectSuggestion(suggestion)"
+          tabindex="0"
+          role="option"
+          [attr.aria-selected]="i === selectedSuggestionIndex()">
+          <mat-icon class="suggestion-icon">
+            {{ isFormula(suggestion) ? 'function' : 'text_fields' }}
+          </mat-icon>
+          <span>{{ suggestion }}</span>
+        </div>
+      }
+    </div>
+  }
+</div>
+
+<mat-menu #formulaMenu="matMenu" class="formula-menu">
+  @for (category of categories; track category) {
+    <div class="formula-category">
+      <div class="category-title">{{ category }}</div>
+      @for (formula of getFormulasByCategory(category); track formula.name) {
+        <button
+          mat-menu-item
+          (click)="insertFormula(formula.name)"
+          class="formula-menu-item">
+          <mat-icon>function</mat-icon>
+          <span>{{ formula.name }}</span>
+        </button>
+      }
+    </div>
+  }
+</mat-menu>
+

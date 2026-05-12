@@ -1,0 +1,327 @@
+<div class="container">
+  <button
+    class="small-icon-button"
+    mat-icon-button
+    [matMenuTriggerFor]="fieldMenu"
+    matTooltip="Drag to move or click to open field menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <mat-menu #fieldMenu="matMenu" class="menu">
+    <div class="item">
+      <div class="body-s">Field name</div>
+      <lj-editable-input
+        [value]="field().name"
+        label="name"
+        [rightAlign]="true"
+        [name]="field().name"
+        (onValueChange)="handleNameChange($event)" />
+    </div>
+
+    @if (options().required) {
+      <div class="divider"></div>
+      <div class="item" (activate)="handleRequiredChange(!field().required)">
+        <div class="body-s">Required</div>
+        <mat-slide-toggle
+          [disableRipple]="true"
+          [hideIcon]="true"
+          [checked]="field().required" />
+      </div>
+    }
+
+    @if (options().dateRestriction) {
+      <div
+        class="item"
+        (click)="$event.stopPropagation()"
+        (keydown)="
+          ($event.key === 'Enter' || $event.key === ' ') &&
+            $event.stopPropagation()
+        "
+        tabindex="0">
+        <div class="body-s">Date restriction</div>
+
+        <mat-select
+          lj-select
+          borderless="true"
+          panelWidth="auto"
+          panelClass="date-restriction-panel"
+          [value]="field().parameters.dateRestriction || ''"
+          (selectionChange)="handleDateRestrictionChange($event.value)">
+          <mat-option value="">No restriction</mat-option>
+          <mat-option value="PAST_ONLY">Past dates only</mat-option>
+          <mat-option value="FUTURE_ONLY">Future dates only</mat-option>
+          <mat-option value="AGE_18_PLUS">18+ years old</mat-option>
+          <mat-option value="AGE_21_PLUS">21+ years old</mat-option>
+        </mat-select>
+      </div>
+    }
+
+    @if (options().prefillable) {
+      <div class="divider"></div>
+      <div
+        class="item"
+        (activate)="handlePrefillableChange(!field().prefillable)">
+        <div class="body-s">Prefillable</div>
+        <mat-slide-toggle
+          [disableRipple]="true"
+          [hideIcon]="true"
+          [checked]="field().prefillable === true" />
+      </div>
+      @if (field().prefillable === true) {
+        <div class="item prefill-key-item">
+          <div class="body-s">Prefill data key</div>
+          <div class="prefill-key-control">
+            <input
+              id="prefill-data-key"
+              [name]="field().name + '-prefill-key'"
+              class="prefill-key-input"
+              type="text"
+              autocomplete="off"
+              placeholder="Search prefill key"
+              [value]="getPrefillSourceKeyInputValue()"
+              (click)="$event.stopPropagation()"
+              (keydown)="handlePrefillSourceKeyDown($event)"
+              (focus)="handlePrefillSourceKeyFocus()"
+              (input)="handlePrefillSourceKeySearch($any($event.target).value)"
+              (blur)="handlePrefillSourceKeyBlur($event)" />
+            @if (
+              showPrefillDropdown() &&
+              prefillKeySearchTerm().trim() &&
+              (prefillKeyLoading() || getPrefillSourceKeyOptions().length > 0)
+            ) {
+              <div class="prefill-dropdown">
+                @if (prefillKeyLoading()) {
+                  <div class="prefill-option prefill-option-disabled">
+                    Loading...
+                  </div>
+                } @else {
+                  @for (
+                    option of getPrefillSourceKeyOptions();
+                    track option.id
+                  ) {
+                    <div
+                      class="prefill-option"
+                      [class.focused]="prefillKeyFocusIndex() === $index"
+                      (mousedown)="
+                        $event.preventDefault();
+                        handlePrefillSourceKeyOptionClick(option.value)
+                      ">
+                      <span>{{ option.label }}</span>
+                      <span class="prefill-option-meta">
+                        {{ option.value }}
+                      </span>
+                    </div>
+                  }
+                }
+              </div>
+            }
+          </div>
+        </div>
+      }
+    }
+
+    @if (options().visible) {
+      <div class="divider"></div>
+      <div
+        class="item"
+        (activate)="handleVisibleChange(!field().parameters.visible)">
+        <div class="body-s">Visible to client</div>
+        <mat-slide-toggle
+          [disableRipple]="true"
+          [hideIcon]="true"
+          [checked]="field().parameters.visible === true" />
+      </div>
+    }
+
+    @if (options().inputType) {
+      <div
+        class="item"
+        (click)="$event.stopPropagation()"
+        (keydown)="
+          ($event.key === 'Enter' || $event.key === ' ') &&
+            $event.stopPropagation()
+        "
+        tabindex="0">
+        <div class="body-s">Field type</div>
+
+        <mat-select
+          lj-select
+          borderless="true"
+          panelWidth="auto"
+          [value]="field().parameters.type || 'text'"
+          (selectionChange)="handleInputTypeChange($event.value)">
+          <mat-option value="text">Text</mat-option>
+          <mat-option value="email">Email</mat-option>
+          <mat-option value="tel">Telephone</mat-option>
+          <mat-option value="ssn">SSN</mat-option>
+        </mat-select>
+      </div>
+    }
+
+    @if (options().minMaxLength) {
+      <div class="item">
+        <div class="body-s">Min length</div>
+
+        <lj-editable-input
+          type="number"
+          [value]="field().parameters.minimumLength"
+          label="min length"
+          [rightAlign]="true"
+          [name]="field().name + '-min-length'"
+          (onValueChange)="handleMinLengthChange($event)" />
+      </div>
+      <div class="item">
+        <div class="body-s">Max length</div>
+
+        <lj-editable-input
+          type="number"
+          [value]="field().parameters.maximumLength"
+          label="max length"
+          [rightAlign]="true"
+          [name]="field().name + '-max-length'"
+          (onValueChange)="handleMaxLengthChange($event)" />
+      </div>
+    }
+
+    @if (options().minMaxValue) {
+      <div class="item">
+        <div class="body-s">Min value</div>
+
+        <lj-editable-input
+          type="number"
+          [value]="field().parameters.minimumValue"
+          label="min value"
+          [rightAlign]="true"
+          [name]="field().name + '-min-value'"
+          (onValueChange)="handleMinValueChange($event)" />
+      </div>
+      <div class="item">
+        <div class="body-s">Max value</div>
+
+        <lj-editable-input
+          type="number"
+          [value]="field().parameters.maximumValue"
+          label="max value"
+          [rightAlign]="true"
+          [name]="field().name + '-max-value'"
+          (onValueChange)="handleMaxValueChange($event)" />
+      </div>
+    }
+
+    @if (options().decimalPrecision) {
+      <div class="item">
+        <div class="body-s">Decimal Precision</div>
+
+        <lj-editable-input
+          type="number"
+          [value]="field().parameters.decimalPrecision"
+          label="decimals"
+          [rightAlign]="true"
+          [name]="field().name + '-decimal-precision'"
+          (onValueChange)="handleDecimalPrecisionChange($event)" />
+      </div>
+    }
+
+    @if (options().validator) {
+      <div class="item">
+        <div class="body-s">Validator Regex</div>
+
+        <lj-editable-input
+          type="text"
+          [value]="field().parameters.validator"
+          label="regex"
+          [rightAlign]="true"
+          [name]="field().name + '-validator'"
+          (onValueChange)="handleValidatorChange($event)" />
+      </div>
+    }
+
+    @if (options().computedOutputType) {
+      <div class="divider"></div>
+      <div
+        class="item"
+        (click)="$event.stopPropagation()"
+        (keydown)="
+          ($event.key === 'Enter' || $event.key === ' ') &&
+            $event.stopPropagation()
+        "
+        tabindex="0">
+        <div class="body-s">Output format</div>
+
+        <mat-select
+          lj-select
+          borderless="true"
+          panelWidth="auto"
+          [value]="field().parameters.computedOutputType || 'text'"
+          (selectionChange)="handleComputedOutputTypeChange($event.value)">
+          <mat-option value="text">Text</mat-option>
+          <mat-option value="number">Number</mat-option>
+          <mat-option value="money">Money</mat-option>
+        </mat-select>
+      </div>
+    }
+
+    @if (options().privacy) {
+      <div
+        class="item"
+        (click)="$event.stopPropagation()"
+        (keydown)="
+          ($event.key === 'Enter' || $event.key === ' ') &&
+            $event.stopPropagation()
+        "
+        tabindex="0">
+        <div class="body-s">Privacy</div>
+
+        <mat-select
+          lj-select
+          borderless="true"
+          panelWidth="auto"
+          [value]="field().parameters.privacy === true ? 'true' : 'false'"
+          (selectionChange)="handlePrivacyChange($event.value)">
+          <mat-option value="false">Not Active</mat-option>
+          <mat-option value="true">Active</mat-option>
+        </mat-select>
+      </div>
+    }
+
+    @if (options().variant) {
+      <div
+        class="item"
+        (click)="$event.stopPropagation()"
+        (keydown)="
+          ($event.key === 'Enter' || $event.key === ' ') &&
+            $event.stopPropagation()
+        "
+        tabindex="0">
+        <div class="body-s">Variant</div>
+
+        <mat-select
+          lj-select
+          borderless="true"
+          panelWidth="auto"
+          [value]="noteFieldVariant(field())"
+          (selectionChange)="handleVariantChange($event.value)">
+          <mat-option value="neutral">Neutral</mat-option>
+          <mat-option value="warning">Warning</mat-option>
+          <mat-option value="success">Success</mat-option>
+          <mat-option value="error">Error</mat-option>
+        </mat-select>
+      </div>
+    }
+
+    @if (options().conditionalLogic) {
+      <div class="divider"></div>
+
+      <div class="item" (activate)="addDisplayCondition()">
+        <div class="body-s">Add display condition</div>
+      </div>
+    }
+
+    <div class="divider"></div>
+
+    <div class="item danger" (activate)="removeItem()">
+      <div class="body-s">Delete</div>
+      <mat-icon class="small-icon danger">delete</mat-icon>
+    </div>
+  </mat-menu>
+</div>

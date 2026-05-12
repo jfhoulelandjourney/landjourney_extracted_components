@@ -1,0 +1,133 @@
+:host {
+  .container {
+    position: relative;
+    padding: var(--padding-reset) 28px;
+    margin-bottom: var(--padding-comfortable);
+  }
+
+  .input {
+    padding: var(--padding-comfortable);
+  }
+
+  .shadow {
+    box-shadow: var(--shadow-xs);
+    border-radius: var(--radius-strong);
+  }
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: var(--padding-compact);
+
+    mat-icon {
+      width: 16px !important;
+      height: 16px !important;
+      font-size: 16px !important;
+      margin-top: 6px !important;
+      overflow: visible !important;
+    }
+
+    lj-editable-input {
+      flex-grow: 1;
+    }
+  }
+}
+
+.dynamic-form-input {
+  flex-grow: 1;
+
+  .row {
+    margin-top: var(--padding-comfortable);
+  }
+
+  .explanation {
+    margin-left: var(--padding-comfortable);
+  }
+
+  mat-checkbox {
+    font-size: var(--font-size-xs) !important;
+  }
+
+  .field-title {
+    color: var(--text-icons-base-main, #252525);
+    font-family: Inter;
+    font-size: var(--font-size-xs);
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+  }
+
+  .table {
+    background-color: transparent;
+    margin-top: var(--padding-comfortable);
+
+    .table-row {
+      display: grid;
+      grid-template-columns: 1fr 150px 100px;
+      gap: var(--padding-compact);
+      align-items: flex-end;
+
+      .small-icon-button {
+        width: 24px !important;
+        height: 24px !important;
+        padding: 0px !important;
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+
+        & > *[role='img'] {
+          width: 16px;
+          height: 16px;
+          font-size: var(--font-size-sm);
+
+          svg {
+            width: 16px;
+            height: 16px;
+          }
+        }
+
+        .mat-mdc-button-touch-target {
+          width: 24px !important;
+          height: 24px !important;
+        }
+      }
+
+      .table-column {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        &.total {
+          display: unset;
+          text-align: right;
+          padding-right: 10px;
+          font-size: var(--font-size-sm);
+          color: darkgreen;
+
+          &.no-padding {
+            padding: 0;
+          }
+        }
+
+        &.number {
+          text-align: left;
+          padding-left: var(--padding-comfortable);
+        }
+
+        &.action {
+          margin-left: var(--padding-default);
+
+          &.remove {
+            height: 40px;
+          }
+        }
+      }
+
+      &.last {
+        margin-top: var(--padding-comfortable);
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+.disclaimer {
+  font-size: var(--font-size-xs);
+
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--padding-spacious);
+
+  margin-bottom: var(--padding-spacious);
+
+  .disclaimer-text {
+    flex-grow: 1;
+    text-align: left;
+
+    .urls {
+      margin-top: var(--padding-spacious);
+      text-align: left;
+    }
+
+    @media (max-width: 500px) {
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 500px) {
+    flex-direction: column-reverse;
+    align-items: center;
+    gap: var(--padding-comfortable);
+  }
+}
+
+@media (max-width:480px) {
+  .disclaimer {
+    flex-direction: column;
+  }
+
+  mat-checkbox {
+    align-self: flex-end;
+  }
+}

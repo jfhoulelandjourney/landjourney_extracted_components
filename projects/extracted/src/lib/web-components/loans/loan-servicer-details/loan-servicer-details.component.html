@@ -1,0 +1,31 @@
+<div class="servicer">
+  <div class="text">
+    <p class="body-l inter white">
+      Servicing on this account is now managed by
+      {{ loan()?.servicerName }}.
+    </p>
+    <p class="body-m inter gold">
+      @if (loan()?.servicerPaymentPortalUrl) {
+        Click
+        <a [href]="loan()?.servicerPaymentPortalUrl" target="_blank">here</a>
+        to visit the {{ loan()?.servicerName }} Online Portal to obtain more
+        information about your loan.
+      }
+    </p>
+    <p class="body-m inter gold">
+      @if (loan()?.servicerPhoneNumber) {
+        You may call {{ loan()?.servicerName }} at
+        <a href="tel: {{ loan()?.servicerPhoneNumber }}">
+          {{ loan()?.servicerPhoneNumber }}
+        </a>
+        .
+      }
+    </p>
+  </div>
+  <div class="image">
+    <img
+      alt="crops"
+      aria-hidden="true"
+      src="/assets/misc/croops_evolution.svg" />
+  </div>
+</div>

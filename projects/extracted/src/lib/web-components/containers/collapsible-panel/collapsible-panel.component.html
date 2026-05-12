@@ -1,0 +1,16 @@
+<div class="panel-title" (activate)="expanded.set(!expanded())">
+  @if (expanded()) {
+    <mat-icon>keyboard_arrow_up</mat-icon>
+  } @else {
+    <mat-icon>keyboard_arrow_right</mat-icon>
+  }
+
+  <div class="max-width">
+    <ng-content select="[trigger]"></ng-content>
+  </div>
+</div>
+<div class="panel-content" [class.show-panel-content]="this.expanded()">
+  <div class="max-width">
+    <ng-content select="[content]"></ng-content>
+  </div>
+</div>

@@ -1,0 +1,187 @@
+<lj-side-panel
+  [isOpen]="isOpen()"
+  closeButtonText="Close Simulator"
+  [panelWidth]="getPanelWidth()"
+  (closePanel)="onClose()">
+  <div class="header">
+    <lj-tabs (selectedTab)="onTabSelected($event)">
+      <lj-tab [name]="'manual-testing'">
+        <span>Manual Testing</span>
+      </lj-tab>
+      <lj-tab [name]="'customer-search'">
+        <span>Customer Search</span>
+      </lj-tab>
+    </lj-tabs>
+    <div class="product-selector-container">
+      <button
+        lj-button
+        (activate)="openProductSelector(); $event.stopPropagation()"
+        [compact]="true">
+        <mat-icon>add</mat-icon>
+        Add {{ product() ? 'product' : 'program' }} to compare
+      </button>
+      @if (isProductSelectorOpen()) {
+        <div class="dropdown-menu">
+          @for (item of dropdownItems(); track item.id) {
+            <button
+              class="dropdown-item"
+              (activate)="onItemSelected(item.id); $event.stopPropagation()"
+              type="button">
+              {{ item.displayName }}
+            </button>
+          }
+          @if (dropdownItems().length === 0) {
+            <div class="dropdown-item empty">
+              No {{ product() ? 'products' : 'programs' }} available
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+
+  <div class="products-simulator">
+    <div class="auto-rule-callout info simulator-callout-banner">
+      <mat-icon>info</mat-icon>
+      <div class="auto-rule-callout__text">
+        <span class="auto-rule-callout__title">{{
+          simulatorCallout().title
+        }}</span>
+        <span class="auto-rule-callout__body">{{
+          simulatorCallout().body
+        }}</span>
+      </div>
+    </div>
+
+    <div class="simulator-main-row">
+    <!-- Manual Testing Tab Content -->
+    @if (selectedTab() === 'manual-testing') {
+      <div class="simulator-form">
+        <p class="title-lg">Please complete this form, to see results.</p>
+        <button lj-button="ghost" (activate)="generateData()" [compact]="true">
+          <mat-icon>refresh</mat-icon>
+          Generate Data
+        </button>
+        <!-- Form Section -->
+        @if (simulatorForm()) {
+          <lj-dynamic-form
+            [form]="simulatorForm()!"
+            [allowManualComputedValueEdit]="true"
+            (dataChange)="onFormDataChange($event)" />
+        }
+      </div>
+    }
+
+    <!-- Customer Search Tab Content -->
+    @if (selectedTab() === 'customer-search') {
+      <div class="simulator-user-search">
+        <lj-customer-business-selector
+          [scrollResults]="true"
+          (selectionChange)="onCustomerBusinessSelectionChange($event)" />
+
+        @if (prefillDataDisplay().length > 0) {
+          @for (entity of prefillDataDisplay(); track entity.assigneeId) {
+            <div class="prefill-data-display">
+              <p class="prefill-data-title">
+                {{ entity.type === 'user' ? 'Customer' : 'Business' }}:
+                {{ entity.name }}
+              </p>
+              <mat-form-field
+                class="simulator-role-field"
+                appearance="outline"
+                subscriptSizing="dynamic">
+                <mat-label>Applicant role</mat-label>
+                <mat-select
+                  [value]="getSimulatorRoleForAssignee(entity.assigneeId)"
+                  (selectionChange)="
+                    onSimulatorAssigneeRoleChange(
+                      entity.assigneeId,
+                      $event.value
+                    )
+                  ">
+                  @for (
+                    role of simulatorApplicantRoleOptions;
+                    track role
+                  ) {
+                    <mat-option [value]="role">
+                      {{ getRequestUserRolesDisplayName(role) }}
+                    </mat-option>
+                  }
+                </mat-select>
+              </mat-form-field>
+              @if (entity.data.length > 0) {
+                <table class="prefill-data-table">
+                  <thead>
+                    <tr>
+                      <th class="prefill-data-th prefill-data-th-key">Key</th>
+                      <th class="prefill-data-th prefill-data-th-value">
+                        Value
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (item of entity.data; track item.key) {
+                      <tr class="prefill-data-tr">
+                        <td class="prefill-data-td prefill-data-td-key">
+                          {{ item.key }}
+                        </td>
+                        <td class="prefill-data-td prefill-data-td-value">
+                          {{ item.value }}
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              } @else {
+                <div class="prefill-data-empty">No prefill data available</div>
+              }
+            </div>
+          }
+        }
+      </div>
+    }
+
+    <!-- Product Display Section -->
+    <div class="simulator-products-display">
+      <div class="comparisons-section">
+        @if (productDisplay()) {
+          <div class="comparison-item">
+            <lj-product
+              [productDisplay]="productDisplay()!"
+              [onlyProgram]="!product()"
+              [isCurrentProduct]="productDisplayComparisons().length !== 0"
+              [showProductParts]="[
+                'APPROVAL_LIMITS',
+                'SCORECARD',
+                RuleTypeKeyEnum.ELIGIBILITY_RULES,
+                RuleTypeKeyEnum.RENEWAL_ELIGIBILITY_RULES,
+              ]" />
+          </div>
+        }
+
+        <!-- Comparison Products Display -->
+        @if (productDisplayComparisons().length > 0) {
+          @for (
+            comparison of productDisplayComparisons();
+            track comparisonTrackKey(comparison)
+          ) {
+            <div class="comparison-item">
+              <lj-product
+                [productDisplay]="comparison"
+                [onlyProgram]="!comparison.productName"
+                [showDeleteIcon]="true"
+                (deleteIconClick)="onDeleteComparison(comparison)"
+                [showProductParts]="[
+                  'APPROVAL_LIMITS',
+                  'SCORECARD',
+                  RuleTypeKeyEnum.ELIGIBILITY_RULES,
+                  RuleTypeKeyEnum.RENEWAL_ELIGIBILITY_RULES,
+                ]" />
+            </div>
+          }
+        }
+      </div>
+    </div>
+    </div>
+  </div>
+</lj-side-panel>

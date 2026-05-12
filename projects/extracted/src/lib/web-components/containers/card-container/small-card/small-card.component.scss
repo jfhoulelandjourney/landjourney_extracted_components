@@ -1,0 +1,60 @@
+.small-card {
+  border-radius: var(--radius-primary);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding: 10px;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  cursor: pointer;
+
+  &.align-left {
+    align-items: start;
+  }
+
+  &:hover {
+    opacity: 80%;
+  }
+
+  .title {
+    font-weight: bold;
+    font-size: var(--font-size-md);
+  }
+
+  .subtitle {
+    font-size: var(--font-size-xs);
+  }
+
+  .separator {
+    flex-grow: 1;
+  }
+
+  .link {
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: var(--font-size-xs);
+    font-weight: bold;
+  }
+
+  &.square {
+    .title {
+      font-size: var(--font-size-xs);
+      line-height: 1em;
+    }
+  }
+}
+
+.square {
+  width: 10vh;
+  height: 10vh;
+}
+
+.rectangle {
+  width: 30vh;
+  height: 10vh;
+}

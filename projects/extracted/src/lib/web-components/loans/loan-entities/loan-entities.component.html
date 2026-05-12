@@ -1,0 +1,103 @@
+<div class="container">
+  <lj-box-row>
+    <h3>
+      Borrowers
+      @if (getLoanGuarantors().length) {
+        & guarantors
+      }
+    </h3>
+  </lj-box-row>
+
+  @if (
+    getLoanMainBorrowers().length === 0 &&
+    getLoanCoBorrowers().length === 0 &&
+    getLoanGuarantors().length === 0
+  ) {
+    <lj-box-row class="borrowers">Borrowers are missing.</lj-box-row>
+  }
+
+  <lj-box-row class="borrowers">
+    @for (user of getLoanMainBorrowers(); track user.userId) {
+      <div class="borrower">
+        <div class="avatar">
+          <lj-avatar
+            size="tiny"
+            name="{{ formatEntityName(user.profile) }}"
+            [avatarUrl]="user.profile?.avatarUri ?? null"
+            tooltip="{{ formatEntityName(user.profile) }}" />
+        </div>
+        <p class="body-s inter">
+          {{ formatEntityName(user.profile) }}
+        </p>
+        @if (getLoanGuarantors().length > 0) {
+          <span class="body-s inter role-tag">Borrower</span>
+        }
+      </div>
+    }
+  </lj-box-row>
+
+  @if (getLoanCoBorrowers().length !== 0) {
+    <lj-box-row class="borrowers">
+      @for (user of getLoanCoBorrowers(); track user.userId) {
+        <div class="borrower">
+          <div class="avatar">
+            <lj-avatar
+              size="tiny"
+              name="{{ formatEntityName(user.profile) }}"
+              [avatarUrl]="user.profile?.avatarUri ?? null"
+              tooltip="{{ formatEntityName(user.profile) }}" />
+          </div>
+          <p class="body-s inter">
+            {{ formatEntityName(user.profile) }}
+          </p>
+          @if (getLoanGuarantors().length > 0) {
+            <span class="body-s inter role-tag">Borrower</span>
+          }
+        </div>
+      }
+    </lj-box-row>
+  }
+
+  @if (getLoanGuarantors().length !== 0) {
+    <lj-box-row class="borrowers">
+      @for (user of getLoanGuarantors(); track user.userId) {
+        <div class="borrower">
+          <div class="avatar">
+            <lj-avatar
+              size="tiny"
+              name="{{ formatEntityName(user.profile) }}"
+              [avatarUrl]="user.profile?.avatarUri ?? null"
+              tooltip="{{ formatEntityName(user.profile) }}" />
+          </div>
+          <p class="body-s inter">
+            {{ formatEntityName(user.profile) }}
+          </p>
+          <span class="body-s inter role-tag">Guarantor</span>
+        </div>
+      }
+    </lj-box-row>
+  }
+
+  @if (getLoanCollaborators().length !== 0) {
+    <lj-box-row>
+      <h3>Collaborators</h3>
+    </lj-box-row>
+
+    <lj-box-row class="borrowers">
+      @for (user of getLoanCollaborators(); track user.userId) {
+        <div class="borrower">
+          <div class="avatar">
+            <lj-avatar
+              size="tiny"
+              name="{{ formatEntityName(user.profile) }}"
+              [avatarUrl]="user.profile?.avatarUri ?? null"
+              tooltip="{{ formatEntityName(user.profile) }}" />
+          </div>
+          <p class="body-s inter">
+            {{ formatEntityName(user.profile) }}
+          </p>
+        </div>
+      }
+    </lj-box-row>
+  }
+</div>

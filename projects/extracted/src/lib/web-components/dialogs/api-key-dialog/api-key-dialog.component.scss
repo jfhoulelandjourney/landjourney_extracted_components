@@ -1,0 +1,25 @@
+:host {
+  display: block;
+}
+
+h4 {
+  margin-top: var(--padding-spacious);
+}
+
+.key-information {
+  margin-top: var(--padding-default);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+
+  border: var(--gray-100) solid 1px;
+  border-radius: var(--radius-primary);
+  padding-left: var(--padding-default);
+
+  div {
+    flex-grow: 1;
+    overflow: hidden;
+    word-wrap: break-word;
+  }
+}

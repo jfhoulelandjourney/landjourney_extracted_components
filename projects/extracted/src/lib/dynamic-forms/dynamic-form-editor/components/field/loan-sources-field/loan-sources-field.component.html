@@ -1,0 +1,126 @@
+@if (field()) {
+  <div
+    class="container"
+    (mouseenter)="showShadow.set(true)"
+    (mouseleave)="showShadow.set(false)">
+    <div class="input" [class.shadow]="showShadow()">
+      <div class="row">
+        <mat-icon>source</mat-icon>
+        <lj-editable-input
+          [value]="field().label"
+          label="label"
+          [name]="field().name"
+          (onValueChange)="handleLabelChange($event)" />
+
+        <lj-field-configuration
+          (remove)="handleRemove()"
+          [options]="{
+            required: false,
+            inputType: false,
+            minMaxLength: false,
+            minMaxValue: false,
+            conditionalLogic: true,
+            validator: false,
+            decimalPrecision: false,
+            prefillable: true,
+            visible: false,
+          }"
+          (addConditionalLogic)="showConditionalLogic.set(true)"
+          (handleFieldChange)="handleFieldChange($event)"
+          [field]="field()" />
+      </div>
+
+      <div class="dynamic-form-input">
+        <div class="row body-s">
+          Please provide a breakdown of the sources that will be leveraged for
+          the purchase. Total of all combined sources must equal the purchase
+          price.
+        </div>
+
+        <div class="row">
+          <lj-input-field
+            placeholder="Purchase price"
+            id="purchasePrice"
+            name="purchasePrice"
+            type="text"
+            [disabled]="true"
+            label="Purchase price"
+            [style]="'gray'"
+            [showError]="false" />
+        </div>
+        <mat-checkbox class="row body-s" [disabled]="true">
+          Check this box if this is an arm's-length transaction*
+        </mat-checkbox>
+
+        <div class="body-s explanation">
+          * An arm's length transaction is when the buyers and sellers act in
+          their own self-interest to negotiate the best deal. The parties
+          involved have no pre-existing relationship to each other.
+        </div>
+
+        <div class="table">
+          <div class="table-row">
+            <div class="table-column field-title">Source</div>
+            <div class="table-column field-title">Amount</div>
+            <div class="table-column action">
+              <button mat-icon-button class="small-icon-button">
+                <mat-icon>add</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-row">
+            <div class="table-column">
+              <lj-input-field
+                placeholder="Source"
+                id="source"
+                name="source"
+                [disabled]="true"
+                [showError]="false"
+                type="text"
+                [style]="'gray'" />
+            </div>
+            <div class="table-column">
+              <lj-input-field
+                placeholder="Amount"
+                id="amount"
+                name="amount"
+                [disabled]="true"
+                [showError]="false"
+                type="text"
+                [style]="'gray'" />
+            </div>
+            <div class="table-column action remove">
+              <button mat-icon-button class="small-icon-button">
+                <mat-icon>remove</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <div class="table-row last">
+            <div class="table-column total">Total:</div>
+            <div class="table-column total number">$0.00</div>
+            <div class="table-column action"></div>
+          </div>
+        </div>
+      </div>
+
+      @if (
+        (field().dependsOn !== undefined && field().dependsOn !== null) ||
+        showConditionalLogic()
+      ) {
+        <lj-conditional-logic
+          [mobile]="containerLayout() !== SectionLayouts.ONE_COLUMN"
+          [dependsOn]="field().dependsOn"
+          [existingFields]="existingFields()"
+          [formDefinition]="formDefinition()"
+          (removeConditionalLogic)="showConditionalLogic.set(false)"
+          (handleConditionalLogicChange)="
+            handleConditionalLogicChange($event)
+          " />
+      }
+    </div>
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

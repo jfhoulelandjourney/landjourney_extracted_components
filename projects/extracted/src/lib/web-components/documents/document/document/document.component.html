@@ -1,0 +1,29 @@
+@if (documentLoaded() && !document()) {
+  <p class="body-s">No document</p>
+} @else if (documentLoaded() && document()) {
+  @if (isImage()) {
+    <img alt="image" [src]="document()?.originalUrl" />
+  } @else if (isPdf()) {
+    <lj-pdf-viewer
+      mode="preview"
+      [file]="document()?.pdfUrl ?? document()?.originalUrl ?? ''"
+      [fileMetadata]="document()"
+      [fileName]="document()?.originalName ?? ''"
+      (onDocumentDownloaded)="documentDownloaded()"
+      customCss="assets/client-pspdfkit.css"></lj-pdf-viewer>
+  } @else {
+    {{ document()?.originalName }}
+    <a
+      [href]="document()?.originalUrl"
+      target="_blank"
+      (activate)="documentDownloaded()">
+      Download
+    </a>
+  }
+} @else {
+  <ngx-skeleton-loader
+    appearance="line"
+    class="skeleton"
+    [count]="1"
+    [theme]="{ height: '500px' }" />
+}

@@ -1,0 +1,21 @@
+@use '../../../ui-styles/tokens/breakpoints' as bp;
+
+:host {
+  display: flex;
+  flex-direction: row;
+  padding: 0px;
+  border-bottom: solid 2px var(--box-border-color);
+  margin-bottom: var(--spacing-4);
+  gap: var(--padding-default);
+}
+
+@include bp.max-mobile {
+  :host {
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}

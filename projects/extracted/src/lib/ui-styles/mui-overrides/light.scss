@@ -1,0 +1,26 @@
+@use '@angular/material' as mat;
+
+// Customize the entire app. Change :root to your selector if you want to scope the styles.
+:root {
+  @include mat.progress-spinner-overrides(
+    (
+      active-indicator-color: var(--brand-primary-700),
+    )
+  );
+}
+
+.mat-step-header .mat-step-icon-state-done {
+  background-color: var(--status-success-700) !important;
+  color: white;
+  + .mat-step-label {
+    color: var(--status-success-700) !important;
+  }
+}
+
+.mat-step-header .mat-step-icon-state-error {
+  background-color: white !important;
+  color: var(--status-error-700);
+  + .mat-step-label {
+    color: var(--status-error-700) !important;
+  }
+}

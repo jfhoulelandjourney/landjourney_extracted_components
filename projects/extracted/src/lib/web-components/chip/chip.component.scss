@@ -1,0 +1,51 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--padding-tight) var(--padding-comfortable);
+  border-radius: 20px;
+  /* Text S/Medium */
+  font-family: Inter;
+  font-size: var(--font-size-xs);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+  /* 142.857% */
+}
+
+// TODO: Add color to theme
+:host(.chip-success) {
+  background-color: #e9f8f1;
+  color: #27b973;
+}
+
+:host(.chip-warning) {
+  background-color: #fdf6ea;
+  color: #efa22f;
+}
+
+:host(.chip-muted) {
+  background-color: #f0f0f0;
+  color: #606060;
+}
+
+:host(.chip-danger) {
+  background-color: #ffefee;
+  color: #e33b32;
+}
+
+:host(.chip-info) {
+  background-color: #e7ece3;
+  color: var(--color-darker);
+}
+
+:host(.chip-small) {
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-rounded);
+  border: 1px solid var(--color-thin-pill-border);
+  font-family: var(--font-family-primary);
+  font-size: 0.65rem;
+  font-weight: var(--font-weight-light);
+  line-height: 1.25;
+  white-space: nowrap;
+}

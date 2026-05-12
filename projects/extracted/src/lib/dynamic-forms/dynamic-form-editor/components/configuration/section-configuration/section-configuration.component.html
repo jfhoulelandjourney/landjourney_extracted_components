@@ -1,0 +1,79 @@
+<div class="container">
+  <button
+    class="small-icon-button"
+    mat-icon-button
+    [matMenuTriggerFor]="sectionMenu"
+    matTooltip="Click to open section menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <mat-menu #sectionMenu="matMenu" class="menu">
+    @if (options().sectionLayout) {
+      <div
+        class="item"
+        (click)="$event.stopPropagation()"
+        (keydown)="
+          ($event.key === 'Enter' || $event.key === ' ') &&
+            $event.stopPropagation()
+        "
+        tabindex="0">
+        <div class="body-s">Layout</div>
+        <select matNativeControl (change)="handleLayoutChange($event)">
+          <option
+            value="ONE_COLUMN"
+            [selected]="getCurrentLayout() === 'ONE_COLUMN'">
+            One Column
+          </option>
+          <option
+            value="TWO_COLUMNS"
+            [selected]="getCurrentLayout() === 'TWO_COLUMNS'">
+            Two Columns
+          </option>
+          <option
+            value="THREE_COLUMNS"
+            [selected]="getCurrentLayout() === 'THREE_COLUMNS'">
+            Three Columns
+          </option>
+        </select>
+      </div>
+    }
+
+    @if (options().sectionDirection) {
+      <div
+        class="item"
+        (click)="$event.stopPropagation()"
+        (keydown)="
+          ($event.key === 'Enter' || $event.key === ' ') &&
+            $event.stopPropagation()
+        "
+        tabindex="0">
+        <div class="body-s">Direction</div>
+        <select matNativeControl (change)="handleDirectionChange($event)">
+          <option value="ROW" [selected]="getCurrentDirection() === 'ROW'">
+            Row
+          </option>
+          <option
+            value="COLUMN"
+            [selected]="getCurrentDirection() === 'COLUMN'">
+            Column
+          </option>
+        </select>
+      </div>
+    }
+
+    @if (options().conditionalLogic) {
+      <div class="divider"></div>
+
+      <div class="item" (activate)="addDisplayCondition()">
+        <div class="body-s">Add display condition</div>
+      </div>
+    }
+
+    <div class="divider"></div>
+
+    <div class="item danger" (activate)="removeItem()">
+      <div class="body-s">Delete</div>
+      <mat-icon class="small-icon danger">delete</mat-icon>
+    </div>
+  </mat-menu>
+</div>

@@ -1,0 +1,54 @@
+<div class="tasks-tile">
+  <div class="steps">
+    <div class="step">
+      <div class="number">{{ allTasks() }}</div>
+      <div class="status">
+        <p class="title">All Tasks</p>
+      </div>
+    </div>
+    <div
+      class="step"
+      [class.active]="todoTasks() !== 0"
+      (activate)="todoTasks() !== 0 ? goToSections('TODO') : undefined">
+      <div class="number">{{ todoTasks() }}</div>
+      <div class="status">
+        <p class="title">To-do</p>
+        @if (todoTasks() !== 0) {
+          @if (isMobile()) {
+            <p class="subtitle body-s">These require your</p>
+            <p class="subtitle body-s">immediate attention</p>
+          } @else {
+            <p class="subtitle body-s">
+              These require your immediate attention
+            </p>
+          }
+        }
+      </div>
+      @if (todoTasks() !== 0) {
+        <div class="cta">
+          <p class="body-s cta">{{ getActionText() }}</p>
+          <mat-icon>chevron_right</mat-icon>
+        </div>
+      }
+    </div>
+    <div
+      class="step"
+      [class.active]="todoTasks() === 0"
+      (activate)="todoTasks() === 0 ? goToSections('COMPLETED') : undefined">
+      <div class="number">{{ completedTasks() }}</div>
+      <div class="status">
+        <p class="title">Done</p>
+      </div>
+      @if (todoTasks() === 0) {
+        <div class="cta">
+          <p class="body-s cta">{{ getActionText() }}</p>
+          <mat-icon>chevron_right</mat-icon>
+        </div>
+      }
+    </div>
+  </div>
+  <div class="full cta" (activate)="goToSections('ALL')">
+    <p class="body-s">View all tasks</p>
+    <mat-icon>chevron_right</mat-icon>
+  </div>
+</div>

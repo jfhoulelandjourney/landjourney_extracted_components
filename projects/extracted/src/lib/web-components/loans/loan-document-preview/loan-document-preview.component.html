@@ -1,0 +1,52 @@
+@if (documentLoading()) {
+  <ngx-skeleton-loader
+    appearance="line"
+    class="skeleton"
+    [theme]="{ height: '150px' }" />
+} @else {
+  @if (isMobile()) {
+    <h3 class="title-mobile">
+      {{ document()?.originalName }}
+    </h3>
+  }
+  <div class="document" [class.mobile]="isMobile()">
+    @if (!isMobile()) {
+      <h3 class="title">
+        {{ document()?.originalName }}
+      </h3>
+    }
+
+    <div class="thumbnail">
+      <ng-template #thumbnailErrorTemplateRef>
+        <div class="error">
+          <mat-icon>{{ getFileIcon() }}</mat-icon>
+          <p class="body-s">{{ document()?.originalName }}</p>
+        </div>
+      </ng-template>
+      <div class="thumb">
+        <lj-image
+          [attr.data-id]="document()?.id"
+          [src]="document()?.thumbnailUrl ?? document()?.originalUrl ?? ''"
+          [alt]="document()?.originalName ?? ''"
+          [errorTemplateRef]="thumbnailErrorTemplateRef" />
+      </div>
+    </div>
+    <div>
+      <div class="upload-info">
+        <div class="message">
+          Uploaded on
+          <span>{{ getUploadMessage() }}</span>
+        </div>
+        <div class="user">
+          By
+          <span>{{ getUserName() }}</span>
+          <mat-icon class="small-icon">person</mat-icon>
+        </div>
+      </div>
+      <button (activate)="goToDocument()">
+        <mat-icon>visibility</mat-icon>
+        See Document
+      </button>
+    </div>
+  </div>
+}

@@ -1,0 +1,290 @@
+@if (field()) {
+  <div
+    class="container"
+    (mouseenter)="showShadow.set(true)"
+    (mouseleave)="showShadow.set(false)">
+    <div class="input" [class.shadow]="showShadow()">
+      <div class="row">
+        <mat-icon>view_week</mat-icon>
+        <lj-editable-input
+          [value]="field().label"
+          label="label"
+          [name]="field().name"
+          (onValueChange)="handleLabelChange($event)" />
+
+        <lj-field-configuration
+          (remove)="handleRemove()"
+          [options]="{
+            required: false,
+            inputType: false,
+            minMaxLength: false,
+            minMaxValue: false,
+            conditionalLogic: true,
+            validator: false,
+            decimalPrecision: false,
+            prefillable: true,
+            visible: false,
+          }"
+          (addConditionalLogic)="showConditionalLogic.set(true)"
+          (handleFieldChange)="handleFieldChange($event)"
+          [field]="field()" />
+      </div>
+
+      <lj-input-field
+        [id]="field().id + '-add-label'"
+        [name]="field().id + '-add-label'"
+        type="text"
+        [style]="'gray'"
+        label="Singular item label"
+        placeholder="Used for the add button, empty state, and default card title (e.g. Livestock)."
+        [ngModel]="repeatableCardLabel()"
+        (ngModelChange)="handleAddButtonLabelChange($event)" />
+
+      <mat-divider class="section-divider" />
+
+      <div class="inner-fields-header">
+        <span class="field-title">Drag and drop the following fields.</span>
+      </div>
+
+      <div class="inner-fields-drop-group" cdkDropListGroup>
+        <div
+          class="inner-field-palette"
+          cdkDropList
+          [cdkDropListData]="innerFieldOptions"
+          cdkDropListSortingDisabled>
+          @for (option of innerFieldOptions; track option.value) {
+            <div class="palette-chip" cdkDrag [cdkDragData]="option">
+              <mat-icon class="palette-icon">{{ option.icon }}</mat-icon>
+              <span class="palette-label">{{ option.label }}</span>
+              <div class="palette-drag-placeholder" *cdkDragPlaceholder></div>
+            </div>
+          }
+        </div>
+
+        <div
+          class="inner-fields-list"
+          cdkDropList
+          [cdkDropListData]="itemFields()"
+          (cdkDropListDropped)="drop($event)">
+          @if (itemFields().length === 0) {
+            <div class="drop-zone-empty">
+              <mat-icon class="drop-zone-icon">add_circle_outline</mat-icon>
+              <span>Drop fields here</span>
+            </div>
+          }
+          @for (item of itemFields(); track item.id) {
+            <div class="inner-field-row" cdkDrag>
+              <div class="drag-handle" cdkDragHandle>
+                <mat-icon class="small-icon">drag_indicator</mat-icon>
+              </div>
+
+              <div class="inner-field-main">
+                @switch (item.fieldType) {
+                  @case (FieldType.NOTE) {
+                    <lj-df-note-field
+                      [field]="innerFieldAsNote(item)"
+                      [containerLayout]="containerLayout()"
+                      [existingFields]="innerExistingFields()"
+                      [allowPrefill]="false"
+                      (remove)="removeInnerField(item.id)"
+                      (fieldChange)="onInnerFieldChange(item, $event)" />
+                  }
+                  @case (FieldType.INPUT) {
+                    <lj-df-input-field
+                      [field]="innerFieldAsString(item)"
+                      [containerLayout]="containerLayout()"
+                      [existingFields]="innerExistingFields()"
+                      [allowPrefill]="false"
+                      (remove)="removeInnerField(item.id)"
+                      (fieldChange)="onInnerFieldChange(item, $event)" />
+                  }
+                  @case (FieldType.TEXT) {
+                    <lj-df-text-field
+                      [field]="innerFieldAsString(item)"
+                      [containerLayout]="containerLayout()"
+                      [existingFields]="innerExistingFields()"
+                      [allowPrefill]="false"
+                      (remove)="removeInnerField(item.id)"
+                      (fieldChange)="onInnerFieldChange(item, $event)" />
+                  }
+                  @case (FieldType.MONEY) {
+                    <lj-df-money-field
+                      [field]="innerFieldAsNumber(item)"
+                      [containerLayout]="containerLayout()"
+                      [existingFields]="innerExistingFields()"
+                      [allowPrefill]="false"
+                      (remove)="removeInnerField(item.id)"
+                      (fieldChange)="onInnerFieldChange(item, $event)" />
+                  }
+                  @case (FieldType.NUMBER) {
+                    <lj-df-number-field
+                      [field]="innerFieldAsNumber(item)"
+                      [containerLayout]="containerLayout()"
+                      [existingFields]="innerExistingFields()"
+                      [allowPrefill]="false"
+                      (remove)="removeInnerField(item.id)"
+                      (fieldChange)="onInnerFieldChange(item, $event)" />
+                  }
+                  @case (FieldType.DATE) {
+                    <lj-df-date-field
+                      [field]="innerFieldAsNumber(item)"
+                      [containerLayout]="containerLayout()"
+                      [existingFields]="innerExistingFields()"
+                      [allowPrefill]="false"
+                      (remove)="removeInnerField(item.id)"
+                      (fieldChange)="onInnerFieldChange(item, $event)" />
+                  }
+                  @case (FieldType.SELECT) {
+                    <lj-df-select-field
+                      [field]="innerFieldAsString(item)"
+                      [containerLayout]="containerLayout()"
+                      [existingFields]="innerExistingFields()"
+                      [allowPrefill]="false"
+                      (remove)="removeInnerField(item.id)"
+                      (fieldChange)="onInnerFieldChange(item, $event)" />
+                  }
+                  @case (FieldType.RADIO) {
+                    <lj-df-radio-field
+                      [field]="innerFieldAsString(item)"
+                      [containerLayout]="containerLayout()"
+                      [existingFields]="innerExistingFields()"
+                      [allowPrefill]="false"
+                      (remove)="removeInnerField(item.id)"
+                      (fieldChange)="onInnerFieldChange(item, $event)" />
+                  }
+                  @case (FieldType.CHECKBOX) {
+                    <lj-df-checkbox-field
+                      [field]="innerFieldAsBoolean(item)"
+                      [containerLayout]="containerLayout()"
+                      [existingFields]="innerExistingFields()"
+                      [allowPrefill]="false"
+                      (remove)="removeInnerField(item.id)"
+                      (fieldChange)="onInnerFieldChange(item, $event)" />
+                  }
+                  @case (FieldType.COMPUTED) {
+                    <lj-df-computed-field
+                      [field]="innerFieldAsComputed(item)"
+                      [containerLayout]="containerLayout()"
+                      [existingFields]="innerExistingFields()"
+                      [allowPrefill]="false"
+                      (remove)="removeInnerField(item.id)"
+                      (fieldChange)="onInnerFieldChange(item, $event)" />
+                  }
+                }
+              </div>
+
+              <div class="drag-placeholder" *cdkDragPlaceholder></div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <mat-divider class="section-divider" />
+
+      @if (itemFields().length > 0) {
+        <div class="card-appearance-settings">
+          <div class="editor-section">
+            <label
+              class="editor-section__label"
+              [attr.for]="field().id + '-card-title-select'">
+              Card title
+            </label>
+            <p class="editor-section__hint">
+              Choose which inner field supplies each card title, or keep the
+              default wording.
+            </p>
+            <mat-select
+              [id]="field().id + '-card-title-select'"
+              lj-select
+              borderless="true"
+              class="editor-section__select"
+              [value]="repeatableCardTitleFieldId()"
+              (selectionChange)="handleTitleFieldChange($event.value)">
+              <mat-option value="">
+                Default ({{ field().label }}
+                {{ repeatableCardLabel().trim() || 'item' }})
+              </mat-option>
+              @for (item of itemFields(); track item.id) {
+                @if (item.fieldType !== FieldType.NOTE) {
+                  <mat-option [value]="item.id">{{ item.label }}</mat-option>
+                }
+              }
+            </mat-select>
+          </div>
+
+          <div class="editor-section">
+            <div class="editor-section__header-row">
+              <span class="editor-section__label">Card summary</span>
+              <mat-slide-toggle
+                [ngModel]="repeatableCardShowSummary()"
+                (ngModelChange)="handleShowSummaryChange($event)"
+                labelPosition="before">
+                Show summary
+              </mat-slide-toggle>
+            </div>
+
+            @if (repeatableCardShowSummary()) {
+              <p class="editor-section__hint">
+                Totals and combined values appear below the cards. Pick which
+                inner fields are included. Numeric fields support list, sum,
+                average, or percentage; text-like fields support list or average
+                (share of each distinct value). Fields hidden from the applicant
+                are omitted automatically.
+              </p>
+              <div class="summary-field-picks" role="group">
+                @for (item of itemFields(); track item.id) {
+                  @if (item.fieldType !== FieldType.NOTE) {
+                    <div class="summary-field-row">
+                      <mat-checkbox
+                        [checked]="isSummaryFieldChecked(item.id)"
+                        (change)="
+                          handleSummaryFieldCheckChange(item.id, $event.checked)
+                        ">
+                        {{ item.label }}
+                      </mat-checkbox>
+                      @if (isSummaryFieldChecked(item.id)) {
+                        <mat-select
+                          class="summary-mode-select"
+                          lj-select
+                          borderless="true"
+                          [value]="getSummaryModeForField(item.id)"
+                          (selectionChange)="
+                            handleSummaryModeChange(item.id, $event.value)
+                          ">
+                          @for (
+                            opt of summaryModeOptionsForItem(item);
+                            track opt.value
+                          ) {
+                            <mat-option [value]="opt.value">
+                              {{ opt.label }}
+                            </mat-option>
+                          }
+                        </mat-select>
+                      }
+                    </div>
+                  }
+                }
+              </div>
+            }
+          </div>
+        </div>
+      }
+
+      @if (
+        (field().dependsOn !== undefined && field().dependsOn !== null) ||
+        showConditionalLogic()
+      ) {
+        <lj-conditional-logic
+          [mobile]="containerLayout() !== SectionLayouts.ONE_COLUMN"
+          [dependsOn]="field().dependsOn"
+          [existingFields]="existingFields()"
+          (removeConditionalLogic)="showConditionalLogic.set(false)"
+          (handleConditionalLogicChange)="
+            handleConditionalLogicChange($event)
+          " />
+      }
+    </div>
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

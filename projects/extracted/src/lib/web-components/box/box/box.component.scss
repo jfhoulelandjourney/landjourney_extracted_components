@@ -1,0 +1,9 @@
+:host {
+  display: block;
+  min-width: 0;
+  box-sizing: border-box;
+  border: 1px solid var(--box-border-color);
+  border-radius: var(--radius-strong);
+  overflow: hidden;
+  background: var(--content-background-color);
+}

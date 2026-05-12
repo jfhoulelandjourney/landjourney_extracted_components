@@ -1,0 +1,40 @@
+:host {
+  display: flex;
+  width: 100%;
+  flex-flow: row nowrap;
+  gap: var(--padding-default);
+  align-items: center;
+}
+
+:host(.variant-default) {
+  --progress-background-color: var(--gray-100);
+  --progress-foreground-color: var(--color-darker);
+  color: var(--progress-foreground-color);
+}
+
+/** TODO: Convert to typography component */
+.label-container {
+  font-size: var(--font-size-xs);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.label-container:empty {
+  display: none;
+}
+
+.progress-bar-container {
+  border: none;
+  width: 100%;
+  height: 8px;
+  border-radius: var(--radius-strong);
+  color: var(--progress-foreground-color);
+  background-color: var(--progress-background-color);
+  min-width: 50px;
+}
+
+.progress-bar-filler {
+  height: 100%;
+  background-color: var(--progress-foreground-color);
+}

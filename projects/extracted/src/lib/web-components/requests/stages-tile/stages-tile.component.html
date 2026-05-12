@@ -1,0 +1,47 @@
+<div class="stages-tile">
+  @for (step of steps(); track $index) {
+    @if (
+      !isMobile() ||
+      (isMobile() && showAllStages()) ||
+      (isMobile() &&
+        !showAllStages() &&
+        (currentIndex() === $index + 1 || currentIndex() === $index - 1)) ||
+      currentIndex() === $index
+    ) {
+      <div class="steps">
+        @if (currentIndex() === $index) {
+          <div class="step active">
+            <div class="current">
+              <div class="number">{{ $index + 1 }}</div>
+              <div class="status">
+                <p class="state">Current State</p>
+                <p class="title">{{ step.title }}</p>
+              </div>
+              <img [src]="step.asset" alt="" class="asset" />
+            </div>
+          </div>
+        } @else {
+          <div class="step">
+            <div class="number">{{ $index + 1 }}</div>
+            <div class="status">
+              <p class="title">{{ step.title }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  }
+  @if (isMobile()) {
+    @if (!showAllStages()) {
+      <div class="full cta" (activate)="toggleAllStages()">
+        <p class="body-s">View all stages</p>
+        <mat-icon>expand_more</mat-icon>
+      </div>
+    } @else {
+      <div class="full cta" (activate)="toggleAllStages()">
+        <p class="body-s">Hide all stages</p>
+        <mat-icon>expand_less</mat-icon>
+      </div>
+    }
+  }
+</div>

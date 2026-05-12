@@ -1,0 +1,21 @@
+.card-container {
+  h2 {
+    text-transform: uppercase;
+    overflow: hidden;
+    color: #010101;
+    font-size: var(--font-size-xs);
+    font-weight: bold;
+
+    span {
+      font-size: var(--font-size-xxs);
+      font-weight: normal;
+      font-style: oblique;
+    }
+  }
+
+  .carousel {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+  }
+}

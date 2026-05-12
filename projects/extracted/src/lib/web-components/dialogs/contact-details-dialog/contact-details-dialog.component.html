@@ -1,0 +1,6 @@
+<div mat-dialog-content class="container">
+  <div mat-dialog-actions align="end">
+    <mat-icon (activate)="onClose()">close</mat-icon>
+  </div>
+  <div class="contact" [innerHTML]="contactDetails() | SafeHtml"></div>
+</div>

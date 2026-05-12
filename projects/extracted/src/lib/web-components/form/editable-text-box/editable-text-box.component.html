@@ -1,0 +1,33 @@
+@if (showEditBox || alwaysInEdit) {
+  <div class="editable-input-wrapper {{ color }} {{ size }}">
+    <input
+      #editableInput
+      lj-input
+      [id]="generatedId"
+      [type]="inputType"
+      [class]="inputClass"
+      [required]="required"
+      [placeholder]="placeholder"
+      [ngModel]="editedValue"
+      (ngModelChange)="handleInputChange($event)"
+      (keydown)="handleKeyDown($event)" />
+    @if (!alwaysInEdit) {
+      <div class="actions">
+        <mat-icon class="stroke" (activate)="handleValueChanged()">
+          check
+        </mat-icon>
+        <div class="spacer"></div>
+        <mat-icon class="fill" (activate)="toggleEditBox(false)">
+          cancel
+        </mat-icon>
+      </div>
+    }
+  </div>
+} @else {
+  <div
+    tabindex="1"
+    [className]="getValueClassList()"
+    (activate)="toggleEditBox(true)">
+    {{ value || placeholder }}
+  </div>
+}

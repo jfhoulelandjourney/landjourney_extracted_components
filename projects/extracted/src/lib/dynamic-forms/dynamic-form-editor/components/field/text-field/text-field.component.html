@@ -1,0 +1,72 @@
+@if (field()) {
+  <div
+    class="container"
+    (mouseenter)="showShadow.set(true)"
+    (mouseleave)="showShadow.set(false)">
+    <div class="input" [class.shadow]="showShadow()">
+      <div class="row">
+        <mat-icon>notes</mat-icon>
+        <lj-editable-input
+          [value]="field().label"
+          label="label"
+          [name]="field().name"
+          (onValueChange)="handleLabelChange($event)" />
+
+        <lj-quick-required-configuration
+          (handleFieldChange)="handleFieldChange($event)"
+          [field]="field()" />
+
+        <lj-field-configuration
+          (remove)="handleRemove()"
+          [options]="{
+            required: true,
+            inputType: false,
+            minMaxLength: true,
+            minMaxValue: false,
+            conditionalLogic: true,
+            validator: false,
+            decimalPrecision: false,
+            prefillable: allowPrefill(),
+            visible: false,
+          }"
+          (addConditionalLogic)="showConditionalLogic.set(true)"
+          (handleFieldChange)="handleFieldChange($event)"
+          [field]="field()" />
+      </div>
+
+      <lj-textarea-field
+        [id]="field().id"
+        [name]="field().name"
+        [style]="'gray'"
+        [showError]="false"
+        [ngModel]="field().parameters.placeholder ?? ''"
+        (ngModelChange)="handlePlaceholderChange($event)"
+        (onInputFocus)="focused.set(true)"
+        (onInputBlur)="focused.set(false)"
+        [placeholder]="
+          (field().parameters.placeholder === '' ||
+            !field().parameters.placeholder) &&
+          focused()
+            ? 'Type text field placeholder text'
+            : (field().parameters.placeholder ?? '')
+        "></lj-textarea-field>
+
+      @if (
+        (field().dependsOn !== undefined && field().dependsOn !== null) ||
+        showConditionalLogic()
+      ) {
+        <lj-conditional-logic
+          [mobile]="containerLayout() !== SectionLayouts.ONE_COLUMN"
+          [dependsOn]="field().dependsOn"
+          [existingFields]="existingFields()"
+          [formDefinition]="formDefinition()"
+          (removeConditionalLogic)="showConditionalLogic.set(false)"
+          (handleConditionalLogicChange)="
+            handleConditionalLogicChange($event)
+          " />
+      }
+    </div>
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

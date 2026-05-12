@@ -1,0 +1,62 @@
+@use 'mobile-shared-mixins' as mobile;
+
+:host {
+  @include mobile.on-mobile-shell-viewport-or-session {
+    display: none;
+  }
+}
+
+.breadcrumbs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--padding-comfortable);
+  font-size: var(--font-size-xs);
+  color: var(--color-darker);
+
+  mat-icon {
+    cursor: pointer;
+    font-weight: 200 !important;
+  }
+
+  span {
+    white-space: nowrap;
+  }
+
+  a {
+    text-decoration: none;
+    color: var(--gray-500);
+
+    &:hover {
+      color: var(--gray-600);
+      text-decoration: underline;
+    }
+  }
+
+  // TODO re do this, hardcoded width and hardcoded colour
+  .current {
+    /* My Request */
+    width: 73px;
+    height: 16px;
+
+    font-style: normal;
+    font-weight: 500;
+    font-size: var(--font-size-xs);
+    line-height: 16px;
+    /* identical to box height, or 133% */
+
+    /* Inside auto layout */
+    flex: none;
+    order: 3;
+    flex-grow: 0;
+  }
+
+  .separator {
+    color: var(--gray-500);
+
+    &:last-child {
+      display: none;
+    }
+  }
+}

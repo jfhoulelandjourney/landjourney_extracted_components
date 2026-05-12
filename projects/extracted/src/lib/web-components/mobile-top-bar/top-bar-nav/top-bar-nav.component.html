@@ -1,0 +1,51 @@
+<div class="top-nav">
+  <div class="nav-left">
+    @if (showBackButton()) {
+      <button
+        class="icon-btn"
+        type="button"
+        aria-label="Go back"
+        (click)="backClick.emit()">
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+    }
+  </div>
+
+  <div class="center-slot">
+    @if (centerMode() === 'logo') {
+      <button
+        type="button"
+        class="brand-slot"
+        aria-label="Home"
+        (click)="logoClick.emit()">
+        <img [src]="logoUrl()" alt="Logo" class="brand-logo" />
+      </button>
+    } @else {
+      <div class="progress-slot">
+        <div class="progress-track">
+          @for (step of steps(); track step) {
+            <div class="step-wrapper" [class.active]="step === activeStep()">
+              <div class="step" [class.active]="step === activeStep()"></div>
+              @if (step === activeStep()) {
+                <span class="progress-label">{{ progressLabel() }}</span>
+              }
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  <button
+    class="profile-trigger"
+    type="button"
+    [attr.aria-expanded]="menuOpen()"
+    (click)="avatarClick.emit()">
+    <lj-top-bar-avatar
+      [avatarUrl]="avatarUrl()"
+      [name]="avatarName()" />
+    <mat-icon class="expand-chevron">
+      {{ menuOpen() ? 'expand_less' : 'expand_more' }}
+    </mat-icon>
+  </button>
+</div>

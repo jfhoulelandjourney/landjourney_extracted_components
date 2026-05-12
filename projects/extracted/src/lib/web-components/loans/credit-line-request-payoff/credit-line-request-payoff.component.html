@@ -1,0 +1,206 @@
+<div class="container" [class.mobile]="mobile()">
+  <lj-credit-line-header [creditLine]="creditLine()" [mobile]="mobile()" />
+  <mat-expansion-panel
+    class="mat-elevation-z0"
+    [expanded]="panelOpen()"
+    (opened)="panelOpen.set(true)"
+    (closed)="panelOpen.set(false)">
+    <mat-expansion-panel-header>
+      <div class="body-m">Request a Payoff</div>
+    </mat-expansion-panel-header>
+    @if (currentStep() === 0) {
+      <div class="step">
+        <lj-round-header-chip
+          [number]="currentStep() + 1"
+          text="Select a reason for the payoff request"
+          size="small"
+          color="brand"></lj-round-header-chip>
+
+        <div class="content">
+          <div class="form">
+            <div class="body-s padding">Reason:</div>
+            <div class="select-with-other">
+              <lj-select-field
+                placeholder="Select reason for payoff"
+                id="reason"
+                name="reason"
+                [showErrors]="false"
+                [required]="true"
+                [value]="reason"
+                [options]="getReasons()"
+                (change)="updateReasonEvent($event)" />
+
+              @if (useOtherReason()) {
+                <lj-textarea-field
+                  placeholder="Please specify"
+                  id="otherReason"
+                  name="otherReason"
+                  [showError]="false"
+                  [required]="true"
+                  [(ngModel)]="otherReason" />
+              }
+            </div>
+
+            <button
+              class="subtitle"
+              lj-button
+              (activate)="currentStep.set(currentStep() + 1)"
+              [disabled]="!isFirstStepValid()">
+              Next
+              <mat-icon>arrow_right_alt</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+    @if (currentStep() === 1) {
+      <div class="step">
+        <lj-round-header-chip
+          [number]="currentStep() + 1"
+          text="Select the recipient"
+          size="small"
+          color="brand"></lj-round-header-chip>
+
+        <div class="content">
+          <div class="body-s">
+            Who should receive the final Payoff statement and wire instructions?
+          </div>
+          <div class="form">
+            <button
+              lj-button
+              (activate)="currentStep.set(currentStep() - 1)"
+              variant="ghost">
+              <mat-icon>arrow_left_alt</mat-icon>
+              Back
+            </button>
+            <div class="select-with-other">
+              <lj-select-field
+                placeholder="Select destination for Payoff statement"
+                id="payoffDestination"
+                name="payoffDestination"
+                [showErrors]="false"
+                [required]="true"
+                [value]="payoffDestination"
+                [options]="getDestinationChoices()"
+                (change)="updateDestinationChoiceEvent($event)" />
+
+              @if (useOtherPayoffDestination()) {
+                <lj-textarea-field
+                  placeholder="Add contact information"
+                  id="otherPayoffDestination"
+                  name="otherPayoffDestination"
+                  [showError]="false"
+                  [required]="true"
+                  [(ngModel)]="otherPayoffDestination" />
+              }
+            </div>
+
+            <button
+              class="subtitle"
+              lj-button
+              (activate)="currentStep.set(currentStep() + 1)"
+              [disabled]="!isSecondStepValid()">
+              Next
+              <mat-icon>arrow_right_alt</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (currentStep() === 2) {
+      <div class="step">
+        <lj-round-header-chip
+          [number]="currentStep() + 1"
+          text="Select your requested payoff date"
+          size="small"
+          color="brand"></lj-round-header-chip>
+
+        <div class="content">
+          <div class="form">
+            <button
+              lj-button
+              (activate)="currentStep.set(currentStep() - 1)"
+              variant="ghost">
+              <mat-icon>arrow_left_alt</mat-icon>
+              Back
+            </button>
+
+            <div class="calendar">
+              <mat-calendar [(selected)]="date" [minDate]="now"></mat-calendar>
+            </div>
+
+            <button
+              lj-button
+              (activate)="currentStep.set(currentStep() + 1)"
+              [disabled]="!isThirdStepValid()">
+              Next
+              <mat-icon>arrow_right_alt</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (currentStep() === 3) {
+      <div class="step">
+        <lj-round-header-chip
+          [number]="currentStep() + 1"
+          text="Review and confirm"
+          size="small"
+          color="brand"></lj-round-header-chip>
+
+        <div class="content">
+          <div class="summary">
+            <div class="sub-container">
+              <div class="loan-info">
+                <div class="box">
+                  <div class="body-s">
+                    I am requesting to pay off my Line of Credit balance in full
+                    on {{ formatDate(date) }}. Reason:
+                    {{ useOtherReason() ? otherReason : reason }}.
+                    <br />
+                    The payoff statement and wire instructions will be sent to
+                    {{
+                      useOtherPayoffDestination()
+                        ? otherPayoffDestination
+                        : payoffDestination
+                    }}.
+                  </div>
+                </div>
+                <div class="divider"></div>
+                <button lj-button (activate)="confirmPayoff()">
+                  Confirm Payoff
+                  <mat-icon>arrow_right_alt</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    @if (currentStep() === 4) {
+      <div class="step">
+        <lj-round-header-chip
+          [number]="currentStep() + 1"
+          text="Processing"
+          size="small"
+          color="brand"></lj-round-header-chip>
+
+        <div class="content">
+          <div class="summary">
+            <div class="sub-container">
+              <div class="loan-info">
+                <div class="body-s">
+                  We are processing the Payoff. You will receive an email when
+                  the process is complete.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </mat-expansion-panel>
+</div>

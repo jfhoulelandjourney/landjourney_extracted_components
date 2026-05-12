@@ -1,0 +1,30 @@
+<div class="body-s">Drag and drop fields in the form</div>
+
+<div class="search-container">
+  <lj-input-field
+    id="search-fields"
+    name="search-fields"
+    after="search"
+    [value]="searchTerm()"
+    (valueChange)="onSearchChange($event)"
+    placeholder="Type to filter fields..." />
+</div>
+
+@for (field of filteredFields(); track field) {
+  <div
+    class="field-option"
+    cdkDrag
+    [cdkDragData]="field"
+    [attr.data-testid]="'field-palette-' + field.value">
+    <div *cdkDragPlaceholder class="drag-placeholder"></div>
+
+    <div class="icon">
+      @if (field.icon) {
+        <mat-icon>{{ field.icon }}</mat-icon>
+      }
+    </div>
+    <div class="label">
+      {{ field.label }}
+    </div>
+  </div>
+}

@@ -1,0 +1,21 @@
+<!-- THIS CAROUSEL MESSES WITH THE WIDTH OF THE PAGE DO NOT USE WITHOUT FIXING -->
+@if (items().length > 0) {
+  <div class="carousel">
+    <div
+      class="carousel-inner"
+      [style.transform]="'translateX(' + -100 * activeIndex() + '%)'">
+      @for (item of items(); track $index) {
+        <div class="carousel-item" [class.active]="$index === activeIndex()">
+          @if (showStepHeaders && stepTitles()[$index]) {
+            <lj-round-header-chip
+              [number]="$index + 1"
+              [text]="stepTitles()[$index] || ''"
+              size="small"
+              color="brand"></lj-round-header-chip>
+          }
+          <ng-container *ngTemplateOutlet="item"></ng-container>
+        </div>
+      }
+    </div>
+  </div>
+}

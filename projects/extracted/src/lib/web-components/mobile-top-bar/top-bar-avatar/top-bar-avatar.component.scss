@@ -1,0 +1,23 @@
+:host {
+  display: block;
+}
+
+.avatar {
+  position: relative;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: var(--radius-rounded);
+  transition:
+    width 0.4s var(--easing-bounce),
+    height 0.4s var(--easing-bounce),
+    font-size 0.4s var(--easing-bounce);
+
+  lj-avatar {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-rounded);
+    overflow: hidden;
+    pointer-events: none;
+  }
+}

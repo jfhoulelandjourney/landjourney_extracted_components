@@ -1,0 +1,38 @@
+:host {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-4) var(--padding-default);
+
+  /* TODO: Typography component */
+  font-family: Inter;
+  font-size: var(--font-size-xs);
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.previous-page,
+.next-page {
+  display: flex;
+  cursor: pointer;
+  background-color: transparent;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  border: none;
+  padding: var(--padding-default);
+}
+
+[disabled] {
+  cursor: not-allowed;
+  color: var(--gray-300);
+}
+
+.current-page {
+  display: inline-block;
+  width: auto;
+  text-align: center;
+  margin: 0 auto;
+}

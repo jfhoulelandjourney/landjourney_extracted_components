@@ -1,0 +1,60 @@
+#chart-container {
+  background: var(--credit-line-graph-background);
+
+  border-radius: var(--radius-strong);
+  box-shadow: var(--color-box-shadow);
+
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+  width: 100%;
+  max-width: 500px;
+
+  @media (max-width: 500px) {
+    flex-direction: column-reverse;
+  }
+}
+
+.chart {
+  width: 260px;
+  height: 299px;
+
+  @media (max-width: 500px) {
+    width: 100%;
+    max-width: 500px;
+    height: 150px;
+  }
+}
+
+.farmer-loan {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: var(--color-text-inverse);
+  margin-left: var(--padding-comfortable, 12px);
+
+  @media (max-width: 500px) {
+    width: 100%;
+    color: var(--color-text-inverse);
+    margin-left: var(--padding-reset, 0px);
+    padding: var(--padding-spacious, 24px);
+    padding-bottom: var(--padding-reset, 0px);
+  }
+
+  p {
+    padding: var(--padding-reset);
+    margin: var(--gap-reset);
+    margin-bottom: var(--gap-compact);
+  }
+
+  .border {
+    width: 100px;
+    padding-bottom: var(--padding-compact);
+    border-bottom: 1px solid var(--color-text-inverse);
+
+    @media (max-width: 500px) {
+      width: 130px;
+    }
+  }
+}

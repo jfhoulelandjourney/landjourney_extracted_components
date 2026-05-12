@@ -1,0 +1,17 @@
+:root {
+  --mobile-toolbar-height: 4rem;
+  --mobile-top-bar-height: 3.5rem;
+  --back-office-top-bar-height: 4.6875rem;
+  --mobile-touch-target-min: 3rem;
+  --mobile-nav-icon-size: 1.5rem;
+  --mobile-nav-indicator-width: 6px;
+  --mobile-nav-label-letter-spacing: 0.5px;
+  --mobile-avatar-size: 2.5rem;
+  --mobile-menu-min-width: 260px;
+  --mobile-menu-arrow-size: 0.75rem;
+  --mobile-menu-arrow-offset: 0.625rem;
+
+  // The float layer is enough to ensure the mobile navigation
+  // is above the content but below any drawer that would need extension over the nav bar
+  --mobile-navigation-layer: var(--float-layer);
+}

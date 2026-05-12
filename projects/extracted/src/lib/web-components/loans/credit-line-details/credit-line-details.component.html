@@ -1,0 +1,434 @@
+@let _creditLine = creditLine();
+
+<div class="container" [class.mobile]="mobile()">
+  @if (mobile()) {
+    <div class="accordion">
+      <div class="accordion-header">
+        <div
+          class="accordion-header-item details-header"
+          [class.open]="isCreditLineDetailsOpen()"
+          (activate)="toggleCreditLineDetails()">
+          <p class="body-m">Line of Credit Details</p>
+          <mat-icon>expand_more</mat-icon>
+        </div>
+      </div>
+      <mat-expansion-panel
+        class="mat-elevation-z0"
+        [expanded]="isCreditLineDetailsOpen()">
+        <div class="details">
+          <div class="items">
+            <div class="item">
+              <div class="body-xs label">Original Funding Date</div>
+              <div class="body-s data">
+                {{ formatDate(creditLine()?.accountOpeningDate) }}
+              </div>
+            </div>
+
+            @if (isStandaloneCreditLine(_creditLine)) {
+              <div class="item">
+                <div class="body-xs label">Interest Rate</div>
+                <div class="body-s data">
+                  {{ formatPercent(_creditLine?.interestRatePerc) }}
+                </div>
+              </div>
+            }
+
+            <div class="item">
+              <div class="body-xs label">Grace Period</div>
+              <div class="body-s data">
+                {{ creditLine()?.graceValue }}
+                {{ getFormattedEnumValue(creditLine()?.graceUnit) }}
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="body-xs label">Maturity Date</div>
+              <div class="body-s data">
+                {{ formatDate(creditLine()?.maturityDate) }}
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="body-xs label">Payment Frequency</div>
+              <div class="body-s data">
+                {{ getFormattedEnumValue(creditLine()?.paymentFrequency) }}
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="body-xs label">Current Commitment</div>
+              <div class="body-s data">
+                {{ formatAmount(creditLine()?.currentCommitmentCents) }}
+              </div>
+            </div>
+
+            <div class="item">
+              <div class="body-xs label">Line of Credit Type</div>
+              <div class="body-s data">
+                {{ getLongNameForCreditLineType(creditLine()?.accountType) }}
+              </div>
+            </div>
+
+            @if (false) {
+              <div class="item">
+                <div class="body-xs label">Integrator/Escrowed Funds</div>
+                <div class="body-s data">
+                  {{ creditLine()?.escrowedAmountCents ?? 0 }}
+                </div>
+              </div>
+            }
+
+            @if (isStandaloneCreditLine(_creditLine)) {
+              <div class="item">
+                <div class="body-xs label">Interest Rate Type</div>
+                <div class="body-s data">
+                  {{
+                    getFormattedEnumValue(
+                      _creditLine?.interestRateAttributes?.[0]
+                    )
+                  }}
+                </div>
+              </div>
+            }
+
+            <div class="item">
+              <div class="body-xs label">Late Fee %</div>
+              <div class="body-s data">
+                {{ formatPercent(creditLine()?.lateFeePerc) }}
+              </div>
+            </div>
+
+            @if (shouldDisplayRateAdjustmentFrequency()) {
+              <div class="item">
+                <div class="body-xs label">Rate Adjustment Frequency</div>
+                <div class="body-s data">
+                  {{
+                    getFormattedEnumValue(creditLine()?.rateAdjustmentFrequency)
+                  }}
+                </div>
+              </div>
+            }
+
+            @if (shouldDisplayRateAdjustmentFrequency()) {
+              <div class="item">
+                <div class="body-xs label">Next Rate Adjustment Date</div>
+                <div class="body-s data">
+                  {{ formatDate(creditLine()?.nextRateResetDate ?? undefined) }}
+                </div>
+              </div>
+            }
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </div>
+  } @else {
+    @let _creditLine = creditLine();
+
+    <div class="details">
+      <div class="items">
+        <div class="item">
+          <div class="body-xs label">Original Funding Date</div>
+          <div class="body-s data">
+            {{ formatDate(creditLine()?.accountOpeningDate) }}
+          </div>
+        </div>
+
+        @if (isStandaloneCreditLine(_creditLine)) {
+          <div class="item">
+            <div class="body-xs label">Interest Rate</div>
+            <div class="body-s data">
+              {{ formatPercent(_creditLine.interestRatePerc) }}
+            </div>
+          </div>
+        }
+
+        <div class="item">
+          <div class="body-xs label">Grace Period</div>
+          <div class="body-s data">
+            {{ getFormattedEnumValue(creditLine()?.graceUnit) }}
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="body-xs label">Maturity Date</div>
+          <div class="body-s data">
+            {{ formatDate(creditLine()?.maturityDate) }}
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="body-xs label">Payment Frequency</div>
+          <div class="body-s data">
+            {{ getFormattedEnumValue(creditLine()?.paymentFrequency) }}
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="body-xs label">Current Commitment</div>
+          <div class="body-s data">
+            {{ formatAmount(creditLine()?.currentCommitmentCents) }}
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="body-xs label">Line of Credit Type</div>
+          <div class="body-s data">
+            {{ getLongNameForCreditLineType(creditLine()?.accountType) }}
+          </div>
+        </div>
+
+        @if (false) {
+          <div class="item">
+            <div class="body-xs label">Integrator/Escrowed Funds</div>
+            <div class="body-s data">
+              {{ formatAmount(creditLine()?.escrowedAmountCents ?? 0) }}
+            </div>
+          </div>
+        }
+
+        @if (isStandaloneCreditLine(_creditLine)) {
+          <div class="item">
+            <div class="body-xs label">Interest Rate Type</div>
+            <div class="body-s data">
+              {{
+                getFormattedEnumValue(_creditLine?.interestRateAttributes?.[0])
+              }}
+            </div>
+          </div>
+        }
+
+        <div class="item">
+          <div class="body-xs label">Late Fee %</div>
+          <div class="body-s data">
+            {{ formatPercent(creditLine()?.lateFeePerc) }}
+          </div>
+        </div>
+
+        @if (shouldDisplayRateAdjustmentFrequency()) {
+          <div class="item">
+            <div class="body-xs label">Rate Adjustment Frequency</div>
+            <div class="body-s data">
+              {{ getFormattedEnumValue(creditLine()?.rateAdjustmentFrequency) }}
+            </div>
+          </div>
+        }
+
+        @if (shouldDisplayRateAdjustmentFrequency()) {
+          <div class="item">
+            <div class="body-xs label">Next Rate Adjustment Date</div>
+            <div class="body-s data">
+              {{ formatDate(creditLine()?.nextRateResetDate ?? undefined) }}
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+  <div class="accordion">
+    <div
+      class="accordion-header"
+      [class.closed]="!isCreditLineHistoryOpen()">
+      <div
+        class="accordion-header-item first"
+        [class.open]="isCreditLineHistoryOpen()"
+        [class.border]="
+          (isCreditLineStatementOpen() || isPaymentTransactionsOpen()) &&
+          !isCreditLineHistoryOpen()
+        "
+        (activate)="toggleCreditLineHistory()">
+        <p class="body-m">Line of Credit History</p>
+        <mat-icon>expand_more</mat-icon>
+      </div>
+    </div>
+    <mat-expansion-panel
+      class="mat-elevation-z0"
+      [expanded]="isCreditLineHistoryOpen()">
+      <lj-credit-line-history [histories]="histories()" />
+    </mat-expansion-panel>
+
+    <div
+      class="accordion-header"
+      [class.closed]="!isCreditLineStatementOpen()">
+      <div
+        class="accordion-header-item second"
+        [class.border]="
+          (!isCreditLineStatementOpen() && isCreditLineHistoryOpen()) ||
+          (isPaymentTransactionsOpen() && !isCreditLineStatementOpen())
+        "
+        [class.open]="isCreditLineStatementOpen()"
+        (activate)="toggleCreditLineStatement()">
+        <p class="body-m">Line of Credit Statements</p>
+        <mat-icon>expand_more</mat-icon>
+      </div>
+    </div>
+    <mat-expansion-panel
+      class="mat-elevation-z0"
+      [expanded]="isCreditLineStatementOpen()">
+      <lj-loan-statements [statements]="statements()" [mobile]="mobile()" />
+    </mat-expansion-panel>
+    @if (isDemoMode()) {
+      <div
+        class="accordion-header"
+        [class.closed]="!isPaymentTransactionsOpen()">
+        <div
+          class="accordion-header-item third"
+          [class.open]="isPaymentTransactionsOpen()"
+          (activate)="togglePaymentTransactions()">
+          <p class="body-m">Transactions</p>
+          <mat-icon>expand_more</mat-icon>
+        </div>
+      </div>
+      <mat-expansion-panel
+        class="mat-elevation-z0"
+        [expanded]="isPaymentTransactionsOpen()">
+        @if (showPaymentTransactions()) {
+          <div class="details">
+            <div class="transactions">
+              <div class="transaction-legend">
+                <div class="legend-item">
+                  <mat-icon class="payment-icon">south</mat-icon>
+                  <span class="body-xs">Payment</span>
+                </div>
+                <div class="legend-item">
+                  <mat-icon class="draw-icon">north</mat-icon>
+                  <span class="body-xs">Draw</span>
+                </div>
+              </div>
+
+              @let names = sublineNames();
+              <div class="transaction-row">
+                <div class="transaction-item type">
+                  <mat-icon class="payment-icon">south</mat-icon>
+                </div>
+                <div class="transaction-item date">
+                  <div class="body-xs label">Date</div>
+                  <div class="body-s data">Oct 15, 2024</div>
+                </div>
+                <div class="transaction-item amount">
+                  <div class="body-xs label">Amount</div>
+                  <div class="body-s data">$5,000.00</div>
+                </div>
+                @if (hasSublines()) {
+                  <div class="transaction-item subline">
+                    <div class="body-xs label">Subline</div>
+                    <div class="body-s data">{{ names[0] || 'N/A' }}</div>
+                  </div>
+                }
+                <div class="transaction-item method">
+                  <div class="body-xs label">Method</div>
+                  <div class="body-s data">Wired</div>
+                </div>
+              </div>
+
+              <div class="transaction-row">
+                <div class="transaction-item type">
+                  <mat-icon class="draw-icon">north</mat-icon>
+                </div>
+                <div class="transaction-item date">
+                  <div class="body-xs label">Date</div>
+                  <div class="body-s data">Oct 1, 2024</div>
+                </div>
+                <div class="transaction-item amount">
+                  <div class="body-xs label">Amount</div>
+                  <div class="body-s data">$15,000.00</div>
+                </div>
+                @if (hasSublines()) {
+                  <div class="transaction-item subline">
+                    <div class="body-xs label">Subline</div>
+                    <div class="body-s data">
+                      {{ names[1] || names[0] || 'N/A' }}
+                    </div>
+                  </div>
+                }
+                <div class="transaction-item method">
+                  <div class="body-xs label">Method</div>
+                  <div class="body-s data">Manual</div>
+                </div>
+              </div>
+
+              <div class="transaction-row">
+                <div class="transaction-item type">
+                  <mat-icon class="payment-icon">south</mat-icon>
+                </div>
+                <div class="transaction-item date">
+                  <div class="body-xs label">Date</div>
+                  <div class="body-s data">Sep 10, 2024</div>
+                </div>
+                <div class="transaction-item amount">
+                  <div class="body-xs label">Amount</div>
+                  <div class="body-s data">$3,250.00</div>
+                </div>
+                @if (hasSublines()) {
+                  <div class="transaction-item subline">
+                    <div class="body-xs label">Subline</div>
+                    <div class="body-s data">{{ names[0] || 'N/A' }}</div>
+                  </div>
+                }
+                <div class="transaction-item method">
+                  <div class="body-xs label">Method</div>
+                  <div class="body-s data">Manual</div>
+                </div>
+              </div>
+
+              <div class="transaction-row">
+                <div class="transaction-item type">
+                  <mat-icon class="draw-icon">north</mat-icon>
+                </div>
+                <div class="transaction-item date">
+                  <div class="body-xs label">Date</div>
+                  <div class="body-s data">Aug 20, 2024</div>
+                </div>
+                <div class="transaction-item amount">
+                  <div class="body-xs label">Amount</div>
+                  <div class="body-s data">$8,500.00</div>
+                </div>
+                @if (hasSublines()) {
+                  <div class="transaction-item subline">
+                    <div class="body-xs label">Subline</div>
+                    <div class="body-s data">{{ names[0] || 'N/A' }}</div>
+                  </div>
+                }
+                <div class="transaction-item method">
+                  <div class="body-xs label">Method</div>
+                  <div class="body-s data">Wired</div>
+                </div>
+              </div>
+
+              <div class="transaction-row">
+                <div class="transaction-item type">
+                  <mat-icon class="payment-icon">south</mat-icon>
+                </div>
+                <div class="transaction-item date">
+                  <div class="body-xs label">Date</div>
+                  <div class="body-s data">Aug 5, 2024</div>
+                </div>
+                <div class="transaction-item amount">
+                  <div class="body-xs label">Amount</div>
+                  <div class="body-s data">$10,000.00</div>
+                </div>
+                @if (hasSublines()) {
+                  <div class="transaction-item subline">
+                    <div class="body-xs label">Subline</div>
+                    <div class="body-s data">
+                      {{ names[1] || names[0] || 'N/A' }}
+                    </div>
+                  </div>
+                }
+                <div class="transaction-item method">
+                  <div class="body-xs label">Method</div>
+                  <div class="body-s data">Wired</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        } @else {
+          <div class="details">
+            <div class="body-s">
+              <p>No transactions found</p>
+            </div>
+          </div>
+        }
+      </mat-expansion-panel>
+    }
+  </div>
+</div>

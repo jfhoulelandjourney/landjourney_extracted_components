@@ -1,0 +1,113 @@
+:host {
+  position: relative;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 1.1;
+  }
+  50% {
+    opacity: 0.1;
+  }
+  100% {
+    opacity: 1.1;
+  }
+}
+
+.prefill-icon {
+  color: var(--color-warning);
+}
+
+.prefill-available {
+  animation-name: fadeInOut;
+  animation-duration: 4s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  color: var(--color-warning);
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--padding-default);
+
+  position: absolute;
+  top: 0px;
+  right: 0px;
+
+  &:hover {
+    cursor: pointer;
+    animation-name: unset;
+  }
+}
+
+.prefill-change-container {
+  padding: var(--padding-comfortable);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-comfortable);
+
+  .description {
+    font-size: var(--font-size-xs);
+
+    display: flex;
+    flex-direction: column;
+
+    .text {
+      display: flex;
+      flex-direction: column;
+      gap: var(--padding-comfortable);
+    }
+
+    .text,
+    .new-value {
+      padding-bottom: var(--padding-comfortable);
+      border-bottom: solid 1px var(--accent-black-300, #f1f1f1f1);
+      margin-bottom: var(--padding-comfortable);
+    }
+
+    .new-value {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+
+      .preview {
+        border: solid 1px var(--color-warning);
+
+        font-size: var(--font-size-xs);
+        padding: var(--padding-tight);
+        margin-left: var(--padding-compact);
+        margin-right: var(--padding-compact);
+        border-radius: var(--radius-primary);
+      }
+    }
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--gap-comfortable);
+  }
+}
+
+.computed-wrapper {
+  position: relative;
+
+  &--hidden-from-client {
+    border: 1px dashed var(--color-border-muted, #b0b0b0);
+    border-radius: var(--radius-s, 4px);
+    padding: var(--padding-compact, 8px);
+  }
+
+  .hidden-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: var(--color-text-muted, #888);
+  }
+}

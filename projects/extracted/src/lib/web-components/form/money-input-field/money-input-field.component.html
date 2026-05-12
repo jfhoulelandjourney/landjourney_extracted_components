@@ -1,0 +1,16 @@
+<lj-input-field
+  [id]="id()"
+  [required]="required()"
+  [name]="name()"
+  [label]="label()"
+  [style]="style()"
+  [customCssTitleStyle]="customCssTitleStyle()"
+  [customCssStyle]="customCssStyle()"
+  type="text"
+  [placeholder]="placeholder() || '$ ___.__'"
+  [ngModel]="formatMoney(value())"
+  (ngModelChange)="handleValueChange($event)"
+  [showError]="showError()"
+  [customErrorMessage]="customErrorMessage()"
+  (onInputBlur)="this.onInputBlur.emit($event)"
+  [mask]="moneyMask" />

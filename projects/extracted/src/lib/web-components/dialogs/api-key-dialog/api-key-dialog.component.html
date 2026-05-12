@@ -1,0 +1,37 @@
+<h2 mat-dialog-title>
+  <span>New API Secret</span>
+  <mat-icon (activate)="close()">close</mat-icon>
+</h2>
+<mat-dialog-content class="no-margin-bottom">
+  <div mat-dialog-content>
+    <div class="message">
+      The API Key as been created. Please save the following information, as it
+      is the only time the key will be displayed.
+    </div>
+    <H4>Key Id</H4>
+    <div class="key-information">
+      <div>{{ keyId() }}</div>
+      <button
+        class="small-icon-button"
+        mat-icon-button
+        (click)="copyTextToClipboard(keyId())">
+        <mat-icon>content_copy</mat-icon>
+      </button>
+    </div>
+    <H4>Key Secret</H4>
+    <div class="key-information">
+      <div>{{ key() }}</div>
+      <button
+        class="small-icon-button"
+        mat-icon-button
+        (click)="copyTextToClipboard(key())">
+        <mat-icon>content_copy</mat-icon>
+      </button>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button lj-button="inverse-cta" [compact]="true" (activate)="close()">
+    Close
+  </button>
+</mat-dialog-actions>

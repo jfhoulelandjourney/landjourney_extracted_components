@@ -1,0 +1,1682 @@
+[
+  {
+    "url": "/",
+    "method": "GET",
+    "functionName": "getRootGet",
+    "description": "Get Root\nProvide the root level route for the service\n\nReturns:\ndict: Name of the API and the version",
+    "inputType": "GetRootGetData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "GetRootGetData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "never",
+          "required": false
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/clone/batch",
+    "method": "POST",
+    "functionName": "cloneTemplateBatchCloneBatchPost",
+    "description": "Clone Template Batch\nClone documents to new objects.",
+    "inputType": "CloneTemplateBatchCloneBatchPostData",
+    "outputType": "CloneTemplateBatchCloneBatchPostResponse",
+    "inputTypeDetails": {
+      "name": "CloneTemplateBatchCloneBatchPostData",
+      "properties": {
+        "body": {
+          "type": "CloneArgsSchema",
+          "required": true
+        },
+        "path": {
+          "type": "never",
+          "required": false
+        },
+        "query": {
+          "type": "{ target?: string | null; }",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "CloneTemplateBatchCloneBatchPostResponse",
+      "properties": {
+        "200": {
+          "type": "TemplateClonesSchema",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/conversation/files/{file_id}/llm",
+    "method": "POST",
+    "functionName": "apiConverseConversationFilesFileIdLlmPost",
+    "description": "Api Converse\nGet the LLM output for the given file",
+    "inputType": "ApiConverseConversationFilesFileIdLlmPostData",
+    "outputType": "ApiConverseConversationFilesFileIdLlmPostResponse",
+    "inputTypeDetails": {
+      "name": "ApiConverseConversationFilesFileIdLlmPostData",
+      "properties": {
+        "body": {
+          "type": "LlmInput",
+          "required": true
+        },
+        "path": {
+          "type": "{ fileId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "ApiConverseConversationFilesFileIdLlmPostResponse",
+      "properties": {
+        "200": {
+          "type": "LlmOutput",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/document-analysis/{document_id}",
+    "method": "POST",
+    "functionName": "createDocumentDescriptionDocumentAnalysisDocumentIdPost",
+    "description": "Create Document Description\nCreate an ai automatic description for a document",
+    "inputType": "CreateDocumentDescriptionDocumentAnalysisDocumentIdPostData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "CreateDocumentDescriptionDocumentAnalysisDocumentIdPostData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ documentId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/external/forms",
+    "method": "GET",
+    "functionName": "getEmbeddingFormsExternalFormsGet",
+    "description": "Get Embedding Forms\nGet a list embeddings form (definition and data).",
+    "inputType": "GetEmbeddingFormsExternalFormsGetData",
+    "outputType": "GetEmbeddingFormsExternalFormsGetResponse",
+    "inputTypeDetails": {
+      "name": "GetEmbeddingFormsExternalFormsGetData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "never",
+          "required": false
+        },
+        "query": {
+          "type": "{ productId?: string | null; templateFormId?: string | null; page?: number; pageSize?: number; }",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "GetEmbeddingFormsExternalFormsGetResponse",
+      "properties": {
+        "200": {
+          "type": "Array<ExistingFormEmbeddingSchema>",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/external/forms",
+    "method": "POST",
+    "functionName": "createEmbeddingFormExternalFormsPost",
+    "description": "Create Embedding Form\nCreate a new dynamic form embedding object.",
+    "inputType": "CreateEmbeddingFormExternalFormsPostData",
+    "outputType": "CreateEmbeddingFormExternalFormsPostResponse",
+    "inputTypeDetails": {
+      "name": "CreateEmbeddingFormExternalFormsPostData",
+      "properties": {
+        "body": {
+          "type": "CreateDynamicFormEmbeddingSchema",
+          "required": true
+        },
+        "path": {
+          "type": "never",
+          "required": false
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "CreateEmbeddingFormExternalFormsPostResponse",
+      "properties": {
+        "200": {
+          "type": "DynamicFormEmbeddingCreatedSchema",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/external/forms/{embedding_form_id}",
+    "method": "GET",
+    "functionName": "getEmbeddingFormExternalFormsEmbeddingFormIdGet",
+    "description": "Get Embedding Form\nGet an embeddings form (definition and data).",
+    "inputType": "GetEmbeddingFormExternalFormsEmbeddingFormIdGetData",
+    "outputType": "GetEmbeddingFormExternalFormsEmbeddingFormIdGetResponse",
+    "inputTypeDetails": {
+      "name": "GetEmbeddingFormExternalFormsEmbeddingFormIdGetData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ embeddingFormId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "GetEmbeddingFormExternalFormsEmbeddingFormIdGetResponse",
+      "properties": {
+        "200": {
+          "type": "ExistingFormEmbeddingSchema",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/external/forms/{embedding_form_id}",
+    "method": "PUT",
+    "functionName": "updateEmbeddingFormExternalFormsEmbeddingFormIdPut",
+    "description": "Update Embedding Form\nUpdates a dynamic form embedding object.",
+    "inputType": "UpdateEmbeddingFormExternalFormsEmbeddingFormIdPutData",
+    "outputType": "UpdateEmbeddingFormExternalFormsEmbeddingFormIdPutResponse",
+    "inputTypeDetails": {
+      "name": "UpdateEmbeddingFormExternalFormsEmbeddingFormIdPutData",
+      "properties": {
+        "body": {
+          "type": "CreateDynamicFormEmbeddingSchema",
+          "required": true
+        },
+        "path": {
+          "type": "{ embeddingFormId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "UpdateEmbeddingFormExternalFormsEmbeddingFormIdPutResponse",
+      "properties": {
+        "200": {
+          "type": "DynamicFormEmbeddingCreatedSchema",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/external/forms/{embedding_form_id}",
+    "method": "DELETE",
+    "functionName": "deleteEmbeddingFormExternalFormsEmbeddingFormIdDelete",
+    "description": "Delete Embedding Form\nDeletes a dynamic form embedding object.",
+    "inputType": "DeleteEmbeddingFormExternalFormsEmbeddingFormIdDeleteData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "DeleteEmbeddingFormExternalFormsEmbeddingFormIdDeleteData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ embeddingFormId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/external/forms/{embedding_form_id}/form.js",
+    "method": "GET",
+    "functionName": "getFormEmbedScriptExternalFormsEmbeddingFormIdFormJsGet",
+    "description": "Get Form Embed Script\nReturn an existing dynamic form template embed script",
+    "inputType": "GetFormEmbedScriptExternalFormsEmbeddingFormIdFormJsGetData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "GetFormEmbedScriptExternalFormsEmbeddingFormIdFormJsGetData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ embeddingFormId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/external/forms/definition/{embedding_form_id}",
+    "method": "GET",
+    "functionName": "getFormEmbeddingExternalFormsDefinitionEmbeddingFormIdGet",
+    "description": "Get Form Embedding\nGet a form embedding (unauthenticated).",
+    "inputType": "GetFormEmbeddingExternalFormsDefinitionEmbeddingFormIdGetData",
+    "outputType": "GetFormEmbeddingExternalFormsDefinitionEmbeddingFormIdGetResponse",
+    "inputTypeDetails": {
+      "name": "GetFormEmbeddingExternalFormsDefinitionEmbeddingFormIdGetData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ embeddingFormId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "{ signature?: string; organization?: string; }",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "GetFormEmbeddingExternalFormsDefinitionEmbeddingFormIdGetResponse",
+      "properties": {
+        "200": {
+          "type": "ExistingFormEmbeddingSchemaWithCsrfToken",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/external/forms/submit",
+    "method": "POST",
+    "functionName": "createFormExternalFormsSubmitPost",
+    "description": "Create Form\nSaves form data from a dynamic form.",
+    "inputType": "CreateFormExternalFormsSubmitPostData",
+    "outputType": "CreateFormExternalFormsSubmitPostResponse",
+    "inputTypeDetails": {
+      "name": "CreateFormExternalFormsSubmitPostData",
+      "properties": {
+        "body": {
+          "type": "DynamicFormBaseSchema",
+          "required": true
+        },
+        "path": {
+          "type": "never",
+          "required": false
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "CreateFormExternalFormsSubmitPostResponse",
+      "properties": {
+        "200": {
+          "type": "DynamicFormCreatedSchema",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/files",
+    "method": "POST",
+    "functionName": "createFileMetadataFilesPost",
+    "description": "Create File Metadata\nCreate a new document metadata object.That object is not the file itself but information about the file.After creating that object, you need to post a request on the /upload path.",
+    "inputType": "CreateFileMetadataFilesPostData",
+    "outputType": "CreateFileMetadataFilesPostResponse",
+    "inputTypeDetails": {
+      "name": "CreateFileMetadataFilesPostData",
+      "properties": {
+        "body": {
+          "type": "FileBaseSchema",
+          "required": true
+        },
+        "path": {
+          "type": "never",
+          "required": false
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "CreateFileMetadataFilesPostResponse",
+      "properties": {
+        "200": {
+          "type": "FileCreatedSchema",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/files/{file_id}",
+    "method": "GET",
+    "functionName": "getFileMetadataFilesFileIdGet",
+    "description": "Get File Metadata\nGet a specific file metadata or a batch",
+    "inputType": "GetFileMetadataFilesFileIdGetData",
+    "outputType": "GetFileMetadataFilesFileIdGetResponse",
+    "inputTypeDetails": {
+      "name": "GetFileMetadataFilesFileIdGetData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ fileId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "{ targetFiles?: string | null; }",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "GetFileMetadataFilesFileIdGetResponse",
+      "properties": {
+        "200": {
+          "type": "ExistingFileSchemaOutput | Array<ExistingFileSchemaOutput>",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/files/{file_id}",
+    "method": "PUT",
+    "functionName": "updateFileMetadataFilesFileIdPut",
+    "description": "Update File Metadata\nUpdate a specific file metadata",
+    "inputType": "UpdateFileMetadataFilesFileIdPutData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "UpdateFileMetadataFilesFileIdPutData",
+      "properties": {
+        "body": {
+          "type": "ExistingFileSchemaInput",
+          "required": true
+        },
+        "path": {
+          "type": "{ fileId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/files/{file_id}",
+    "method": "PATCH",
+    "functionName": "patchFileMetadataFilesFileIdPatch",
+    "description": "Patch File Metadata\nUpdate a specific file metadata",
+    "inputType": "PatchFileMetadataFilesFileIdPatchData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "PatchFileMetadataFilesFileIdPatchData",
+      "properties": {
+        "body": {
+          "type": "FilePatchSchema",
+          "required": true
+        },
+        "path": {
+          "type": "{ fileId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "{ digest?: string; }",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/files/{file_id}",
+    "method": "DELETE",
+    "functionName": "deleteFileMetadataFilesFileIdDelete",
+    "description": "Delete File Metadata\nDelete a specific file metadata",
+    "inputType": "DeleteFileMetadataFilesFileIdDeleteData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "DeleteFileMetadataFilesFileIdDeleteData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ fileId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/files/{file_id}",
+    "method": "HEAD",
+    "functionName": "getHeadFileMetadataFilesFileIdHead",
+    "description": "Get Head File Metadata\nGet a specific file metadata",
+    "inputType": "GetHeadFileMetadataFilesFileIdHeadData",
+    "outputType": "GetHeadFileMetadataFilesFileIdHeadResponse",
+    "inputTypeDetails": {
+      "name": "GetHeadFileMetadataFilesFileIdHeadData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ fileId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "GetHeadFileMetadataFilesFileIdHeadResponse",
+      "properties": {
+        "200": {
+          "type": "ExistingFileSchemaOutput",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/files/{file_id}/convert",
+    "method": "POST",
+    "functionName": "triggerConversionFilesFileIdConvertPost",
+    "description": "Trigger Conversion\nTrigger the conversion of a file to PDF format.",
+    "inputType": "TriggerConversionFilesFileIdConvertPostData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "TriggerConversionFilesFileIdConvertPostData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ fileId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/files/{file_id}/download",
+    "method": "GET",
+    "functionName": "downloadFileFilesFileIdDownloadGet",
+    "description": "Download File\nGet the download link for a file",
+    "inputType": "DownloadFileFilesFileIdDownloadGetData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "DownloadFileFilesFileIdDownloadGetData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ fileId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "{ redirect?: boolean; pdfConversion?: boolean; }",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/files/{file_id}/upload",
+    "method": "POST",
+    "functionName": "postUploadFileFilesFileIdUploadPost",
+    "description": "Post Upload File\nGet the upload link for a post request",
+    "inputType": "PostUploadFileFilesFileIdUploadPostData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "PostUploadFileFilesFileIdUploadPostData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ fileId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/files/{file_id}/upload",
+    "method": "PUT",
+    "functionName": "putUploadFileFilesFileIdUploadPut",
+    "description": "Put Upload File\nGet the upload link for a put request",
+    "inputType": "PutUploadFileFilesFileIdUploadPutData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "PutUploadFileFilesFileIdUploadPutData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ fileId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/files/batch",
+    "method": "POST",
+    "functionName": "createBatchFileMetadataFilesBatchPost",
+    "description": "Create Batch File Metadata\nBatch create of documents metadata object.That object is not the file itself but information about the file.After creating that object, you need to post a request on the /upload path.",
+    "inputType": "CreateBatchFileMetadataFilesBatchPostData",
+    "outputType": "CreateBatchFileMetadataFilesBatchPostResponse",
+    "inputTypeDetails": {
+      "name": "CreateBatchFileMetadataFilesBatchPostData",
+      "properties": {
+        "body": {
+          "type": "Array<FileBaseSchema>",
+          "required": true
+        },
+        "path": {
+          "type": "never",
+          "required": false
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "CreateBatchFileMetadataFilesBatchPostResponse",
+      "properties": {
+        "200": {
+          "type": "Array<FileCreatedSchema>",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/files/clone/batch",
+    "method": "POST",
+    "functionName": "cloneTemplateBatchFilesCloneBatchPost",
+    "description": "Clone Template Batch\nClone a batch template to a new file.",
+    "inputType": "CloneTemplateBatchFilesCloneBatchPostData",
+    "outputType": "CloneTemplateBatchFilesCloneBatchPostResponse",
+    "inputTypeDetails": {
+      "name": "CloneTemplateBatchFilesCloneBatchPostData",
+      "properties": {
+        "body": {
+          "type": "FileCloneArgsSchema",
+          "required": true
+        },
+        "path": {
+          "type": "never",
+          "required": false
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "CloneTemplateBatchFilesCloneBatchPostResponse",
+      "properties": {
+        "200": {
+          "type": "BatchFileTemplateCloneSchema",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/forms",
+    "method": "POST",
+    "functionName": "createFormFormsPost",
+    "description": "Create Form\nCreate a new dynamic form object.",
+    "inputType": "CreateFormFormsPostData",
+    "outputType": "CreateFormFormsPostResponse",
+    "inputTypeDetails": {
+      "name": "CreateFormFormsPostData",
+      "properties": {
+        "body": {
+          "type": "DynamicFormBaseSchema",
+          "required": true
+        },
+        "path": {
+          "type": "never",
+          "required": false
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "CreateFormFormsPostResponse",
+      "properties": {
+        "200": {
+          "type": "DynamicFormCreatedSchema",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/forms/{dynamic_form_id}",
+    "method": "GET",
+    "functionName": "getFormFormsDynamicFormIdGet",
+    "description": "Get Form\nGet a dynamic form (definition and data).",
+    "inputType": "GetFormFormsDynamicFormIdGetData",
+    "outputType": "GetFormFormsDynamicFormIdGetResponse",
+    "inputTypeDetails": {
+      "name": "GetFormFormsDynamicFormIdGetData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ dynamicFormId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "GetFormFormsDynamicFormIdGetResponse",
+      "properties": {
+        "200": {
+          "type": "ExistingDynamicFormSchemaOutput",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/forms/{dynamic_form_id}",
+    "method": "PUT",
+    "functionName": "updateFormFormsDynamicFormIdPut",
+    "description": "Update Form\nUpdate the definition and the model of a dynamic form.To update only a field of the model, consider implementing a patch...",
+    "inputType": "UpdateFormFormsDynamicFormIdPutData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "UpdateFormFormsDynamicFormIdPutData",
+      "properties": {
+        "body": {
+          "type": "ExistingDynamicFormSchemaInput",
+          "required": true
+        },
+        "path": {
+          "type": "{ dynamicFormId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/forms/{dynamic_form_id}",
+    "method": "DELETE",
+    "functionName": "deleteFormFormsDynamicFormIdDelete",
+    "description": "Delete Form\nDelete a dynamic form, including the model and the data.",
+    "inputType": "DeleteFormFormsDynamicFormIdDeleteData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "DeleteFormFormsDynamicFormIdDeleteData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ dynamicFormId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/forms/{dynamic_form_id}/download",
+    "method": "GET",
+    "functionName": "downloadFormFormsDynamicFormIdDownloadGet",
+    "description": "Download Form\nDownloads the dynamic form as a PDF.",
+    "inputType": "DownloadFormFormsDynamicFormIdDownloadGetData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "DownloadFormFormsDynamicFormIdDownloadGetData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ dynamicFormId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/forms/download/batch",
+    "method": "POST",
+    "functionName": "downloadMultipleFormsFormsDownloadBatchPost",
+    "description": "Download Multiple Forms\nDownloads multiple dynamic forms .",
+    "inputType": "DownloadMultipleFormsFormsDownloadBatchPostData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "DownloadMultipleFormsFormsDownloadBatchPostData",
+      "properties": {
+        "body": {
+          "type": "MultipleDynamicFormsDownloadSchema",
+          "required": true
+        },
+        "path": {
+          "type": "never",
+          "required": false
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/search/",
+    "method": "GET",
+    "functionName": "searchSearchGet",
+    "description": "Search\nSearch documents",
+    "inputType": "SearchSearchGetData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "SearchSearchGetData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "never",
+          "required": false
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/signatures",
+    "method": "POST",
+    "functionName": "createSignatureSignaturesPost",
+    "description": "Create Signature\nCreate a new signature.",
+    "inputType": "CreateSignatureSignaturesPostData",
+    "outputType": "CreateSignatureSignaturesPostResponse",
+    "inputTypeDetails": {
+      "name": "CreateSignatureSignaturesPostData",
+      "properties": {
+        "body": {
+          "type": "SignatureBaseSchema",
+          "required": true
+        },
+        "path": {
+          "type": "never",
+          "required": false
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "CreateSignatureSignaturesPostResponse",
+      "properties": {
+        "200": {
+          "type": "SignatureCreatedSchema",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/signatures/{signature_id}",
+    "method": "GET",
+    "functionName": "getSignatureSignaturesSignatureIdGet",
+    "description": "Get Signature\nGet a signature.",
+    "inputType": "GetSignatureSignaturesSignatureIdGetData",
+    "outputType": "GetSignatureSignaturesSignatureIdGetResponse",
+    "inputTypeDetails": {
+      "name": "GetSignatureSignaturesSignatureIdGetData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ signatureId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "GetSignatureSignaturesSignatureIdGetResponse",
+      "properties": {
+        "200": {
+          "type": "ExistingSignatureSchema",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/signatures/{signature_id}",
+    "method": "DELETE",
+    "functionName": "deleteSignatureSignaturesSignatureIdDelete",
+    "description": "Delete Signature\nDelete a signature.",
+    "inputType": "DeleteSignatureSignaturesSignatureIdDeleteData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "DeleteSignatureSignaturesSignatureIdDeleteData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ signatureId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/signatures/external/docusign",
+    "method": "POST",
+    "functionName": "createEnveloppeFromFileIdSignaturesExternalDocusignPost",
+    "description": "Create Enveloppe From File Id\nCreate a new embedded docusign signature enveloppe.",
+    "inputType": "CreateEnveloppeFromFileIdSignaturesExternalDocusignPostData",
+    "outputType": "CreateEnveloppeFromFileIdSignaturesExternalDocusignPostResponse",
+    "inputTypeDetails": {
+      "name": "CreateEnveloppeFromFileIdSignaturesExternalDocusignPostData",
+      "properties": {
+        "body": {
+          "type": "CreateEmbeddedDocusignSignatureSchema",
+          "required": true
+        },
+        "path": {
+          "type": "never",
+          "required": false
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "CreateEnveloppeFromFileIdSignaturesExternalDocusignPostResponse",
+      "properties": {
+        "200": {
+          "type": "EmbeddedDocusignSignatureCreatedSchema",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/status",
+    "method": "GET",
+    "functionName": "getStatusCheckStatusGet",
+    "description": "Get Status Check\nGet the status of the API and the resources.\n\nReturns:\ndict: Information about the status, the dependency status and the version.",
+    "inputType": "GetStatusCheckStatusGetData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "GetStatusCheckStatusGetData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "never",
+          "required": false
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/templates/files",
+    "method": "GET",
+    "functionName": "getAllTemplateMetadataTemplatesFilesGet",
+    "description": "Get All Template Metadata\nreturn a list of all file template metadata",
+    "inputType": "GetAllTemplateMetadataTemplatesFilesGetData",
+    "outputType": "GetAllTemplateMetadataTemplatesFilesGetResponse",
+    "inputTypeDetails": {
+      "name": "GetAllTemplateMetadataTemplatesFilesGetData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "never",
+          "required": false
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "GetAllTemplateMetadataTemplatesFilesGetResponse",
+      "properties": {
+        "200": {
+          "type": "Array<ExistingFileTemplateSchema>",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/templates/files",
+    "method": "POST",
+    "functionName": "createTemplateMetadataTemplatesFilesPost",
+    "description": "Create Template Metadata\nCreate a new template metadata object.That object is not the file template itself but information about the template.After creating that object, you need to post a request on the /upload path.",
+    "inputType": "CreateTemplateMetadataTemplatesFilesPostData",
+    "outputType": "CreateTemplateMetadataTemplatesFilesPostResponse",
+    "inputTypeDetails": {
+      "name": "CreateTemplateMetadataTemplatesFilesPostData",
+      "properties": {
+        "body": {
+          "type": "FileTemplateBaseSchema",
+          "required": true
+        },
+        "path": {
+          "type": "never",
+          "required": false
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "CreateTemplateMetadataTemplatesFilesPostResponse",
+      "properties": {
+        "200": {
+          "type": "FileTemplateCreatedSchema",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/templates/files/{template_id}",
+    "method": "GET",
+    "functionName": "getTemplateMetadataTemplatesFilesTemplateIdGet",
+    "description": "Get Template Metadata\nReturn an existing file template metadata",
+    "inputType": "GetTemplateMetadataTemplatesFilesTemplateIdGetData",
+    "outputType": "GetTemplateMetadataTemplatesFilesTemplateIdGetResponse",
+    "inputTypeDetails": {
+      "name": "GetTemplateMetadataTemplatesFilesTemplateIdGetData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ templateId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "GetTemplateMetadataTemplatesFilesTemplateIdGetResponse",
+      "properties": {
+        "200": {
+          "type": "ExistingFileTemplateSchema",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/templates/files/{template_id}",
+    "method": "PUT",
+    "functionName": "updateTemplateMetadataTemplatesFilesTemplateIdPut",
+    "description": "Update Template Metadata\nUpdate a specific file template metadata",
+    "inputType": "UpdateTemplateMetadataTemplatesFilesTemplateIdPutData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "UpdateTemplateMetadataTemplatesFilesTemplateIdPutData",
+      "properties": {
+        "body": {
+          "type": "ExistingFileTemplateSchema",
+          "required": true
+        },
+        "path": {
+          "type": "{ templateId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/templates/files/{template_id}",
+    "method": "DELETE",
+    "functionName": "deleteTemplateMetadataTemplatesFilesTemplateIdDelete",
+    "description": "Delete Template Metadata\nDelete a specific file template metadata",
+    "inputType": "DeleteTemplateMetadataTemplatesFilesTemplateIdDeleteData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "DeleteTemplateMetadataTemplatesFilesTemplateIdDeleteData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ templateId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/templates/files/{template_id}/clone",
+    "method": "POST",
+    "functionName": "cloneTemplateTemplatesFilesTemplateIdClonePost",
+    "description": "Clone Template\nClone a template to a new file.",
+    "inputType": "CloneTemplateTemplatesFilesTemplateIdClonePostData",
+    "outputType": "CloneTemplateTemplatesFilesTemplateIdClonePostResponse",
+    "inputTypeDetails": {
+      "name": "CloneTemplateTemplatesFilesTemplateIdClonePostData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ templateId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "CloneTemplateTemplatesFilesTemplateIdClonePostResponse",
+      "properties": {
+        "200": {
+          "type": "FileTemplateCreatedSchema",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/templates/files/{template_id}/convert",
+    "method": "POST",
+    "functionName": "triggerConversionTemplatesFilesTemplateIdConvertPost",
+    "description": "Trigger Conversion\nTrigger the conversion of a file to PDF format.",
+    "inputType": "TriggerConversionTemplatesFilesTemplateIdConvertPostData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "TriggerConversionTemplatesFilesTemplateIdConvertPostData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ templateId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/templates/files/{template_id}/download",
+    "method": "GET",
+    "functionName": "downloadTemplateTemplatesFilesTemplateIdDownloadGet",
+    "description": "Download Template\nGet the download link for a template",
+    "inputType": "DownloadTemplateTemplatesFilesTemplateIdDownloadGetData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "DownloadTemplateTemplatesFilesTemplateIdDownloadGetData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ templateId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "{ redirect?: boolean; pdfConversion?: boolean; }",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/templates/files/{template_id}/upload",
+    "method": "POST",
+    "functionName": "postUploadTemplateTemplatesFilesTemplateIdUploadPost",
+    "description": "Post Upload Template\nGet the upload link for a post request",
+    "inputType": "PostUploadTemplateTemplatesFilesTemplateIdUploadPostData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "PostUploadTemplateTemplatesFilesTemplateIdUploadPostData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ templateId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/templates/files/{template_id}/upload",
+    "method": "PUT",
+    "functionName": "putUploadTemplateTemplatesFilesTemplateIdUploadPut",
+    "description": "Put Upload Template\nGet the upload link for a put request",
+    "inputType": "PutUploadTemplateTemplatesFilesTemplateIdUploadPutData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "PutUploadTemplateTemplatesFilesTemplateIdUploadPutData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ templateId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/templates/files/batch",
+    "method": "POST",
+    "functionName": "createBatchFileTemplateTemplatesFilesBatchPost",
+    "description": "Create Batch File Template\nBatch create of file template documents metadata object.That object is not the file itself but information about the file.After creating that object, you need to post a request on the /upload path.",
+    "inputType": "CreateBatchFileTemplateTemplatesFilesBatchPostData",
+    "outputType": "CreateBatchFileTemplateTemplatesFilesBatchPostResponse",
+    "inputTypeDetails": {
+      "name": "CreateBatchFileTemplateTemplatesFilesBatchPostData",
+      "properties": {
+        "body": {
+          "type": "Array<FileTemplateBaseSchema>",
+          "required": true
+        },
+        "path": {
+          "type": "never",
+          "required": false
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "CreateBatchFileTemplateTemplatesFilesBatchPostResponse",
+      "properties": {
+        "200": {
+          "type": "Array<FileTemplateCreatedSchema>",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/templates/files/clone/batch",
+    "method": "POST",
+    "functionName": "cloneTemplateBatchTemplatesFilesCloneBatchPost",
+    "description": "Clone Template Batch\nClone a batch template to a new file.",
+    "inputType": "CloneTemplateBatchTemplatesFilesCloneBatchPostData",
+    "outputType": "CloneTemplateBatchTemplatesFilesCloneBatchPostResponse",
+    "inputTypeDetails": {
+      "name": "CloneTemplateBatchTemplatesFilesCloneBatchPostData",
+      "properties": {
+        "body": {
+          "type": "Array<string>",
+          "required": true
+        },
+        "path": {
+          "type": "never",
+          "required": false
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "CloneTemplateBatchTemplatesFilesCloneBatchPostResponse",
+      "properties": {
+        "200": {
+          "type": "Array<FileTemplateCloneSchema>",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/templates/forms",
+    "method": "GET",
+    "functionName": "getAllFormTemplatesTemplatesFormsGet",
+    "description": "Get All Form Templates\nreturn a list of all dynamic form template",
+    "inputType": "GetAllFormTemplatesTemplatesFormsGetData",
+    "outputType": "GetAllFormTemplatesTemplatesFormsGetResponse",
+    "inputTypeDetails": {
+      "name": "GetAllFormTemplatesTemplatesFormsGetData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "never",
+          "required": false
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "GetAllFormTemplatesTemplatesFormsGetResponse",
+      "properties": {
+        "200": {
+          "type": "Array<ExistingDynamicFormTemplateSchemaOutput>",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/templates/forms",
+    "method": "POST",
+    "functionName": "createFormTemplateTemplatesFormsPost",
+    "description": "Create Form Template\nCreate a new dynamic form template object.",
+    "inputType": "CreateFormTemplateTemplatesFormsPostData",
+    "outputType": "CreateFormTemplateTemplatesFormsPostResponse",
+    "inputTypeDetails": {
+      "name": "CreateFormTemplateTemplatesFormsPostData",
+      "properties": {
+        "body": {
+          "type": "DynamicFormTemplateBaseSchema",
+          "required": true
+        },
+        "path": {
+          "type": "never",
+          "required": false
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "CreateFormTemplateTemplatesFormsPostResponse",
+      "properties": {
+        "200": {
+          "type": "DynamicFormTemplateCreatedSchema",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/templates/forms/{template_id}",
+    "method": "GET",
+    "functionName": "getFormTemplateTemplatesFormsTemplateIdGet",
+    "description": "Get Form Template\nReturn an existing dynamic form template",
+    "inputType": "GetFormTemplateTemplatesFormsTemplateIdGetData",
+    "outputType": "GetFormTemplateTemplatesFormsTemplateIdGetResponse",
+    "inputTypeDetails": {
+      "name": "GetFormTemplateTemplatesFormsTemplateIdGetData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ templateId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "GetFormTemplateTemplatesFormsTemplateIdGetResponse",
+      "properties": {
+        "200": {
+          "type": "ExistingDynamicFormTemplateSchemaOutput",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/templates/forms/{template_id}",
+    "method": "PUT",
+    "functionName": "updateFormTemplateTemplatesFormsTemplateIdPut",
+    "description": "Update Form Template\nUpdate a specific dynamic form template",
+    "inputType": "UpdateFormTemplateTemplatesFormsTemplateIdPutData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "UpdateFormTemplateTemplatesFormsTemplateIdPutData",
+      "properties": {
+        "body": {
+          "type": "ExistingDynamicFormTemplateSchemaInput",
+          "required": true
+        },
+        "path": {
+          "type": "{ templateId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/templates/forms/{template_id}",
+    "method": "DELETE",
+    "functionName": "deleteFormTemplateTemplatesFormsTemplateIdDelete",
+    "description": "Delete Form Template\nDelete a specific dynamic form template",
+    "inputType": "DeleteFormTemplateTemplatesFormsTemplateIdDeleteData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "DeleteFormTemplateTemplatesFormsTemplateIdDeleteData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ templateId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/templates/forms/{template_id}/clone",
+    "method": "POST",
+    "functionName": "cloneDynamicFormTemplateTemplatesFormsTemplateIdClonePost",
+    "description": "Clone Dynamic Form Template\nClone a template to a new file.",
+    "inputType": "CloneDynamicFormTemplateTemplatesFormsTemplateIdClonePostData",
+    "outputType": "CloneDynamicFormTemplateTemplatesFormsTemplateIdClonePostResponse",
+    "inputTypeDetails": {
+      "name": "CloneDynamicFormTemplateTemplatesFormsTemplateIdClonePostData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "{ templateId: string; }",
+          "required": true
+        },
+        "query": {
+          "type": "{ target?: string | null; name?: string | null; }",
+          "required": false
+        }
+      }
+    },
+    "outputTypeDetails": {
+      "name": "CloneDynamicFormTemplateTemplatesFormsTemplateIdClonePostResponse",
+      "properties": {
+        "200": {
+          "type": "DynamicFormTemplateCreatedSchema",
+          "required": true,
+          "description": "Successful Response"
+        }
+      }
+    }
+  },
+  {
+    "url": "/tenants/database",
+    "method": "POST",
+    "functionName": "initializeTenantTenantsDatabasePost",
+    "description": "Initialize Tenant\nInitializes a new tenant",
+    "inputType": "InitializeTenantTenantsDatabasePostData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "InitializeTenantTenantsDatabasePostData",
+      "properties": {
+        "body": {
+          "type": "TenantDbArgs",
+          "required": true
+        },
+        "path": {
+          "type": "never",
+          "required": false
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  },
+  {
+    "url": "/tenants/refresh-settings-cache",
+    "method": "POST",
+    "functionName": "refreshSettingsCacheTenantsRefreshSettingsCachePost",
+    "description": "Refresh Settings Cache\nRefresh settings cache",
+    "inputType": "RefreshSettingsCacheTenantsRefreshSettingsCachePostData",
+    "outputType": "unknown",
+    "inputTypeDetails": {
+      "name": "RefreshSettingsCacheTenantsRefreshSettingsCachePostData",
+      "properties": {
+        "body": {
+          "type": "never",
+          "required": false
+        },
+        "path": {
+          "type": "never",
+          "required": false
+        },
+        "query": {
+          "type": "never",
+          "required": false
+        }
+      }
+    }
+  }
+]

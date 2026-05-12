@@ -1,0 +1,112 @@
+@if (field() && field().value) {
+  <div class="questionnaire">
+    @let questions = field().value?.questions ?? [];
+
+    @if (mode() !== 'locked') {
+      <h3>{{ field().value?.title }}</h3>
+
+      @for (question of questions; track question.id; let idx = $index) {
+        <div class="question display">
+          <div class="question-body" [class.mobile]="isMobile()">
+            <div class="text required">{{ idx + 1 }}. {{ question.text }}</div>
+            <div class="answer">
+              <mat-radio-group
+                [ngModel]="question.answer"
+                (ngModelChange)="handleQuestionAnswerChange($event, question)">
+                <label
+                  lj-label-field
+                  class="form-type-option"
+                  [for]="question.id"
+                  [style]="getCustomStyle('.radio-option-item-label')">
+                  <mat-radio-button
+                    class="radio"
+                    [value]="'yes'"
+                    required
+                    [name]="question.id"
+                    [style]="
+                      getCustomStyle('.radio-option-item', false, 'gray')
+                    ">
+                    Yes
+                  </mat-radio-button>
+                </label>
+                <label
+                  lj-label-field
+                  class="form-type-option"
+                  [for]="question.id"
+                  [style]="getCustomStyle('.radio-option-item-label')">
+                  <mat-radio-button
+                    class="radio"
+                    [value]="'no'"
+                    required
+                    [name]="question.id"
+                    [style]="
+                      getCustomStyle('.radio-option-item', false, 'gray')
+                    ">
+                    No
+                  </mat-radio-button>
+                </label>
+              </mat-radio-group>
+            </div>
+          </div>
+          @if (question.answer === 'yes' && field().value?.askForExplanations) {
+            <div class="details-request">
+              <div class="details-text body-s">
+                {{ getDetailsRequestText(question.detailsRequestText) }}
+              </div>
+              <div class="details-answer">
+                <lj-input-field
+                  placeholder="Please provide details"
+                  id="question-details-{{ question.id }}"
+                  name="question-details-{{ question.id }}"
+                  type="text"
+                  [style]="'gray'"
+                  [customCssTitleStyle]="getCustomStyle('.field-title')"
+                  [customCssStyle]="
+                    getCustomStyle('.input-field', false, 'gray')
+                  "
+                  [required]="true"
+                  [ngModel]="question.details"
+                  (ngModelChange)="
+                    handleQuestionDetailsChange(question, $event)
+                  " />
+              </div>
+            </div>
+          }
+        </div>
+      }
+      <div class="error-message">
+        @if (touched()) {
+          {{ getErrorMessage() }}
+        }
+      </div>
+    } @else {
+      <h3>{{ field().value?.title }}</h3>
+      <div class="locked-display">
+        <div [class.locked-error]="getErrorMessage() !== undefined">
+          @for (question of questions; track question.id) {
+            <div
+              class="body-sm title"
+              [style]="getCustomStyle('.field-title', true)">
+              {{ question.text }}
+            </div>
+            <div
+              class="body-sm text divider"
+              [style]="getCustomStyle('.field-text', true)">
+              {{ question.answer }}
+              @if (field().value?.askForExplanations && question.details) {
+                - {{ question.details }}
+              }
+            </div>
+          }
+          @if (getErrorMessage()) {
+            <div class="body-sm">
+              {{ getErrorMessage() }}
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </div>
+} @else {
+  <div class="error">Field initialization error</div>
+}

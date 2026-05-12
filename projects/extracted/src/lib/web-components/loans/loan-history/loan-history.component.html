@@ -1,0 +1,55 @@
+<div class="history">
+  @if (histories().length === 0) {
+    There is no history available at the moment
+  } @else {
+    <div class="items years">
+      @for (history of histories(); track history.year) {
+        <div class="item">
+          <div
+            class="body-s label"
+            [class.selected]="history.year === selectedHistory()?.year"
+            (activate)="handleHistoryClicked(history)">
+            {{ history.year }}
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="info">
+      <div class="items">
+        <!-- <div class="item">
+        <div class="label">Accrued Interest</div>
+        <div class="data">
+          {{ formatAmount(selectedHistory()?.accruedInterestCents) }}
+        </div>
+      </div> -->
+        <div class="item">
+          <div class="label">Interest Paid</div>
+          <div class="data">
+            {{ formatAmount(selectedHistory()?.interestPaidCents) }}
+          </div>
+        </div>
+        <div class="item">
+          <div class="label">Total P&I Paid</div>
+          <div class="data">
+            {{ formatAmount(selectedHistory()?.principalAndInterestPaidCents) }}
+          </div>
+        </div>
+        <div class="item">
+          <div class="label">Late Fees Paid</div>
+          <div class="data">
+            {{ formatAmount(selectedHistory()?.lateFeesPaidCents) }}
+          </div>
+        </div>
+        <div class="item">
+          <div class="label">NSF Fees Paid</div>
+          <div class="data">
+            {{
+              formatAmount(selectedHistory()?.notSufficientFundsFeesPaidCents)
+            }}
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>
